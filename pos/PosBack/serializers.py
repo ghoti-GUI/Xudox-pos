@@ -17,9 +17,10 @@ class ProductSerializer(serializers.ModelSerializer):
             'price2',
             'TVA_country',
             'TVA',
-            # 'time_supply',
+            'time_supply',
             'product_type',
             'cid',
+            'print_to_where',
             ]
         # fields = '__all__'
 

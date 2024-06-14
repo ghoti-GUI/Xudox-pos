@@ -13,6 +13,7 @@ urlpatterns = [
     path('', include(router.urls)),
     path('get/product/next_id_user/', views.get_next_product_id, name='get_next_product_id'), 
     path('get/category/', views.get_categories, name='get_categories'), 
+    path('get/printer/', views.get_printer, name = 'get_printer'), 
 
     # # ex: /TestModel/
     # path("", views.index, name="index"),

@@ -1,6 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
-import ProductForm from './product';
+import ProductForm from './PageProduct/product';
 
 function App() {
   return (

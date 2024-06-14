@@ -1,0 +1,1 @@
+export const DefaultUrl = 'http://localhost:8000/api/posback/'

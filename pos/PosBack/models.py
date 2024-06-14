@@ -98,7 +98,7 @@ class product(models.Model):
     TVA = models.DecimalField(db_column='TVA', max_digits=8, decimal_places=2, default=0)  
     extra_TVA = models.DecimalField(db_column='extra_TVA', max_digits=8, decimal_places=2, default=0)  
     time_supply = models.IntegerField(db_comment='supply time', default=0)
-    product_type = models.IntegerField(db_comment='product/set/option')
+    product_type = models.IntegerField(db_comment='product/set/option', default=0)
     soldout = models.IntegerField(default=0)
     min_nbr = models.IntegerField(db_comment='minimum purchase nbr', default=0)
     rid = models.IntegerField(db_comment='restaurant id', default=0)

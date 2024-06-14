@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
 
-from .models import product, Test, category
+from .models import product, Test, category, printe_to_where
 from .serializers import TestSerializer, ProductSerializer, GroupSerializer, UserSerializer
 
 class TestViewSet(viewsets.ModelViewSet):
@@ -23,21 +23,6 @@ class TestViewSet(viewsets.ModelViewSet):
         serializer.save(
             des=des,
         )
-
-    # @action(detail=False, methods=['POST'])
-    # def add_book(self, request):
-    #     # Get the data from the request
-    #     data = request.data
-    #     # Modify the data as needed
-    #     data['des'] = 'testdes_autofill'
-    #     # Serialize the data
-    #     serializer = self.get_serializer(data=data)
-    #     if serializer.is_valid():
-    #         # Save the data to the database
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     else:
-    #         return Response(serializer.errors, status=400)
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = product.objects.all()
@@ -54,14 +39,14 @@ class ProductViewSet(viewsets.ModelViewSet):
         ldes = request_data.get('ldes')
         fdes = request_data.get('fdes')
         serializer.save(
-            ename=ename,
-            lname=lname,
-            fname=fname,
-            zname=zname,
-            print_name = ename or lname or fname or zname,
-            edes=edes,
-            ldes=ldes,
-            fdes=fdes,
+            ename=ename or ' ',
+            lname=lname or ' ',
+            fname=fname or ' ',
+            zname=zname or ' ',
+            print_name = ename or lname or fname or zname or ' ',
+            edes=edes or ' ',
+            ldes=ldes or ' ',
+            fdes=fdes or ' ',
         )
 
 # 根据id的最大值，返回下一个id给前端，用于id_user的默认值
@@ -75,6 +60,10 @@ def get_categories(request):
     categoryData = {category.ename or category.lname or category.fname or category.zname: category.id for category in categories}
     return JsonResponse(categoryData)
 
+def get_printer(request):
+    printers = printe_to_where.objects.filter(id__lt=10) # return id<10
+    printerData = {printer.id:printer.printer for printer in printers}
+    return JsonResponse(printerData)
 
 
 
