@@ -7,10 +7,11 @@ django,
 进入虚拟环境：
 
 wsl:
-source myvenv/bin/activate
+source .venv/bin/activate
 
 win:
-.venv\scripts\activate   
+.venv\scripts\activate
+..\.venv\scripts\activate
 
 
 退出虚拟环境：

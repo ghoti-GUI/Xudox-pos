@@ -7,11 +7,12 @@ from . import views
 
 router = DefaultRouter()
 router.register(r'TestModel', TestViewSet)
-router.register(r'product', ProductViewSet)
+router.register(r'post/product', ProductViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    # path('complete-data/', complete.as_view(), name='complete-data'),
+    path('get/product/next_id_user/', views.get_next_product_id, name='get_next_product_id'), 
+    path('get/category/', views.get_categories, name='get_categories'), 
 
     # # ex: /TestModel/
     # path("", views.index, name="index"),

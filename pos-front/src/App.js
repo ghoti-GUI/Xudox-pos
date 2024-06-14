@@ -1,12 +1,12 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
-import TestForm from './TestFront';
+import ProductForm from './product';
 
 function App() {
   return (
-    <div className = 'App'>
-      <h1>Test Submission Form</h1>
-      <TestForm/>
+    <div className='flex bg-slate-200 pt-10'>
+      <h1 className='px-10'>side-bar</h1>
+      <ProductForm />
     </div>
   );
 }

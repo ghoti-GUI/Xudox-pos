@@ -37,9 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_rename_app',
     'corsheaders',
     'rest_framework',
     'TestModel.apps.TestmodelConfig',
+    'PosBack.apps.PosbackConfig',
 
 ]
 

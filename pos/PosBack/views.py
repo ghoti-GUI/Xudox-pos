@@ -1,14 +1,15 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth.models import Group, User
+from django.db.models import Max
 from rest_framework import permissions, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action
 
-from .models import product, Test
+from .models import product, Test, category
 from .serializers import TestSerializer, ProductSerializer, GroupSerializer, UserSerializer
 
 class TestViewSet(viewsets.ModelViewSet):
@@ -43,12 +44,37 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
 
-    # def perform_create(self, serializer):
-    #     # Here you can modify the data before saving
-    #     des = 'testdes_autofill'
-    #     serializer.save(
-    #         des=des,
-    #     )
+    def perform_create(self, serializer):
+        request_data = serializer.initial_data
+        ename = request_data.get('ename')
+        lname = request_data.get('lname')
+        fname = request_data.get('fname')
+        zname = request_data.get('zname')
+        edes = request_data.get('edes')
+        ldes = request_data.get('ldes')
+        fdes = request_data.get('fdes')
+        serializer.save(
+            ename=ename,
+            lname=lname,
+            fname=fname,
+            zname=zname,
+            print_name = ename or lname or fname or zname,
+            edes=edes,
+            ldes=ldes,
+            fdes=fdes,
+        )
+
+# 根据id的最大值，返回下一个id给前端，用于id_user的默认值
+def get_next_product_id(request):
+    max_id = product.objects.aggregate(Max('id'))['id__max']
+    next_id_user = max_id + 1 if max_id is not None else 1
+    return JsonResponse({'next_id_user': next_id_user})
+
+def get_categories(request):
+    categories = category.objects.all()
+    categoryData = {category.ename or category.lname or category.fname or category.zname: category.id for category in categories}
+    return JsonResponse(categoryData)
+
 
 
 
@@ -86,36 +112,3 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all().order_by('name')
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
-
-
-
-
-
-
-
-
-def index(request):
-    product_list = product.objects.order_by("id")[:5]
-    template = loader.get_template("index.html")
-    context = {
-        'product_list': product_list,
-    }
-    # return HttpResponse(template.render(context, request))
-    return render(request, 'index.html', context)
-
-    # output = ", ".join([p.zname for p in product_list])
-    # return HttpResponse(output)
-
-
-def detail(request, product_id):
-    product_item = get_object_or_404(product, pk = product_id)
-    return render(request, "detail.html", {"product":product_item.zname})
-
-
-def results(request, product_id):
-    response = "You're looking at the results of product %s."
-    return HttpResponse(response % product_id)
-
-
-def vote(request, product_id):
-    return HttpResponse("You're voting on product %s." % product_id)

@@ -1,0 +1,6 @@
+
+back: 
+pip install django djangorestframework django-cors-headers pymysql
+
+front: 
+npm install react-router-dom axios tailwind

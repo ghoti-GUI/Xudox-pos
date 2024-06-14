@@ -13,17 +13,13 @@ class ProductSerializer(serializers.ModelSerializer):
         model = product
         fields = [
             'id_user', 
-            'ename', 
-            'lname',
-            'fname',
-            'zname',
-            'edes',
-            'ldes',
-            'fdes',
             'price',
             'price2',
             'TVA_country',
             'TVA',
+            # 'time_supply',
+            'product_type',
+            'cid',
             ]
         # fields = '__all__'
 
