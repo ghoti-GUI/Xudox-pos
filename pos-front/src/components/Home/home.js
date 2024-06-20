@@ -41,7 +41,7 @@ function Home() {
                                     </div>
                                 )
                             }
-                            return<></>
+                            return ''
                         })}
                         <br/>
                     </div>
