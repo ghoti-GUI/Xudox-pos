@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
-from .models import Test,product
+from .models import Test,product, category
 
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,6 +26,16 @@ class ProductSerializer(serializers.ModelSerializer):
             'print_to_where',
             ]
         # fields = '__all__'
+
+class AllProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = product
+        fields = '__all__'
+
+class AllCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = category
+        fields = '__all__'
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

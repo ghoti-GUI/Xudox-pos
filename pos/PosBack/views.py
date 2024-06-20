@@ -10,7 +10,7 @@ from rest_framework import status
 from rest_framework.decorators import action, api_view
 
 from .models import product, Test, category, printe_to_where, tva
-from .serializers import TestSerializer, ProductSerializer, GroupSerializer, UserSerializer
+from .serializers import TestSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, GroupSerializer, UserSerializer
 
 language = 'English'
 
@@ -58,10 +58,20 @@ def check_id_Xu_existence(request):
     except product.DoesNotExist:
         return JsonResponse({'existed':False})
 
-def get_categories(request):
+def get_all_products(request):
+    products = product.objects.all()
+    serializer = AllProductSerializer(products, many = True)
+    return JsonResponse(serializer.data, safe = False)
+
+
+
+
+def get_all_categories(request):
     categories = category.objects.all()
-    categoryData = {category.ename or category.lname or category.fname or category.zname: category.id for category in categories}
-    return JsonResponse(categoryData)
+    serializer = AllCategorySerializer(categories, many = True)
+    return JsonResponse(serializer.data, safe = False)
+
+
 
 def get_printer(request):
     printers = printe_to_where.objects.filter(id__lt=10) # return id<10

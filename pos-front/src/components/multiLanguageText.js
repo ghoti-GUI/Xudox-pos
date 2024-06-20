@@ -21,6 +21,9 @@ export const multiLanguageText = {
                 'dinner': true,
               }, 'Please choose at least one supply time'],
             'print_to_where':['Printers selected','','Please select at least one printer'], 
+        },
+        'home':{
+          'categoryNoProduct':'There are no products in this category'
         }
     },
     'Chinese':{
@@ -44,8 +47,12 @@ export const multiLanguageText = {
                 '晚餐': true,
               }, '请选择至少一个供应时间'],
             'print_to_where':['打印机选择','','请选择至少一个打印机'], 
+        },
+        'home':{
+          'categoryNoProduct':'这个类别里没有产品'
         }
-    }
+    },
+    
     
 
 }

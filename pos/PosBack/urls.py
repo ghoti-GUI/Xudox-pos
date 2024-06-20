@@ -13,7 +13,8 @@ urlpatterns = [
     path('', include(router.urls)),
     path('get/product/next_id_user/', views.get_next_product_id, name='get_next_product_id'), 
     path('product/check_id_Xu_existence/', views.check_id_Xu_existence, name = 'check_id_Xu_existence'), 
-    path('get/category/', views.get_categories, name='get_categories'), 
+    path('get/product/all/', views.get_all_products, name = 'get_all_products'), 
+    path('get/category/all/', views.get_all_categories, name='get_all_categories'), 
     path('get/printer/', views.get_printer, name = 'get_printer'), 
     path('get/tva/', views.get_TVA, name = 'get_TVA'),  
 

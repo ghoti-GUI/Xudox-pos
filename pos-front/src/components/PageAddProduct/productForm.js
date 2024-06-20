@@ -1,12 +1,15 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-// import Cookies from 'js-cookie'
-import { DefaultUrl, CheckIdXuExistenceUrl } from '../../valueDefault';
-import { fetchNextIdUser, getCsrfToken, checkIdXuExistence, fetchCategory, fetchPrinter, fetchTVA } from './service';
-import { sortStringOfNumber } from './utils';
+import { getCsrfToken } from '../../service/token';
+import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
+// import { checkIdXuExistence} from '../../service/product';
+import { fetchAllCategory } from '../../service/category';
+import { fetchPrinter } from '../../service/printer';
+import { fetchTVA } from '../../service/tva';
 import { multiLanguageText } from '../multiLanguageText';
-import { normalizeText } from './utils';
+import { normalizeText, sortStringOfNumber } from '../utils';
+import { fetchAllCategoryForProductForm } from './utils';
 
 function ProductForm() {
   const language = 'English';
@@ -77,26 +80,20 @@ function ProductForm() {
     }
   }
 
-  const init = useCallback(()=>{
+  const init = useCallback(async ()=>{
     setProductData(initData)
     setTimeSupply(TimeSupplyData)
-    // fetchNextIdUser(setProductData);
-
-    // const printerDataCopy = printerData
-    // console.log('printerData:', printerData)
-    // printerDataCopy.forEach(element => {
-    //   element.checked = false;
-    // });
-    // console.log('printerDataCopy:', printerDataCopy)
-    // setPrinterData(printerDataCopy)
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     init();
-    fetchCategory(setCategoryData);
-    fetchPrinter(setPrinterData);
-    fetchTVA(setTVA, setTVACountry, language);
+    const fetchData = async() => {
+      setCategoryData(await fetchAllCategoryForProductForm())
+      setPrinterData(await fetchPrinter());
+      fetchTVA(setTVA, setTVACountry, language);
+    };
+    fetchData()
   },[init]);
 
   const checkAtlLeastOneField = () => {
@@ -222,6 +219,7 @@ function ProductForm() {
           {key === 'edes' && (
             <div className="justify-center mt-2 mx-4">Fill in at least one of the description</div>
           )} */}
+          
           <div className="flex flex-row justify-center mt-1 mx-3 w-full">
             {key !== 'print_to_where' && (
               <label className="flex bg-white py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">
