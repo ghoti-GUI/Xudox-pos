@@ -4,3 +4,7 @@ export const sortStringOfNumber = (str) => {
             .sort((a, b) => a - b)
             .join('');
 }
+
+export const normalizeText = (str) => {
+    return str.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+}

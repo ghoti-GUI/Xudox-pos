@@ -8,8 +8,76 @@
 from django.db import models
 
 
+class AuthGroup(models.Model):
+    name = models.CharField(unique=True, max_length=150)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group'
+
+
+class AuthGroupPermissions(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+    permission = models.ForeignKey('AuthPermission', models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group_permissions'
+        unique_together = (('group', 'permission'),)
+
+
+class AuthPermission(models.Model):
+    name = models.CharField(max_length=255)
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING)
+    codename = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_permission'
+        unique_together = (('content_type', 'codename'),)
+
+
+class AuthUser(models.Model):
+    password = models.CharField(max_length=128)
+    last_login = models.DateTimeField(blank=True, null=True)
+    is_superuser = models.IntegerField()
+    username = models.CharField(unique=True, max_length=150)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
+    email = models.CharField(max_length=254)
+    is_staff = models.IntegerField()
+    is_active = models.IntegerField()
+    date_joined = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user'
+
+
+class AuthUserGroups(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    group = models.ForeignKey(AuthGroup, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_groups'
+        unique_together = (('user', 'group'),)
+
+
+class AuthUserUserPermissions(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+    permission = models.ForeignKey(AuthPermission, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_user_user_permissions'
+        unique_together = (('user', 'permission'),)
+
+
 class category(models.Model):
-    # id = models.AutoField()
     ename = models.CharField(max_length=200)
     lname = models.CharField(max_length=200)
     fname = models.CharField(max_length=200)
@@ -33,7 +101,6 @@ class category(models.Model):
 
 
 class choice(models.Model):
-    # id = models.AutoField()
     pid = models.IntegerField(db_comment='product ID')
     choicetype = models.ForeignKey('choicetype', models.DO_NOTHING)
 
@@ -43,7 +110,6 @@ class choice(models.Model):
 
 
 class choicetype(models.Model):
-    # id = models.AutoField()
     edes = models.CharField(max_length=1000)
     ldes = models.CharField(max_length=1000)
     fdes = models.CharField(max_length=1000)
@@ -57,8 +123,52 @@ class choicetype(models.Model):
         db_table = 'choicetype'
 
 
+class DjangoAdminLog(models.Model):
+    action_time = models.DateTimeField()
+    object_id = models.TextField(blank=True, null=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.PositiveSmallIntegerField()
+    change_message = models.TextField()
+    content_type = models.ForeignKey('DjangoContentType', models.DO_NOTHING, blank=True, null=True)
+    user = models.ForeignKey(AuthUser, models.DO_NOTHING)
+
+    class Meta:
+        managed = False
+        db_table = 'django_admin_log'
+
+
+class DjangoContentType(models.Model):
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+        unique_together = (('app_label', 'model'),)
+
+
+class DjangoMigrations(models.Model):
+    id = models.BigAutoField(primary_key=True)
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_migrations'
+
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_session'
+
+
 class option_list(models.Model):
-    # id = models.AutoField()
     rid = models.IntegerField()
 
     class Meta:
@@ -67,7 +177,6 @@ class option_list(models.Model):
 
 
 class printe_to_where(models.Model):
-    # id = models.AutoField()
     printer = models.CharField(max_length=1000, db_comment='print to where list id')
     cutgroup = models.IntegerField()
 
@@ -77,27 +186,28 @@ class printe_to_where(models.Model):
 
 
 class product(models.Model):
-    # id = models.AutoField()
-    id_user = models.IntegerField(default=0)
-    id_Xu = models.IntegerField(db_column='id_Xu', default=0)  
+    id_user = models.CharField(unique=True, max_length=100)
+    id_Xu = models.CharField(db_column='id_Xu', unique=True, max_length=100)  # Field name made lowercase.
     ename = models.CharField(max_length=200)
     lname = models.CharField(max_length=200)
     fname = models.CharField(max_length=200)
     zname = models.CharField(max_length=200)
-    print_name = models.CharField(max_length=100)
+    online_content = models.CharField(max_length=200)
+    bill_content = models.CharField(max_length=100)
+    kitchen_content = models.CharField(max_length=200)
     extra_name = models.CharField(max_length=1000)
     edes = models.CharField(max_length=1000)
     ldes = models.CharField(max_length=1000)
     fdes = models.CharField(max_length=1000)
+    bill_des = models.CharField(max_length=1000)
+    # allergen_des = models.CharField(max_length=1000)
     img = models.CharField(max_length=200)
     color = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     price2 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     price_extra = models.CharField(max_length=2000)
-    TVA_country = models.CharField(db_column='TVA_country', max_length=200)  
-    TVA = models.DecimalField(db_column='TVA', max_digits=8, decimal_places=2, default=0)  
-    extra_TVA = models.DecimalField(db_column='extra_TVA', max_digits=8, decimal_places=2, default=0)  
-    time_supply = models.IntegerField(db_comment='supply time', default=0)
+    extra_TVA = models.DecimalField(db_column='extra_TVA', max_digits=8, decimal_places=2, default=0)  # Field name made lowercase.
+    time_supply = models.IntegerField(db_comment='1:lunch,2:dinner,12:allday', default=0)
     product_type = models.IntegerField(db_comment='product/set/option', default=0)
     soldout = models.IntegerField(default=0)
     min_nbr = models.IntegerField(db_comment='minimum purchase nbr', default=0)
@@ -107,7 +217,7 @@ class product(models.Model):
     favourite = models.IntegerField(default=0)
     follow_id = models.IntegerField(default=0)
     extra_id = models.IntegerField(default=0)
-    xu_class = models.CharField(db_column='Xu_class', max_length=200)  # Field name made lowercase.
+    Xu_class = models.CharField(db_column='Xu_class', max_length=200)  # Field name made lowercase.
     custom = models.CharField(max_length=200, db_comment='customisation')
     custom2 = models.CharField(max_length=200, db_comment='customisation 2')
     custom3 = models.CharField(max_length=200)
@@ -116,6 +226,7 @@ class product(models.Model):
     print_to_where = models.ForeignKey(printe_to_where, models.DO_NOTHING, db_column='print_to_where', default=1)
     cid = models.ForeignKey(category, models.DO_NOTHING, db_column='cid', db_comment='category', default=1)
     option = models.ForeignKey(option_list, models.DO_NOTHING, default=1)
+    TVA_id = models.ForeignKey('tva', models.DO_NOTHING, db_column='TVA_id', default=1)  # Field name made lowercase.
 
     class Meta:
         managed = False
@@ -140,3 +251,20 @@ class Testforeignkey(models.Model):
     class Meta:
         managed = False
         db_table = 'testforeignkey'
+
+
+class tva(models.Model):
+    countryEnglish = models.CharField(max_length=100)
+    countryChinese = models.CharField(max_length=100)
+    countryFrench = models.CharField(max_length=100)
+    countryDutch = models.CharField(max_length=100)
+    category = models.IntegerField()
+    tva_value = models.DecimalField(max_digits=8, decimal_places=2)
+
+    class Meta:
+        managed = False
+        db_table = 'tva'
+        unique_together = (('countryEnglish', 'countryChinese', 'countryFrench', 'countryDutch', 'category'),)
+
+
+

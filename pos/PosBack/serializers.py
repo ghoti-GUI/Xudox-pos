@@ -12,11 +12,14 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = product
         fields = [
-            'id_user', 
+            'id_Xu', 
+            'online_content',
+            'bill_content',
+            'kitchen_content', 
+            'bill_des',
+            # 'allergen_des', 
             'price',
             'price2',
-            'TVA_country',
-            'TVA',
             'time_supply',
             'product_type',
             'cid',

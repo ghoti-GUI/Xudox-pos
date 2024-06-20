@@ -7,10 +7,12 @@ from rest_framework import permissions, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 
-from .models import product, Test, category, printe_to_where
+from .models import product, Test, category, printe_to_where, tva
 from .serializers import TestSerializer, ProductSerializer, GroupSerializer, UserSerializer
+
+language = 'English'
 
 class TestViewSet(viewsets.ModelViewSet):
     queryset = Test.objects.all()
@@ -31,22 +33,12 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         request_data = serializer.initial_data
-        ename = request_data.get('ename')
-        lname = request_data.get('lname')
-        fname = request_data.get('fname')
-        zname = request_data.get('zname')
-        edes = request_data.get('edes')
-        ldes = request_data.get('ldes')
-        fdes = request_data.get('fdes')
+        country_value = request_data.get('TVA_country')
+        caregory_value = request_data.get('TVA_category')
+        TVA_id = get_object_or_404(tva, **{f'country{language}' : country_value, 'category' : request_data.get('TVA_category')})
         serializer.save(
-            ename=ename or ' ',
-            lname=lname or ' ',
-            fname=fname or ' ',
-            zname=zname or ' ',
-            print_name = ename or lname or fname or zname or ' ',
-            edes=edes or ' ',
-            ldes=ldes or ' ',
-            fdes=fdes or ' ',
+            TVA_id = TVA_id, 
+            id_user = request_data.get('id_Xu'), 
         )
 
 # 根据id的最大值，返回下一个id给前端，用于id_user的默认值
@@ -54,6 +46,17 @@ def get_next_product_id(request):
     max_id = product.objects.aggregate(Max('id'))['id__max']
     next_id_user = max_id + 1 if max_id is not None else 1
     return JsonResponse({'next_id_user': next_id_user})
+
+@api_view(['GET'])
+def check_id_Xu_existence(request):
+    # id_Xu_received = request.GET.get('id_Xu')
+    id_Xu_received = request.query_params.get('id_Xu', '')
+    print(id_Xu_received)
+    try:
+        product.objects.get(id_Xu = id_Xu_received)
+        return JsonResponse({'existed':True})
+    except product.DoesNotExist:
+        return JsonResponse({'existed':False})
 
 def get_categories(request):
     categories = category.objects.all()
@@ -64,6 +67,17 @@ def get_printer(request):
     printers = printe_to_where.objects.filter(id__lt=10) # return id<10
     printerData = {printer.id:printer.printer for printer in printers}
     return JsonResponse(printerData)
+
+@api_view(['GET'])
+def get_TVA(request):
+    request_language = request.query_params.get('language', '')
+    country_field = f'country{request_language}'
+    TVA_countrys = tva.objects.values_list(country_field, flat=True).distinct()
+    TVAData = {}
+    for TVA_country in TVA_countrys:
+        tva_records = tva.objects.filter(**{country_field: TVA_country})
+        TVAData[TVA_country] = {f'{tva_record.tva_value}%':tva_record.category for tva_record in tva_records}
+    return JsonResponse(TVAData)
 
 
 
