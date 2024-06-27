@@ -1,29 +1,33 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-// import Cookies from 'js-cookie'
-import { DefaultUrl, CheckIdXuExistenceUrl } from '../../valueDefault';
-import { fetchNextIdUser, getCsrfToken, checkIdXuExistence, fetchCategory, fetchPrinter, fetchTVA } from './service';
-import { sortStringOfNumber } from './utils';
+import { ToastContainer, toast} from 'react-toastify';
+import { getCsrfToken } from '../../service/token';
+import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
+// import { checkIdXuExistence} from '../../service/product';
+import { fetchAllCategory } from '../../service/category';
+import { fetchPrinter } from '../../service/printer';
+import { fetchTVA } from '../../service/tva';
 import { multiLanguageText } from '../multiLanguageText';
-import { normalizeText } from './utils';
+import { normalizeText, sortStringOfNumber, updateCheckboxData } from '../utils';
+import { fetchAllCategoryForProductForm, truncateString  } from './utils';
+import { Language, Country } from '../../userInfo';
+import AdvanceForm from './advanceForm';
 
-function ProductForm() {
-  const language = 'English';
-  const Text = multiLanguageText[language].product
-  const [productdata, setProductData] = useState({
+function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceData, sendDataToParent}) {
+  const Text = multiLanguageText[Language].product
+  const maxIDLength = 3
+  const maxPrintContentLength = 25
+  const [productdata, setProductData] = useState(normalData?normalData:{
     'id_Xu':'',
-    'online_content':'',
+    'cid':'',
     'bill_content':'',
     'kitchen_content':'',
-    'bill_des':'', 
-    'price':0,
-    'price2':0,
+    'price':'',
+    'price2':'',
     'TVA_country':'',
     'TVA_category':1,
     'time_supply':12,
-    'product_type':0,
-    'cid':'',
     'print_to_where':0,
   })
   const [printerData, setPrinterData] = useState([
@@ -49,7 +53,7 @@ function ProductForm() {
   const [timeSupply, setTimeSupply] = useState(Text.time_supply[1]) //['lunch', true, 'dinner', true]
 
   const initData = productdata;
-  const requiredFields = ['id_Xu','online_content', 'bill_content', 'kitchen_content', 'bill_des', 'price', 'price2', 'time_supply'];
+  const requiredFields = ['id_Xu','online_content', 'bill_content', 'kitchen_content', 'price', 'price2', 'time_supply'];
   const selectFields = {
     'cid': categoryData, 
     'TVA_country': TVACountry,
@@ -77,35 +81,43 @@ function ProductForm() {
     }
   }
 
-  const init = useCallback(()=>{
+  const init = useCallback(async ()=>{
     setProductData(initData)
     setTimeSupply(TimeSupplyData)
-    // fetchNextIdUser(setProductData);
-
-    // const printerDataCopy = printerData
-    // console.log('printerData:', printerData)
-    // printerDataCopy.forEach(element => {
-    //   element.checked = false;
-    // });
-    // console.log('printerDataCopy:', printerDataCopy)
-    // setPrinterData(printerDataCopy)
     // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
     init();
-    fetchCategory(setCategoryData);
-    fetchPrinter(setPrinterData);
-    fetchTVA(setTVA, setTVACountry, language);
-  },[init]);
+    const fetchData = async() => {
+      const fetchedPrinter = await fetchPrinter()
+      setCategoryData(await fetchAllCategoryForProductForm())
+      setPrinterData(normalData?updateCheckboxData(fetchedPrinter, normalData.print_to_where):fetchedPrinter);
+      try{
+        const TVAData = await fetchTVA(Language);
+        console.log('TVAData:', TVAData)
+        setTVA(TVAData); 
+        const TVACountry = {}
+        for (const country in TVAData){
+          TVACountry[country]=country;
+        }
+        setTVACountry(TVACountry)
+        const value = multiLanguageText[Language].country[Country]
+        if(!normalData)handleChange('TVA_country', value)
+        setTVACategory(TVAData[value]);
+      }catch (error){
+        console.error('Error fetching TVA data:', error)
+      };
+    };fetchData();
+  },[]);
 
   const checkAtlLeastOneField = () => {
     if(!productdata.time_supply){
-      alert(Text.time_supply[2]);
+      toast.warning(Text.time_supply[2]);
       return false
     }
     if(productdata.print_to_where===0){
-      alert(Text.print_to_where[2]);
+      toast.warning(Text.print_to_where[2]);
       return false
     }
     return true
@@ -113,6 +125,7 @@ function ProductForm() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    
     if(!checkAtlLeastOneField()){
       return
     }
@@ -124,59 +137,91 @@ function ProductForm() {
         }
       });
       if (response.data.existed){
-        alert(Text.id_Xu[2])
+        toast.error(Text.id_Xu[2])
         return
       } 
     } catch (error) {
       console.error('Error check id_Xu existence:', error);
+      return
     };
 
-    const csrfToken = getCsrfToken();
-  
-    // const nameField = ['ename', 'lname', 'fname', 'zname'];
-    // const desField = ['edes', 'ldes', 'fdes'];
-    // const AtLeastOneName = nameField.some((key)=>productdata[key].trim() !== '');
-    // const AtLeastOneDes = desField.some((key)=>productdata[key].trim() !== '');
 
-    // if (!AtLeastOneName){
-    //   event.preventDefault();
-    //   alert('Please fill in at least one of the name inputs.');
-    //   return;
-    // }else if(!AtLeastOneDes){
-    //   event.preventDefault();
-    //   alert('Please fill in at least one of the description inputs.');
-    //   return;
-    // }
+    const mergedProductData = Object.assign({}, advanceData, productdata)
+
+    mergedProductData['img'] = img
+    mergedProductData['color'] = color;
+    mergedProductData['text_color'] = textColor;
+
+    const csrfToken = getCsrfToken();
 
     axios.post(DefaultUrl+'post/product/', 
-      productdata, 
+      mergedProductData,
+      // newProductData, 
       {
       headers: {
-          'X-CSRFToken': csrfToken
+          'X-CSRFToken': csrfToken, 
+          'content-type': 'multipart/form-data', 
       }
     })
     .then(response => {
-        console.log(response.data);
+        toast.success(Text.addSuccess);
         init();
     })
     .catch(error => {
+        toast.error(Text.addFailed)
         console.error('There was an error submitting the form!', error);
     });
   };
 
-  const handleChange = (key, value) => {
-    setProductData({
-      ...productdata,
-      [key]: value,
-    });
-    console.log({
-      ...productdata,
-      [key]: value,
-    });
+  const handleChange = (key, value, key2=null) => {
+    let updatedProductData = {}
+    if(key2){
+      updatedProductData = {
+        ...productdata,
+        [key]: value,
+        [key2]: value,
+      }
+    }else{
+      updatedProductData = {
+        ...productdata,
+        [key]: value,
+      }
+    }
+    setProductData(updatedProductData);
+    console.log(updatedProductData);
+    sendDataToParent(updatedProductData);
   };
 
   const handleChangeID = (key, value) => {
-    handleChange(key, normalizeText(value.substring(0, 3)))
+    const truncatedID = truncateString(value, maxIDLength)
+    handleChange(key, normalizeText(truncatedID))
+    sendIDToColor(normalizeText(truncatedID))
+  }
+
+  const [sameAsBillContent, setSameAsBillContent] = useState(true)
+  const handleChangePrintContent = (key, value)=>{
+    const truncatedContent = truncateString(value, maxPrintContentLength);
+    if(sameAsBillContent && key==='bill_content'){
+      handleChange(key, normalizeText(truncatedContent), 'kitchen_content')
+    }else{
+      handleChange(key, normalizeText(truncatedContent))
+    }
+    if(key==='kitchen_content'){
+      setSameAsBillContent(false)
+    }
+  }
+
+  const [sameAsPrice, setSameAsPrice] = useState(true)
+  const handleChangePrice = (key, value)=>{
+    const normalizedValue = value.normalize('NFD').replace(/[^\d.]/g, "")
+    if(sameAsPrice && key==='price'){
+      handleChange(key, normalizedValue, 'price2')
+    }else{
+      handleChange(key, normalizedValue)
+    }
+    if(key==='price2'){
+      setSameAsPrice(false)
+    }
   }
 
   const handleChangeTVACountry = (key, value) => {
@@ -196,13 +241,12 @@ function ProductForm() {
     handleChange('time_supply', parseInt(TimeSupplyId));
   }
 
-  const handleChangePrinter = (e) => {
-    const printerIdChanged = e.target.name;
+  const handleChangePrinter = (printerIdChanged, checked) => {
     let printerId = '0';
     const printerDataCopy = printerData.map((printer)=>{
       if(printer.id===printerIdChanged){
         if(printer.checked===false) printerId += printer.id;
-        return {...printer, 'checked':!printer.checked};
+        return {...printer, 'checked':checked};
       }else if(printer.checked===true){
         printerId += printer.id
       }
@@ -213,7 +257,7 @@ function ProductForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col w-4/5">
+    <form onSubmit={handleSubmit} className="flex flex-col w-full">
       {Object.keys(productdata).map((key)=>(
         <div key={key}>
           {/* {key === 'ename' && (
@@ -222,9 +266,21 @@ function ProductForm() {
           {key === 'edes' && (
             <div className="justify-center mt-2 mx-4">Fill in at least one of the description</div>
           )} */}
+
+          {key==='bill_content' &&(
+              <>
+                <span 
+                  dangerouslySetInnerHTML={{ __html: Text.notesForPrintContent[0]}}
+                  className='ml-4'/>
+                  <br/>
+              </>
+          )}
+
           <div className="flex flex-row justify-center mt-1 mx-3 w-full">
+            
             {key !== 'print_to_where' && (
               <label className="flex bg-white py-2 pl-6 border-r border-borderTable w-1/4 rounded-l-lg">
+                {/* {key} */}
                   {Text[key][0]} :
               </label>
             )}
@@ -235,8 +291,13 @@ function ProductForm() {
               className="flex px-2 w-3/4 rounded-r-lg" 
               value={productdata[key]} 
               placeholder={Text[key][1]}
-              onChange={(e) => key==='id_Xu'?handleChangeID(key,e.target.value):
-                handleChange(key, numericFields.includes(key) ? parseInt(e.target.value):e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value;
+                if(key==='id_Xu') handleChangeID(key, value)
+                else if(key==='bill_content'||key==='kitchen_content') handleChangePrintContent(key, value)
+                else if(key==='price'||key==='price2') handleChangePrice(key, value)
+                else handleChange(key, value)
+              }}
               required={requiredFields.includes(key)}/>
             }
               
@@ -254,7 +315,7 @@ function ProductForm() {
             }
 
             {radioField.hasOwnProperty(key) &&
-              <div className={`grid grid-cols-${Object.keys(radioField[key]).length} w-3/4`}>
+              <div className={`grid grid-cols-${key==='TVA_category'?4:2} w-3/4`}>
                 {Object.entries(radioField[key]).map(([fieldKey, fieldValue])=>(
                   <label className='flex bg-white py-2 pl-6 border-r border-borderTable' key={fieldKey}>
                     <input
@@ -272,7 +333,7 @@ function ProductForm() {
             {key === 'time_supply' && (
               <div className='grid grid-cols-2 w-3/4'>
                 {Object.entries(timeSupply).map(([name,checked]) => (
-                  <div key={name} className={`bg-white py-2 pl-6 border-r border-borderTable ${name==='dinner'?'rounded-r-lg':''}`}>
+                  <div key={name} className={`bg-white py-2 pl-6 border-r ${name==='dinner'?'rounded-r-lg':''}`}>
                     <label className='flex'>
                         <input
                             type="checkbox"
@@ -302,7 +363,7 @@ function ProductForm() {
                               name={printer.id}
                               checked={printer.checked}
                               className='mr-2'
-                              onChange={(e) => handleChangePrinter(e)}
+                              onChange={(e) => handleChangePrinter(e.target.name, e.target.checked)}
                           />
                           {printer.id+':'+printer.printer}
                       </label>
@@ -313,16 +374,17 @@ function ProductForm() {
             )}
           </div>
 
-          {key === 'id_Xu' &&(
+          {key==='id_Xu' &&(
               <>
                 <span 
-                  dangerouslySetInnerHTML={{ __html: Text.id_Xu[3][1]}}
+                  dangerouslySetInnerHTML={{ __html: Text[key][3][0]}}
                   className='ml-4'/>
+                <br/>
                 <span 
-                  dangerouslySetInnerHTML={{ __html: Text.id_Xu[3][2]}}
+                  dangerouslySetInnerHTML={{ __html: Text[key][3][1]}}
                   className='ml-4'/>
               </>
-            )}
+          )}
         </div>
       ))}
 

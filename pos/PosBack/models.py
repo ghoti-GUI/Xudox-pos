@@ -82,15 +82,19 @@ class category(models.Model):
     lname = models.CharField(max_length=200)
     fname = models.CharField(max_length=200)
     zname = models.CharField(max_length=200)
+    name = models.CharField(max_length=200)
     extra_name = models.CharField(max_length=1000)
     edes = models.CharField(max_length=1000)
     ldes = models.CharField(max_length=1000)
     fdes = models.CharField(max_length=1000)
-    img = models.CharField(max_length=200)
+    des = models.CharField(max_length=1000)
+    img = models.ImageField(upload_to='static/img_category/%Y/%m', null=True, blank=True)
+    color = models.CharField(max_length=100, default='rgb(255, 255, 255)')
+    text_color = models.CharField(max_length=100, default='rgb(0, 0, 0)')
     time_supply = models.IntegerField()
-    rid = models.IntegerField()
-    category_class = models.IntegerField()
-    sort_id = models.IntegerField()
+    rid = models.IntegerField(default=0)
+    category_class = models.IntegerField(default=0)
+    sort_id = models.IntegerField(default=0)
     custom = models.CharField(max_length=200)
     custom1 = models.CharField(max_length=200)
     custom2 = models.CharField(max_length=200)
@@ -188,42 +192,45 @@ class printe_to_where(models.Model):
 class product(models.Model):
     id_user = models.CharField(unique=True, max_length=100)
     id_Xu = models.CharField(db_column='id_Xu', unique=True, max_length=100)  # Field name made lowercase.
-    ename = models.CharField(max_length=200)
-    lname = models.CharField(max_length=200)
-    fname = models.CharField(max_length=200)
-    zname = models.CharField(max_length=200)
-    online_content = models.CharField(max_length=200)
+    ename = models.CharField(max_length=200, null=True)
+    lname = models.CharField(max_length=200, null=True)
+    fname = models.CharField(max_length=200, null=True)
+    zname = models.CharField(max_length=200, null=True)
+    online_content = models.CharField(max_length=200, null=True)
     bill_content = models.CharField(max_length=100)
     kitchen_content = models.CharField(max_length=200)
-    extra_name = models.CharField(max_length=1000)
-    edes = models.CharField(max_length=1000)
-    ldes = models.CharField(max_length=1000)
-    fdes = models.CharField(max_length=1000)
-    bill_des = models.CharField(max_length=1000)
-    # allergen_des = models.CharField(max_length=1000)
-    img = models.CharField(max_length=200)
-    color = models.CharField(max_length=100)
+    extra_name = models.CharField(max_length=1000, null=True)
+    edes = models.CharField(max_length=1000, null=True)
+    ldes = models.CharField(max_length=1000, null=True)
+    fdes = models.CharField(max_length=1000, null=True)
+    online_des = models.CharField(max_length=1000, null=True)
+    allergen = models.CharField(max_length=1000, null=True)
+    discount = models.CharField(max_length=200, null=True)
+    img = models.ImageField(upload_to='static/img_product/%Y/%m', null=True, blank=True)
+    color = models.CharField(max_length=100, default='rgb(255, 255, 255)')
+    text_color = models.CharField(max_length=100, default='rgb(0, 0, 0)')
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     price2 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
-    price_extra = models.CharField(max_length=2000)
+    price_extra = models.CharField(max_length=2000, null=True)
     extra_TVA = models.DecimalField(db_column='extra_TVA', max_digits=8, decimal_places=2, default=0)  # Field name made lowercase.
     time_supply = models.IntegerField(db_comment='1:lunch,2:dinner,12:allday', default=0)
     product_type = models.IntegerField(db_comment='product/set/option', default=0)
     soldout = models.IntegerField(default=0)
-    min_nbr = models.IntegerField(db_comment='minimum purchase nbr', default=0)
+    min_nbr = models.IntegerField(db_comment='minimum purchase nbr', default=1)
     rid = models.IntegerField(db_comment='restaurant id', default=0)
-    stb = models.IntegerField(db_comment='sushi to bar', default=0)
+    stb = models.IntegerField(db_comment='sushi to bar', null=True)
     position = models.IntegerField(default=0)
     favourite = models.IntegerField(default=0)
     follow_id = models.IntegerField(default=0)
     extra_id = models.IntegerField(default=0)
-    Xu_class = models.CharField(db_column='Xu_class', max_length=200)  # Field name made lowercase.
-    custom = models.CharField(max_length=200, db_comment='customisation')
-    custom2 = models.CharField(max_length=200, db_comment='customisation 2')
-    custom3 = models.CharField(max_length=200)
-    custom4 = models.CharField(max_length=200)
-    custom5 = models.CharField(max_length=200)
-    print_to_where = models.ForeignKey(printe_to_where, models.DO_NOTHING, db_column='print_to_where', default=1)
+    Xu_class = models.CharField(db_column='Xu_class', max_length=200, null=True)  # Field name made lowercase.
+    custom = models.CharField(max_length=200, db_comment='customisation', null=True)
+    custom2 = models.CharField(max_length=200, db_comment='customisation 2', null=True)
+    custom3 = models.CharField(max_length=200, null=True)
+    custom4 = models.CharField(max_length=200, null=True)
+    custom5 = models.CharField(max_length=200, null=True)
+    # print_to_where = models.ForeignKey(printe_to_where, models.DO_NOTHING, db_column='print_to_where', default=1)
+    print_to_where = models.IntegerField(db_column='print_to_where', default=1)
     cid = models.ForeignKey(category, models.DO_NOTHING, db_column='cid', db_comment='category', default=1)
     option = models.ForeignKey(option_list, models.DO_NOTHING, default=1)
     TVA_id = models.ForeignKey('tva', models.DO_NOTHING, db_column='TVA_id', default=1)  # Field name made lowercase.
@@ -234,7 +241,6 @@ class product(models.Model):
 
 
 class Test(models.Model):
-    id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=20)
     des = models.CharField(max_length=200)
 
@@ -244,13 +250,23 @@ class Test(models.Model):
 
 
 class Testforeignkey(models.Model):
-    id = models.BigAutoField(primary_key=True)
     age = models.IntegerField()
     foreignkey_name = models.ForeignKey(Test, models.DO_NOTHING)
 
     class Meta:
         managed = False
         db_table = 'testforeignkey'
+
+class TestImg(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    image = models.ImageField(upload_to='static/test_images/%Y/%m', null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        db_table = 'testimg'
 
 
 class tva(models.Model):
