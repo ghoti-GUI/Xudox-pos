@@ -4,7 +4,7 @@ import { DefaultUrl, GetTVACountryUrl } from './valueDefault';
 
 
 
-export const fetchTVA = async (setTVA, setTVACountry, language) =>{
+export const fetchTVA = async (language) =>{
     try {
       const response = await axios.get(DefaultUrl+GetTVACountryUrl, {
         params:{
@@ -13,13 +13,23 @@ export const fetchTVA = async (setTVA, setTVACountry, language) =>{
       });
       const TVAData = response.data; //Dutch: {21.00%: 1, 9.00%: 2, 0.00%: 3}
       // console.log(TVAData)
-      setTVA(TVAData); 
-      const TVACountry = {}
-      for (const country in TVAData){
-        TVACountry[country]=country;
-      }
-      setTVACountry(TVACountry)
+      return TVAData
     } catch (error){
       console.error('Error fetching TVA data:', error)
     }
   }
+
+export const fetchTVAById = async (TVA_id, language) =>{
+  try{
+    const response = await axios.get(DefaultUrl+'get/tva/by_id/', {
+      params:{
+        'TVA_id':TVA_id, 
+        'language':language, 
+      }
+    })
+    const TVAData = response.data
+    return TVAData
+  }catch (error){
+    console.error('Error fetching TVA data by id:', error)
+  }
+}

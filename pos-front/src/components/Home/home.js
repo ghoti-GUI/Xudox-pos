@@ -7,49 +7,47 @@ import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
 import { multiLanguageText } from '../multiLanguageText';
+import { Language } from '../../userInfo';
 import { normalizeText, sortStringOfNumber } from '../utils';
+import ProductCard from './productCard';
 
 
 function Home() {
-    const language = 'English'
-    const Text = multiLanguageText[language].home
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState({})
     useEffect(() => {
         const fetchData = async ()=>{
-            setProducts(await fetchAllProduct())
+            const ptoducts_data = await fetchAllProduct()
+            const products_sorted = ptoducts_data.sort((a, b) => a.position - b.position);
+            setProducts(products_sorted)
             setCategories(await fetchAllCategory())
         }
         fetchData()
       },[]);
 
     return(
-        <div>
-            Home <br/><br/>
-            <h1>Product List</h1>
-            <div className='ml-5'>
+        <div className='overflow-y-hidden'>
+            <span className='ml-2 font-sans text-4xl font-bold text-gray-800'>Home</span> 
+            <br/><br/>
+            <span className='ml-2 font-sans text-2xl font-bold text-gray-800'>Product List</span>
+            <div className='ml-5 max-h-screen overflow-y-auto overflow-x-hidden pr-5'>
                 {Object.values(categories).map(category=>(
-                    <div key={category.id} className={`flex flex-col justify-center mt-1 mx-3 w-full rounded-lg`} style={{backgroundColor: category.color}}>
-                        {category.ename || category.lname || category.fname || category.zname}
+                    <div key={category.id} className={`flex flex-col justify-center px-3 pt-2 my-3 mx-3 w-full rounded-lg`} style={{backgroundColor: category.color, color:category.text_color}}>
+                        <span className='font-sans text-xl font-bold'>{category.ename || category.lname || category.fname || category.zname || category.name}</span>
+                        <span className='text-sm mb-1'>{category.edes || category.ldes || category.fdes || category.zdes || category.des}</span>
                         {products.map(product => {
                             if(product.cid===category.id){
-                                return(
-                                    <div key={product.id} className={`flex flex-row bg-${category}`}>
-                                        <h2 className='mx-1'>Online_content: {product.online_content}</h2>
-                                        <p className='mx-1'>Description: {product.bill_des}</p>
-                                        <p className='mx-1'>Price: ${product.price}</p>
-                                    </div>
-                                )
+                                return(<ProductCard key={product.id} data={product}/>)
                             }
-                            return ''
+                            return null
                         })}
                         <br/>
                     </div>
                 ))}
+                <div className='mb-28'></div>
             </div>
         </div>
     )
-
 }
 
 export default Home

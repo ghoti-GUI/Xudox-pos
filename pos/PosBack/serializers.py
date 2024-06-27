@@ -1,12 +1,27 @@
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
-from .models import Test,product, category
+from .models import Test, TestImg, product, category
 
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
         model = Test
         fields = ['name']
         # fields = '__all__'
+
+class TestImgSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestImg
+        fields = [
+            'content',
+            'title', 
+            'image',
+        ]
+        # fields = '__all__'
+
+class AllTestImgSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestImg
+        fields = '__all__'
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,14 +31,20 @@ class ProductSerializer(serializers.ModelSerializer):
             'online_content',
             'bill_content',
             'kitchen_content', 
-            'bill_des',
-            # 'allergen_des', 
+            'online_des',
+            'color', 
+            'text_color', 
             'price',
             'price2',
             'time_supply',
             'product_type',
             'cid',
             'print_to_where',
+            'img',
+            'allergen', 
+            'discount', 
+            'online_content',
+            'online_des',
             ]
         # fields = '__all__'
 
@@ -31,6 +52,19 @@ class AllProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = product
         fields = '__all__'
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = category
+        fields = [
+            'name',
+            'des',
+            'color',
+            'text_color', 
+            'time_supply',
+            'img', 
+        ]
 
 class AllCategorySerializer(serializers.ModelSerializer):
     class Meta:

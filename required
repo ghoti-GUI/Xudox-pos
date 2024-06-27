@@ -1,6 +1,6 @@
 
 back: 
-pip install django djangorestframework django-cors-headers pymysql
+pip install django djangorestframework django-cors-headers pymysql Pillow
 
 front: 
-npm install react-router-dom axios tailwind
+npm install -g yarn react-router-dom axios tailwind react-icons react-color react-toastify

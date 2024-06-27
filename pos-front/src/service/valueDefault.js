@@ -6,6 +6,6 @@ export const GetAllProduct = 'get/product/all/'
 export const GetCategoryUrl = 'get/category/';
 export const GetAllCategoryUrl = 'get/category/all/';
 
-export const GetPrinterUrl = 'get/printer/';
+export const GetPrinterUrl = 'get/printers/';
 
 export const GetTVACountryUrl = 'get/tva/';

@@ -5,12 +5,13 @@ from django.contrib.auth.models import Group, User
 from django.db.models import Max
 from rest_framework import permissions, viewsets
 from rest_framework.views import APIView
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action, api_view
 
-from .models import product, Test, category, printe_to_where, tva
-from .serializers import TestSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, GroupSerializer, UserSerializer
+from .models import product, Test, TestImg, category, printe_to_where, tva
+from .serializers import TestSerializer, TestImgSerializer, AllTestImgSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, GroupSerializer, UserSerializer
 
 language = 'English'
 
@@ -41,6 +42,44 @@ class ProductViewSet(viewsets.ModelViewSet):
             id_user = request_data.get('id_Xu'), 
         )
 
+class TestImgView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
+    def get(self, request, *args, **kwargs):
+        img = TestImg.objects.all()
+        serializer = TestImgSerializer(img, many = True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        img_serializer = TestImgSerializer(data = request.data)
+        if img_serializer.is_valid():
+            img_serializer.save()
+            return Response(img_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            print('error', img_serializer.errors)
+            return Response(img_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TestImgViewSet(viewsets.ModelViewSet):
+    queryset = TestImg.objects.all()
+    serializer_class = TestImgSerializer
+    permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
+
+    # def perform_create(self, serializer):
+    #     request_data = serializer.initial_data
+    #     img = request_data.get('image')
+    #     serializer.save(
+    #         image = img, 
+    #     )
+    
+def get_all_TestImg(request):
+    imgs = TestImg.objects.all()
+    serializer = AllTestImgSerializer(imgs, many = True)
+    return JsonResponse(serializer.data, safe = False)
+
+
+
+
+
 # 根据id的最大值，返回下一个id给前端，用于id_user的默认值
 def get_next_product_id(request):
     max_id = product.objects.aggregate(Max('id'))['id__max']
@@ -51,7 +90,6 @@ def get_next_product_id(request):
 def check_id_Xu_existence(request):
     # id_Xu_received = request.GET.get('id_Xu')
     id_Xu_received = request.query_params.get('id_Xu', '')
-    print(id_Xu_received)
     try:
         product.objects.get(id_Xu = id_Xu_received)
         return JsonResponse({'existed':True})
@@ -65,6 +103,19 @@ def get_all_products(request):
 
 
 
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
+
+@api_view(['GET'])
+def check_id_category_existence(request):
+    id_category_received = request.query_params.get('id_category', '')
+    try:
+        category.objects.get(id = id_category_received)
+        return JsonResponse({'existed':True})
+    except category.DoesNotExist:
+        return JsonResponse({'existed':False})
 
 def get_all_categories(request):
     categories = category.objects.all()
@@ -79,6 +130,18 @@ def get_printer(request):
     return JsonResponse(printerData)
 
 @api_view(['GET'])
+def get_printers_by_id(request):
+    printers_id_group = request.query_params.get('printers_id', '')
+    printers_id = str(printers_id_group)
+    printers_data = []
+    for printer_id in printers_id:
+        printer = get_object_or_404(printe_to_where, id=printer_id)
+        printers_data.append(printer.printer)
+    return JsonResponse(printers_data, safe = False)
+
+
+
+@api_view(['GET'])
 def get_TVA(request):
     request_language = request.query_params.get('language', '')
     country_field = f'country{request_language}'
@@ -88,6 +151,19 @@ def get_TVA(request):
         tva_records = tva.objects.filter(**{country_field: TVA_country})
         TVAData[TVA_country] = {f'{tva_record.tva_value}%':tva_record.category for tva_record in tva_records}
     return JsonResponse(TVAData)
+
+@api_view(['GET'])
+def get_TVA_by_id(request):
+    language = request.query_params.get('language', '')
+    id = request.query_params.get('TVA_id', '')
+    TVA_info = get_object_or_404(tva, id=id)
+    country = f'country{language}'
+    TVA_data = {
+        'country':getattr(TVA_info, country, None),
+        'category':TVA_info.category,
+        'tva_value':TVA_info.tva_value, 
+    }
+    return JsonResponse(TVA_data)
 
 
 
