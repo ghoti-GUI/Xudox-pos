@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {SketchPicker} from 'react-color';
 import { multiLanguageText } from '../multiLanguageText';
 import { Language } from '../../userInfo';
 
-const ColorSelect = ({ onColorChange, Id, advance=false }) => {
+const ColorSelect = ({ onColorChange, Id, advance=false, check=false, edit=false, colorReceived, textColorReceived }) => {
   const Text = multiLanguageText[Language]
   const [color, setColor] = useState(`rgb(255, 255, 255)`);
   const colorDefault = [
@@ -50,17 +50,26 @@ const ColorSelect = ({ onColorChange, Id, advance=false }) => {
     }
   };
 
+  useEffect(()=>{
+    if(edit || check){
+      setColor(colorReceived);
+      setTextColor(textColorReceived);
+    }
+  },[edit,check,colorReceived,textColorReceived])
+
   return (
     <div className='ml-7 mt-2 w-full'>
       <div className='flex flex-col'>
-        <label className='flex justify-center mt-1 px-2 py-1 bg-white rounded-lg'>
-          <input
-            type='checkbox'
-            checked={autoTextColor}
-            onChange={(e) => handleAutoTextColorChange(e.target.checked)}
-            className='form-radio'/>
-          <span className='ml-2'>{Text.text_color[0]}</span>
-        </label>
+        {!check&&
+          <label className='flex justify-center mt-1 px-2 py-1 bg-white rounded-lg'>
+            <input
+              type='checkbox'
+              checked={autoTextColor}
+              onChange={(e) => handleAutoTextColorChange(e.target.checked)}
+              className='form-radio'/>
+            <span className='ml-2'>{Text.text_color[0]}</span>
+          </label>
+        }
         {!autoTextColor && !advance &&
           <div className='flex flex-row justify-center mt-1'>
             <label className='flex justify-center items-center w-1/2 mb-1 py-1 bg-white border-r rounded-lg'>
@@ -95,14 +104,19 @@ const ColorSelect = ({ onColorChange, Id, advance=false }) => {
             <span style={{ color:textColor}}>{Id||'Text'}</span>
           </div>
         </div>
-        <span className='mt-2'>{Text.color}</span>
-        <SketchPicker
-          color={color}
-          onChange={handleColorChange} 
-          width='90%'
-          presetColors={colorDefault}
-          className='mt-1'
-        />
+        {!check &&
+          <span className='mt-2'>{Text.color}</span>
+        }
+        {!check &&
+          <SketchPicker
+            color={color}
+            onChange={handleColorChange} 
+            width='90%'
+            presetColors={colorDefault}
+            className='mt-1'
+          />
+        }
+        
         
       </div>
     </div>

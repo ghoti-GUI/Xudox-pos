@@ -33,28 +33,44 @@ export const multiLanguageText = {
         'product':{
             // 'id_Xu':['ID', 'Enter your product\'s ID', 'ID can be entered up to <b>&nbsp three digits &nbsp</b> in <b>&nbsp letters &nbsp</b> and <b>&nbsp numbers &nbsp</b>'],
             'id_Xu':['ID', 'Enter your product\'s ID', 'ID already existed', notesUnderID.English],
-            'online_content':['Online content', 'Enter the content shown in the online application'],
             'notesForPrintContent':['You can enter up to <b>25 characters</b> for the two contents below'], 
             'bill_content':['Bill content', 'Enter the content shown on the bill'],
             'kitchen_content':['Kitchen content', 'Enter the content to send to the kitchen'],
-            'online_des':['Online description', 'Enter the description shown online'], 
             'price':['Price', 'Enter the price for eat in'],
             'price2':['Price for takeaway', 'Enter the price for takeaway'],
             'TVA_country':['Country', 'Select your country here'],
             'TVA_category':['TVA'],
-            'product_type':['Type',{
-                'Product':0,
-                'Option':1,
-              }],
             'cid':['Category', 'Select the category of this product'],
-            'time_supply':['Supply time', TimeSupplyData.English, 'Please choose at least one supply time'],
+            'time_supply':['Supply time', {
+                'lunch': true,
+                'dinner': true,
+            }, 'Please choose at least one supply time'],
             'print_to_where':['Printers selected','','Please select at least one printer'], 
             'addSuccess':'Product added successfully', 
             'addFailed':'Product added failed', 
             'advanceButton':'Advance settings', 
             'returnNormalButton':'Return to normal settings', 
-            'allergen':['Allergen'], 
+        },
+        'productAdvance':{
+            'id_user':['ID without restrictions', 'ID without any restrictions'],
+            'online_content':['Online content', 'Enter the content shown in the online application'],
+            'online_des':['Online description', 'Enter the description shown online'], 
+            'product_type':['Type',{
+                'Product':0,
+                'Option':1,
+            }],
+            'min_nbr':['Minimum number of purchase','The minimum number of products purchased by the user when the user selects a product to purchase'],
             'discount':['Discount', ['None', 'Buy 1 Get 1 Free','Fixed reduction', 'Percentage reduction']], 
+            'allergen':['Allergen'], 
+            'ename':['English name', 'Enter the name in English'],
+            'lname':['Dutch name', 'Enter the name in Dutch'], 
+            'fname':['French name', 'Enter the name in French'], 
+            'zname':['Chinese name', 'Enter the name in Chinese'], 
+            'edes':['English description', 'Enter the description in English'],
+            'ldes':['Dutch description', 'Enter the description in Dutch'],
+            'fdes':['French description', 'Enter the description in French'],
+            'stb':['Sushi to bar'],
+            'favourite':['Favourite'],
         },
         'category':{
             'id':['ID', 'Enter the ID of your new category', 'ID already existed', notesUnderID.English],
@@ -64,7 +80,7 @@ export const multiLanguageText = {
             'addSuccess':'Category added successfully', 
             'addFailed':'Category added failed', 
         }, 
-        'Img':['Choose image for your product', 'Change image'], 
+        'img':['Choose image for your product', 'Change image'], 
         'color':'Choose background color: ', 
         'text_color':['Automatic setting for text colours', ['Black', 'white']],
         'home':{
@@ -81,6 +97,17 @@ export const multiLanguageText = {
             'time_supply':['Supply time', ['Lunch', 'Dinner', 'Whole day']],
             'print_to_where':['Printers selected'], 
             'soldout':['Sold out']
+        },
+        'check':{
+            'pageName':'Check Page', 
+            'img':'Your choosed image: ',
+            'editButton':'Edit',
+        },
+        'edit':{
+            'pageName':'Edit Page',
+        }, 
+        'add':{
+            'pageName':'Add Page'
         }
     },
     'Chinese':{
@@ -121,7 +148,7 @@ export const multiLanguageText = {
             'addSuccess':'类别添加成功', 
             'addFailed':'类别添加失败', 
         }, 
-        'Img':['选择产品的图片', '更改图片'], 
+        'img':['选择产品的图片', '更改图片'], 
         'color':'选择背景颜色: ', 
         'text_color':['自动设置字体颜色', ['黑色', '白色']], 
         'home':{
@@ -138,7 +165,18 @@ export const multiLanguageText = {
             'time_supply':['供应时间',['午餐', '晚餐', '全天']],
             'print_to_where':['打印机选择'], 
             'soldout':['售完'], 
-        }
+        },
+        'check':{
+            'pageName':'查看页面', 
+            'img':'选择的图片：',
+            'editButton':'编辑',
+        },
+        'edit':{
+            'pageName':'编辑页面',
+        }, 
+        'add':{
+            'pageName':'新增页面'
+        },
     },
 }
 

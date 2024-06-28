@@ -18,7 +18,14 @@ function Home() {
     useEffect(() => {
         const fetchData = async ()=>{
             const ptoducts_data = await fetchAllProduct()
-            const products_sorted = ptoducts_data.sort((a, b) => a.position - b.position);
+            const products_sorted = ptoducts_data.sort((a, b) => {
+                if (a.favourite === b.favourite) {
+                // 如果 favourite 相同，则按 position 排序
+                    return a.position - b.position;
+                }
+                // 否则按 favourite 排序
+                return b.favourite - a.favourite;
+            });
             setProducts(products_sorted)
             setCategories(await fetchAllCategory())
         }

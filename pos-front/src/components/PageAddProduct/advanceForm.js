@@ -9,28 +9,39 @@ import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
 import { multiLanguageText, multiLanguageAllergen } from '../multiLanguageText';
-import { normalizeText, sortStringOfNumber, mergeObject, updateCheckboxData } from '../utils';
+import { normalizeText, sortStringOfNumber, mergeObject, updateCheckboxData, updateObject } from '../utils';
 import { fetchAllCategoryForProductForm, truncateString } from './utils';
 import { Language, Country } from '../../userInfo';
 
-function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceData, sendDataToParent, check=false}) {
+function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceData, sendDataToParent, check=false, edit=false, productDataReceived}) {
   // const [productdataNormal, setProductdataNormal] = useState(productdataNormal)
-  const Text = multiLanguageText[Language].product
+  const Text = multiLanguageText[Language].productAdvance
   const AllergenText = multiLanguageAllergen[Language]
   const maxIDLength = 3
   const maxPrintContentLength = 25
-  const [productdata, setProductData] = useState(advanceData?advanceData:{
+  const [productdata, setProductData] = useState(advanceData||{
+    'id_user':'',
     'online_content':'',
     'online_des':'', 
     'product_type':0,
+    'min_nbr':1,
     'discount':'',
     'allergen':'',  //database: '', 'b1g1f', '-10€', '-10%'
+    'ename':'',
+    'lname':'', 
+    'fname':'', 
+    'zname':'', 
+    'edes':'',
+    'ldes':'',
+    'fdes':'',
+    'stb':0,
+    'favourite':0,
   })
   const [allergens, setAllergens] = useState([]) //[{'allergen':'Eggs products', 'checked':false}]
   
 
   const initData = productdata;
-  const requiredFields = ['id_Xu','online_content', 'bill_content', 'kitchen_content', 'price', 'price2', 'time_supply'];
+  const requiredFields = [];
   const selectFields = {
 
   };
@@ -38,10 +49,12 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
     'product_type':Text.product_type[1], 
     // 'discount':Text.discount[1], 
   }
+  const oneCheckBoxField=['stb','favourite'];
   const noInputField = [
     ...Object.keys(requiredFields), 
     ...Object.keys(selectFields), 
     ...Object.keys(radioField),
+    ...oneCheckBoxField, 
     'allergen', 
     'discount', 
   ]
@@ -63,32 +76,35 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
   }, []);
 
   useEffect(() => {
-    init();
-    const fetchData = async() => {
+    setProductData(advanceData);
+    if(!advanceData){
+      if(check || edit){
+        updateObject(productdata, productDataReceived)
+        console.log(productDataReceived)
+      }
+    }
 
+    init();
+
+    const fetchData = async() => {
     };fetchData()
 
     const reshapeAllergens = ()=>{
       const reshapedAllergens = AllergenText.map((allergen)=>{
         return {'allergen':allergen, 'checked':false}
       })
-      setAllergens(advanceData?updateCheckboxData(reshapedAllergens, advanceData.allergen):reshapedAllergens)
-    };reshapeAllergens()
+      if(advanceData && !check){
+        setAllergens(updateCheckboxData(reshapedAllergens, advanceData.allergen));
+      }else if (check || edit){
+        setAllergens(updateCheckboxData(reshapedAllergens, productDataReceived.allergen));
+      }else{
+        setAllergens(reshapedAllergens);
+      }
+    };reshapeAllergens();
+    // console.log('useEffect')
+  },[check, edit, productDataReceived]);
 
-    // const reshapeDiscount = ()=>{
-    //   const DiscountText = Text.discount[1]
-    //   let reshapedDiscount = {}
-    //   for(let i=0; i<DiscountText.length; i++){
-    //     reshapedDiscount[DiscountText[i]] = i
-    //   }
-    //   console.log(reshapedDiscount)
-    //   radioField.discount = reshapedDiscount
-    // };reshapeDiscount()
-
-    // eslint-disable-next-line
-  },[]);
-
-  const checkAtlLeastOneField = () => {
+  const checkAtlLeastOneField = (productdata) => {
     if(!productdata.time_supply){
       toast.warning(Text.time_supply[2]);
       return false
@@ -102,10 +118,6 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
-    if(!checkAtlLeastOneField()){
-      return
-    }
 
     try {
       const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
@@ -122,11 +134,21 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
       return
     };
 
+    console.log()
+
     const mergedProductData = Object.assign({}, normalData, productdata)
 
     mergedProductData['img'] = img
     mergedProductData['color'] = color;
     mergedProductData['text_color'] = textColor;
+
+    console.log(mergedProductData)
+
+    if(!checkAtlLeastOneField(mergedProductData)){
+      return
+    }
+
+    
 
     const csrfToken = getCsrfToken();
 
@@ -229,6 +251,11 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
     }
   }
 
+  const handleChangeCheckbox = (name, checked)=>{
+    const value = checked?1:0
+    handleChange(name, value);
+  }
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col w-full">
       <span className='ml-4 text-xl'><b>{Text.advanceButton}</b></span>
@@ -236,8 +263,8 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
         <div key={key}>
 
           <div className="flex flex-row justify-center mt-1 mx-3 w-full">
-            {key !== 'allergen' && key !== 'discount' && (
-              <label className="flex bg-white py-2 pl-6 border-r w-1/4 rounded-l-lg">
+            {key !== 'allergen' && key !== 'discount' && !oneCheckBoxField.includes(key) && (
+              <label className="flex bg-white py-2 pl-3 border-r w-1/3 rounded-l-lg">
                 {Text[key][0]} :
               </label>
             )}
@@ -245,17 +272,18 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
             {inputField.includes(key) && 
               <input 
               type={numericFields.includes(key) ? 'number':'text'} name={key} 
-              className="flex px-2 w-3/4 rounded-r-lg" 
-              value={productdata[key]} 
+              className="flex px-2 w-2/3 rounded-r-lg bg-white" 
+              value={check?productDataReceived[key]:productdata[key]} 
               placeholder={Text[key][1]}
               onChange={(e) => {
                 const value = e.target.value;
                 if(key==='id_Xu') handleChangeID(key, value)
                 else if(key==='bill_content'||key==='kitchen_content') handleChangePrintContent(key, value)
                 else if(key==='price'||key==='price2') handleChangePrice(key, value)
-                else handleChange(key, value)
+                else handleChange(key, numericFields.includes(key)?parseInt(value):value)
               }}
-              required={requiredFields.includes(key)}/>
+              required={requiredFields.includes(key)}
+              disabled={check}/>
             }
               
             {selectFields.hasOwnProperty(key) && 
@@ -263,25 +291,26 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
                 value={productdata[key]} 
                 required
                 onChange={(e) => handleChange(key, e.target.value)}
-                className={`flex w-3/4 px-2 rounded-r-lg ${productdata[key]===''?'text-gray-400':''}`}>
+                className={`flex w-2/3 px-2 rounded-r-lg ${productdata[key]===''?'text-gray-400':''}`}
+                disabled={check}>
                   <option value="" disabled>{Text[key][1]}</option>
-                {Object.entries(selectFields[key]).map(([optionKey, optionValue])=>(
-                  <option key={optionKey} value={optionValue} className='text-black'>{optionKey}</option>
-                ))}
+                  {Object.entries(selectFields[key]).map(([optionKey, optionValue])=>(
+                    <option key={optionKey} value={optionValue} className='text-black'>{optionKey}</option>
+                  ))}
               </select>
             }
 
             {radioField.hasOwnProperty(key) &&
               <div className={`grid grid-cols-${
                   key==='discount'?4:2
-                } w-3/4`}>
+                } w-2/3`}>
                 {Object.entries(radioField[key]).map(([fieldKey, fieldValue])=>(
                   <label className='flex bg-white py-2 pl-6 border-r ' key={fieldKey}>
                     <input
                       type='radio'
                       value={fieldValue}
                       checked={productdata[key]===fieldValue}
-                      onChange={(e) => handleChange(key, parseInt(e.target.value))}
+                      onChange={(e) => check?'':handleChange(key, parseInt(e.target.value))}
                       className='form-radio'/>
                       {fieldKey}
                   </label>
@@ -289,100 +318,119 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
               </div>
             }
 
-            {key==='discount' && 
-            <div className='flex flex-col w-full'>
+            {key==='discount' && (
+              <div className='flex flex-col w-full'>
+                  <label className="flex justify-center bg-white py-2 pl-6 border-r w-full rounded-t-lg">
+                    {Text[key][0]} :
+                  </label>
+                  <div className='grid grid-cols-2'>
+                    <label className=' bg-white py-2 pl-2 border-r '>
+                      <input
+                        type='radio'
+                        value=''
+                        checked={productdata[key]===''}
+                        onChange={(e) => check?'':handleChange(key, '')}
+                        className='form-radio'/>
+                        {Text[key][1][0]}
+                    </label>
+                    <label className='bg-white py-2 pl-2 border-r '>
+                      <input
+                        type='radio'
+                        value='b1g1f'
+                        checked={productdata[key]==='b1g1f'}
+                        onChange={(e) => check?'':handleChange(key, 'b1g1f')}
+                        className='form-radio'/>
+                        {Text[key][1][1]}
+                    </label>
+                  </div>
+
+                  <div className='flex flex-row w-full'>
+                    <label className="flex bg-white py-2 pl-2 border-r w-1/2 ">
+                      <input
+                        type='radio'
+                        value={Text[key][1][2]}
+                        checked={productdata[key].includes('€')}
+                        onChange={(e) => check?'':handleChange(key, recordDiscountFixed)}
+                        className='form-radio'/>
+                        {Text[key][1][2]}
+                    </label>
+                      <input
+                        type='text'
+                        value={!productdata[key].includes('€')?'':productdata[key]}
+                        placeholder={recordDiscountFixed}
+                        disabled={!productdata[key].includes('€')||check}
+                        onChange={(e) => handleChangeDiscount('fixed', e.target.value)}
+                        className='w-1/2 text-right pr-5 bg-white'/>
+                  </div>
+
+                  <div className='flex flex-row w-full'>
+                    <label className='bg-white py-2 pl-2 border-r w-1/2 '>
+                      <input
+                        type='radio'
+                        value={Text[key][1][3]}
+                        checked={productdata[key].includes('%')}
+                        onChange={(e) => check?'':handleChange(key, recordDiscountPercentage)}
+                        className='form-radio'/>
+                        {Text[key][1][3]}
+                    </label>
+                      <input
+                        type='text'
+                        value={!productdata[key].includes('%')?'':productdata[key]}
+                        placeholder={recordDiscountPercentage}
+                        disabled={!productdata[key].includes('%')||check}
+                        onChange={(e) => handleChangeDiscount('percentage', e.target.value)}
+                        className='w-1/2 text-right pr-5 bg-white'/>
+                  </div>
+              </div>
+            )}
+
+            {key==='allergen'&&(
+              <div className='w-full'>
                 <label className="flex justify-center bg-white py-2 pl-6 border-r w-full rounded-t-lg">
                   {Text[key][0]} :
                 </label>
-                <div className='grid grid-cols-2'>
-                  <label className=' bg-white py-2 pl-2 border-r '>
-                    <input
-                      type='radio'
-                      value=''
-                      checked={productdata[key]===''}
-                      onChange={(e) => handleChange(key, '')}
-                      className='form-radio'/>
-                      {Text[key][1][0]}
-                  </label>
-                  <label className='bg-white py-2 pl-2 border-r '>
-                    <input
-                      type='radio'
-                      value='b1g1f'
-                      checked={productdata[key]==='b1g1f'}
-                      onChange={(e) => handleChange(key, 'b1g1f')}
-                      className='form-radio'/>
-                      {Text[key][1][1]}
-                  </label>
+                <div className='grid grid-cols-3 w-full'>
+                  {allergens.map((allergen, index)=>(
+                    <div key={index} className={`bg-white py-2 px-2 border`}>
+                      <label className='flex items-center'>
+                          <input
+                              type="checkbox"
+                              name={allergen.allergen}
+                              checked={allergen.checked}
+                              className='mr-2'
+                              onChange={(e) => check?'':handleChangeAllergen(e.target.name, e.target.checked)}
+                          />
+                          <span className=''>{allergen.allergen}</span>
+                      </label>
+                    </div>
+                  ))}
                 </div>
-
-                <div className='flex flex-row w-full'>
-                  <label className="flex bg-white py-2 pl-2 border-r w-1/2 ">
-                    <input
-                      type='radio'
-                      value={Text[key][1][2]}
-                      checked={productdata[key].includes('€')}
-                      onChange={(e) => handleChange(key, recordDiscountFixed)}
-                      className='form-radio'/>
-                      {Text[key][1][2]}
-                  </label>
-                    <input
-                      type='text'
-                      value={!productdata[key].includes('€')?'':productdata[key]}
-                      placeholder={recordDiscountFixed}
-                      disabled={!productdata[key].includes('€')}
-                      onChange={(e) => handleChangeDiscount('fixed', e.target.value)}
-                      className='w-1/2 text-right pr-5 bg-white'/>
-                </div>
-
-                <div className='flex flex-row w-full'>
-                  <label className='bg-white py-2 pl-2 border-r w-1/2 '>
-                    <input
-                      type='radio'
-                      value={Text[key][1][3]}
-                      checked={productdata[key].includes('%')}
-                      onChange={(e) => handleChange(key, recordDiscountPercentage)}
-                      className='form-radio'/>
-                      {Text[key][1][3]}
-                  </label>
-                    <input
-                      type='text'
-                      value={!productdata[key].includes('%')?'':productdata[key]}
-                      placeholder={recordDiscountPercentage}
-                      disabled={!productdata[key].includes('%')}
-                      onChange={(e) => handleChangeDiscount('percentage', e.target.value)}
-                      className='w-1/2 text-right pr-5 bg-white'/>
-                </div>
-            </div>
-            }
-
-            {key==='allergen'&&
-            <div className='w-full'>
-              <label className="flex justify-center bg-white py-2 pl-6 border-r w-full rounded-t-lg">
-                {Text[key][0]} :
-              </label>
-              <div className='grid grid-cols-3 w-full'>
-                {allergens.map((allergen, index)=>(
-                  <div key={index} className={`bg-white py-2 px-2 border`}>
-                    <label className='flex items-center'>
-                        <input
-                            type="checkbox"
-                            name={allergen.allergen}
-                            checked={allergen.checked}
-                            className='mr-2'
-                            onChange={(e) => handleChangeAllergen(e.target.name, e.target.checked)}
-                        />
-                        <span className=''>{allergen.allergen}</span>
-                    </label>
-                  </div>
-                ))}
               </div>
-            </div>
-            }
+            )}
           </div>
+
         </div>
       ))}
 
-      <button type="submit" className="rounded bg-blue-500 text-white py-1 ml-3 my-5 w-full">Submit</button>
+      <div className='grid grid-cols-2 w-full ml-3 -mt-1'>
+        {oneCheckBoxField.map((key)=>(
+          <label key={key} className=' col-span-1 flex bg-white py-2 px-2 border'>
+            <span className='mr-2'>{Text[key][0]}</span>
+              <input
+                  type="checkbox"
+                  name={Text[key][0]}
+                  checked={productdata[key]===1}
+                  className='mr-2'
+                  onChange={(e) => check?'':handleChangeCheckbox(key, e.target.checked)}
+              />
+          </label>
+        ))}
+      </div>
+
+      {!check && 
+        <button type="submit" className="rounded bg-blue-500 text-white py-1 ml-3 my-5 w-full">Submit</button>
+      }
+      <div className='mb-10'></div>
     </form>
   );
 }

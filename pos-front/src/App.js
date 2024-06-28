@@ -1,5 +1,5 @@
 // import logo from './logo.svg';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Switch } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import './App.css';
 import Home from './components/Home/home';
@@ -17,6 +17,8 @@ function App() {
             <Route path='/' element={<Home/>}/>
             <Route path='/addProduct' element={<AddProduct/>}/>
             <Route path='/addCategory' element={<AddCategory/>}/>
+            <Route path='/checkProduct/:productId' element={<AddProduct/>} />
+            <Route path='/editProduct/:productId' element={<AddProduct/>} />
           </Routes>
         </div>
       </div>

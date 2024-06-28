@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
 import { checkIdXuExistence, fetchAllProduct} from '../../service/product';
@@ -9,14 +10,20 @@ import { fetchTVA, fetchTVAById } from '../../service/tva';
 import { multiLanguageText } from '../multiLanguageText';
 import { normalizeText, sortStringOfNumber } from '../utils';
 import { Language } from '../../userInfo';
+import { ReactComponent as Detail } from '../../img/detail.svg';
+import { ReactComponent as Edit } from '../../img/edit.svg';
+import { ReactComponent as Star } from '../../img/star.svg';
+
 
 
 const ProductCard = (props)=>{
     const product = props.data;
+    const navigate = useNavigate();
+    
     const Text = multiLanguageText[Language].home;
     const [soldout, setSoldout] = useState(false);
     const [TVAData, setTVAData] = useState(null);
-    const [printers, setPrinters] = useState([])
+    const [printers, setPrinters] = useState([]);
 
 
     const getSupplyTime = ()=>{
@@ -43,12 +50,47 @@ const ProductCard = (props)=>{
             setTVAData(await getTVAInfo(product.TVA_id))
             setPrinters(await getPrinters(product.print_to_where))
         };
-        getInitInfo()
+        getInitInfo();
     },[])
 
 
     const handleSouldout = ()=>{
         setSoldout(!soldout)
+    }
+
+    const handleClickDetail = ()=>{
+        navigate(
+            `/checkProduct/${product.id}`, 
+            {state:{product:product, 'type':'check'}}
+        )
+    }
+
+    const handleClickEdit = ()=>{
+        navigate(
+            `/editProduct/${product.id}`, 
+            {state:{product:product, 'type':'edit'}}
+        )
+    }
+
+    const [favourite, setFavourite] = useState(product.favourite)
+    const handleClickStar = ()=>{
+        const newFavourite = 1-favourite;
+        setFavourite(newFavourite);
+        const csrfToken = getCsrfToken();
+        axios.post(DefaultUrl+'update/product_by_id/', 
+            {'id':product.id, 'favourite':newFavourite},
+            {
+            headers: {
+                'X-CSRFToken': csrfToken, 
+                'content-type': 'multipart/form-data', 
+            }
+          })
+          .then(response => {
+              console.log('update favourite succeed', response)
+          })
+          .catch(error => {
+              console.error('There was an error submitting the form!', error);
+          });
     }
 
 
@@ -84,6 +126,20 @@ const ProductCard = (props)=>{
                 ))}
             </div> */}
 
+            <div className='col-span-1 flex flex-row items-center justify-center mr-1'>
+                <button className='w-1/2 mr-1 -mt-3' onClick={handleClickStar}>
+                    <Star className={`w-full ${favourite===1?'fill-yellow-400':''}`}/>
+                </button>
+                <div className='flex flex-col w-1/2 justify-center items-center border-l-2 border-black'>
+                    <button onClick={handleClickDetail} className='w-3/4 -mt-5 -mb-2 '>
+                        <Detail className='w-full'/>
+                    </button>
+                    <div className='w-5/6 border-b-2 border-black'></div>
+                    <button onClick={handleClickEdit} className='w-3/4 -my-2'>
+                        <Edit className='w-full'/>
+                    </button>
+                </div>
+            </div>
             
             
         </div>
