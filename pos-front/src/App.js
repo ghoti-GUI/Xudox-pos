@@ -6,6 +6,7 @@ import Home from './components/Home/home';
 import Sidebar from './components/Sidebar/sidebar';
 import AddProduct from './components/PageAddProduct/addProduct';
 import AddCategory from './components/PageAddCategory/addCategory';
+import TestDrag from './components/TestDrag/TestDrag';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path='/addCategory' element={<AddCategory/>}/>
             <Route path='/checkProduct/:productId' element={<AddProduct/>} />
             <Route path='/editProduct/:productId' element={<AddProduct/>} />
+            <Route path='/TestDrag' element={<TestDrag/>} />
           </Routes>
         </div>
       </div>
