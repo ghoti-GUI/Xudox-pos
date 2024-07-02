@@ -39,15 +39,17 @@ function Home() {
             <span className='ml-2 font-sans text-2xl font-bold text-gray-800'>Product List</span>
             <div className='ml-5 max-h-screen overflow-y-auto overflow-x-hidden pr-5'>
                 {Object.values(categories).map(category=>(
-                    <div key={category.id} className={`flex flex-col justify-center px-3 pt-2 my-3 mx-3 w-full rounded-lg`} style={{backgroundColor: category.color, color:category.text_color}}>
+                    <div key={category.id} className={`flex flex-col justify-center px-3 pt-2 my-3 w-full rounded-lg`} style={{backgroundColor: category.color, color:category.text_color}}>
                         <span className='font-sans text-xl font-bold'>{category.ename || category.lname || category.fname || category.zname || category.name}</span>
                         <span className='text-sm mb-1'>{category.edes || category.ldes || category.fdes || category.zdes || category.des}</span>
-                        {products.map(product => {
-                            if(product.cid===category.id){
-                                return(<ProductCard key={product.id} data={product}/>)
-                            }
-                            return null
-                        })}
+                        <div className='mx-2'>
+                            {products.map(product => {
+                                if(product.cid===category.id){
+                                    return(<ProductCard key={product.id} data={product}/>)
+                                }
+                                return null
+                            })}
+                        </div>
                         <br/>
                     </div>
                 ))}

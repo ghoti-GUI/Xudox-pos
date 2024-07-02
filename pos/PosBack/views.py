@@ -93,7 +93,6 @@ class ProductViewSet(viewsets.ModelViewSet):
             'fdes':'',
             'stb':0,
             'favourite':0,
-
         }
         request_data = serializer.initial_data
         country_value = request_data.get('TVA_country')
@@ -151,6 +150,8 @@ def update_product_by_id(request):
         return JsonResponse({'status': 'error', 'message': 'Product not found.'}, status=404)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+
 
 
 
