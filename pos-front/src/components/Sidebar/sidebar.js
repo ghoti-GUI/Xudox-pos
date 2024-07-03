@@ -5,15 +5,9 @@ import { multiLanguageText } from '../multiLanguageText';
 import { Language } from '../../userInfo';
 import { fetchAllProduct } from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
+import ExportButton from '../ExportButton/exportButton';
 
 const Sidebar = () => {
-  const Text = multiLanguageText[Language].export
-
-  const handleClickExport = async()=>{
-    const products = await fetchAllProduct()
-    const categories = await fetchAllCategory()
-
-  }
 
   return (
     <div className="h-screen w-64 bg-gray-800 text-white">
@@ -37,9 +31,7 @@ const Sidebar = () => {
           <FaInfoCircle className='mr-2'/>
           TestDrag
         </Link> */}
-        <button onClick={()=>handleClickExport()}>
-          export
-        </button>
+        <ExportButton/>
       </nav>
     </div>
   );
