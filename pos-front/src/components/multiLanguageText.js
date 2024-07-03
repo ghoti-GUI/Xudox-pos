@@ -112,7 +112,8 @@ export const multiLanguageText = {
         }, 
         'add':{
             'pageName':'Add Page'
-        }
+        },
+        'export':'Export', 
     },
     'Chinese':{
         'country':{
@@ -181,6 +182,7 @@ export const multiLanguageText = {
         'add':{
             'pageName':'新增页面'
         },
+        'export':'导出', 
     },
 }
 

@@ -6,7 +6,7 @@ export const sortStringOfNumber = (str) => {
 }
 
 export const normalizeText = (str) => {
-    return str.normalize('NFD').replace(/[\u0300-\u036f.]/g, "").replace(/\s+/g, '');
+    return str.normalize('NFD').replace(/[\u0300-\u036f.]/g, "");
 }
 
 // export const mergeObject = (objectMerged, objectMain)=>{

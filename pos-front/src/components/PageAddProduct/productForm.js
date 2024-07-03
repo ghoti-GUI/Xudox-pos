@@ -105,6 +105,8 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
       if(!normalData){
         if(check || edit){
           setProductData(updateObject(productdata, productDataReceived))
+          setSameAsBillContent(productDataReceived.bill_content===productDataReceived.kitchen_content)
+          setSameAsPrice(productDataReceived.price===productDataReceived.price2)
         }
       }
 
@@ -249,8 +251,8 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
   const [idExisted, setIdExisted] = useState(false);
   const handleChangeID = (key, value) => {
     const truncatedID = truncateString(value, maxIDLength)
-    handleChange(key, normalizeText(truncatedID))
-    sendIDToColor(normalizeText(truncatedID))
+    handleChange(key, normalizeText(truncatedID).replace(/\s+/g, ''))
+    sendIDToColor(normalizeText(truncatedID).replace(/\s+/g, ''))
   }
 
   const handleBlurID = async()=>{
