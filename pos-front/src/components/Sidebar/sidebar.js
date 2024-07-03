@@ -1,6 +1,11 @@
 import React from 'react';
 import { FaHome, FaInfoCircle, FaServicestack, FaEnvelope } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { multiLanguageText } from '../multiLanguageText';
+import { Language } from '../../userInfo';
+import { fetchAllProduct } from '../../service/product';
+import { fetchAllCategory } from '../../service/category';
+import ExportButton from '../ExportButton/exportButton';
 
 const Sidebar = () => {
 
@@ -10,7 +15,6 @@ const Sidebar = () => {
         <h1 className="text-2xl font-bold">Sidebar</h1>
       </div>
       <nav className="mt-10">
-        
         <Link to="/" className="flex items-center px-4 py-2 hover:bg-gray-700 w-full" >
           <FaHome className='mr-2'/>
           Home
@@ -23,7 +27,11 @@ const Sidebar = () => {
           <FaInfoCircle className='mr-2'/>
           AddProduct
         </Link>
-
+        {/* <Link to="/TestDrag" className="flex items-center px-4 py-2 hover:bg-gray-700 w-full" >
+          <FaInfoCircle className='mr-2'/>
+          TestDrag
+        </Link> */}
+        <ExportButton/>
       </nav>
     </div>
   );

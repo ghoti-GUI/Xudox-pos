@@ -6,7 +6,7 @@ export const sortStringOfNumber = (str) => {
 }
 
 export const normalizeText = (str) => {
-    return str.normalize('NFD').replace(/[\u0300-\u036f.]/g, "").replace(/\s+/g, '');
+    return str.normalize('NFD').replace(/[\u0300-\u036f.]/g, "");
 }
 
 // export const mergeObject = (objectMerged, objectMain)=>{
@@ -43,4 +43,14 @@ export const updateCheckboxData = (fetchedData, checkboxData) =>{
         })
     }
     return returnData
+}
+
+export const updateObject = (objUpdate, objSource)=>{
+    let objUpdateCopy = objUpdate;
+    for(const key in objUpdate){
+        if(Object.keys(objSource).includes(key)){
+            objUpdateCopy[key]=objSource[key];
+        }
+    }
+    return objUpdateCopy
 }

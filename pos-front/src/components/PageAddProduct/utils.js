@@ -15,7 +15,6 @@ export const fetchAllCategoryForProductForm = async () => {
     }catch (error){
         console.error('Error fetching category data in addProduct.utils:', error)
     }
-    
 }
 
 export const truncateString = (string, maxLength)=>{

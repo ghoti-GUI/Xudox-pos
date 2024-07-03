@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth.models import Group, User
@@ -25,21 +26,6 @@ class TestViewSet(viewsets.ModelViewSet):
         des = 'testdes_autofill'
         serializer.save(
             des=des,
-        )
-
-class ProductViewSet(viewsets.ModelViewSet):
-    queryset = product.objects.all()
-    serializer_class = ProductSerializer
-    permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
-
-    def perform_create(self, serializer):
-        request_data = serializer.initial_data
-        country_value = request_data.get('TVA_country')
-        caregory_value = request_data.get('TVA_category')
-        TVA_id = get_object_or_404(tva, **{f'country{language}' : country_value, 'category' : request_data.get('TVA_category')})
-        serializer.save(
-            TVA_id = TVA_id, 
-            id_user = request_data.get('id_Xu'), 
         )
 
 class TestImgView(APIView):
@@ -80,6 +66,96 @@ def get_all_TestImg(request):
 
 
 
+
+
+
+
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = product.objects.all()
+    serializer_class = ProductSerializer
+    permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
+
+    def perform_create(self, serializer):
+        advanceKeyList = {
+            'online_content':'',
+            'online_des':'', 
+            'product_type':0,
+            'min_nbr':1,
+            'discount':'',
+            'allergen':'', 
+            'id_user':'',
+            'ename':'',
+            'lname':'', 
+            'fname':'', 
+            'zname':'', 
+            'edes':'',
+            'ldes':'',
+            'fdes':'',
+            'stb':0,
+            'favourite':0,
+        }
+        request_data = serializer.initial_data
+        country_value = request_data.get('TVA_country')
+        category_value = request_data.get('TVA_category')
+        TVA = get_object_or_404(tva, **{f'country{language}' : country_value, 'category' : category_value})
+        save_data={
+            'TVA_id' : TVA, 
+            'id_user' : request_data.get('id_Xu'),  
+        }
+        for advanceKey in advanceKeyList:
+            if advanceKey in request_data:
+                save_data[advanceKey]=request_data[advanceKey]
+            else:
+                save_data[advanceKey]=advanceKeyList[advanceKey]
+        
+        serializer.save(**save_data)
+
+# def searchTVAId(TVA_country, TVA_category, language):
+#     TVA_ = get_object_or_404(tva, **{f'country{language}' : TVA_country, 'category' : TVA_category})
+#     return TVA
+
+@csrf_exempt
+def update_product_by_id(request):
+    try:
+        data = request.POST
+        id_received = data.get('id', '')
+        product_to_update = get_object_or_404(product, id=id_received)
+
+        for key, value in data.items():
+            if key!='id':  # 确保不修改 id
+                print(key)
+                if key=='cid':
+                    try:
+                        category_instance = get_object_or_404(category, id=int(value))
+                        setattr(product_to_update, key, category_instance)
+                    except (ValueError, category.DoesNotExist):
+                        print(f"Invalid category id: {value}")
+                elif key=='TVA_country':
+                    try:
+                        TVA_country = data.get('TVA_country', '')
+                        TVA_category = data.get('TVA_category', '')
+                        print(TVA_country, TVA_category, type(TVA_category))
+                        TVA = get_object_or_404(tva, **{f'country{language}' : TVA_country, 'category' : TVA_category})
+                        print(TVA)
+                        setattr(product_to_update, 'TVA_id', TVA)
+                    except (ValueError, category.DoesNotExist):
+                        print(f"Invalid TVA data: {data.items.TVA_country}, {data.items.TVA_category}")
+                elif hasattr(product_to_update, key) and key!='TVA_category':
+                    setattr(product_to_update, key, value)
+
+        product_to_update.save()
+
+        return JsonResponse({'status': 'success', 'message': 'Product updated successfully.'})
+    except product.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Product not found.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+
+
+
+
+
 # 根据id的最大值，返回下一个id给前端，用于id_user的默认值
 def get_next_product_id(request):
     max_id = product.objects.aggregate(Max('id'))['id__max']
@@ -101,6 +177,13 @@ def get_all_products(request):
     serializer = AllProductSerializer(products, many = True)
     return JsonResponse(serializer.data, safe = False)
 
+
+@api_view(['GET'])
+def get_product_by_id_Xu(request):
+    id_Xu = request.query_params.get('id_Xu', '')
+    product_info = get_object_or_404(product, id_Xu=id_Xu)
+    serializer = AllProductSerializer(product_info)
+    return JsonResponse(serializer.data)
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -144,6 +227,7 @@ def get_printers_by_id(request):
 @api_view(['GET'])
 def get_TVA(request):
     request_language = request.query_params.get('language', '')
+    # request_language='English'
     country_field = f'country{request_language}'
     TVA_countrys = tva.objects.values_list(country_field, flat=True).distinct()
     TVAData = {}
