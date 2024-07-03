@@ -178,6 +178,13 @@ def get_all_products(request):
     return JsonResponse(serializer.data, safe = False)
 
 
+@api_view(['GET'])
+def get_product_by_id_Xu(request):
+    id_Xu = request.query_params.get('id_Xu', '')
+    product_info = get_object_or_404(product, id_Xu=id_Xu)
+    serializer = AllProductSerializer(product_info)
+    return JsonResponse(serializer.data)
+
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = category.objects.all()

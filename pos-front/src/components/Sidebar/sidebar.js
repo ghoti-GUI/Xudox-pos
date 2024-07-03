@@ -23,6 +23,10 @@ const Sidebar = () => {
           <FaInfoCircle className='mr-2'/>
           AddProduct
         </Link>
+        {/* <Link to="/TestDrag" className="flex items-center px-4 py-2 hover:bg-gray-700 w-full" >
+          <FaInfoCircle className='mr-2'/>
+          TestDrag
+        </Link> */}
 
       </nav>
     </div>

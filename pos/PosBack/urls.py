@@ -17,14 +17,19 @@ router.register(r'post/category', CategoryViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+
     path('get/product/next_id_user/', views.get_next_product_id, name='get_next_product_id'), 
     path('product/check_id_Xu_existence/', views.check_id_Xu_existence, name = 'check_id_Xu_existence'), 
     path('get/product/all/', views.get_all_products, name = 'get_all_products'), 
     path('update/product_by_id/', views.update_product_by_id, name='update_product_by_id'), 
+    path('get/product/by/id_Xu/', views.get_product_by_id_Xu, name='get_product_by_id_Xu'), 
+
     path('get/category/all/', views.get_all_categories, name='get_all_categories'), 
     path('category/check_id_category_existence/', views.check_id_category_existence, name = 'check_id_category_existence'), 
+
     path('get/printers/', views.get_printer, name = 'get_printer'), 
     path('get/printers/by_id/', views.get_printers_by_id, name='get_printers_by_id'), 
+
     path('get/tva/', views.get_TVA, name = 'get_TVA'),  
     path('get/tva/by_id/', views.get_TVA_by_id, name = 'get_TVA_by_id'), 
 

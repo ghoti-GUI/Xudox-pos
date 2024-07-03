@@ -44,3 +44,18 @@ export const fetchAllProduct = async () => {
     console.error('Error fetching products data:', error)
   }
 }
+
+
+export const fetchProductById_Xu = async(id_Xu)=>{
+  try {
+    const response = await axios.get(DefaultUrl+'get/product/by/id_Xu/', {
+      params:{
+        'id_Xu':id_Xu, 
+      }
+    });
+    return (response.data)
+  } catch (error) {
+    console.error('Error check id_Xu existence:', error);
+    return
+  };
+}

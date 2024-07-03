@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import axios from 'axios';
+import { useLocation } from 'react-router-dom';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
 import { checkIdXuExistence, fetchAllProduct} from '../../service/product';
@@ -13,6 +14,9 @@ import ProductCard from './productCard';
 
 
 function Home() {
+    const location=useLocation();
+    const editedProductId = location.state?.editedProductId;
+    const productRefs = useRef(null);
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState({})
     useEffect(() => {
@@ -28,9 +32,14 @@ function Home() {
             });
             setProducts(products_sorted)
             setCategories(await fetchAllCategory())
-        }
-        fetchData()
-      },[]);
+
+            const getEle = document.getElementById(editedProductId);
+            if (getEle) {
+              getEle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        };fetchData();
+        
+      },[editedProductId]);
 
     return(
         <div className='overflow-y-hidden'>
@@ -45,7 +54,11 @@ function Home() {
                         <div className='mx-2'>
                             {products.map(product => {
                                 if(product.cid===category.id){
-                                    return(<ProductCard key={product.id} data={product}/>)
+                                    return(
+                                        <div key={product.id} id={product.id} className={`${editedProductId===product.id? 'border-4 border-blue-500 -mx-1':''}`}>
+                                            <ProductCard data={product}/>
+                                        </div>
+                                    )
                                 }
                                 return null
                             })}

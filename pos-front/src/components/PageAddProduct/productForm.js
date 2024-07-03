@@ -1,10 +1,11 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast} from 'react-toastify';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
-// import { checkIdXuExistence} from '../../service/product';
+import { fetchProductById_Xu } from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA, fetchTVAById } from '../../service/tva';
@@ -15,6 +16,7 @@ import { Language, Country } from '../../userInfo';
 import AdvanceForm from './advanceForm';
 
 function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceData, sendDataToParent, check=false, edit=false, productDataReceived}) {
+  const navigate=useNavigate();
 
   const Text = multiLanguageText[Language].product
   const maxIDLength = 3
@@ -214,7 +216,10 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
     })
     .then(response => {
         toast.success(Text.addSuccess);
-        init();
+        // init();
+        if(edit){
+          navigate('/home', {state: { editedProductId: productDataReceived.id }})
+        }
     })
     .catch(error => {
         toast.error(Text.addFailed)
@@ -241,11 +246,72 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
     sendDataToParent(updatedProductData);
   };
 
+  const [idExisted, setIdExisted] = useState(false);
   const handleChangeID = (key, value) => {
     const truncatedID = truncateString(value, maxIDLength)
     handleChange(key, normalizeText(truncatedID))
     sendIDToColor(normalizeText(truncatedID))
   }
+
+  const handleBlurID = async()=>{
+    if(productdata.id_Xu.trim() !== ''){
+      try {
+        const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
+          params:{
+            'id_Xu':productdata.id_Xu, 
+          }
+        });
+        if (response.data.existed){
+          setIdExisted(true);
+          const product = await fetchProductById_Xu(productdata.id_Xu);
+          toast.warning(
+            <>
+              <span>{Text.id_Xu[3][3][0]}</span>
+              <div className='felx flex-row w-full py-2' style={{backgroundColor: product.color, color:product.text_color}}>
+                  <p className='mx-1'>{Text.bill_content[0]}: {product.bill_content}</p>
+                  <p className='mx-1'>{Text.price[0]}: {product.price}€</p>
+              </div>
+              <div className="flex justify-end mt-2">
+                <button
+                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 mr-2 rounded"
+                  onClick={() => handleClickYes()} // 点击“是”按钮的处理函数
+                >
+                  {Text.id_Xu[3][3][1]}
+                </button>
+                <button
+                  className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+                  onClick={() => toast.dismiss()} // 点击“否”按钮的处理函数
+                >
+                  {Text.id_Xu[3][3][2]}
+                </button>
+              </div>
+            </>, {
+              closeOnClick: false,
+              autoClose: 7000,
+            }
+          );
+        } else{
+          setIdExisted(false);
+        }
+      } catch (error) {
+        console.error('Error check id_Xu existence:', error);
+        return
+      };
+    }
+  }
+
+  const handleClickYes = async() => {
+    const product = await fetchProductById_Xu(productdata.id_Xu);
+    let product_copy = {}
+    for (let key in productdata){
+      product_copy[key]=product[key]
+    }
+    const TVA_info = await fetchTVAById(product.TVA_id, Language)
+    product_copy.TVA_category = TVA_info.category
+    product_copy.TVA_country = TVA_info.country
+    setProductData(product_copy)
+    toast.dismiss(); 
+  };
 
   const [sameAsBillContent, setSameAsBillContent] = useState(true)
   const handleChangePrintContent = (key, value)=>{
@@ -329,7 +395,6 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
             
             {key !== 'print_to_where' && (
               <label className="flex bg-white py-2 pl-6 border-r  w-1/4 rounded-l-lg">
-                {/* {key} */}
                   {Text[key][0]} :
               </label>
             )}
@@ -347,6 +412,7 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
                 else if(key==='price'||key==='price2') handleChangePrice(key, value)
                 else handleChange(key, value)
               }}
+              onBlur={key==='id_Xu'?handleBlurID:null}
               required={requiredFields.includes(key)}
               disabled={check}/>
             }
@@ -425,15 +491,23 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
           </div>
 
           {key==='id_Xu' &&(
-              <>
+              <div className='ml-4'>
+                {idExisted &&
+                  <div>
+                    <span 
+                      className='text-red-600'
+                      dangerouslySetInnerHTML={{ __html: Text[key][3][2]}}/>
+                    <br/>
+                  </div>
+                }
                 <span 
                   dangerouslySetInnerHTML={{ __html: Text[key][3][0]}}
-                  className='ml-4'/>
+                  className=''/>
                 <br/>
                 <span 
                   dangerouslySetInnerHTML={{ __html: Text[key][3][1]}}
-                  className='ml-4'/>
-              </>
+                  className=''/>
+              </div>
           )}
         </div>
       ))}

@@ -3,7 +3,7 @@ back:
 pip install django djangorestframework django-cors-headers pymysql Pillow
 
 front: 
-npm install -g yarn react-router-dom axios tailwindcss react-icons react-color react-toastify react-beautiful-dnd react-draggable
+npm install -g yarn react-router-dom axios tailwindcss react-icons react-color react-toastify  react-scripts react-dnd react-dnd-html5-backend
 
 
 
@@ -19,4 +19,3 @@ npm install -g yarn react-router-dom axios tailwindcss react-icons react-color r
 ├── react@18.3.1
 ├── tailwind@4.0.0
 ├── tailwindcss@3.4.4
-└── web-vitals@2.1.4
