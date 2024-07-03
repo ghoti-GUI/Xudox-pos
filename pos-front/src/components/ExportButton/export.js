@@ -18,24 +18,49 @@ const formatProductData = (product) => {
     return `${id_Xu} ${bill_content} ${price}`;
 };
 
+const formatCategoryData = (category) => {
+    const cid = category.id.toString();
+    const name = category.name;
+    return `ab${cid}.txt ${name}`;
+};
+
 export const handleClickExport = async()=>{
-    const products = await fetchAllProduct()
-    const categories = await fetchAllCategory()
+    const products = await fetchAllProduct();
+    const categories = await fetchAllCategory();
 
-    const formattedData = products.map(formatProductData).join('\n');
-    const blob = new Blob([formattedData], { type: 'text/plain;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
+    const product_category = [];
 
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'products.txt';
-    document.body.appendChild(a);
-    a.click();
+    const formattedDataProduct = products.map(formatProductData).join('\n');
+    const blob_product = new Blob([formattedDataProduct], { type: 'text/plain;charset=utf-8' });
+    const url_product = URL.createObjectURL(blob_product);
+
+    const a_product = document.createElement('a_product');
+    a_product.href = url_product;
+    a_product.download = 'abx.txt';
+    document.body.appendChild(a_product);
+    a_product.click();
 
     setTimeout(() => {
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-      }, 0);
+        document.body.removeChild(a_product);
+        URL.revokeObjectURL(url_product);
+    }, 0);
+
+
+
+    const formattedDataCategory = categories.map(formatCategoryData).join('\n');
+    const blob_category = new Blob([formattedDataCategory], { type: 'text/plain;charset=utf-8' });
+    const url_category = URL.createObjectURL(blob_category);
+
+    const a_category = document.createElement('a_category');
+    a_category.href = url_category;
+    a_category.download = 'HooftName.txt';
+    document.body.appendChild(a_category);
+    a_category.click();
+
+    setTimeout(() => {
+        document.body.removeChild(a_category);
+        URL.revokeObjectURL(url_category);
+    }, 0);
     
 }
 
