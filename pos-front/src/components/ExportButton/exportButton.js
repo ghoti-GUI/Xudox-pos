@@ -82,7 +82,7 @@ const ExportButton = () => {
 
     const formatProductData = (product) => {
         const id_Xu = product.id.toString().padStart(3, ' ');
-        const bill_content = product.bill_content+'.'.padEnd(25-product.bill_content.length-1, ' ');
+        const bill_content = product.bill_content+'.'.padEnd(25-product.bill_content.length, ' ');
         const price = product.price;
         return `${id_Xu} ${bill_content} ${price}`;
     };
