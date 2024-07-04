@@ -68,7 +68,7 @@ const ExportButton = () => {
                 if(HooftNameValueCopy[category.id].length<=9) HooftNameValueCopy[category.id] += category.name||category.ename||category.lname||category.fname||category.zname
             });
             console.log(HooftNameValueCopy)
-            for (let i=0; i<HooftNameValueCopy.length; i++){
+            for (let i=1; i<HooftNameValueCopy.length; i++){
                 if(HooftNameValueCopy[i].length<=9) HooftNameValueCopy[i]+='void';
             }
             setHooftNameValue(HooftNameValueCopy);
