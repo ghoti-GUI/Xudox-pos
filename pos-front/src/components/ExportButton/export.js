@@ -13,6 +13,7 @@ import { fetchAllCategory } from "../../service/category";
 
 const formatProductData = (product) => {
     const id_Xu = product.id.toString().padStart(3, ' ');
+    console.log(product.bill_content.length)
     const bill_content = product.bill_content.padEnd(25, ' ');
     const price = product.price;
     return `${id_Xu} ${bill_content} ${price}`;
