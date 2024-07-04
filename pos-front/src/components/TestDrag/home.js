@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import axios from 'axios';
-import { useDrag, useDrop, DndProvider } from 'react-dnd';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
 import { checkIdXuExistence, fetchAllProduct} from '../../service/product';
@@ -62,7 +61,7 @@ function TestDragHome() {
     };
 
     const onDragOver = (index) => {
-        const draggedOverItem = products[index];
+        // const draggedOverItem = products[index];
 
         // 如果拖动的项目是同一个项目，则不进行任何操作
         if (draggedItemIndex === index) {

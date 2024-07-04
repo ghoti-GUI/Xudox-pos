@@ -1,8 +1,6 @@
 // import logo from './logo.svg';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
 import './App.css';
 import Home from './components/Home/home';
 import Sidebar from './components/Sidebar/sidebar';
