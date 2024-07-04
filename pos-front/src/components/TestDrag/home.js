@@ -11,7 +11,6 @@ import { multiLanguageText } from '../multiLanguageText';
 import { Language } from '../../userInfo';
 import { normalizeText, sortStringOfNumber } from '../utils';
 import ProductCard from './productCard';
-import DraggableProductCard from './draggableProductCard';
 
 
 function TestDragHome() {
@@ -20,41 +19,69 @@ function TestDragHome() {
         {'id':2, 'id_Xu':'02', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#B80A0A'}, 
         {'id':3, 'id_Xu':'03', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFFFF'}, 
         {'id':4, 'id_Xu':'04', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFE00'}, 
-        {'id':5, 'id_Xu':'05', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFE00'}, 
-        {'id':6, 'id_Xu':'06', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFE00'}, 
+        {'id':5, 'id_Xu':'05', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#B80A0A'}, 
+        {'id':6, 'id_Xu':'06', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFFFF'}, 
         {'id':7, 'id_Xu':'07', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFE00'}, 
-        {'id':8, 'id_Xu':'08', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFE00'}, 
-        {'id':9, 'id_Xu':'09', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFE00'}, 
+        {'id':8, 'id_Xu':'08', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFFFF'}, 
+        {'id':9, 'id_Xu':'09', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#B80A0A'}, 
     ])
 
     const [categories, setCategories] = useState([
         {'id':1, 'name':'Starter'}
     ])
-    // useEffect(() => {
-    //     const fetchData = async ()=>{
-    //         const ptoducts_data = await fetchAllProduct()
-    //         const products_sorted = ptoducts_data.sort((a, b) => {
-    //             if (a.favourite === b.favourite) {
-    //             // 如果 favourite 相同，则按 position 排序
-    //                 return a.position - b.position;
-    //             }
-    //             // 否则按 favourite 排序
-    //             return b.favourite - a.favourite;
-    //         });
-    //         setProducts(products_sorted)
-    //         setCategories(await fetchAllCategory())
-    //     }
-    //     fetchData()
-    // },[]);
+    useEffect(() => {
+        const fetchData = async ()=>{
+            const ptoducts_data = await fetchAllProduct()
+            const products_sorted = ptoducts_data.sort((a, b) => {
+                if (a.favourite === b.favourite) {
+                // 如果 favourite 相同，则按 position 排序
+                    return a.position - b.position;
+                }
+                // 否则按 favourite 排序
+                return b.favourite - a.favourite;
+            });
+            setProducts(products_sorted)
+            setCategories(await fetchAllCategory())
+        }
+        fetchData()
+    },[]);
 
-    const moveProduct = ((dragIndex, hoverIndex) => {
-        const dragProduct = products[dragIndex];
-        const updatedProducts = [...products];
-        updatedProducts.splice(dragIndex, 1);
-        updatedProducts.splice(hoverIndex, 0, dragProduct);
-        setProducts(updatedProducts);
-        // console.log(updatedProducts);
-    });
+    // const moveProduct = ((dragIndex, hoverIndex) => {
+    //     const dragProduct = products[dragIndex];
+    //     const updatedProducts = [...products];
+    //     updatedProducts.splice(dragIndex, 1);
+    //     updatedProducts.splice(hoverIndex, 0, dragProduct);
+    //     setProducts(updatedProducts);
+    //     // console.log(updatedProducts);
+    // });
+
+
+    const [draggedItemIndex, setDraggedItemIndex] = useState(null);
+    const onDragStart = (index) => {
+        setDraggedItemIndex(index);
+    };
+
+    const onDragOver = (index) => {
+        const draggedOverItem = products[index];
+
+        // 如果拖动的项目是同一个项目，则不进行任何操作
+        if (draggedItemIndex === index) {
+            return;
+        }
+
+        let items = products.filter((item, idx) => idx !== draggedItemIndex);
+
+        // 插入被拖动的项目到新的位置
+        items.splice(index, 0, products[draggedItemIndex]);
+
+        setProducts(items);
+        setDraggedItemIndex(index);
+    };
+
+    const onDragEnd = () => {
+        setDraggedItemIndex(null);
+    };
+
 
     return(
         <div className='overflow-y-hidden'>
@@ -69,14 +96,18 @@ function TestDragHome() {
                         {products.map((product, index) => {
                             if(product.cid===category.id){
                                 return(
-                                    <DraggableProductCard
+                                    <div
                                         key={product.id}
-                                        index={index}
                                         id={product.id}
-                                        product={product}
-                                        moveProduct={moveProduct}
-                                        state={products}
-                                />)
+                                        draggable
+                                        onDragStart={() => onDragStart(index)}
+                                        onDragOver={() => onDragOver(index)}
+                                        onDragEnd={onDragEnd}
+                                        className=''
+                                    >
+                                        <ProductCard data={product} />
+                                    </div>
+                                )
                             }
                             return null
                         })}
