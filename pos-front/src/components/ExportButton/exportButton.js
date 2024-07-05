@@ -7,6 +7,7 @@ import { useSearchParams } from 'react-router-dom';
 // import { handleClickExport } from './export';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import { lengthContent, lengthID } from '../../service/valueDefault';
 
 const ExportButton = () => {
     const Text = multiLanguageText[Language].export
@@ -81,20 +82,14 @@ const ExportButton = () => {
     },[])
 
     const formatProductData = (product) => {
-        const id_Xu = product.id.toString().padStart(3, ' ');
-        const bill_content = product.bill_content+'.'.padEnd(25, ' ');
+        const id_Xu = product.id.toString().padStart(lengthID, ' ');
+        const bill_content = product.bill_content+'.'.padEnd(lengthContent-product.bill_content.length, ' ');
         const price = product.price;
         return `${id_Xu} ${bill_content} ${price}`;
     };
-    
-    // const formatCategoryData = (category) => {
-    //     const cid = category.id.toString();
-    //     const name = category.name;
-    //     return `ab${cid}.txt ${name}`;
-    // };
 
     const formatKitchenData = (product) => {
-        const id_Xu = product.id.toString().padStart(3, ' ');
+        const id_Xu = product.id.toString().padStart(lengthID, ' ');
         const kitchen_content = product.kitchen_content;
         return `${id_Xu} ${kitchen_content}`;
     };
@@ -117,7 +112,7 @@ const ExportButton = () => {
     
 
     return (
-        <button onClick={exportFileZip} className='flex items-center justify-center py-1 mt-10 w-5/6 bg-blue-500 text-white rounded hover:bg-blue-700 rounded-lg'>
+        <button onClick={exportFileZip} className='flex items-center justify-center py-1 mt-10 w-5/6 bg-blue-500 text-white hover:bg-blue-700 rounded-lg'>
             {Text}
         </button>
     );
