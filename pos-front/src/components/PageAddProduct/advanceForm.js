@@ -428,7 +428,7 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
       </div>
 
       {!check && 
-        <button type="submit" className="rounded bg-blue-500 text-white py-1 ml-3 my-5 w-full">Submit</button>
+        <button type="submit" className="rounded bg-blue-500 text-white py-1 ml-3 my-5 w-full">{Text.submitButton}</button>
       }
       <div className='mb-10'></div>
     </form>

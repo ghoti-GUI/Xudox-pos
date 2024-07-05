@@ -206,7 +206,13 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
     const csrfToken = getCsrfToken();
 
     const addedRoute = edit?'update/product_by_id/':'post/product/';
-    console.log(addedRoute)
+    // const uploadData = edit?[
+    //   {'id':123, 'id_Xu':'01'},
+    //   {'id':1, 'id_Xu':'1'},
+    //   {'id':2, 'id_Xu':'2'},
+    // ]:mergedProductData;
+    // console.log(uploadData)
+
     axios.post(DefaultUrl+addedRoute, 
       mergedProductData,
       // newProductData, 
@@ -218,7 +224,6 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
     })
     .then(response => {
         toast.success(Text.addSuccess);
-        // init();
         if(edit){
           navigate('/home', {state: { editedProductId: productDataReceived.id }})
         }
@@ -431,7 +436,6 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
                 ))}
               </select>
             }
-
             {radioField.hasOwnProperty(key) &&
               <div className={`grid grid-cols-${key==='TVA_category'?4:2} w-3/4`}>
                 {Object.entries(radioField[key]).map(([fieldKey, fieldValue])=>(
@@ -515,7 +519,7 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
       ))}
 
       {!check && 
-        <button type="submit" className="rounded bg-blue-500 text-white py-1 ml-3 my-5 w-full">Submit</button>
+        <button type="submit" className="rounded bg-blue-500 text-white py-1 ml-3 my-5 w-full">{Text.submitButton}</button>
       }
       <div className='mb-10'></div>
     </form>

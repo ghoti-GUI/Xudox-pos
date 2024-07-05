@@ -8,30 +8,29 @@ import { fetchAllCategory } from '../../service/category';
 import ExportButton from '../ExportButton/exportButton';
 
 const Sidebar = () => {
+  const Text = multiLanguageText[Language].sidebar;
 
   return (
     <div className="h-screen w-64 bg-gray-800 text-white">
       <div className="p-4">
-        <h1 className="text-2xl font-bold">Sidebar</h1>
+        <h1 className="text-2xl font-bold">{Text.title}</h1>
       </div>
       <nav className="mt-10">
         <Link to="/" className="flex items-center px-4 py-2 hover:bg-gray-700 w-full" >
           <FaHome className='mr-2'/>
-          Home
+          {Text.home}
         </Link>
         <Link to="/addCategory" className="flex items-center px-4 py-2 hover:bg-gray-700 w-full" >
           <FaInfoCircle className='mr-2'/>
-          AddCategory
+          {Text.addCategory}
         </Link>
         <Link to="/addProduct" className="flex items-center px-4 py-2 hover:bg-gray-700 w-full" >
           <FaInfoCircle className='mr-2'/>
-          AddProduct
+          {Text.addProduct}
         </Link>
-        <Link to="/TestDrag" className="flex items-center px-4 py-2 hover:bg-gray-700 w-full" >
-          <FaInfoCircle className='mr-2'/>
-          TestDrag
-        </Link>
-        <ExportButton/>
+        <div className='flex items-center justify-center w-full'>
+            <ExportButton/>
+        </div>
       </nav>
     </div>
   );

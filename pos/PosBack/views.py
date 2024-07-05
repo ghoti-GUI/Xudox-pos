@@ -10,6 +10,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action, api_view
+import json
 
 from .models import product, Test, TestImg, category, printe_to_where, tva
 from .serializers import TestSerializer, TestImgSerializer, AllTestImgSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, GroupSerializer, UserSerializer
@@ -118,12 +119,12 @@ class ProductViewSet(viewsets.ModelViewSet):
 def update_product_by_id(request):
     try:
         data = request.POST
+        # print('data:', data)
         id_received = data.get('id', '')
         product_to_update = get_object_or_404(product, id=id_received)
-
         for key, value in data.items():
             if key!='id':  # 确保不修改 id
-                print(key)
+                # print(key)
                 if key=='cid':
                     try:
                         category_instance = get_object_or_404(category, id=int(value))
@@ -144,14 +145,55 @@ def update_product_by_id(request):
                     setattr(product_to_update, key, value)
 
         product_to_update.save()
-
         return JsonResponse({'status': 'success', 'message': 'Product updated successfully.'})
+
     except product.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Product not found.'}, status=404)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
+# @csrf_exempt
+# def update_product_by_id(request):
+#     try:
+#         # data = request.POST.
+#         data = request.body.decode('utf-8')
+#         print('data:', data.split('\n'), type(data))
+#         for key, value in data.items():
+#             print(type(key), key, value)
+#         # with transaction.atomic():
+#         for item in data.items():
+#             print(item)
+#             id_received = data.get('id', '')
+#             product_to_update = get_object_or_404(product, id=id_received)
+#             for key, value in data.items():
+#                 if key!='id':  # 确保不修改 id
+#                     print(key)
+#                     if key=='cid':
+#                         try:
+#                             category_instance = get_object_or_404(category, id=int(value))
+#                             setattr(product_to_update, key, category_instance)
+#                         except (ValueError, category.DoesNotExist):
+#                             print(f"Invalid category id: {value}")
+#                     elif key=='TVA_country':
+#                         try:
+#                             TVA_country = data.get('TVA_country', '')
+#                             TVA_category = data.get('TVA_category', '')
+#                             print(TVA_country, TVA_category, type(TVA_category))
+#                             TVA = get_object_or_404(tva, **{f'country{language}' : TVA_country, 'category' : TVA_category})
+#                             print(TVA)
+#                             setattr(product_to_update, 'TVA_id', TVA)
+#                         except (ValueError, category.DoesNotExist):
+#                             print(f"Invalid TVA data: {data.items.TVA_country}, {data.items.TVA_category}")
+#                     elif hasattr(product_to_update, key) and key!='TVA_category':
+#                         setattr(product_to_update, key, value)
 
+#             product_to_update.save()
+#         return JsonResponse({'status': 'success', 'message': 'Product updated successfully.'})
+
+#     except product.DoesNotExist:
+#         return JsonResponse({'status': 'error', 'message': 'Product not found.'}, status=404)
+#     except Exception as e:
+#         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
 
 

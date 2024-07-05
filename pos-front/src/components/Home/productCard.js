@@ -16,8 +16,8 @@ import { ReactComponent as Star } from '../../img/star.svg';
 
 
 
-const ProductCard = (props)=>{
-    const product = props.data;
+const ProductCard = ({data, changeOrder=false})=>{
+    const product = data;
     const navigate = useNavigate();
     
     const Text = multiLanguageText[Language].home;
@@ -130,15 +130,17 @@ const ProductCard = (props)=>{
                 <button className='w-1/2 mr-1 -mt-3' onClick={handleClickStar}>
                     <Star className={`w-full ${favourite===1?'fill-yellow-400':''}`}/>
                 </button>
-                <div className='flex flex-col w-1/2 justify-center items-center border-l-2 border-black'>
-                    <button onClick={handleClickDetail} className='w-3/4 -mt-5 -mb-2 '>
-                        <Detail className='w-full'/>
-                    </button>
-                    <div className='w-5/6 border-b-2 border-black'></div>
-                    <button onClick={handleClickEdit} className='w-3/4 -my-2'>
-                        <Edit className='w-full'/>
-                    </button>
-                </div>
+                {!changeOrder && 
+                    <div className='flex flex-col w-1/2 justify-center items-center border-l-2 border-black'>
+                        <button onClick={handleClickDetail} className='w-3/4 -mt-5 -mb-2 '>
+                            <Detail className='w-full'/>
+                        </button>
+                        <div className='w-5/6 border-b-2 border-black'></div>
+                        <button onClick={handleClickEdit} className='w-3/4 -my-2'>
+                            <Edit className='w-full'/>
+                        </button>
+                    </div>
+                }
             </div>
             
             

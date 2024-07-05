@@ -112,26 +112,12 @@ const ExportButton = () => {
         zip.generateAsync({ type: 'blob' }).then((blob) => {
             saveAs(blob, 'abFiles.zip');
         });
-
-        // const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-        // const url = URL.createObjectURL(blob);
-        
-        // const a = document.createElement('a');
-        // a.href = url;
-        // a.download = fileName;
-        // document.body.appendChild(a);
-        // a.click();
-        
-        // setTimeout(() => {
-        //     document.body.removeChild(a);
-        //     URL.revokeObjectURL(url);
-        // }, 0);  
     }
 
     
 
     return (
-        <button onClick={exportFileZip}>
+        <button onClick={exportFileZip} className='flex items-center justify-center py-1 mt-10 w-5/6 bg-blue-500 text-white rounded hover:bg-blue-700 rounded-lg'>
             {Text}
         </button>
     );

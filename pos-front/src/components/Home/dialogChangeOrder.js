@@ -1,17 +1,34 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import ProductCard from './productCard';
+import { multiLanguageText } from '../multiLanguageText';
+import { Language } from '../../userInfo';
 
-const DialogChangeOrder = ({orderedProductReceived, handleSubmit}) => {
-
-    const [orderedProduct, setOrderedProduct] = useState(orderedProductReceived)
+const DialogChangeOrder = ({orderedProductReceived, handleSubmit, handleCancel}) => {
+    const Text = multiLanguageText[Language].dialogChangeOrder;
+    const [orderedProduct, setOrderedProduct] = useState(orderedProductReceived);
     const [draggedItemIndex, setDraggedItemIndex] = useState(null);
+    const dialogRef = useRef(null);
 
     const onDragStart = (index, cid) => {
         setDraggedItemIndex(index);
     };
 
-    const onDragOver = (index, cid) => {
+    const onDragOver = (e, index, cid) => {
+        e.preventDefault();
+
+        const mouseY = e.clientY;
+        const dialog = document.getElementById('container')
+
+        const edgeThreshold = 100;
+        const scrollSpeed = 5;
+
+        if (mouseY < edgeThreshold) {
+            dialog.scrollTop -= scrollSpeed; // 向上滚动
+        } else if (mouseY >  window.innerHeight - edgeThreshold) {
+            dialog.scrollTop += scrollSpeed; // 向下滚动
+        }
+
 
         // 如果拖动的项目是同一个项目，则不进行任何操作
         if (draggedItemIndex === index ) {
@@ -32,11 +49,10 @@ const DialogChangeOrder = ({orderedProductReceived, handleSubmit}) => {
         setDraggedItemIndex(null);
     };
 
-
     return (
         <div className="fixed inset-0 flex items-center justify-center w-full h-screen bg-black bg-opacity-50">
-            <div className=" w-4/5 h-4/5 bg-white p-6 rounded shadow-lg overflow-y-auto">
-                <h2 className="text-2xl mb-4">Change product order</h2>
+            <div id='container' className=" w-4/5 h-4/5 bg-white p-6 rounded shadow-lg overflow-y-auto">
+                <h2 className="text-2xl mb-4">{Text.title}</h2>
                 {orderedProduct.map((product, index) => {
                     return(
                         <div
@@ -44,19 +60,25 @@ const DialogChangeOrder = ({orderedProductReceived, handleSubmit}) => {
                             id={product.id}
                             draggable
                             onDragStart={() => onDragStart(index)}
-                            onDragOver={() => onDragOver(index)}
+                            onDragOver={(e) => onDragOver(e, index)}
                             onDragEnd={onDragEnd}
                             className=''
                         >
-                            <ProductCard data={product} />
+                            <ProductCard data={product} changeOrder={true}/>
                         </div>
                     )
                 })}
                 <button
-                    className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
+                    className="right-[23%] top-[13%] px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 absolute"
                     onClick={()=>handleSubmit(orderedProduct)}
                 >
-                Submit
+                    {Text.submitButton}
+                </button>
+                <button
+                    className="right-[14%] top-[13%] px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 absolute"
+                    onClick={()=>handleCancel()}
+                >
+                    {Text.cancelButton}
                 </button>
             </div>
         </div>
