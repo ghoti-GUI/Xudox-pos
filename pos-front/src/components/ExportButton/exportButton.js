@@ -13,7 +13,7 @@ const ExportButton = () => {
     const Text = multiLanguageText[Language].export
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
-    const [abList, setAbList] = useState({
+    const initAbList = {
         'ab1':'',
         'ab2':'',
         'ab3':'',
@@ -28,9 +28,11 @@ const ExportButton = () => {
         'ab12':'',
         'ab13':'',
         'ab14':'',
-    });
-    const [zwcdValue, setZwcdValue] = useState('')
-    const [HooftNameValue, setHooftNameValue ]= useState([
+    };
+    const [abList, setAbList] = useState(initAbList);
+    const initZwcdValue = ''
+    const [zwcdValue, setZwcdValue] = useState(initZwcdValue); 
+    const initHooftNameValue = [
         'Contents',
         'ab1.txt ', 
         'ab2.txt ', 
@@ -46,31 +48,35 @@ const ExportButton = () => {
         'ab12.txt ', 
         'ab13.txt ', 
         'ab14.txt ', 
-    ]);
+    ];
+    const [HooftNameValue, setHooftNameValue ]= useState(initHooftNameValue);
+
     useEffect(()=>{
         const fetchData=async()=>{
-
 
             const productsRecv = await fetchAllProduct();
             const categoriesRecv = await fetchAllCategory();
             setProducts(productsRecv);
             setCategories(categoriesRecv);
-            let abListCopy = abList;
-            let zwcdValueCopy = zwcdValue;
+            let abListCopy = { ...initAbList };
+            let zwcdValueCopy = initZwcdValue;
+            
+
             productsRecv.forEach((product, index) => {
-                abListCopy[`ab${product.cid}`] += '\n'+formatProductData(product);
-                zwcdValueCopy += '\n'+formatKitchenData(product);
+                abListCopy[`ab${product.cid}`] += formatProductData(product)+'\n';
+                zwcdValueCopy += formatKitchenData(product)+'\n';
             });
             setAbList(abListCopy);
             setZwcdValue(zwcdValueCopy);
 
-            let HooftNameValueCopy = HooftNameValue;
+            let HooftNameValueCopy = initHooftNameValue;
             categoriesRecv.forEach((category, index) => {
                 if(HooftNameValueCopy[category.id].length<=9) HooftNameValueCopy[category.id] += category.name||category.ename||category.lname||category.fname||category.zname
             });
-            console.log(HooftNameValueCopy)
+
+
             for (let i=0; i<HooftNameValueCopy.length; i++){
-                if(HooftNameValueCopy[i].length<=9) HooftNameValueCopy[i]+='void';
+                if(HooftNameValueCopy[i].length<=9 && HooftNameValueCopy[i]!=='Contents') HooftNameValueCopy[i]+='void';
             }
             setHooftNameValue(HooftNameValueCopy);
 
