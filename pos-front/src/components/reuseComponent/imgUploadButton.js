@@ -4,7 +4,7 @@ import { multiLanguageText } from '../multiLanguageText';
 import { Language } from '../../userInfo';
 
 const ImgUploadButton = ({ onImgSelect, check=false, edit=false, imgReceived}) => {
-    const Text = multiLanguageText[Language]
+    const Text = {...multiLanguageText}[Language]
     const [imgUrl, setImgUrl] = useState(false);
     // const [imgChanged, setImgChanged] = useState(false);
     

@@ -45,6 +45,7 @@ class ProductSerializer(serializers.ModelSerializer):
             # 'discount', 
             'online_content',
             'online_des',
+            'Xu_class',
             ]
         # fields = '__all__'
 

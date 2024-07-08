@@ -9,6 +9,7 @@ export const addProductModelNormal = {
     'TVA_category':1,
     'time_supply':12,
     'print_to_where':1,
+    'Xu_class':'ab1.txt', 
 }
 
 export const addProductModelAdvance = {

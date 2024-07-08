@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 
 
 function Home() {
-    const Text = multiLanguageText[Language].home;
+    const Text = {...multiLanguageText}[Language].home;
     const location=useLocation();
     const editedProductId = location.state?.editedProductId;
     const productRefs = useRef(null);

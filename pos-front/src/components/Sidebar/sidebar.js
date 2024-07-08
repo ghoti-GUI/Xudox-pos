@@ -10,7 +10,7 @@ import ChangeExportRuleButton from '../ChangeExportRuleButton/changeExportRuleBu
 import ImportButton from '../ImportButton/importButton';
 
 const Sidebar = () => {
-  const Text = multiLanguageText[Language].sidebar;
+  const Text = {...multiLanguageText}[Language].sidebar;
 
   return (
     <div className="h-screen w-64 bg-gray-800 text-white">

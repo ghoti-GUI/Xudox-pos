@@ -10,7 +10,7 @@ import { saveAs } from 'file-saver';
 import { lengthContent, lengthID } from '../../service/valueDefault';
 
 const ExportButton = () => {
-    const Text = multiLanguageText[Language].export
+    const Text = {...multiLanguageText}[Language].export
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
     const initAbList = {

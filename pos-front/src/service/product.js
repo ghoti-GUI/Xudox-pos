@@ -3,9 +3,14 @@ import axios from 'axios';
 import { getCsrfToken } from './token';
 import { DefaultUrl, CheckIdXuExistenceUrl, GetAllProduct} from './valueDefault';
 import { multiLanguageText } from '../components/multiLanguageText';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { Language } from '../userInfo';
 
-const language = 'English'
-const Text = multiLanguageText[language]
+const language = 'English';
+const Text = {...multiLanguageText}[language];
+
+const csrfToken = getCsrfToken();
 
 // export const fetchNextIdUser = async (setProductData) => {
 //     try {
@@ -20,7 +25,48 @@ const Text = multiLanguageText[language]
 //     };
 //   };
 
-export const checkIdXuExistence = async (id_Xu, setChecked) => {
+
+export const addProduct = async(productData)=>{
+  try{
+    await axios.post(DefaultUrl+'post/product/', 
+      productData,
+      {
+      headers: {
+          'X-CSRFToken': csrfToken, 
+          'content-type': 'multipart/form-data', 
+      }
+    })
+    toast.success(Text.product.addSuccess);
+    return true;
+  }catch(error) {
+      toast.error(Text.product.addFailed);
+      console.error('There was an error submitting the form!', error);
+      return false;
+  };
+}
+
+
+export const updateProduct = async(productData)=>{
+  try{
+    await axios.post(DefaultUrl+'update/product_by_id/', 
+    productData,
+    {
+      headers: {
+        'X-CSRFToken': csrfToken, 
+        'content-type': 'multipart/form-data', 
+      }
+    });
+    toast.success(Text.edit.editSuccess);
+    return true;
+  }catch(error) {
+      toast.error(Text.edit.editFailed)
+      console.error('There was an error submitting the form!', error);
+      return false;
+  };
+}
+
+
+export const checkIdXuExistence = async (id_Xu) => {
   try {
     const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
       params:{
@@ -28,9 +74,10 @@ export const checkIdXuExistence = async (id_Xu, setChecked) => {
       }
     });
     console.log('checked back', response.data.existed)
-    setChecked(response.data.existed)
+    return(response.data.existed)
   } catch (error) {
     console.error('Error check id_Xu existence:', error);
+    return false
   };
 }
 

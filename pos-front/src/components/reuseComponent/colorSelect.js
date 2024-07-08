@@ -4,7 +4,7 @@ import { multiLanguageText } from '../multiLanguageText';
 import { Language } from '../../userInfo';
 
 const ColorSelect = ({ onColorChange, Id, advance=false, check=false, edit=false, colorReceived, textColorReceived }) => {
-  const Text = multiLanguageText[Language].color
+  const Text = {...multiLanguageText}[Language].color
   const [color, setColor] = useState(`rgb(255, 255, 255)`);
   const colorDefault = [
     '#FF0000', "#FF4F00", '#FFAF00', "#FFFE00", '#E6FF00', '#86FF00', '#00FFBE', '#00F2FF',

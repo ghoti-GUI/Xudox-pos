@@ -61,6 +61,7 @@ export const multiLanguageText = {
             'advanceButton':'Advance settings', 
             'returnNormalButton':'Return to normal settings', 
             'submitButton':'Submit', 
+            'Xu_class':['Xu_class'], 
         },
         'productAdvance':{
             'id_user':['ID without restrictions', 'ID without any restrictions'],
@@ -129,6 +130,8 @@ export const multiLanguageText = {
         },
         'edit':{
             'pageName':'Edit Page',
+            'editSuccess':'Edit succeed!',
+            'editFailed':'Edit failed!',
         }, 
         'add':{
             'pageName':'Add Page'
@@ -171,6 +174,7 @@ export const multiLanguageText = {
             'advanceButton':'高级设置', 
             'returnNormalButton':'返回一般设置', 
             'submitButton':'添加', 
+            'Xu_class':['Xu_class'], 
         },
         'productAdvance':{
             'id_user':['自定义ID', '没有任何限制的自定义ID'],
@@ -238,6 +242,8 @@ export const multiLanguageText = {
         },
         'edit':{
             'pageName':'编辑页面',
+            'editSuccess':'编辑成功',
+            'editFailed':'编辑失败',
         }, 
         'add':{
             'pageName':'新增页面'

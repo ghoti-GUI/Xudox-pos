@@ -12,7 +12,7 @@ import { Language } from '../../userInfo';
 import { categoryModel } from '../../models/category';
 
 function CategoryForm({onCategorySubmit}) {
-  const Text = multiLanguageText[Language].category
+  const Text = {...multiLanguageText}[Language].category
   const [categorydata, setCategoryData] = useState({...categoryModel})
   const initData = categorydata;
 

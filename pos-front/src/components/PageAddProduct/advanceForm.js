@@ -14,9 +14,9 @@ import { fetchAllCategoryForProductForm,  } from './utils';
 import { Language, Country } from '../../userInfo';
 import { addProductModelAdvance } from '../../models/product';
 
-function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceData, sendDataToParent, check=false, edit=false, productDataReceived}) {
+function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, edit=false, productDataReceived}) {
   // const [productdataNormal, setProductdataNormal] = useState(productdataNormal)
-  const Text = multiLanguageText[Language].productAdvance
+  const Text = {...multiLanguageText}[Language].productAdvance
   const AllergenText = multiLanguageAllergen[Language]
   const maxIDLength = 3
   const maxPrintContentLength = 25
@@ -88,73 +88,6 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
     // console.log('useEffect')
   },[check, edit, productDataReceived]);
 
-  const checkAtlLeastOneField = (productdata) => {
-    if(!productdata.time_supply){
-      toast.warning(Text.time_supply[2]);
-      return false
-    }
-    if(productdata.print_to_where===0){
-      toast.warning(Text.print_to_where[2]);
-      return false
-    }
-    return true
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
-        params:{
-          'id_Xu':productdata.id_Xu, 
-        }
-      });
-      if (response.data.existed){
-        toast.error(Text.id_Xu[2])
-        return
-      } 
-    } catch (error) {
-      console.error('Error check id_Xu existence:', error);
-      return
-    };
-
-    console.log()
-
-    const mergedProductData = Object.assign({}, normalData, productdata)
-
-    mergedProductData['img'] = img
-    mergedProductData['color'] = color;
-    mergedProductData['text_color'] = textColor;
-
-    console.log(mergedProductData)
-
-    if(!checkAtlLeastOneField(mergedProductData)){
-      return
-    }
-
-    
-
-    const csrfToken = getCsrfToken();
-
-    axios.post(DefaultUrl+'post/product/', 
-      mergedProductData,
-      // newProductData, 
-      {
-      headers: {
-          'X-CSRFToken': csrfToken, 
-          'content-type': 'multipart/form-data', 
-      }
-    })
-    .then(response => {
-        toast.success(Text.addSuccess);
-        init();
-    })
-    .catch(error => {
-        toast.error(Text.addFailed)
-        console.error('There was an error submitting the form!', error);
-    });
-  };
-
   const handleChange = (key, value, key2=null) => {
     let updatedProductData = {}
     if(key2){
@@ -178,7 +111,6 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
   const handleChangeID = (key, value) => {
     const [truncatedID, exceed] = truncateString(value, maxIDLength)
     handleChange(key, normalizeText(truncatedID))
-    sendIdToColor(normalizeText(truncatedID))
   }
 
   const [sameAsBillContent, setSameAsBillContent] = useState(true)

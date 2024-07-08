@@ -12,7 +12,7 @@ import { categoryModelFull } from '../../models/category';
 
 const ImportButton = () => {
 
-    const Text=multiLanguageText[Language];
+    const Text={...multiLanguageText}[Language];
     const navigate = useNavigate();
 
 

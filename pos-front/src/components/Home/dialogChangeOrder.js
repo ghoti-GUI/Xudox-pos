@@ -5,7 +5,7 @@ import { multiLanguageText } from '../multiLanguageText';
 import { Language } from '../../userInfo';
 
 const DialogChangeOrder = ({orderedProductReceived, handleSubmit, handleCancel}) => {
-    const Text = multiLanguageText[Language].dialogChangeOrder;
+    const Text = {...multiLanguageText}[Language].dialogChangeOrder;
     const [orderedProduct, setOrderedProduct] = useState(orderedProductReceived);
     const [draggedItemIndex, setDraggedItemIndex] = useState(null);
     const dialogRef = useRef(null);
