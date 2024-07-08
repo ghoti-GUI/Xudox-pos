@@ -9,9 +9,10 @@ import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
 import { multiLanguageText, multiLanguageAllergen } from '../multiLanguageText';
-import { normalizeText, sortStringOfNumber, mergeObject, updateCheckboxData, updateObject } from '../utils';
-import { fetchAllCategoryForProductForm, truncateString } from './utils';
+import { normalizeText, sortStringOfNumber, mergeObject, updateCheckboxData, updateObject, truncateString } from '../utils';
+import { fetchAllCategoryForProductForm,  } from './utils';
 import { Language, Country } from '../../userInfo';
+import { addProductModelAdvance } from '../../models/product';
 
 function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceData, sendDataToParent, check=false, edit=false, productDataReceived}) {
   // const [productdataNormal, setProductdataNormal] = useState(productdataNormal)
@@ -19,24 +20,7 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
   const AllergenText = multiLanguageAllergen[Language]
   const maxIDLength = 3
   const maxPrintContentLength = 25
-  const [productdata, setProductData] = useState(advanceData||{
-    'id_user':'',
-    'online_content':'',
-    'online_des':'', 
-    'product_type':0,
-    'min_nbr':1,
-    'discount':'',
-    'allergen':'',  //database: '', 'b1g1f', '-10€', '-10%'
-    'ename':'',
-    'lname':'', 
-    'fname':'', 
-    'zname':'', 
-    'edes':'',
-    'ldes':'',
-    'fdes':'',
-    'stb':0,
-    'favourite':0,
-  })
+  const [productdata, setProductData] = useState(advanceData||{...addProductModelAdvance})
   const [allergens, setAllergens] = useState([]) //[{'allergen':'Eggs products', 'checked':false}]
   
 
@@ -192,14 +176,14 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
   };
 
   const handleChangeID = (key, value) => {
-    const truncatedID = truncateString(value, maxIDLength)
+    const [truncatedID, exceed] = truncateString(value, maxIDLength)
     handleChange(key, normalizeText(truncatedID))
     sendIdToColor(normalizeText(truncatedID))
   }
 
   const [sameAsBillContent, setSameAsBillContent] = useState(true)
   const handleChangePrintContent = (key, value)=>{
-    const truncatedContent = truncateString(value, maxPrintContentLength);
+    const [truncatedContent, exceed] = truncateString(value, maxPrintContentLength);
     if(sameAsBillContent && key==='bill_content'){
       handleChange(key, normalizeText(truncatedContent), 'kitchen_content')
     }else{

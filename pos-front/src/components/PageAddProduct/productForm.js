@@ -10,10 +10,11 @@ import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA, fetchTVAById } from '../../service/tva';
 import { multiLanguageText } from '../multiLanguageText';
-import { normalizeText, sortStringOfNumber, updateCheckboxData, updateObject } from '../utils';
-import { fetchAllCategoryForProductForm, truncateString  } from './utils';
+import { normalizeText, sortStringOfNumber, updateCheckboxData, updateObject, truncateString } from '../utils';
+import { fetchAllCategoryForProductForm, } from './utils';
 import { Language, Country } from '../../userInfo';
 import AdvanceForm from './advanceForm';
+import { addProductModelNormal } from '../../models/product';
 
 function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceData, sendDataToParent, check=false, edit=false, productDataReceived}) {
   const navigate=useNavigate();
@@ -21,18 +22,7 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
   const Text = multiLanguageText[Language].product
   const maxIDLength = 3
   const maxPrintContentLength = 25
-  const [productdata, setProductData] = useState(normalData||{
-    'id_Xu':'',
-    'cid':'',
-    'bill_content':'',
-    'kitchen_content':'',
-    'price':'',
-    'price2':'',
-    'TVA_country':'',
-    'TVA_category':1,
-    'time_supply':12,
-    'print_to_where':0,
-  })
+  const [productdata, setProductData] = useState(normalData||{...addProductModelNormal})
   const initData = productdata;
   const [printerData, setPrinterData] = useState([
     //{'id':1, 'printer': "cashier's desk", 'checked': false}, 
@@ -255,7 +245,7 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
 
   const [idExisted, setIdExisted] = useState(false);
   const handleChangeID = (key, value) => {
-    const truncatedID = truncateString(value, maxIDLength)
+    const [truncatedID, exceed] = truncateString(value, maxIDLength)
     handleChange(key, normalizeText(truncatedID).replace(/\s+/g, ''))
     sendIDToColor(normalizeText(truncatedID).replace(/\s+/g, ''))
   }
@@ -322,7 +312,7 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
 
   const [sameAsBillContent, setSameAsBillContent] = useState(true)
   const handleChangePrintContent = (key, value)=>{
-    const truncatedContent = truncateString(value, maxPrintContentLength);
+    const [truncatedContent, exceed] = truncateString(value, maxPrintContentLength);
     if(sameAsBillContent && key==='bill_content'){
       handleChange(key, normalizeText(truncatedContent), 'kitchen_content')
     }else{

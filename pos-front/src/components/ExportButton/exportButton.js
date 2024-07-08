@@ -14,42 +14,41 @@ const ExportButton = () => {
     const [products, setProducts] = useState([])
     const [categories, setCategories] = useState([])
     const initAbList = {
-        'ab1':'',
-        'ab2':'',
-        'ab3':'',
-        'ab4':'',
-        'ab5':'',
-        'ab6':'',
-        'ab7':'',
-        'ab8':'',
-        'ab9':'',
-        'ab10':'',
-        'ab11':'',
-        'ab12':'',
-        'ab13':'',
-        'ab14':'',
+        'ab1.txt':'',
+        'ab2.txt':'',
+        'ab3.txt':'',
+        'ab4.txt':'',
+        'ab5.txt':'',
+        'ab6.txt':'',
+        'ab7.txt':'',
+        'ab8.txt':'',
+        'ab9.txt':'',
+        'ab10.txt':'',
+        'ab11.txt':'',
+        'ab12.txt':'',
+        'ab13.txt':'',
+        'ab14.txt':'',
     };
-    const [abList, setAbList] = useState(initAbList);
+    const [abList, setAbList] = useState({...initAbList});
     const initZwcdValue = ''
     const [zwcdValue, setZwcdValue] = useState(initZwcdValue); 
-    const initHooftNameValue = [
-        'Contents',
-        'ab1.txt ', 
-        'ab2.txt ', 
-        'ab3.txt ', 
-        'ab4.txt ', 
-        'ab5.txt ', 
-        'ab6.txt ', 
-        'ab7.txt ', 
-        'ab8.txt ', 
-        'ab9.txt ', 
-        'ab10.txt ', 
-        'ab11.txt ', 
-        'ab12.txt ', 
-        'ab13.txt ', 
-        'ab14.txt ', 
-    ];
-    const [HooftNameValue, setHooftNameValue ]= useState(initHooftNameValue);
+    const initHooftNameValue = {
+        'ab1.txt':'',
+        'ab2.txt':'',
+        'ab3.txt':'',
+        'ab4.txt':'',
+        'ab5.txt':'',
+        'ab6.txt':'',
+        'ab7.txt':'',
+        'ab8.txt':'',
+        'ab9.txt':'',
+        'ab10.txt':'',
+        'ab11.txt':'',
+        'ab12.txt':'',
+        'ab13.txt':'',
+        'ab14.txt':'',
+    };
+    const [HooftNameValue, setHooftNameValue ]= useState({...initHooftNameValue});
 
     useEffect(()=>{
         const fetchData=async()=>{
@@ -63,28 +62,24 @@ const ExportButton = () => {
             
 
             productsRecv.forEach((product, index) => {
-                abListCopy[`ab${product.cid}`] += formatProductData(product)+'\n';
+                abListCopy[product.Xu_class] += formatProductData(product)+'\n';
                 zwcdValueCopy += formatKitchenData(product)+'\n';
             });
             setAbList(abListCopy);
-            setZwcdValue(zwcdValueCopy);
+            setZwcdValue(zwcdValueCopy);            
 
-            let HooftNameValueCopy = initHooftNameValue;
+            let HooftNameValueCopy = {...initHooftNameValue};
             categoriesRecv.forEach((category, index) => {
-                if(HooftNameValueCopy[category.id].length<=9) HooftNameValueCopy[category.id] += category.name||category.ename||category.lname||category.fname||category.zname
+                const name = category.name||category.ename||category.lname||category.fname||category.zname;
+                HooftNameValueCopy[category.Xu_class] += ' '+name;
             });
 
-
-            for (let i=0; i<HooftNameValueCopy.length; i++){
-                if(HooftNameValueCopy[i].length<=9 && HooftNameValueCopy[i]!=='Contents') HooftNameValueCopy[i]+='void';
+            for(let [key, value] of Object.entries(HooftNameValueCopy)){
+                if(!value) HooftNameValueCopy[key]+=' void';
             }
             setHooftNameValue(HooftNameValueCopy);
 
         };fetchData();
-
-        
-        
-        
     },[])
 
     const formatProductData = (product) => {
@@ -104,11 +99,17 @@ const ExportButton = () => {
         const zip = new JSZip();
 
         for (const [key, value] of Object.entries(abList)){
-            zip.file(`${key}.txt`, value);
+            zip.file(`${key}`, value);
         }
         
         zip.file('zwcd.txt', zwcdValue);
-        zip.file('HooftName.txt', HooftNameValue.join('\n'));
+
+
+        let valueHooft = 'Contents\n'
+        for (const [key, value] of Object.entries(HooftNameValue)){
+            valueHooft+=`${key}${value}\n`;
+        }
+        zip.file('HooftName.txt', valueHooft);
 
         zip.generateAsync({ type: 'blob' }).then((blob) => {
             saveAs(blob, 'abFiles.zip');
@@ -118,7 +119,7 @@ const ExportButton = () => {
     
 
     return (
-        <button onClick={exportFileZip} className='flex items-center justify-center py-1 mt-10 w-5/6 bg-blue-500 text-white hover:bg-blue-700 rounded-lg'>
+        <button onClick={exportFileZip} className='flex items-center justify-center py-1 mt-4 w-5/6 bg-blue-500 text-white hover:bg-blue-700 rounded-lg'>
             {Text}
         </button>
     );

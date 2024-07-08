@@ -91,6 +91,7 @@ export const multiLanguageText = {
             'time_supply':['Supply time', TimeSupplyData.English, 'Please choose at least one supply time'], 
             'addSuccess':'Category added successfully', 
             'addFailed':'Category added failed', 
+            'Xu_class':['Xu_class'],
         }, 
         'img':['Choose image for your product', 'Change image'], 
         'color':{
@@ -200,6 +201,7 @@ export const multiLanguageText = {
             'time_supply':['供应时间', TimeSupplyData.Chinese, '请选择至少一个供应时间'], 
             'addSuccess':'类别添加成功', 
             'addFailed':'类别添加失败', 
+            'Xu_class':['Xu_class'],
         }, 
         'img':['选择产品的图片', '更改图片'], 
         'color':{

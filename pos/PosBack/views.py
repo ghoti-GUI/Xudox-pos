@@ -10,6 +10,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action, api_view
+from django.db.models import Q
 import json
 
 from .models import product, Test, TestImg, category, printe_to_where, tva
@@ -119,12 +120,10 @@ class ProductViewSet(viewsets.ModelViewSet):
 def update_product_by_id(request):
     try:
         data = request.POST
-        # print('data:', data)
         id_received = data.get('id', '')
         product_to_update = get_object_or_404(product, id=id_received)
         for key, value in data.items():
             if key!='id':  # 确保不修改 id
-                # print(key)
                 if key=='cid':
                     try:
                         category_instance = get_object_or_404(category, id=int(value))
@@ -152,48 +151,34 @@ def update_product_by_id(request):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
-# @csrf_exempt
-# def update_product_by_id(request):
-#     try:
-#         # data = request.POST.
-#         data = request.body.decode('utf-8')
-#         print('data:', data.split('\n'), type(data))
-#         for key, value in data.items():
-#             print(type(key), key, value)
-#         # with transaction.atomic():
-#         for item in data.items():
-#             print(item)
-#             id_received = data.get('id', '')
-#             product_to_update = get_object_or_404(product, id=id_received)
-#             for key, value in data.items():
-#                 if key!='id':  # 确保不修改 id
-#                     print(key)
-#                     if key=='cid':
-#                         try:
-#                             category_instance = get_object_or_404(category, id=int(value))
-#                             setattr(product_to_update, key, category_instance)
-#                         except (ValueError, category.DoesNotExist):
-#                             print(f"Invalid category id: {value}")
-#                     elif key=='TVA_country':
-#                         try:
-#                             TVA_country = data.get('TVA_country', '')
-#                             TVA_category = data.get('TVA_category', '')
-#                             print(TVA_country, TVA_category, type(TVA_category))
-#                             TVA = get_object_or_404(tva, **{f'country{language}' : TVA_country, 'category' : TVA_category})
-#                             print(TVA)
-#                             setattr(product_to_update, 'TVA_id', TVA)
-#                         except (ValueError, category.DoesNotExist):
-#                             print(f"Invalid TVA data: {data.items.TVA_country}, {data.items.TVA_category}")
-#                     elif hasattr(product_to_update, key) and key!='TVA_category':
-#                         setattr(product_to_update, key, value)
+@csrf_exempt
+def update_Xu_class(request):
+    try:
+        data = request.POST
+        Xu_class = data.get('Xu_class', '')
+        category_name = data.get('category_name', '')
+        categories = category.objects.filter(
+            Q(name=category_name) |
+            Q(ename=category_name) |
+            Q(lname=category_name) |
+            Q(fname=category_name) |
+            Q(zname=category_name)
+        )
 
-#             product_to_update.save()
-#         return JsonResponse({'status': 'success', 'message': 'Product updated successfully.'})
+        if not categories.exists():
+            return JsonResponse({'status': 'error', 'message': 'No matching categories found.'}, status=404)
+        
+        category_to_update = categories[0]
+        category_to_update.Xu_class = Xu_class
+        category_to_update.save()
 
-#     except product.DoesNotExist:
-#         return JsonResponse({'status': 'error', 'message': 'Product not found.'}, status=404)
-#     except Exception as e:
-#         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+        products_to_update = product.objects.filter(cid=categories[0].id)
+        products_to_update.update(Xu_class=Xu_class)
+
+        return JsonResponse({'status': 'success', 'message': 'Xu_class updated successfully.'})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
 
 
@@ -228,10 +213,60 @@ def get_product_by_id_Xu(request):
     return JsonResponse(serializer.data)
 
 
+
+
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        returnData = serializer.data
+        returnData['id'] = serializer.instance.id
+        print(returnData)
+        return Response(returnData, status=status.HTTP_201_CREATED, headers=headers)
+
+    # def perform_create(self, serializer):
+    #     advanceKeyList = {
+    #         'online_content':'',
+    #         'online_des':'', 
+    #         'product_type':0,
+    #         'min_nbr':1,
+    #         'discount':'',
+    #         'allergen':'', 
+    #         'id_user':'',
+    #         'ename':'',
+    #         'lname':'', 
+    #         'fname':'', 
+    #         'zname':'', 
+    #         'edes':'',
+    #         'ldes':'',
+    #         'fdes':'',
+    #         'stb':0,
+    #         'favourite':0,
+    #     }
+    #     request_data = serializer.initial_data
+    #     country_value = request_data.get('TVA_country')
+    #     category_value = request_data.get('TVA_category')
+    #     TVA = get_object_or_404(tva, **{f'country{language}' : country_value, 'category' : category_value})
+    #     save_data={
+    #         'TVA_id' : TVA, 
+    #         'id_user' : request_data.get('id_Xu'),  
+    #     }
+    #     for advanceKey in advanceKeyList:
+    #         if advanceKey in request_data:
+    #             save_data[advanceKey]=request_data[advanceKey]
+    #         else:
+    #             save_data[advanceKey]=advanceKeyList[advanceKey]
+        
+    #     serializer.save(**save_data)
+
+
 
 @api_view(['GET'])
 def check_id_category_existence(request):
@@ -246,6 +281,23 @@ def get_all_categories(request):
     categories = category.objects.all()
     serializer = AllCategorySerializer(categories, many = True)
     return JsonResponse(serializer.data, safe = False)
+
+@api_view(['GET'])
+def get_cid_by_categoryName(request):
+    category_name = request.query_params.get('category_name', '')
+    categories = category.objects.filter(
+            Q(name=category_name) |
+            Q(ename=category_name) |
+            Q(lname=category_name) |
+            Q(fname=category_name) |
+            Q(zname=category_name)
+        )
+    if categories:
+        cid = categories[0].id
+        return JsonResponse({'cid':cid})
+    else:
+        return JsonResponse({'status': 'get cid by name error'}, status=111)
+    
 
 
 

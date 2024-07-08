@@ -23,6 +23,7 @@ function Home() {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState({});
     const [productsClassified, setProductsClassified] = useState({});
+    
 
     useEffect(() => {
         const fetchData = async ()=>{
@@ -66,8 +67,7 @@ function Home() {
             }
         };fetchData();
         
-      },[editedProductId]);
-
+    },[editedProductId]);
 
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);

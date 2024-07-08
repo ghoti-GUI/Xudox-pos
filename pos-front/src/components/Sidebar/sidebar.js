@@ -6,6 +6,8 @@ import { Language } from '../../userInfo';
 import { fetchAllProduct } from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
 import ExportButton from '../ExportButton/exportButton';
+import ChangeExportRuleButton from '../ChangeExportRuleButton/changeExportRuleButton';
+import ImportButton from '../ImportButton/importButton';
 
 const Sidebar = () => {
   const Text = multiLanguageText[Language].sidebar;
@@ -28,8 +30,10 @@ const Sidebar = () => {
           <FaInfoCircle className='mr-2'/>
           {Text.addProduct}
         </Link>
-        <div className='flex items-center justify-center w-full'>
-            <ExportButton/>
+        <div className='flex flex-col items-center justify-center w-full mt-10'>
+          <ImportButton/>
+          <ExportButton/>
+          <ChangeExportRuleButton/>
         </div>
       </nav>
     </div>

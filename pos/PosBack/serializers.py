@@ -64,6 +64,7 @@ class CategorySerializer(serializers.ModelSerializer):
             'text_color', 
             'time_supply',
             'img', 
+            'Xu_class', 
         ]
 
 class AllCategorySerializer(serializers.ModelSerializer):
