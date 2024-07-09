@@ -50,7 +50,7 @@ const ExportButton = () => {
     };
     const [HooftNameValue, setHooftNameValue ]= useState({...initHooftNameValue});
 
-    useEffect(()=>{
+    // useEffect(()=>{
         const fetchData=async()=>{
 
             const productsRecv = await fetchAllProduct();
@@ -78,9 +78,10 @@ const ExportButton = () => {
                 if(!value) HooftNameValueCopy[key]+=' void';
             }
             setHooftNameValue(HooftNameValueCopy);
+            return [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy]
 
-        };fetchData();
-    },[])
+        };
+    // },[])
 
     const formatProductData = (product) => {
         const id_Xu = product.id.toString().padStart(lengthID, ' ');
@@ -95,18 +96,20 @@ const ExportButton = () => {
         return `${id_Xu} ${kitchen_content}`;
     };
     
-    const exportFileZip = ()=>{
+    const exportFileZip = async()=>{
+
+        const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData();
         const zip = new JSZip();
 
-        for (const [key, value] of Object.entries(abList)){
+        for (const [key, value] of Object.entries(abListCopy)){
             zip.file(`${key}`, value);
         }
         
-        zip.file('zwcd.txt', zwcdValue);
+        zip.file('zwcd.txt', zwcdValueCopy);
 
 
         let valueHooft = 'Contents\n'
-        for (const [key, value] of Object.entries(HooftNameValue)){
+        for (const [key, value] of Object.entries(HooftNameValueCopy)){
             valueHooft+=`${key}${value}\n`;
         }
         zip.file('HooftName.txt', valueHooft);

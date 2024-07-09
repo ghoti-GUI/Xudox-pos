@@ -64,6 +64,8 @@ const ImportButton = () => {
 
 
     const onImport = async(onloadEvent, pageEvent)=>{
+        // const file = onloadEvent.target.result;
+        // const content = parseCSV(file)
         const content = onloadEvent.target.result;
         const lines = content.split('\n').filter(line => line.trim() !== '');
         console.log(lines)
@@ -139,7 +141,7 @@ const ImportButton = () => {
         if(file){
             const reader = new FileReader();
             reader.onload = (e)=>onImport(e, event);
-            reader.readAsText(file);
+            reader.readAsText(file, 'utf-8');
         }
     }
 
