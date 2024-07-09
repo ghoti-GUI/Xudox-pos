@@ -26,9 +26,13 @@ export const addCategory = async(categorydata)=>{
 }
 }
 
-export const fetchAllCategory = async () => {
+export const fetchAllCategory = async (rid) => {
   try {
-    const response = await axios.get(DefaultUrl+GetAllCategoryUrl);
+    const response = await axios.get(DefaultUrl+GetAllCategoryUrl, {
+      params:{
+        'rid':rid, 
+      }
+    });
     const categoryData = response.data;
     return categoryData
   } catch (error){

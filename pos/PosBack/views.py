@@ -198,8 +198,10 @@ def check_id_Xu_existence(request):
     except product.DoesNotExist:
         return JsonResponse({'existed':False})
 
+@api_view(['GET'])
 def get_all_products(request):
-    products = product.objects.all()
+    restaurant = request.query_params.get('rid', '')
+    products = product.objects.filter(rid = restaurant)
     serializer = AllProductSerializer(products, many = True)
     return JsonResponse(serializer.data, safe = False)
 
@@ -290,8 +292,10 @@ def check_id_category_existence(request):
     except category.DoesNotExist:
         return JsonResponse({'existed':False})
 
+@api_view(['GET'])
 def get_all_categories(request):
-    categories = category.objects.all()
+    restaurant = request.query_params.get('rid', '')
+    categories = category.objects.filter(rid = restaurant)
     serializer = AllCategorySerializer(categories, many = True)
     return JsonResponse(serializer.data, safe = False)
 

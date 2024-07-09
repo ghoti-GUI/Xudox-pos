@@ -82,9 +82,13 @@ export const checkIdXuExistence = async (id_Xu) => {
 }
 
 
-export const fetchAllProduct = async () => {
+export const fetchAllProduct = async (rid) => {
   try {
-    const response = await axios.get(DefaultUrl+GetAllProduct);
+    const response = await axios.get(DefaultUrl+GetAllProduct, {
+      params:{
+        'rid':rid, 
+      }
+    });
     const productsData = response.data;
     return (productsData); 
   } catch (error){
