@@ -28,6 +28,7 @@ const ExportButton = () => {
         'ab12.txt':'',
         'ab13.txt':'',
         'ab14.txt':'',
+        'met.txt':'',
     };
     const [abList, setAbList] = useState({...initAbList});
     const initZwcdValue = ''
@@ -84,14 +85,14 @@ const ExportButton = () => {
     // },[])
 
     const formatProductData = (product) => {
-        const id_Xu = product.id.toString().padStart(lengthID, ' ');
+        const id_Xu = product.id_Xu.toString().padStart(lengthID, ' ');
         const bill_content = product.bill_content+'.'.padEnd(lengthContent-product.bill_content.length, ' ');
         const price = product.price;
         return `${id_Xu} ${bill_content} ${price}`;
     };
 
     const formatKitchenData = (product) => {
-        const id_Xu = product.id.toString().padStart(lengthID, ' ');
+        const id_Xu = product.id_Xu.toString().padStart(lengthID, ' ');
         const kitchen_content = product.kitchen_content;
         return `${id_Xu} ${kitchen_content}`;
     };
