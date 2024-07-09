@@ -192,7 +192,7 @@ class printe_to_where(models.Model):
 
 class product(models.Model):
     id_user = models.CharField(unique=True, max_length=100)
-    id_Xu = models.CharField(db_column='id_Xu', unique=True, max_length=100)  # Field name made lowercase.
+    id_Xu = models.CharField(db_column='id_Xu', max_length=100)  # Field name made lowercase.
     ename = models.CharField(max_length=200, null=True)
     lname = models.CharField(max_length=200, null=True)
     fname = models.CharField(max_length=200, null=True)
@@ -239,6 +239,7 @@ class product(models.Model):
     class Meta:
         managed = False
         db_table = 'product'
+        unique_together = (('id_Xu', 'rid'),)
 
 
 class Test(models.Model):

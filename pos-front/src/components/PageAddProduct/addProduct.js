@@ -11,7 +11,7 @@ import ImgUploadButton from '../reuseComponent/imgUploadButton';
 import ColorSelect from '../reuseComponent/colorSelect';
 import AdvanceForm from './advanceForm.js';
 import { multiLanguageText } from '../multiLanguageText';
-import { Language } from '../../userInfo';
+import { Language, RestaurantID } from '../../userInfo';
 import { addProduct, checkIdXuExistence, updateProduct } from '../../service/product.js';
 
 function AddProduct() {
@@ -101,6 +101,7 @@ function AddProduct() {
     mergedProductData['img'] = img;
     mergedProductData['color'] = color;
     mergedProductData['text_color'] = textColor;
+    mergedProductData['rid'] = RestaurantID;
 
     console.log(mergedProductData)
 

@@ -35,8 +35,12 @@ urlpatterns = [
     path('get/tva/', views.get_TVA, name = 'get_TVA'),  
     path('get/tva/by_id/', views.get_TVA_by_id, name = 'get_TVA_by_id'), 
 
+    path('delete/all/', views.delete_all, name='delete_all'), 
+
     path('testimg/APIView/', views.TestImgView.as_view(), name = 'test_img'), 
     path('testimg/get_all_TestImg/', views.get_all_TestImg, name='get_all_TestImg'), 
+
+    
 
     # re_path(r'^media/(?P<path>.*)$', serve, {'document_root':MEDIA_ROOT}), 
 

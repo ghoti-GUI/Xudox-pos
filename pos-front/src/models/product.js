@@ -1,3 +1,5 @@
+import { RestaurantID } from "../userInfo"
+
 export const addProductModelNormal = {
     'id_Xu':'',
     'cid':'',
@@ -37,4 +39,5 @@ export const addProductModelFull = {
     'color':'#FFFFFF',
     'text_color':'#000000',
     'img':'', 
+    'rid':RestaurantID,
 }

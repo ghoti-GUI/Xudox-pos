@@ -8,7 +8,7 @@ import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
 import { multiLanguageText } from '../multiLanguageText';
-import { Language } from '../../userInfo';
+import { Language, RestaurantID } from '../../userInfo';
 import { normalizeText, sortStringOfNumber } from '../utils';
 import ProductCard from './productCard';
 import DialogChangeOrder from './dialogChangeOrder';
@@ -27,8 +27,10 @@ function Home() {
 
     useEffect(() => {
         const fetchData = async ()=>{
-            const products_data = await fetchAllProduct();
-            const categories_data = await fetchAllCategory();
+            const products_data_recv = await fetchAllProduct();
+            const products_data = products_data_recv.filter(product=>product.rid===RestaurantID);
+            const categories_data_recv = await fetchAllCategory();
+            const categories_data = categories_data_recv.filter(category=>category.rid===RestaurantID);
             const productClassifiedCopy = productsClassified;
             for(const category of categories_data){
                 productClassifiedCopy[category.id]=[];

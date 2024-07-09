@@ -7,8 +7,8 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { Language } from '../userInfo';
 
-const language = 'English';
-const Text = {...multiLanguageText}[language];
+
+const Text = {...multiLanguageText}[Language];
 
 const csrfToken = getCsrfToken();
 
@@ -41,7 +41,7 @@ export const addProduct = async(productData)=>{
   }catch(error) {
       toast.error(Text.product.addFailed);
       console.error('There was an error submitting the form!', error);
-      return false;
+      return error;
   };
 }
 
@@ -104,5 +104,26 @@ export const fetchProductById_Xu = async(id_Xu)=>{
   } catch (error) {
     console.error('Error check id_Xu existence:', error);
     return
+  };
+}
+
+
+
+export const deleteAll = async(rid)=>{
+  try{
+    await axios.post(DefaultUrl+'delete/all/', 
+    {'rid':rid},
+    {
+      headers: {
+        'X-CSRFToken': csrfToken, 
+        'content-type': 'multipart/form-data', 
+      }
+    });
+    // toast.success(Text.edit.editSuccess);
+    console.log('delete succeed')
+    return true;
+  }catch (error) {
+    console.error('Error delete all:', error);
+    return false
   };
 }

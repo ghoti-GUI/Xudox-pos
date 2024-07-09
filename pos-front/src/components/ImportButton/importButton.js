@@ -6,23 +6,24 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { addProductModelFull } from '../../models/product';
 import { multiLanguageText } from '../multiLanguageText';
-import { Language } from '../../userInfo';
+import { Language, RestaurantID } from '../../userInfo';
 import { normalizeText, truncateString } from '../utils';
 import { categoryModelFull } from '../../models/category';
+import { deleteAll } from '../../service/product';
 
 const ImportButton = () => {
 
     const Text={...multiLanguageText}[Language];
+    const rid = RestaurantID;
     const navigate = useNavigate();
 
 
-    const addCategory = async(categorydata, productData)=>{
+    const addCategory = async(categorydata)=>{
         console.log(1)
         const csrfToken = getCsrfToken();
         // let cid = 0
         try {
-            const response = await axios.post(
-                DefaultUrl + 'post/category/',
+            const response = await axios.post(DefaultUrl + 'post/category/',
                 categorydata,
                 {
                     headers: {
@@ -37,7 +38,6 @@ const ImportButton = () => {
             console.error('There was an error submitting the form!', error);
             return false; 
         }
-
     }
 
 
@@ -66,6 +66,10 @@ const ImportButton = () => {
     const onImport = async(onloadEvent, pageEvent)=>{
         // const file = onloadEvent.target.result;
         // const content = parseCSV(file)
+
+        const delete_all = await deleteAll(rid);
+        console.log('delete_all', delete_all);
+
         const content = onloadEvent.target.result;
         const lines = content.split('\n').filter(line => line.trim() !== '');
         console.log(lines)
@@ -105,6 +109,7 @@ const ImportButton = () => {
                 let categoryData = {...categoryModelFull};
                 categoryData.name = category_name;
                 categoryData.Xu_class = Xu_class;
+                categoryData.rid = RestaurantID
                 console.log('categoryData:', categoryData);
                 cid = await addCategory(categoryData);
             });
@@ -119,6 +124,7 @@ const ImportButton = () => {
             productData.price2 = price;
             productData.Xu_class = Xu_class;
             productData.cid = cid;
+            productData.rid = RestaurantID;
 
             console.log(productData)
 
@@ -133,7 +139,6 @@ const ImportButton = () => {
             toast.success(`All import succeeded`);
         }
         navigate('/')
-        // window.location.reload();
     }
 
     const handleFileSelect = (event)=>{

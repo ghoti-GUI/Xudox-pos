@@ -191,7 +191,6 @@ def get_next_product_id(request):
 
 @api_view(['GET'])
 def check_id_Xu_existence(request):
-    # id_Xu_received = request.GET.get('id_Xu')
     id_Xu_received = request.query_params.get('id_Xu', '')
     try:
         product.objects.get(id_Xu = id_Xu_received)
@@ -211,6 +210,20 @@ def get_product_by_id_Xu(request):
     product_info = get_object_or_404(product, id_Xu=id_Xu)
     serializer = AllProductSerializer(product_info)
     return JsonResponse(serializer.data)
+
+@csrf_exempt
+def delete_all(request):
+    try:
+        restaurant = request.POST.get('rid', '')
+        products_to_delete = product.objects.filter(rid = restaurant)
+        deleted_count_product, _ = products_to_delete.delete()
+        categories_to_delete = category.objects.filter(rid = restaurant)
+        deleted_count_category, _ = categories_to_delete.delete()
+
+        return JsonResponse({'status': 'success', 'message': f'{deleted_count_product}, {deleted_count_category} products and categories deleted successfully.'})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
 
 
