@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchAllProduct } from "../../service/product";
 import { fetchAllCategory } from "../../service/category";
 import { multiLanguageText } from '../multiLanguageText';
-import { Language } from '../../userInfo';
+import { Language, RestaurantID } from '../../userInfo';
 import { useSearchParams } from 'react-router-dom';
 // import { handleClickExport } from './export';
 import JSZip from 'jszip';
@@ -54,8 +54,8 @@ const ExportButton = () => {
     // useEffect(()=>{
         const fetchData=async()=>{
 
-            const productsRecv = await fetchAllProduct();
-            const categoriesRecv = await fetchAllCategory();
+            const productsRecv = await fetchAllProduct(RestaurantID);
+            const categoriesRecv = await fetchAllCategory(RestaurantID);
             setProducts(productsRecv);
             setCategories(categoriesRecv);
             let abListCopy = { ...initAbList };
@@ -71,8 +71,10 @@ const ExportButton = () => {
 
             let HooftNameValueCopy = {...initHooftNameValue};
             categoriesRecv.forEach((category, index) => {
-                const name = category.name||category.ename||category.lname||category.fname||category.zname;
-                HooftNameValueCopy[category.Xu_class] += ' '+name;
+                if(category.Xu_class!=='met.txt'){
+                    const name = category.name||category.ename||category.lname||category.fname||category.zname;
+                    HooftNameValueCopy[category.Xu_class] += ' '+name;
+                }
             });
 
             for(let [key, value] of Object.entries(HooftNameValueCopy)){
