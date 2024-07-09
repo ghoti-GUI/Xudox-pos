@@ -76,7 +76,7 @@ const ImportButton = () => {
 
         let succeed = true;
         setLoading(true);
-        // let failed = [];
+        let failed = [];
         let idList = [];
         for (const line of lines){
             let succeedCopy = succeed
@@ -86,10 +86,12 @@ const ImportButton = () => {
                 idList.push(id);
             }else{
                 toast.warning(<span>
-                    <b>ID existed: {id}</b><br/>
+                    <b>ID duplicated: {id}</b><br/>
                     product:{line}
                 </span>, {position: "bottom-right",autoClose:10000})
-                succeedCopy=false;
+                succeed=false;
+                failed.push(line+'---ID duplicated');
+                continue;
             }
             
             const [bill_content, exceed] = truncateString(normalizeText(name), lengthContent);
@@ -143,18 +145,27 @@ const ImportButton = () => {
 
             if(!await addProduct(productData)) {
                 succeedCopy = false;
-                // failed.push(line+'\n');
+                failed.push(line+'---add Failed');
             }
 
             succeed = succeedCopy;
             pageEvent.target.value = '';
         };
-        // console.log('failed:', failed)
+        console.log('failed:', failed)
         if(succeed){
             toast.success(`All import succeeded`);
+        }else{
+            toast.warning(<span>
+                <b>Failed products:</b>
+                {failed.map((failedProductInfo, index)=>{
+                    return(<span id={index}>
+                        <br/><br/>{failedProductInfo}
+                    </span>)
+                })}
+            </span>, {autoClose:20000});
         }
         setLoading(false);
-        navigate('/')
+        navigate('/');
     }
 
     const handleFileSelect = (event)=>{
