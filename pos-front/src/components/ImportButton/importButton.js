@@ -55,7 +55,7 @@ const ImportButton = () => {
             return true;
         }catch(error){
             console.log(productData)
-            toast.error(<span>Import failed <br/>{productData.bill_content}: <br/>{`${error}`}</span>, {autoClose: 10000,});
+            toast.error(<span>Import failed <br/>{productData.bill_content}: <br/>{`${error}`}</span>, {position: "bottom-right",autoClose: 10000,});
             console.error('There was an error importing product', error);
             return false;
         };
@@ -88,7 +88,7 @@ const ImportButton = () => {
                 toast.warning(<span>
                     <b>ID existed: {id}</b><br/>
                     product:{line}
-                </span>, {autoClose:10000})
+                </span>, {position: "bottom-right",autoClose:10000})
                 succeedCopy=false;
             }
             
@@ -97,7 +97,7 @@ const ImportButton = () => {
                 Name over the limit:<br/>
                 ID:{id}<br/>
                 name:{name}
-            </span>)
+            </span>, {position: "bottom-right",autoClose:10000})
 
             pageEvent.preventDefault();
             const csrfToken = getCsrfToken();
