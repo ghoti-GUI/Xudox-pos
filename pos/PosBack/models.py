@@ -239,7 +239,7 @@ class product(models.Model):
     class Meta:
         managed = False
         db_table = 'product'
-        unique_together = (('id_Xu', 'rid'),)
+        # unique_together = (('id_Xu', 'rid'),)
 
 
 class Test(models.Model):

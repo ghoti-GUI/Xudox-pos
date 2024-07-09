@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, lengthContent } from '../../service/valueDefault';
 import axios from 'axios';
@@ -62,7 +62,7 @@ const ImportButton = () => {
     }
 
 
-
+    const [loading, setLoading] = useState(false);
     const onImport = async(onloadEvent, pageEvent)=>{
         // const file = onloadEvent.target.result;
         // const content = parseCSV(file)
@@ -72,15 +72,27 @@ const ImportButton = () => {
 
         const content = onloadEvent.target.result;
         const lines = content.split('\n').filter(line => line.trim() !== '');
-        console.log(lines)
+        console.log(lines);
 
-        let succeed = true
+        let succeed = true;
+        setLoading(true);
+        // let failed = [];
+        let idList = [];
         for (const line of lines){
             let succeedCopy = succeed
             // console.log(line)
             const [id, name, price, Xu_class, category_name] = line.split(';');
+            if(!idList.includes(id)) {
+                idList.push(id);
+            }else{
+                toast.warning(<span>
+                    <b>ID existed: {id}</b><br/>
+                    product:{line}
+                </span>, {autoClose:10000})
+                succeedCopy=false;
+            }
+            
             const [bill_content, exceed] = truncateString(normalizeText(name), lengthContent);
-            console.log(bill_content, exceed);
             if(exceed) toast.warning(<span>
                 Name over the limit:<br/>
                 ID:{id}<br/>
@@ -129,15 +141,19 @@ const ImportButton = () => {
             console.log(productData)
 
 
-            if(!await addProduct(productData)) succeedCopy = false;
+            if(!await addProduct(productData)) {
+                succeedCopy = false;
+                // failed.push(line+'\n');
+            }
 
             succeed = succeedCopy;
             pageEvent.target.value = '';
         };
-        console.log(succeed)
+        // console.log('failed:', failed)
         if(succeed){
             toast.success(`All import succeeded`);
         }
+        setLoading(false);
         navigate('/')
     }
 
@@ -146,7 +162,7 @@ const ImportButton = () => {
         if(file){
             const reader = new FileReader();
             reader.onload = (e)=>onImport(e, event);
-            reader.readAsText(file, 'utf-8');
+            reader.readAsText(file, 'gbk');
         }
     }
 
@@ -155,8 +171,12 @@ const ImportButton = () => {
         document.getElementById('uploadFile').click();
     }
 
+    const handleCancelLoading=()=>{
+        setLoading(false)
+    }
+
     return (
-        <div className='flex items-center justify-center w-full mt-4'>
+        <div className='flex items-center justify-center w-full mt-4 '>
             <button onClick={handleClick} className='flex items-center justify-center py-1 w-5/6 bg-blue-500 text-white hover:bg-blue-700 rounded-lg'>
                 Import
             </button>
@@ -166,6 +186,16 @@ const ImportButton = () => {
                 style={{ display: 'none' }}
                 onChange={(e)=>handleFileSelect(e)}
             />
+            {loading &&
+                <div className='flex justify-center items-center absolute right-0 top-0 w-screen h-screen bg-black bg-opacity-50 z-10'>
+                    <div className='flex flex-col justify-center items-center w-1/2 h-1/2 rounded-3xl bg-white '>
+                        <span className=' text-black font-bold'>Loading...</span>
+                        {/* <button className='flex justify-center items-center py-1 px-2 mt-5 bg-red-500 text-white rounded-lg' onClick={handleCancelLoading}>
+                            Cancel
+                        </button> */}
+                    </div>
+                </div>
+            }
         </div>
     );
 }

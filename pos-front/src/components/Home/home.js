@@ -115,11 +115,11 @@ function Home() {
 
 
     return(
-        <div className=' overflow-y-hidden'>
-            <span className='ml-2 font-sans text-4xl font-bold text-gray-800'>{Text.title}</span> 
+        <div className='h-screen overflow-y-hidden'>
+            <span className='h-1/6 ml-2 font-sans text-4xl font-bold text-gray-800'>{Text.title}</span> 
             <br/><br/>
-            <span className='ml-2 font-sans text-2xl font-bold text-gray-800'>{Text.productList}</span>
-            <div className=' ml-5 max-h-screen overflow-y-auto overflow-x-hidden pr-5'>
+            <span className='h-1/6 ml-2 font-sans text-2xl font-bold text-gray-800'>{Text.productList}</span>
+            <div className='h-5/6  ml-5 max-h-screen overflow-y-auto overflow-x-hidden pr-5'>
                 {Object.values(categories).map((category,index)=>(
                     <div key={category.id} className={` relative flex flex-col justify-center px-3 pt-2 my-3 w-full rounded-lg`} style={{backgroundColor: category.color, color:category.text_color}}>
                         <button onClick={() => openDialog(category.id)} className=' absolute right-5 top-1 px-4 py-1 bg-blue-500 hover:bg-blue-700 text-white rounded '>{Text.modifyOrder}</button>
@@ -137,7 +137,7 @@ function Home() {
                         <br/>
                     </div>
                 ))}
-                <div className='mb-28'></div>
+                {/* <div className='mb-28'></div> */}
                 {isDialogOpen && 
                     <DialogChangeOrder 
                         orderedProductReceived={dataToDialog} 
