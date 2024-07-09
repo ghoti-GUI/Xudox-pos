@@ -81,9 +81,13 @@ const ImportButton = () => {
         for (const line of lines){
             let succeedCopy = succeed
             // console.log(line)
-            const [id, name, price, Xu_class, category_name] = line.split(';');
+            let [id, name, price, Xu_class, category_name] = line.split(';');
             if(!idList.includes(id)) {
-                idList.push(id);
+                if(id==='---') {
+                    id = 'hyphen3';
+                }else{
+                    idList.push(id);
+                }
             }else{
                 toast.warning(<span>
                     <b>ID duplicated: {id}</b><br/>

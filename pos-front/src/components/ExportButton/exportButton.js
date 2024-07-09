@@ -63,11 +63,15 @@ const ExportButton = () => {
             
 
             productsRecv.forEach((product, index) => {
+                const Xu_class = product.Xu_class
+                if(!Object.keys(abListCopy).includes(Xu_class)){
+                    abListCopy[Xu_class]='';
+                }
                 abListCopy[product.Xu_class] += formatProductData(product)+'\n';
                 zwcdValueCopy += formatKitchenData(product)+'\n';
             });
             setAbList(abListCopy);
-            setZwcdValue(zwcdValueCopy);            
+            setZwcdValue(zwcdValueCopy);
 
             let HooftNameValueCopy = {...initHooftNameValue};
             categoriesRecv.forEach((category, index) => {
@@ -87,7 +91,8 @@ const ExportButton = () => {
     // },[])
 
     const formatProductData = (product) => {
-        const id_Xu = product.id_Xu.toString().padStart(lengthID, ' ');
+        const id_XuRecv = product.id_Xu.toString();
+        const id_Xu = id_XuRecv==='hyphen3'?'---':id_XuRecv.padStart(lengthID, ' ');
         const bill_content = product.bill_content+'.'.padEnd(lengthContent-product.bill_content.length, ' ');
         const price = product.price;
         return `${id_Xu} ${bill_content} ${price}`;
