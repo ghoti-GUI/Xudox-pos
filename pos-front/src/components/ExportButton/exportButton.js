@@ -77,10 +77,14 @@ const ExportButton = () => {
             categoriesRecv.forEach((category, index) => {
                 if(category.Xu_class!=='met.txt'){
                     const name = category.name||category.ename||category.lname||category.fname||category.zname;
+                    if(!Object.keys(HooftNameValueCopy).includes(category.Xu_class)){
+                        HooftNameValueCopy[category.Xu_class] = '';
+                    }
                     HooftNameValueCopy[category.Xu_class] += ' '+name;
                 }
             });
 
+            // 给HooftName添加void
             for(let [key, value] of Object.entries(HooftNameValueCopy)){
                 if(!value) HooftNameValueCopy[key]+=' void';
             }
@@ -109,6 +113,8 @@ const ExportButton = () => {
         const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData();
         const zip = new JSZip();
 
+
+        // export adn.txt
         for (const [key, value] of Object.entries(abListCopy)){
             zip.file(`${key}`, value);
         }

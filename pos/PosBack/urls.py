@@ -5,8 +5,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from .views import TestViewSet, TestImgViewSet, ProductViewSet, CategoryViewSet
-
 from . import views
+
+from . import viewsTest
 
 
 router = DefaultRouter()

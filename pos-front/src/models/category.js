@@ -11,6 +11,6 @@ export const categoryModelFull = {
     ...categoryModel, 
     'color':'#FFFFFF',
     'text_color':'#000000',
-    'img':'', 
+    'img':null, 
     'rid':RestaurantID, 
 }

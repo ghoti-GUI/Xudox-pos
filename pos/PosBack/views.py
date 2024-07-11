@@ -134,9 +134,9 @@ def update_product_by_id(request):
                     try:
                         TVA_country = data.get('TVA_country', '')
                         TVA_category = data.get('TVA_category', '')
-                        print(TVA_country, TVA_category, type(TVA_category))
+                        # print(TVA_country, TVA_category, type(TVA_category))
                         TVA = get_object_or_404(tva, **{f'country{language}' : TVA_country, 'category' : TVA_category})
-                        print(TVA)
+                        # print(TVA)
                         setattr(product_to_update, 'TVA_id', TVA)
                     except (ValueError, category.DoesNotExist):
                         print(f"Invalid TVA data: {data.items.TVA_country}, {data.items.TVA_category}")
@@ -243,7 +243,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         returnData = serializer.data
         returnData['id'] = serializer.instance.id
-        print(returnData)
+        # print(returnData)
         return Response(returnData, status=status.HTTP_201_CREATED, headers=headers)
 
     # def perform_create(self, serializer):
