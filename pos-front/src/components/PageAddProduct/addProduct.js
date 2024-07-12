@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState, useCallback, useParams } from 'react';
 import axios from 'axios';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { getCsrfToken } from '../../service/token';
@@ -11,18 +11,20 @@ import ImgUploadButton from '../reuseComponent/imgUploadButton';
 import ColorSelect from '../reuseComponent/colorSelect';
 import AdvanceForm from './advanceForm.js';
 import { multiLanguageText } from '../multiLanguageText';
-import { Language } from '../../userInfo';
+import { Language, RestaurantID } from '../../userInfo';
+import { addProduct, checkIdXuExistence, updateProduct } from '../../service/product.js';
 
 function AddProduct() {
   let location = useLocation();
-  const receivedData = location.state;;
-  const receivedProductData = receivedData?receivedData.product:null;
+  const receivedData = location.state;
+  const navigate = useNavigate();
+  const productDataReceived = receivedData?receivedData.product:null;
   const check = receivedData?receivedData.type==='check':false;
   const edit = receivedData?receivedData.type==='edit':false;
-  const pageName = multiLanguageText[Language][check?'check':edit?'edit':'add'].pageName;
+  const pageName = {...multiLanguageText}[Language][check?'check':edit?'edit':'add'].pageName;
 
 
-  const Text = multiLanguageText[Language].product;
+  const Text = {...multiLanguageText}[Language].product;
 
   const [img, setImg] = useState(null)
   const handleImgSelect = (img)=>{
@@ -45,7 +47,7 @@ function AddProduct() {
 
   const [advancePage, setAdvancePage] = useState(false);
   const [advanceData, setAdvanceData] = useState(null);
-  const [normalData, setNormalData] = useState(null)
+  const [normalData, setNormalData] = useState(null);
   const sendNormalDataToAdvance = (normalDataReceived)=>{
     setNormalData(normalDataReceived)
     // console.log('nomalData received:', normalDataReceived)
@@ -56,11 +58,58 @@ function AddProduct() {
 
   useEffect(()=>{
     if(check||edit){
-      setColor(receivedProductData.color);
-      setTextColor(receivedProductData.text_color);
-      setInitProductImg(receivedProductData.img);
+      setColor(productDataReceived.color);
+      setTextColor(productDataReceived.text_color);
+      setInitProductImg(productDataReceived.img);
     }
   }, [])
+
+
+  const checkAtlLeastOneField = () => {
+    if(!normalData.time_supply){
+      toast.warning(Text.time_supply[2]);
+      return false
+    }
+    if(normalData.print_to_where===0){
+      toast.warning(Text.print_to_where[2]);
+      return false
+    }
+    return true
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if(!checkAtlLeastOneField()){
+      return
+    }
+
+    // 检查id_Xu是否重复
+    if(!edit||(edit&&productDataReceived.id_Xu!==normalData.id_Xu)){
+      const existed = await checkIdXuExistence(normalData.id_Xu)
+      if (existed){
+        toast.error(Text.id_Xu[2]);
+        return
+      } 
+    }
+
+    const mergedProductData = Object.assign({}, advanceData, normalData)
+
+    if(edit){
+      mergedProductData['id'] = productDataReceived.id;
+    }
+    mergedProductData['img'] = img;
+    mergedProductData['color'] = color;
+    mergedProductData['text_color'] = textColor;
+    mergedProductData['rid'] = RestaurantID;
+
+    console.log(mergedProductData)
+
+    const submitSucceed = edit? await updateProduct(mergedProductData): await addProduct(mergedProductData);
+    if(submitSucceed && edit){
+      navigate('/home', {state: { editedProductId: productDataReceived.id }})
+    }
+  };
 
   return (
     <div className='flex flex-col w-full bg-slate-200 pt-10 max-h-screen overflow-y-auto overflow-x-hidden'>
@@ -77,25 +126,22 @@ function AddProduct() {
         <div className='w-7/12'>
           {!advancePage && 
             <ProductForm 
+              handleSubmit={handleSubmit}
               sendIDToColor={sendProductIDToColor} 
-              img={img} 
-              color={color} 
-              textColor={textColor} 
               normalData={normalData} 
-              advanceData={advanceData} 
               sendDataToParent={sendNormalDataToAdvance}
               check={check}
               edit={edit}
-              productDataReceived={receivedProductData}/>
+              productDataReceived={productDataReceived}/>
           }
           {advancePage &&
             <AdvanceForm 
-              normalData={normalData} 
+              handleSubmit={handleSubmit}
               advanceData={advanceData} 
               sendDataToParent={sendAdvanceDataToNormal}
               check={check}
               edit={edit}
-              productDataReceived={receivedProductData}/>
+              productDataReceived={productDataReceived}/>
           }
         </div>
         <div className='w-2/12'>

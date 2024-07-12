@@ -6,6 +6,7 @@ import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
 import CategoryForm from "./categoryForm";
 import ImgUploadButton from '../reuseComponent/imgUploadButton';
 import ColorSelect from '../reuseComponent/colorSelect';
+import { RestaurantID } from '../../userInfo';
 
 function AddCategory() {
 
@@ -23,6 +24,7 @@ function AddCategory() {
 
     categorydata['color'] = color;
     categorydata['img'] = img;
+    categorydata['rid'] = RestaurantID;
 
     const csrfToken = getCsrfToken();
 

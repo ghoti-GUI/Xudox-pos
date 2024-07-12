@@ -84,14 +84,15 @@ class category(models.Model):
     zname = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
     extra_name = models.CharField(max_length=1000)
-    edes = models.CharField(max_length=1000)
-    ldes = models.CharField(max_length=1000)
-    fdes = models.CharField(max_length=1000)
-    des = models.CharField(max_length=1000)
+    edes = models.CharField(max_length=1000, null=True)
+    ldes = models.CharField(max_length=1000, null=True)
+    fdes = models.CharField(max_length=1000, null=True)
+    des = models.CharField(max_length=1000, null=True)
     img = models.ImageField(upload_to='static/img_category/%Y/%m', null=True, blank=True)
     color = models.CharField(max_length=100, default='rgb(255, 255, 255)')
     text_color = models.CharField(max_length=100, default='rgb(0, 0, 0)')
     time_supply = models.IntegerField()
+    Xu_class = models.CharField(db_column='Xu_class', max_length=200, null=True)  # Field name made lowercase.
     rid = models.IntegerField(default=0)
     category_class = models.IntegerField(default=0)
     sort_id = models.IntegerField(default=0)
@@ -191,7 +192,7 @@ class printe_to_where(models.Model):
 
 class product(models.Model):
     id_user = models.CharField(unique=True, max_length=100)
-    id_Xu = models.CharField(db_column='id_Xu', unique=True, max_length=100)  # Field name made lowercase.
+    id_Xu = models.CharField(db_column='id_Xu', max_length=100)  # Field name made lowercase.
     ename = models.CharField(max_length=200, null=True)
     lname = models.CharField(max_length=200, null=True)
     fname = models.CharField(max_length=200, null=True)
@@ -238,6 +239,7 @@ class product(models.Model):
     class Meta:
         managed = False
         db_table = 'product'
+        # unique_together = (('id_Xu', 'rid'),)
 
 
 class Test(models.Model):

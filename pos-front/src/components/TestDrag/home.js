@@ -10,28 +10,52 @@ import { multiLanguageText } from '../multiLanguageText';
 import { Language } from '../../userInfo';
 import { normalizeText, sortStringOfNumber } from '../utils';
 import ProductCard from './productCard';
+import { useSearchParams } from 'react-router-dom';
 
 
 function TestDragHome() {
     const [products, setProducts] = useState([
-        {'id':1, 'id_Xu':'01', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFE00'}, 
-        {'id':2, 'id_Xu':'02', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#B80A0A'}, 
-        {'id':3, 'id_Xu':'03', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFFFF'}, 
-        {'id':4, 'id_Xu':'04', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFE00'}, 
-        {'id':5, 'id_Xu':'05', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#B80A0A'}, 
-        {'id':6, 'id_Xu':'06', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFFFF'}, 
-        {'id':7, 'id_Xu':'07', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFE00'}, 
-        {'id':8, 'id_Xu':'08', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFFFF'}, 
-        {'id':9, 'id_Xu':'09', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#B80A0A'}, 
+        // {'id':1, 'id_Xu':'01', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFE00'}, 
+        // {'id':2, 'id_Xu':'02', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#B80A0A'}, 
+        // {'id':3, 'id_Xu':'03', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFFFF'}, 
+        // {'id':4, 'id_Xu':'04', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFE00'}, 
+        // {'id':5, 'id_Xu':'05', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#B80A0A'}, 
+        // {'id':6, 'id_Xu':'06', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFFFF'}, 
+        // {'id':7, 'id_Xu':'07', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFE00'}, 
+        // {'id':8, 'id_Xu':'08', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#FFFFFF'}, 
+        // {'id':9, 'id_Xu':'09', 'price':'1.00', 'price2':1.00, 'TVA_id':5, 'bill_content':'1', 'kitchen_content':'123', 'cid':1, 'color':'#B80A0A'}, 
     ])
 
     const [categories, setCategories] = useState([
-        {'id':1, 'name':'Starter'}
+        // {'id':1, 'name':'Starter'}
     ])
+
+    const [productsClassified, setProductsClassified] = useState({})
     useEffect(() => {
         const fetchData = async ()=>{
-            const ptoducts_data = await fetchAllProduct()
-            const products_sorted = ptoducts_data.sort((a, b) => {
+            const products_data = await fetchAllProduct();
+            const categories_data = await fetchAllCategory();
+            const productClassifiedCopy = productsClassified;
+            for(const category of categories_data){
+                productClassifiedCopy[category.id]=[];
+            };
+            for (const product of products_data){
+                productClassifiedCopy[product.cid].push(product);
+            };
+            Object.values(productClassifiedCopy).forEach(value=>{
+                return value.sort((a, b) => {
+                    if (a.favourite === b.favourite) {
+                    // 如果 favourite 相同，则按 position 排序
+                        return a.position - b.position;
+                    }
+                    // 否则按 favourite 排序
+                    return b.favourite - a.favourite;
+                });
+            });
+
+            setProductsClassified(productClassifiedCopy)
+
+            const products_sorted = products_data.sort((a, b) => {
                 if (a.favourite === b.favourite) {
                 // 如果 favourite 相同，则按 position 排序
                     return a.position - b.position;
@@ -39,8 +63,9 @@ function TestDragHome() {
                 // 否则按 favourite 排序
                 return b.favourite - a.favourite;
             });
-            setProducts(products_sorted)
-            setCategories(await fetchAllCategory())
+
+            setProducts(products_sorted);
+            setCategories(categories_data);
         }
         fetchData()
     },[]);
@@ -79,6 +104,7 @@ function TestDragHome() {
 
     const onDragEnd = () => {
         setDraggedItemIndex(null);
+        console.log(products)
     };
 
 
@@ -88,11 +114,11 @@ function TestDragHome() {
             <br/><br/>
             <span className='ml-2 font-sans text-2xl font-bold text-gray-800'>Product List</span>
             <div className='ml-5 max-h-screen overflow-y-auto overflow-x-hidden pr-5'>
-                {Object.values(categories).map(category=>(
+                {categories.map((category, index)=>(
                     <div key={category.id} className={`flex flex-col justify-center px-3 pt-2 my-3 mx-3 w-full rounded-lg`} style={{backgroundColor: category.color, color:category.text_color}}>
                         <span className='font-sans text-xl font-bold'>{category.ename || category.lname || category.fname || category.zname || category.name}</span>
                         <span className='text-sm mb-1'>{category.edes || category.ldes || category.fdes || category.zdes || category.des}</span>
-                        {products.map((product, index) => {
+                        {productsClassified[category.id].map((product, index) => {
                             if(product.cid===category.id){
                                 return(
                                     <div

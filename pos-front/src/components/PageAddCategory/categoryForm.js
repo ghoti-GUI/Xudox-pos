@@ -9,21 +9,18 @@ import { fetchTVA } from '../../service/tva';
 import { multiLanguageText } from '../multiLanguageText';
 import { normalizeText, sortStringOfNumber } from '../utils';
 import { Language } from '../../userInfo';
+import { categoryModel } from '../../models/category';
 
 function CategoryForm({onCategorySubmit}) {
-  const Text = multiLanguageText[Language].category
-  const [categorydata, setCategoryData] = useState({
-    'name':'',
-    'des':'',
-    'time_supply':1,
-  })
+  const Text = {...multiLanguageText}[Language].category
+  const [categorydata, setCategoryData] = useState({...categoryModel})
   const initData = categorydata;
 
   const TimeSupplyData = Text.time_supply[1]
   const TimeSuppyKeys = Object.keys(TimeSupplyData)
   const [timeSupply, setTimeSupply] = useState(Text.time_supply[1]) //['lunch', true, 'dinner', true]
 
-  const requiredFields = ['name', 'des', 'time_supply'];
+  const requiredFields = ['name', 'time_supply'];
 
   const noInputField = [
     ...Object.keys(requiredFields), 
@@ -56,19 +53,23 @@ function CategoryForm({onCategorySubmit}) {
       return
     }
 
-    try {
-      const response = await axios.get(DefaultUrl+'category/check_id_category_existence/', {
-        params:{
-          'id_category':categorydata.id, 
-        }
-      });
-      if (response.data.existed){
-        alert(Text.id[2])
-        return
-      } 
-    } catch (error) {
-      console.error('Error check category id existence:', error);
-    };
+
+    // 修改成检查name是否存在
+
+    // // 检查id是否存在
+    // try {
+    //   const response = await axios.get(DefaultUrl+'category/check_id_category_existence/', {
+    //     params:{
+    //       'id_category':categorydata.id, 
+    //     }
+    //   });
+    //   if (response.data.existed){
+    //     alert(Text.id[2])
+    //     return
+    //   } 
+    // } catch (error) {
+    //   console.error('Error check category id existence:', error);
+    // };
 
     try {
       onCategorySubmit(categorydata)

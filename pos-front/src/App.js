@@ -12,9 +12,8 @@ function App() {
   return (
     <Router>
       <div className='flex bg-slate-200 w-full'>
-        <Sidebar className=' w-1/12'/>
+        <Sidebar className=' w-1/12 '/>
         <div className='w-11/12 h-screen overflow-y-hidden'>
-        {/* <DndProvider backend={HTML5Backend}> */}
           <Routes className='w-full'>
             
             <Route path='/'  element={<Navigate to='/home' />}/>
@@ -26,7 +25,6 @@ function App() {
             <Route path='/TestDrag' element={<TestDragHome/>} />
             
           </Routes>
-        {/* </DndProvider> */}
         </div>
       </div>
       <ToastContainer

@@ -5,6 +5,8 @@ export const sortStringOfNumber = (str) => {
             .join('');
 }
 
+
+// 去掉所有重音符号和点
 export const normalizeText = (str) => {
     return str.normalize('NFD').replace(/[\u0300-\u036f.]/g, "");
 }
@@ -53,4 +55,27 @@ export const updateObject = (objUpdate, objSource)=>{
         }
     }
     return objUpdateCopy
+}
+
+
+export const truncateString = (string, maxLength)=>{
+    let length = 0;
+    let result = '';
+    let exceed = false;
+    for (let i = 0; i < string.length; i++) {
+        if (string.charCodeAt(i) > 127) {
+            length += 2;
+        } else {
+            length += 1;
+        }
+
+        if (length > maxLength) {
+            exceed = true
+            break;
+        }
+
+        result += string[i];
+    }
+
+    return [result, exceed]
 }

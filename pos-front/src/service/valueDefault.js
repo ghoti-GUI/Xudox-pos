@@ -9,3 +9,9 @@ export const GetAllCategoryUrl = 'get/category/all/';
 export const GetPrinterUrl = 'get/printers/';
 
 export const GetTVACountryUrl = 'get/tva/';
+
+
+
+// export files
+export const lengthID = 3;
+export const lengthContent = 25;

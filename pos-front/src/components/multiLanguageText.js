@@ -34,6 +34,12 @@ export const multiLanguageText = {
             'Belgium':'Belgium',
             'French':'French', 
         }, 
+        'sidebar':{
+            'title':'Sidebar',
+            'home':'Home',
+            'addCategory':'AddCategory',
+            'addProduct':'AddProduct',
+        },
         'product':{
             // 'id_Xu':['ID', 'Enter your product\'s ID', 'ID can be entered up to <b>&nbsp three digits &nbsp</b> in <b>&nbsp letters &nbsp</b> and <b>&nbsp numbers &nbsp</b>'],
             'id_Xu':['ID', 'Enter your product\'s ID', 'ID already existed', notesUnderID.English],
@@ -54,6 +60,8 @@ export const multiLanguageText = {
             'addFailed':'Product added failed', 
             'advanceButton':'Advance settings', 
             'returnNormalButton':'Return to normal settings', 
+            'submitButton':'Submit', 
+            'Xu_class':['Xu_class'], 
         },
         'productAdvance':{
             'id_user':['ID without restrictions', 'ID without any restrictions'],
@@ -75,6 +83,7 @@ export const multiLanguageText = {
             'fdes':['French description', 'Enter the description in French'],
             'stb':['Sushi to bar'],
             'favourite':['Favourite'],
+            'submitButton':'Submit', 
         },
         'category':{
             'id':['ID', 'Enter the ID of your new category', 'ID already existed', notesUnderID.English],
@@ -83,10 +92,15 @@ export const multiLanguageText = {
             'time_supply':['Supply time', TimeSupplyData.English, 'Please choose at least one supply time'], 
             'addSuccess':'Category added successfully', 
             'addFailed':'Category added failed', 
+            'Xu_class':['Xu_class'],
         }, 
         'img':['Choose image for your product', 'Change image'], 
-        'color':'Choose background color: ', 
-        'text_color':['Automatic setting for text colours', ['Black', 'white']],
+        'color':{
+            'bgcolor':'Choose background color: ', 
+            'text_color':['Automatic setting for text colours', ['Black', 'white']],
+            'textDefault':'Text',
+        }, 
+        
         'home':{
             'id':['ID'],
             'online_content':['Online content'],
@@ -100,8 +114,15 @@ export const multiLanguageText = {
             'cid':['Category'],
             'time_supply':['Supply time', ['Lunch', 'Dinner', 'Whole day']],
             'print_to_where':['Printers selected'], 
-            'soldout':['Sold out']
+            'title':'Home',
+            'productList':'Product List', 
+            'modifyOrder':'Modify product order',
         },
+        'dialogChangeOrder':{
+            'title':'Change product order',
+            'submitButton':'Submit',
+            'cancelButton':'Cancel', 
+        }, 
         'check':{
             'pageName':'Check Page', 
             'img':'Your choosed image: ',
@@ -109,17 +130,27 @@ export const multiLanguageText = {
         },
         'edit':{
             'pageName':'Edit Page',
+            'editSuccess':'Edit succeed!',
+            'editFailed':'Edit failed!',
         }, 
         'add':{
             'pageName':'Add Page'
         },
         'export':'Export', 
     },
+
+
     'Chinese':{
         'country':{
             'Belgium':'比利时',
-            'French':'比利时', 
+            'French':'法国', 
         }, 
+        'sidebar':{
+            'title':'侧栏',
+            'home':'主页',
+            'addCategory':'添加产品类别',
+            'addProduct':'添加产品',
+        },
         'product':{
             'id_Xu':['ID', '输入产品ID', 'ID已存在', notesUnderID.Chinese],
             'online_content':['在线名字', '输入显示在 “在线应用” 中的名字'],
@@ -142,8 +173,30 @@ export const multiLanguageText = {
             'addFailed':'产品添加失败', 
             'advanceButton':'高级设置', 
             'returnNormalButton':'返回一般设置', 
+            'submitButton':'添加', 
+            'Xu_class':['Xu_class'], 
+        },
+        'productAdvance':{
+            'id_user':['自定义ID', '没有任何限制的自定义ID'],
+            'online_content':['在线内容', '请输入在线应用中显示的产品内容'],
+            'online_des':['在线描述', '请输入在线应用中显示的产品描述'], 
+            'product_type':['产品类型',{
+                '产品':0,
+                '选项':1,
+            }],
+            'min_nbr':['最少购买数量','当用户选择购买产品时，用户购买产品的最少数量'],
+            'discount':['折扣', ['无', '买一送一','固定降价', '百分比降价']], 
             'allergen':['过敏原'], 
-            'discount':['折扣', ['无', '买一送一','固定降价', '百分比降价']], //database: 'b1g1f', '-10', '-10%'
+            'ename':['英文名字', '输入英文名字'],
+            'lname':['荷兰语名字', '输入荷兰语名字'], 
+            'fname':['法语名字', '输入法语名字'], 
+            'zname':['中文名字', '输入中文名字'], 
+            'edes':['英文描述', '输入英文描述'],
+            'ldes':['荷兰语描述', '输入荷兰语描述'],
+            'fdes':['法语描述', '输入法语描述'],
+            'stb':['Sushi to bar'],
+            'favourite':['Favourite'],
+            'submitButton':'添加', 
         },
         'category':{
             'id':['ID', '输入类别ID', 'ID已存在', notesUnderID.Chinese],
@@ -152,10 +205,14 @@ export const multiLanguageText = {
             'time_supply':['供应时间', TimeSupplyData.Chinese, '请选择至少一个供应时间'], 
             'addSuccess':'类别添加成功', 
             'addFailed':'类别添加失败', 
+            'Xu_class':['Xu_class'],
         }, 
         'img':['选择产品的图片', '更改图片'], 
-        'color':'选择背景颜色: ', 
-        'text_color':['自动设置字体颜色', ['黑色', '白色']], 
+        'color':{
+            'bgcolor':'选择背景颜色: ',
+            'text_color':['自动设置字体颜色', ['黑色', '白色']], 
+            'textDefault':'文本', 
+        }, 
         'home':{
             'id':['ID'],
             'online_content':['在线内容'],
@@ -169,8 +226,15 @@ export const multiLanguageText = {
             'cid':['产品种类'],
             'time_supply':['供应时间',['午餐', '晚餐', '全天']],
             'print_to_where':['打印机选择'], 
-            'soldout':['售完'], 
+            'title':'主页',
+            'productList':'产品列表', 
+            'modifyOrder':'修改产品顺序',
         },
+        'dialogChangeOrder':{
+            'title':'修改产品顺序',
+            'submitButton':'保存',
+            'cancelButton':'取消', 
+        }, 
         'check':{
             'pageName':'查看页面', 
             'img':'选择的图片：',
@@ -178,6 +242,8 @@ export const multiLanguageText = {
         },
         'edit':{
             'pageName':'编辑页面',
+            'editSuccess':'编辑成功',
+            'editFailed':'编辑失败',
         }, 
         'add':{
             'pageName':'新增页面'

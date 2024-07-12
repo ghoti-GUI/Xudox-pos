@@ -10,6 +10,8 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action, api_view
+from django.db.models import Q
+import json
 
 from .models import product, Test, TestImg, category, printe_to_where, tva
 from .serializers import TestSerializer, TestImgSerializer, AllTestImgSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, GroupSerializer, UserSerializer
@@ -119,14 +121,13 @@ def update_product_by_id(request):
     try:
         data = request.POST
         id_received = data.get('id', '')
-        product_to_update = get_object_or_404(product, id=id_received)
-
+        rid_received = data.get('rid', 0)
+        product_to_update = get_object_or_404(product, Q(id=id_received) & Q(rid=int(rid_received)))
         for key, value in data.items():
-            if key!='id':  # 确保不修改 id
-                print(key)
+            if key!='id' and key!='rid':  # 确保不修改 id
                 if key=='cid':
                     try:
-                        category_instance = get_object_or_404(category, id=int(value))
+                        category_instance = get_object_or_404(category, Q(id=int(value)) & Q(rid=int(rid_received)))
                         setattr(product_to_update, key, category_instance)
                     except (ValueError, category.DoesNotExist):
                         print(f"Invalid category id: {value}")
@@ -134,9 +135,9 @@ def update_product_by_id(request):
                     try:
                         TVA_country = data.get('TVA_country', '')
                         TVA_category = data.get('TVA_category', '')
-                        print(TVA_country, TVA_category, type(TVA_category))
-                        TVA = get_object_or_404(tva, **{f'country{language}' : TVA_country, 'category' : TVA_category})
-                        print(TVA)
+                        # print(TVA_country, TVA_category, type(TVA_category))
+                        TVA = get_object_or_404(tva, **{f'countryEnglish' : TVA_country, 'category' : TVA_category})
+                        # print(TVA)
                         setattr(product_to_update, 'TVA_id', TVA)
                     except (ValueError, category.DoesNotExist):
                         print(f"Invalid TVA data: {data.items.TVA_country}, {data.items.TVA_category}")
@@ -144,36 +145,66 @@ def update_product_by_id(request):
                     setattr(product_to_update, key, value)
 
         product_to_update.save()
-
         return JsonResponse({'status': 'success', 'message': 'Product updated successfully.'})
+
     except product.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Product not found.'}, status=404)
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
+@csrf_exempt
+def update_Xu_class(request):
+    try:
+        data = request.POST
+        Xu_class = data.get('Xu_class', '')
+        rid_received = data.get('rid', '')
+        category_name = data.get('category_name', '')
+        categories = category.objects.filter(
+            Q(rid=rid_received) & (
+            Q(name=category_name) |
+            Q(ename=category_name) |
+            Q(lname=category_name) |
+            Q(fname=category_name) |
+            Q(zname=category_name))
+        )
+
+        if not categories.exists():
+            return JsonResponse({'status': 'error', 'message': 'No matching categories found.'}, status=404)
+        
+        category_to_update = categories[0]
+        category_to_update.Xu_class = Xu_class
+        category_to_update.save()
+
+        products_to_update = product.objects.filter(cid=categories[0].id, rid=rid_received)
+        products_to_update.update(Xu_class=Xu_class)
+
+        return JsonResponse({'status': 'success', 'message': 'Xu_class updated successfully.'})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
 
 
-
-
-# 根据id的最大值，返回下一个id给前端，用于id_user的默认值
-def get_next_product_id(request):
-    max_id = product.objects.aggregate(Max('id'))['id__max']
-    next_id_user = max_id + 1 if max_id is not None else 1
-    return JsonResponse({'next_id_user': next_id_user})
+# # 根据id的最大值，返回下一个id给前端，用于id_user的默认值
+# def get_next_product_id(request):
+#     max_id = product.objects.aggregate(Max('id'))['id__max']
+#     next_id_user = max_id + 1 if max_id is not None else 1
+#     return JsonResponse({'next_id_user': next_id_user})
 
 @api_view(['GET'])
 def check_id_Xu_existence(request):
-    # id_Xu_received = request.GET.get('id_Xu')
     id_Xu_received = request.query_params.get('id_Xu', '')
+    rid_received = request.query_params.get('rid', '')
     try:
-        product.objects.get(id_Xu = id_Xu_received)
+        product.objects.get(id_Xu = id_Xu_received, rid=rid_received)
         return JsonResponse({'existed':True})
     except product.DoesNotExist:
         return JsonResponse({'existed':False})
 
+@api_view(['GET'])
 def get_all_products(request):
-    products = product.objects.all()
+    rid_received = request.query_params.get('rid', '')
+    products = product.objects.filter(rid = rid_received)
     serializer = AllProductSerializer(products, many = True)
     return JsonResponse(serializer.data, safe = False)
 
@@ -181,9 +212,27 @@ def get_all_products(request):
 @api_view(['GET'])
 def get_product_by_id_Xu(request):
     id_Xu = request.query_params.get('id_Xu', '')
-    product_info = get_object_or_404(product, id_Xu=id_Xu)
+    rid_received = request.query_params.get('rid', '')
+    product_info = get_object_or_404(product, Q(id_Xu=id_Xu) & Q(rid=rid_received))
     serializer = AllProductSerializer(product_info)
     return JsonResponse(serializer.data)
+
+@csrf_exempt
+def delete_all(request):
+    try:
+        restaurant = request.POST.get('rid', '')
+        products_to_delete = product.objects.filter(rid = restaurant)
+        deleted_count_product, _ = products_to_delete.delete()
+        categories_to_delete = category.objects.filter(rid = restaurant)
+        deleted_count_category, _ = categories_to_delete.delete()
+
+        return JsonResponse({'status': 'success', 'message': f'{deleted_count_product}, {deleted_count_category} products and categories deleted successfully.'})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
+
+
+
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -191,19 +240,53 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
 
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        returnData = serializer.data
+        returnData['id'] = serializer.instance.id
+        # print(returnData)
+        return Response(returnData, status=status.HTTP_201_CREATED, headers=headers)
+
+
+
 @api_view(['GET'])
 def check_id_category_existence(request):
     id_category_received = request.query_params.get('id_category', '')
+    rid_received = request.query_params.get('rid', '')
     try:
-        category.objects.get(id = id_category_received)
+        category.objects.get(id = id_category_received, rid=rid_received)
         return JsonResponse({'existed':True})
     except category.DoesNotExist:
         return JsonResponse({'existed':False})
 
+@api_view(['GET'])
 def get_all_categories(request):
-    categories = category.objects.all()
+    restaurant = request.query_params.get('rid', '')
+    categories = category.objects.filter(rid = restaurant)
     serializer = AllCategorySerializer(categories, many = True)
     return JsonResponse(serializer.data, safe = False)
+
+@api_view(['GET'])
+def get_cid_by_categoryName(request):
+    category_name = request.query_params.get('category_name', '')
+    rid_received = request.query_params.get('rid', '')
+    categories = category.objects.filter(
+        Q(rid=rid_received) & (
+        Q(name=category_name) |
+        Q(ename=category_name) |
+        Q(lname=category_name) |
+        Q(fname=category_name) |
+        Q(zname=category_name))
+    )
+    if categories:
+        cid = categories[0].id
+        return JsonResponse({'cid':cid})
+    else:
+        return JsonResponse({'status': 'get cid by name error'}, status=111)
+    
 
 
 
@@ -251,21 +334,6 @@ def get_TVA_by_id(request):
 
 
 
-# class complete():
-#     def post(self, request):
-#         data_front = request.data.get('testdata')
-#         complete_data = {
-#             'name': data_front.name,
-#             'des': 'testdes'
-#         }
-#         serializer = TestSerializer(data=complete_data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data, status=status.HTTP_201_CREATED)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-# @api_view(['POST'])
-# def submit_data(request):
 
 
 
@@ -285,3 +353,10 @@ class GroupViewSet(viewsets.ModelViewSet):
     queryset = Group.objects.all().order_by('name')
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+
+
+
+
+
+
