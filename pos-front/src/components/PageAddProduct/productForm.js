@@ -12,7 +12,7 @@ import { fetchTVA, fetchTVAById } from '../../service/tva';
 import { multiLanguageText } from '../multiLanguageText';
 import { normalizeText, sortStringOfNumber, updateCheckboxData, updateObject, truncateString } from '../utils';
 import { fetchAllCategoryForProductForm, } from './utils';
-import { Language, Country } from '../../userInfo';
+import { Language, Country, RestaurantID } from '../../userInfo';
 import AdvanceForm from './advanceForm';
 import { addProductModelNormal } from '../../models/product';
 
@@ -107,7 +107,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
       }
 
       const fetchedPrinter = await fetchPrinter();
-      setCategoryData(await fetchAllCategoryForProductForm());
+      setCategoryData(await fetchAllCategoryForProductForm(RestaurantID));
 
       if(normalData && !check){
         setPrinterData(updateCheckboxData(fetchedPrinter, normalData.print_to_where));

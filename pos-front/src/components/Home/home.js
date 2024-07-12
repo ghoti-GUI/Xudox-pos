@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
-import { checkIdXuExistence, fetchAllProduct} from '../../service/product';
+import { checkIdXuExistence, fetchAllProduct, updateProduct} from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
@@ -85,31 +85,36 @@ function Home() {
         setIsDialogOpen(false);
     };
 
-    const handleSubmit = (orderedProductFromDialog) => {
+    const handleSubmit = async(orderedProductFromDialog) => {
         const cid = orderedProductFromDialog[0].cid;
         const productsClassifiedCopy = productsClassified;
         productsClassifiedCopy[cid]=orderedProductFromDialog;
         setProductsClassified(productsClassifiedCopy);
         for (let i=0;i<orderedProductFromDialog.length; i++){
-            const positionData = {'id':orderedProductFromDialog[i].id, 'position':i}
+            const positionData = {'id':orderedProductFromDialog[i].id, 'position':i, 'rid':RestaurantID}
 
-            const csrfToken = getCsrfToken();
-            axios.post(DefaultUrl+'update/product_by_id/', 
-                positionData,
-                // newProductData, 
-                {
-                headers: {
-                    'X-CSRFToken': csrfToken, 
-                    'content-type': 'multipart/form-data', 
-                }
-              })
-              .then(response => {
-                  toast.success(Text.addSuccess);
-              })
-              .catch(error => {
-                  toast.error(Text.addFailed)
-                  console.error('There was an error submitting the form!', error);
-              });
+            const updated = await updateProduct(positionData)
+            if(updated){
+                toast.success(Text.addSuccess);
+            }else{
+                toast.error(Text.addFailed)
+            }
+            // const csrfToken = getCsrfToken();
+            // axios.post(DefaultUrl+'update/product_by_id/', 
+            //     positionData,
+            //     {
+            //     headers: {
+            //         'X-CSRFToken': csrfToken, 
+            //         'content-type': 'multipart/form-data', 
+            //     }
+            //   })
+            //   .then(response => {
+            //       toast.success(Text.addSuccess);
+            //   })
+            //   .catch(error => {
+            //       toast.error(Text.addFailed)
+            //       console.error('There was an error submitting the form!', error);
+            //   });
         }
 
         closeDialog();

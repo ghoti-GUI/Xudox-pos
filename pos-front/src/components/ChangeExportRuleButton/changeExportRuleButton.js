@@ -3,6 +3,7 @@ import { getCsrfToken } from '../../service/token';
 import axios from 'axios';
 import { DefaultUrl } from '../../service/valueDefault';
 import { toast } from 'react-toastify';
+import { RestaurantID } from '../../userInfo';
 
 const ChangeExportRuleButton = () => {
 
@@ -30,7 +31,7 @@ const ChangeExportRuleButton = () => {
                 const csrfToken = getCsrfToken();
 
                 axios.post(DefaultUrl+'update/Xu_class/', 
-                    {'Xu_class':Xu_class, 'category_name':category},
+                    {'Xu_class':Xu_class, 'category_name':category, 'rid':RestaurantID},
                     {
                     headers: {
                         'X-CSRFToken': csrfToken, 

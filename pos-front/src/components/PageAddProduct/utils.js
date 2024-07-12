@@ -3,9 +3,9 @@ import { useState } from "react"
 import { fetchAllCategory } from "../../service/category"
 
 
-export const fetchAllCategoryForProductForm = async () => {
+export const fetchAllCategoryForProductForm = async (rid) => {
     try{
-        const categoriesData = await fetchAllCategory()
+        const categoriesData = await fetchAllCategory(rid)
         let categiriesDataForProductForm = {}
         categoriesData.forEach((category)=>{
             const name = category.ename || category.lname || category.fname || category.zname || category.name

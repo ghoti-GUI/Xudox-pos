@@ -131,7 +131,12 @@ def format_product_data(product):
     return f'{id_Xu} {bill_content} {price}'
 
 def format_kitchen_data(product):
-    id_Xu = str(product.get('id_Xu', '')).rjust(lengthID, ' ')
+    id_Xu_recv = str(product.get('id_Xu', ''))
+    id_Xu = ''
+    if id_Xu_recv=='hyphen3':
+        id_Xu = '---'
+    else:
+        id_Xu = id_Xu_recv.rjust(lengthID, ' ')
     kitchen_content = product.get('kitchen_content', '')
     return f"{id_Xu} {kitchen_content}"
 

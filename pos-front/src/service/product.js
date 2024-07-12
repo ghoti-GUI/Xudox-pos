@@ -56,10 +56,10 @@ export const updateProduct = async(productData)=>{
         'content-type': 'multipart/form-data', 
       }
     });
-    toast.success(Text.edit.editSuccess);
+    // toast.success(Text.edit.editSuccess);
     return true;
   }catch(error) {
-      toast.error(Text.edit.editFailed)
+      // toast.error(Text.edit.editFailed)
       console.error('There was an error submitting the form!', error);
       return false;
   };
