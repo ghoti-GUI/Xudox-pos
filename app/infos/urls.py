@@ -8,3 +8,6 @@ deleteAllUrl = defaultUrl+'delete/all/'
 getCidByCategoryNameUrl = defaultUrl+'get/cid/by/categoryName/'
 addCategoryUrl = defaultUrl+'post/category/'
 addProductUrl = defaultUrl+'post/product/'
+
+addAllProductsAppUrl = defaultUrl+'post/product/app/'
+getTokenUrl = defaultUrl+'getToken/'

@@ -3,7 +3,7 @@ import configparser
 
 restaurantId = 0
 # abPath = 'D:/work/Stage fr/XudoX.be/project/testFile'
-abPath = '../testFile'
+abPath = '.'
 
 
 lengthID = 3

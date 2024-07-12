@@ -6,7 +6,6 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from .views import TestViewSet, TestImgViewSet, ProductViewSet, CategoryViewSet
 from . import views
-
 from . import viewsTest
 
 
@@ -40,6 +39,10 @@ urlpatterns = [
 
     path('testimg/APIView/', views.TestImgView.as_view(), name = 'test_img'), 
     path('testimg/get_all_TestImg/', views.get_all_TestImg, name='get_all_TestImg'), 
+
+
+    path('getToken/', viewsTest.getToken, name='getToken'),
+    path('post/product/app/', viewsTest.add_products_app, name='add_products_app'), 
 
     
 
