@@ -9,58 +9,15 @@ import { multiLanguageText } from '../multiLanguageText';
 import { Language, RestaurantID } from '../../userInfo';
 import { normalizeText, truncateString } from '../utils';
 import { categoryModelFull } from '../../models/category';
-import { deleteAll } from '../../service/product';
+import { deleteAll } from '../../service/commun';
+import { addCategory, fetchCidByCategoryName } from '../../service/category';
+import { addProduct } from '../../service/product';
 
 const ImportButton = () => {
 
     const Text={...multiLanguageText}[Language];
     const rid = RestaurantID;
     const navigate = useNavigate();
-
-
-    const addCategory = async(categorydata)=>{
-        console.log(1)
-        const csrfToken = getCsrfToken();
-        // let cid = 0
-        try {
-            const response = await axios.post(DefaultUrl + 'post/category/',
-                categorydata,
-                {
-                    headers: {
-                        'X-CSRFToken': csrfToken,
-                        'content-type': 'multipart/form-data',
-                    }
-                }
-            );
-            console.log('response.data:', response.data);
-            return response.data.id; 
-        } catch (error) {
-            console.error('There was an error submitting the form!', error);
-            return false; 
-        }
-    }
-
-
-    const addProduct = async(productData)=>{
-        const csrfToken = getCsrfToken();
-        try {
-            const response = await axios.post(DefaultUrl+'post/product/', 
-                productData, 
-                {
-                    headers: {
-                        'X-CSRFToken': csrfToken, 
-                        'content-type': 'multipart/form-data', 
-                    }
-            })
-            return true;
-        }catch(error){
-            console.log(productData)
-            toast.error(<span>Import failed <br/>{productData.bill_content}: <br/>{`${error}`}</span>, {position: "bottom-right",autoClose: 10000,});
-            console.error('There was an error importing product', error);
-            return false;
-        };
-    }
-
 
     const [loading, setLoading] = useState(false);
     const onImport = async(onloadEvent, pageEvent)=>{
@@ -106,31 +63,19 @@ const ImportButton = () => {
             </span>, {position: "bottom-right",autoClose:10000})
 
             pageEvent.preventDefault();
-            const csrfToken = getCsrfToken();
 
             let cid = 0; 
-            await axios.get(DefaultUrl+'get/cid/by/categoryName/',
-                {params:{'category_name':category_name}},
-                {
-                    headers: {
-                        'X-CSRFToken': csrfToken, 
-                        'content-type': 'multipart/form-data', 
-                    }, 
-                }
-            )
-            .then(response=>{
-                cid = response.data.cid;
-            })
-            .catch(async(error) => {
-                // toast.error(<span>category does not exist<br/>try to create category</span>, {autoClose: 10000,});
-                console.error('fetch cid failed', error);
+            const cid_received = await fetchCidByCategoryName(category_name, RestaurantID)
+            if (!cid_received){
                 let categoryData = {...categoryModelFull};
                 categoryData.name = category_name;
                 categoryData.Xu_class = Xu_class;
                 categoryData.rid = RestaurantID
-                console.log('categoryData:', categoryData);
-                cid = await addCategory(categoryData);
-            });
+                const receivedData = await addCategory(categoryData);
+                cid = receivedData.id
+            }else{
+                cid = cid_received
+            }
 
             const productData = {...addProductModelFull}
             productData.id_Xu = id;
@@ -146,8 +91,9 @@ const ImportButton = () => {
 
             console.log(productData)
 
-
-            if(!await addProduct(productData)) {
+            const productAddSucceed = await addProduct(productData)
+            if(productAddSucceed!==true) {
+                toast.error(Text.product.addFailed);
                 succeedCopy = false;
                 failed.push(line+'---add Failed');
             }
@@ -155,7 +101,7 @@ const ImportButton = () => {
             succeed = succeedCopy;
             pageEvent.target.value = '';
         };
-        console.log('failed:', failed)
+        // console.log('failed:', failed)
         if(succeed){
             toast.success(`All import succeeded`);
         }else{

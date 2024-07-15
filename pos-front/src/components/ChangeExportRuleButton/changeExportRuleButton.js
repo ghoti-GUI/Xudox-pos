@@ -4,10 +4,11 @@ import axios from 'axios';
 import { DefaultUrl } from '../../service/valueDefault';
 import { toast } from 'react-toastify';
 import { RestaurantID } from '../../userInfo';
+import { updateXu_class } from '../../service/commun';
 
 const ChangeExportRuleButton = () => {
 
-    const changeRule = (onloadEvent, pageEvent)=>{
+    const changeRule = async (onloadEvent, pageEvent)=>{
         console.log('changeRule')
         const content = onloadEvent.target.result;
         let lines = content.split('\n');
@@ -28,24 +29,13 @@ const ChangeExportRuleButton = () => {
             if(category && category!=='void'){
 
                 pageEvent.preventDefault();
-                const csrfToken = getCsrfToken();
 
-                axios.post(DefaultUrl+'update/Xu_class/', 
-                    {'Xu_class':Xu_class, 'category_name':category, 'rid':RestaurantID},
-                    {
-                    headers: {
-                        'X-CSRFToken': csrfToken, 
-                        'content-type': 'multipart/form-data', 
-                    }
-                })
-                .then(response => {
-                    //   toast.success(`Update succeeded ${rule}`);
-                })
-                .catch(error => {
+                const error = await updateXu_class({'Xu_class':Xu_class, 'category_name':category, 'rid':RestaurantID});
+                if(error){
                     toast.error(`Update failed ${Xu_class}, ${category}: ${error}`, {autoClose:10000});
                     console.error('There was an error updating rules', error);
                     succeedCopy = false;
-                });
+                }
             }
             succeed = succeedCopy;
             pageEvent.target.value = '';

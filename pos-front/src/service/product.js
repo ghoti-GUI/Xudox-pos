@@ -36,10 +36,10 @@ export const addProduct = async(productData)=>{
           'content-type': 'multipart/form-data', 
       }
     })
-    toast.success(Text.product.addSuccess);
+    // toast.success(Text.product.addSuccess);
     return true;
   }catch(error) {
-      toast.error(Text.product.addFailed);
+      // toast.error(Text.product.addFailed);
       console.error('There was an error submitting the form!', error);
       return error;
   };
@@ -66,11 +66,12 @@ export const updateProduct = async(productData)=>{
 }
 
 
-export const checkIdXuExistence = async (id_Xu) => {
+export const checkIdXuExistence = async (id_Xu, rid) => {
   try {
     const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
       params:{
         'id_Xu':id_Xu, 
+        'rid':rid
       }
     });
     console.log('checked back', response.data.existed)
@@ -96,14 +97,30 @@ export const fetchAllProduct = async (rid) => {
   }
 }
 
+export const fetchAllProductFrontForm = async(rid)=>{
+  try {
+    const response = await axios.get(DefaultUrl+'get/product/all/frontform/', {
+      params:{
+        'rid':rid, 
+      }
+    });
+    const productsData = response.data;
+    return (productsData); 
+  } catch (error){
+    console.error('Error fetching products data:', error)
+  }
+}
 
-export const fetchProductById_Xu = async(id_Xu)=>{
+
+export const fetchProductById_Xu = async(id_Xu, rid)=>{
   try {
     const response = await axios.get(DefaultUrl+'get/product/by/id_Xu/', {
       params:{
         'id_Xu':id_Xu, 
+        'rid':rid
       }
     });
+    console.log(response.data)
     return (response.data)
   } catch (error) {
     console.error('Error check id_Xu existence:', error);
@@ -113,21 +130,3 @@ export const fetchProductById_Xu = async(id_Xu)=>{
 
 
 
-export const deleteAll = async(rid)=>{
-  try{
-    await axios.post(DefaultUrl+'delete/all/', 
-    {'rid':rid},
-    {
-      headers: {
-        'X-CSRFToken': csrfToken, 
-        'content-type': 'multipart/form-data', 
-      }
-    });
-    // toast.success(Text.edit.editSuccess);
-    console.log('delete succeed')
-    return true;
-  }catch (error) {
-    console.error('Error delete all:', error);
-    return false
-  };
-}

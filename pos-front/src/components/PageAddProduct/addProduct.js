@@ -21,10 +21,10 @@ function AddProduct() {
   const productDataReceived = receivedData?receivedData.product:null;
   const check = receivedData?receivedData.type==='check':false;
   const edit = receivedData?receivedData.type==='edit':false;
-  const pageName = {...multiLanguageText}[Language][check?'check':edit?'edit':'add'].pageName;
+  const pageName = {...multiLanguageText}[Language].product[check?'check':edit?'edit':'add'].pageName;
 
-
-  const Text = {...multiLanguageText}[Language].product;
+  const TextLanguage = {...multiLanguageText}[Language]
+  const Text = {...TextLanguage}.product;
 
   const [img, setImg] = useState(null)
   const handleImgSelect = (img)=>{
@@ -106,8 +106,19 @@ function AddProduct() {
     console.log(mergedProductData)
 
     const submitSucceed = edit? await updateProduct(mergedProductData): await addProduct(mergedProductData);
-    if(submitSucceed && edit){
-      navigate('/home', {state: { editedProductId: productDataReceived.id }})
+    if(edit){
+      if(submitSucceed){
+        toast.success(Text.edit.editSuccess)
+        navigate('/home', {state: { editedProductId: productDataReceived.id }})
+      }else{
+        toast.error(Text.edit.editFailed)
+      }
+    }else{
+      if(submitSucceed){
+        toast.success(Text.add.addSuccess)
+      }else{
+        toast.error(Text.add.addFailed)
+      }
     }
   };
 

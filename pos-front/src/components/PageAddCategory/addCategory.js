@@ -6,9 +6,14 @@ import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
 import CategoryForm from "./categoryForm";
 import ImgUploadButton from '../reuseComponent/imgUploadButton';
 import ColorSelect from '../reuseComponent/colorSelect';
-import { RestaurantID } from '../../userInfo';
+import { Language, RestaurantID } from '../../userInfo';
+import { addCategory } from '../../service/category';
+import { toast } from 'react-toastify';
+import { multiLanguageAllergen } from '../multiLanguageText';
 
 function AddCategory() {
+
+  const TextCategory = {...multiLanguageAllergen}[Language].category
 
   const [img, setImg] = useState(null)
   const handleImgSelect = (img)=>{
@@ -20,7 +25,7 @@ function AddCategory() {
     setColor(color);
   }
 
-  const handleCategorySubmit = (categorydata)=>{
+  const handleCategorySubmit = async(categorydata)=>{
 
     categorydata['color'] = color;
     categorydata['img'] = img;
@@ -28,22 +33,14 @@ function AddCategory() {
 
     const csrfToken = getCsrfToken();
 
-    axios.post(DefaultUrl+'post/category/', 
-      categorydata,
-      // newProductData, 
-      {
-      headers: {
-          'X-CSRFToken': csrfToken, 
-          'content-type': 'multipart/form-data', 
-      }
-    })
-    .then(response => {
-        console.log(response.data);
-        window.location.reload();
-    })
-    .catch(error => {
-        console.error('There was an error submitting the form!', error);
-    });
+    const addSucceed = await addCategory(categorydata)
+    if(addSucceed){
+      console.log(addSucceed);
+      toast.success(TextCategory.addSuccess)
+      // window.location.reload();
+    }else{
+      toast.error(TextCategory.addFailed)
+    }
   }
 
 

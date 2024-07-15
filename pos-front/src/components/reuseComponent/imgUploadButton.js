@@ -4,7 +4,7 @@ import { multiLanguageText } from '../multiLanguageText';
 import { Language } from '../../userInfo';
 
 const ImgUploadButton = ({ onImgSelect, check=false, edit=false, imgReceived}) => {
-    const Text = {...multiLanguageText}[Language]
+    const Text = {...multiLanguageText}[Language].img
     const [imgUrl, setImgUrl] = useState(false);
     // const [imgChanged, setImgChanged] = useState(false);
     
@@ -31,7 +31,7 @@ const ImgUploadButton = ({ onImgSelect, check=false, edit=false, imgReceived}) =
 
     return (
         <div className='mt-2 w-3/4'>
-            {check?Text.check.img:Text.img[0]}
+            {check?Text.check:Text.chooseImg}
             <input
                 type="file"
                 onChange={handleFileSelect}
@@ -49,7 +49,7 @@ const ImgUploadButton = ({ onImgSelect, check=false, edit=false, imgReceived}) =
                 disabled={check}/>
             {!check&&
                 <button className="rounded bg-blue-500 text-white py-1 my-2 w-full" onClick={handleClick}>
-                    {Text.img[1]}
+                    {Text.changeImg}
                 </button>
             }
         </div>

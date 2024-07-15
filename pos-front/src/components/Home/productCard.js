@@ -3,16 +3,17 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
-import { checkIdXuExistence, fetchAllProduct} from '../../service/product';
+import { checkIdXuExistence, fetchAllProduct, updateProduct} from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter, fetchPrintersById } from '../../service/printer';
 import { fetchTVA, fetchTVAById } from '../../service/tva';
 import { multiLanguageText } from '../multiLanguageText';
 import { normalizeText, sortStringOfNumber } from '../utils';
-import { Language } from '../../userInfo';
+import { Language, RestaurantID } from '../../userInfo';
 import { ReactComponent as Detail } from '../../img/detail.svg';
 import { ReactComponent as Edit } from '../../img/edit.svg';
 import { ReactComponent as Star } from '../../img/star.svg';
+import { toast } from 'react-toastify';
 
 
 
@@ -23,7 +24,7 @@ const ProductCard = ({data, changeOrder=false})=>{
     const Text = {...multiLanguageText}[Language].home;
     const [soldout, setSoldout] = useState(false);
     const [TVAData, setTVAData] = useState(null);
-    const [printers, setPrinters] = useState([]);
+    // const [printers, setPrinters] = useState([]);
 
 
     const getSupplyTime = ()=>{
@@ -34,21 +35,22 @@ const ProductCard = ({data, changeOrder=false})=>{
         return supplyTime
     }
 
-    const getTVAInfo = async(TVA_id) =>{
-        const TVAData = await fetchTVAById(TVA_id, Language);
-        return TVAData.country+', '+TVAData.tva_value+'%'
-    }
+    // const getTVAInfo = async(TVA_id) =>{
+    //     const TVAData = await fetchTVAById(TVA_id, Language);
+    //     return TVAData.country+', '+TVAData.tva_value+'%'
+    // }
 
-    const getPrinters = async(printers_id)=>{
-        const printersData = await fetchPrintersById(printers_id)
-        // console.log(printersData)
-        return printersData
-    }
+    // const getPrinters = async(printers_id)=>{
+    //     const printersData = await fetchPrintersById(printers_id)
+    //     // console.log(printersData)
+    //     return printersData
+    // }
 
     useEffect(()=>{
         const getInitInfo = async()=>{
-            setTVAData(await getTVAInfo(product.TVA_id))
-            setPrinters(await getPrinters(product.print_to_where))
+            // setTVAData(await getTVAInfo(product.TVA_id))
+            setTVAData(product.tva_country+', '+product.tva_value+'%')
+            // setPrinters(await getPrinters(product.print_to_where))
         };
         getInitInfo();
     },[])
@@ -73,24 +75,13 @@ const ProductCard = ({data, changeOrder=false})=>{
     }
 
     const [favourite, setFavourite] = useState(product.favourite)
-    const handleClickStar = ()=>{
+    const handleClickStar = async()=>{
         const newFavourite = 1-favourite;
         setFavourite(newFavourite);
-        const csrfToken = getCsrfToken();
-        axios.post(DefaultUrl+'update/product_by_id/', 
-            {'id':product.id, 'favourite':newFavourite},
-            {
-            headers: {
-                'X-CSRFToken': csrfToken, 
-                'content-type': 'multipart/form-data', 
-            }
-          })
-          .then(response => {
-              console.log('update favourite succeed', response)
-          })
-          .catch(error => {
-              console.error('There was an error submitting the form!', error);
-          });
+        const updated = await updateProduct({'id':product.id, 'favourite':newFavourite, 'rid':RestaurantID})
+        if(!updated){
+            toast.error(Text.changeFavouriteFailed)
+        }
     }
 
 

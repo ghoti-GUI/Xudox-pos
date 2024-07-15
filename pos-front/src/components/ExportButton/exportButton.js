@@ -87,12 +87,8 @@ const ExportButton = () => {
             // 给HooftName添加void
             for(let [key, value] of Object.entries(HooftNameValueCopy)){
                 if(!value) HooftNameValueCopy[key]+=' void';
-                if(HooftNameValueCopy[category.id].length<=9) HooftNameValueCopy[category.id] += category.name||category.ename||category.lname||category.fname||category.zname
-            });
+            };
             console.log(HooftNameValueCopy)
-            for (let i=1; i<HooftNameValueCopy.length; i++){
-                if(HooftNameValueCopy[i].length<=9) HooftNameValueCopy[i]+='void';
-            }
             setHooftNameValue(HooftNameValueCopy);
             return [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy]
 
@@ -103,8 +99,6 @@ const ExportButton = () => {
         const id_XuRecv = product.id_Xu.toString();
         const id_Xu = id_XuRecv==='hyphen3'?'---':id_XuRecv.padStart(lengthID, ' ');
         const bill_content = product.bill_content+'.'.padEnd(lengthContent-product.bill_content.length, ' ');
-        const id_Xu = product.id.toString().padStart(3, ' ');
-        const bill_content = product.bill_content+'.'.padEnd(25-product.bill_content.length, ' ');
         const price = product.price;
         return `${id_Xu} ${bill_content} ${price}`;
     };

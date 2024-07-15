@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
-import { checkIdXuExistence, fetchAllProduct, updateProduct} from '../../service/product';
+import { checkIdXuExistence, fetchAllProduct, fetchAllProductFrontForm, updateProduct} from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
@@ -31,7 +31,8 @@ function Home() {
             // const products_data = products_data_recv.filter(product=>product.rid===RestaurantID);
             // const categories_data_recv = await fetchAllCategory();
             // const categories_data = categories_data_recv.filter(category=>category.rid===RestaurantID);
-            const products_data = await fetchAllProduct(RestaurantID);
+            // const products_data = await fetchAllProductm(RestaurantID);
+            const products_data = await fetchAllProductFrontForm(RestaurantID);
             const categories_data = await fetchAllCategory(RestaurantID);
             const productClassifiedCopy = productsClassified;
             for(const category of categories_data){
@@ -99,22 +100,6 @@ function Home() {
             }else{
                 toast.error(Text.addFailed)
             }
-            // const csrfToken = getCsrfToken();
-            // axios.post(DefaultUrl+'update/product_by_id/', 
-            //     positionData,
-            //     {
-            //     headers: {
-            //         'X-CSRFToken': csrfToken, 
-            //         'content-type': 'multipart/form-data', 
-            //     }
-            //   })
-            //   .then(response => {
-            //       toast.success(Text.addSuccess);
-            //   })
-            //   .catch(error => {
-            //       toast.error(Text.addFailed)
-            //       console.error('There was an error submitting the form!', error);
-            //   });
         }
 
         closeDialog();

@@ -25,6 +25,18 @@ const TimeSupplyData = {
     }
 }
 
+// const TimeSupplyData = {
+//     'English':{
+//         'lunch': 1,
+//         'dinner': 2,
+//     },
+//     'Chinese':{
+//         '午餐': 1,
+//         '晚餐': 2,
+//     }
+// }
+
+
 
 
 
@@ -56,12 +68,24 @@ export const multiLanguageText = {
                 'dinner': true,
             }, 'Please choose at least one supply time'],
             'print_to_where':['Printers selected','','Please select at least one printer'], 
-            'addSuccess':'Product added successfully', 
-            'addFailed':'Product added failed', 
             'advanceButton':'Advance settings', 
             'returnNormalButton':'Return to normal settings', 
             'submitButton':'Submit', 
             'Xu_class':['Xu_class'], 
+            'add':{
+                'pageName':'Add Product',
+                'addSuccess':'Product added successfully', 
+                'addFailed':'Product added failed', 
+            }, 
+            'check':{
+                'pageName':'Check Product', 
+                'editButton':'Edit',
+            },
+            'edit':{
+                'pageName':'Edit Product',
+                'editSuccess':'Edit succeed!',
+                'editFailed':'Edit failed!',
+            }, 
         },
         'productAdvance':{
             'id_user':['ID without restrictions', 'ID without any restrictions'],
@@ -94,7 +118,11 @@ export const multiLanguageText = {
             'addFailed':'Category added failed', 
             'Xu_class':['Xu_class'],
         }, 
-        'img':['Choose image for your product', 'Change image'], 
+        'img':{
+            'check':'Your choosed image: ',
+            'chooseImg':'Choose image for your product', 
+            'changeImg':'Change image', 
+        }, 
         'color':{
             'bgcolor':'Choose background color: ', 
             'text_color':['Automatic setting for text colours', ['Black', 'white']],
@@ -117,25 +145,13 @@ export const multiLanguageText = {
             'title':'Home',
             'productList':'Product List', 
             'modifyOrder':'Modify product order',
+            'changeFavouriteFailed':'Failed to modify favourite'
         },
         'dialogChangeOrder':{
             'title':'Change product order',
             'submitButton':'Submit',
             'cancelButton':'Cancel', 
         }, 
-        'check':{
-            'pageName':'Check Page', 
-            'img':'Your choosed image: ',
-            'editButton':'Edit',
-        },
-        'edit':{
-            'pageName':'Edit Page',
-            'editSuccess':'Edit succeed!',
-            'editFailed':'Edit failed!',
-        }, 
-        'add':{
-            'pageName':'Add Page'
-        },
         'export':'Export', 
     },
 
@@ -169,12 +185,25 @@ export const multiLanguageText = {
             'cid':['产品类别', '选择产品类别'],
             'time_supply':['供应时间', TimeSupplyData.Chinese, '请选择至少一个供应时间'],
             'print_to_where':['打印机选择','','请选择至少一个打印机'], 
-            'addSuccess':'产品添加成功', 
-            'addFailed':'产品添加失败', 
             'advanceButton':'高级设置', 
             'returnNormalButton':'返回一般设置', 
             'submitButton':'添加', 
             'Xu_class':['Xu_class'], 
+            'add':{
+                'pageName':'新增页面',
+                'addSuccess':'产品添加成功', 
+                'addFailed':'产品添加失败', 
+            },
+            'check':{
+                'pageName':'查看页面', 
+                'editButton':'编辑',
+            },
+            'edit':{
+                'pageName':'编辑页面',
+                'editSuccess':'编辑成功',
+                'editFailed':'编辑失败',
+            }, 
+            
         },
         'productAdvance':{
             'id_user':['自定义ID', '没有任何限制的自定义ID'],
@@ -207,7 +236,11 @@ export const multiLanguageText = {
             'addFailed':'类别添加失败', 
             'Xu_class':['Xu_class'],
         }, 
-        'img':['选择产品的图片', '更改图片'], 
+        'img':{
+            'check':'您已选择的图片：',
+            'chooseImg':'选择产品的图片', 
+            'changeImg':'更改图片', 
+        }, 
         'color':{
             'bgcolor':'选择背景颜色: ',
             'text_color':['自动设置字体颜色', ['黑色', '白色']], 
@@ -229,25 +262,14 @@ export const multiLanguageText = {
             'title':'主页',
             'productList':'产品列表', 
             'modifyOrder':'修改产品顺序',
+            'changeFavouriteFailed':'修改收藏失败'
         },
         'dialogChangeOrder':{
             'title':'修改产品顺序',
             'submitButton':'保存',
             'cancelButton':'取消', 
         }, 
-        'check':{
-            'pageName':'查看页面', 
-            'img':'选择的图片：',
-            'editButton':'编辑',
-        },
-        'edit':{
-            'pageName':'编辑页面',
-            'editSuccess':'编辑成功',
-            'editFailed':'编辑失败',
-        }, 
-        'add':{
-            'pageName':'新增页面'
-        },
+        
         'export':'导出', 
     },
 }

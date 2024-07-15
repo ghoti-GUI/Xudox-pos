@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
+import axios, { all } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast} from 'react-toastify';
 import { getCsrfToken } from '../../service/token';
@@ -31,21 +31,22 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   const [TVA, setTVA] = useState({
     //'country':{'21.00': '1', '9.00': '2', '0.00': '3'}, 
   })
-  const [TVACountry, setTVACountry] = useState({
-    //'country':'country', 
-  })
+  const [TVACountry, setTVACountry] = useState([
+    //'country', 
+  ])
   const [TVACategory, setTVACategory] = useState({
     'A':1,
     'B':2,
     'C':3,
     //'21.00%':1
   })
-  const [categoryData, setCategoryData] = useState({
-    //'starter':1, 
-  });
-  const TimeSupplyData = TextProduct.time_supply[1]; 
-  const TimeSuppyKeys = Object.keys(TimeSupplyData); 
-  const [timeSupply, setTimeSupply] = useState(TextProduct.time_supply[1]) //['lunch', true, 'dinner', true]
+  const [categoryData, setCategoryData] = useState([
+    // 'name':name,
+    // 'id':category.id,
+    // 'Xu_class':category.Xu_class
+  ]);
+
+  const [timeSupply, setTimeSupply] = useState({...TextProduct.time_supply[1]}) //{'lunch':true, 'dinner':true}
 
   const requiredFields = ['id_Xu','online_content', 'bill_content', 'kitchen_content', 'price', 'price2', 'time_supply'];
   const selectFields = {
@@ -76,16 +77,8 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
 
   const init = useCallback(async ()=>{
     setProductData(initData)
-    if(!check&&!edit){
-      let TimeSupplyDataCopy = TimeSupplyData
-      for(const key in TimeSupplyData){
-        TimeSupplyDataCopy[key]=true
-      }
-      setTimeSupply(TimeSupplyDataCopy)
-    }
-    // console.log('TimeSupplyData:', TimeSupplyData)
     // eslint-disable-next-line
-  }, [TimeSupplyData]);
+  }, []);
 
 
 
@@ -93,8 +86,6 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   // 当从advance返回时，使用normalData值
   // 当从其他页面进入时，使用productDataReceived值
   useEffect(() => {
-    // console.log('normalData:', normalData)
-    // console.log('productDataReceived:', productDataReceived)
     init();
     
     const fetchData = async() => {
@@ -103,11 +94,23 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
           setProductData(updateObject(productdata, productDataReceived))
           setSameAsBillContent(productDataReceived.bill_content===productDataReceived.kitchen_content)
           setSameAsPrice(productDataReceived.price===productDataReceived.price2)
+          const time_supply_nbr = productDataReceived.time_supply
+          let time_supply_object={}
+          Object.keys(timeSupply).forEach((time, index)=>{
+            if(String(time_supply_nbr).includes(String(index+1))){
+              time_supply_object[time]=true;
+            }else{
+              time_supply_object[time]=false;
+            }
+          })
+          setTimeSupply(time_supply_object)
         }
       }
 
       const fetchedPrinter = await fetchPrinter();
-      setCategoryData(await fetchAllCategoryForProductForm(RestaurantID));
+      const allCategoryData = await fetchAllCategoryForProductForm(RestaurantID);
+      // console.log(allCategoryData)
+      setCategoryData(allCategoryData);
 
       if(normalData && !check){
         setPrinterData(updateCheckboxData(fetchedPrinter, normalData.print_to_where));
@@ -119,25 +122,18 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
 
       try{
         const TVAData = await fetchTVA(Language);
-        // console.log('TVAData:', TVAData)
         setTVA(TVAData); 
-        const TVACountry = {}
+        const TVACountry = []
         for (const country in TVAData){
-          TVACountry[country]=country;
+          TVACountry.push(country)
+          // TVACountry[country]=country;
         }
         setTVACountry(TVACountry)
 
         if( (check || edit) && !normalData ){
-          const tvaReceived = await fetchTVAById(productDataReceived.TVA_id, Language)
-          console.log(tvaReceived)
+          const tvaReceived = await fetchTVAById(productDataReceived.TVA_id, Language);
           const value = Text.country[tvaReceived.country];
-          const updatedProductData = {
-            ...productdata,
-            'TVA_country': value,
-            'TVA_category': tvaReceived.category
-          }
-          console.log('updatedProductData:', updatedProductData)
-          setProductData(updatedProductData)
+          handleChange('TVA_country', value, 'TVA_category', tvaReceived.category)
           setTVACategory(TVAData[value]);
         }else{
           const value = normalData?normalData.TVA_country:Text.country[Country]
@@ -151,13 +147,13 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     };fetchData();
   },[check, edit, productDataReceived]);
 
-  const handleChange = (key, value, key2=null) => {
+  const handleChange = (key, value, key2=null, value2=null) => {
     let updatedProductData = {}
     if(key2){
       updatedProductData = {
         ...productdata,
         [key]: value,
-        [key2]: value,
+        [key2]: value2||value,
       }
     }else{
       updatedProductData = {
@@ -169,6 +165,11 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     console.log(updatedProductData);
     sendDataToParent(updatedProductData);
   };
+
+  const handleChangeCategory = (index, value)=>{
+    let category = categoryData[index]
+    handleChange('cid', value, 'Xu_class', category.Xu_class)
+  }
 
   const [idExisted, setIdExisted] = useState(false);
   const handleChangeID = (key, value) => {
@@ -182,10 +183,10 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   const handleBlurID = async()=>{
     if(productdata.id_Xu.trim() !== ''){
       try {
-        const existed = await checkIdXuExistence(productdata.id_Xu)
+        const existed = await checkIdXuExistence(productdata.id_Xu, RestaurantID)
         if (existed){
           setIdExisted(true);
-          const product = await fetchProductById_Xu(productdata.id_Xu);
+          const product = await fetchProductById_Xu(productdata.id_Xu, RestaurantID);
           toast.warning(
             <>
               <span>{TextProduct.id_Xu[3][3][0]}</span>
@@ -197,7 +198,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
               <div className="flex justify-end mt-2">
                 <button
                   className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 mr-2 rounded"
-                  onClick={() => handleClickYes()} // 点击“是”按钮的处理函数
+                  onClick={() => handleClickYes(product)} // 点击“是”按钮的处理函数
                 >
                   {TextProduct.id_Xu[3][3][1]}
                 </button>
@@ -223,8 +224,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     }
   }
 
-  const handleClickYes = async() => {
-    const product = await fetchProductById_Xu(productdata.id_Xu);
+  const handleClickYes = async(product) => {
     let product_copy = {}
     for (let key in productdata){
       product_copy[key]=product[key]
@@ -270,10 +270,10 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
 
   const handleChangeTimeSupply = (name, checked) => {
     // const { name, checked } = event.target;
-    let timeSupplyCopy = timeSupply;
+    let timeSupplyCopy = {...timeSupply};
     timeSupplyCopy[name] = checked;
     let TimeSupplyId = '';
-    TimeSuppyKeys.forEach((value,index)=>{
+    Object.keys(timeSupplyCopy).forEach((value,index)=>{
       if (timeSupplyCopy[value]) TimeSupplyId += String(index+1);
     })
     setTimeSupply(timeSupplyCopy);
@@ -299,12 +299,6 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     <form onSubmit={handleSubmit} className="flex flex-col w-full">
       {Object.keys(productdata).map((key)=>(
         <div key={key}>
-          {/* {key === 'ename' && (
-            <div className="justify-center mt-2 mx-4">Fill in at least one of the name</div>
-          )}
-          {key === 'edes' && (
-            <div className="justify-center mt-2 mx-4">Fill in at least one of the description</div>
-          )} */}
 
           {key==='bill_content' &&(
               <>
@@ -326,7 +320,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
             {inputField.includes(key) && 
               <input 
               type={numericFields.includes(key) ? 'number':'text'} name={key} 
-              className="flex px-2 w-3/4 rounded-r-lg bg-white" 
+              className={`flex px-2 w-3/4 rounded-r-lg  ${key==='Xu_class'?'bg-gray-300 text-gray-600':'bg-white'}`}
               value={check?productDataReceived[key]:productdata[key]} 
               placeholder={TextProduct[key][1]}
               onChange={(e) => {
@@ -338,21 +332,40 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
               }}
               onBlur={key==='id_Xu'?handleBlurID:null}
               required={requiredFields.includes(key)}
-              disabled={check}/>
+              disabled={key==='Xu_class'||check}/>
             }
-              
-            {selectFields.hasOwnProperty(key) && 
+
+            {key==='cid' && 
               <select 
-                value={check && !['TVA_country', 'TVA_category'].includes(key)?productDataReceived[key]:productdata[key]} 
-                onChange={(e) => key==='TVA_country'?handleChangeTVACountry(key, e.target.value):handleChange(key, e.target.value)}
+                value={productdata[key]} 
+                onChange={(e) => {
+                  const selectedOption = e.target.options[e.target.selectedIndex];
+                  const index = selectedOption.getAttribute('optionIndex');
+                  handleChangeCategory(index, e.target.value);
+                }}
                 className={`flex w-3/4 px-2 rounded-r-lg bg-white ${productdata[key]===''&&!check?'text-gray-400':''} ${check?'pointer-events-none':''}`}
                 required>
                   <option value="" disabled>{TextProduct[key][1]}</option>
-                {Object.entries(selectFields[key]).map(([optionKey, optionValue])=>(
-                  <option key={optionKey} value={optionValue} className='text-black'>{optionKey}</option>
-                ))}
+                  {Object.entries(categoryData).map(([index, category])=>(
+                    <option key={index} value={category.id} optionIndex={index} className='text-black'>{category.name}</option>
+                  ))}
               </select>
             }
+
+            {key==='TVA_country' && 
+              <select 
+                value={productdata[key]} 
+                onChange={(e) => handleChangeTVACountry(key, e.target.value)}
+                className={`flex w-3/4 px-2 rounded-r-lg bg-white ${productdata[key]===''&&!check?'text-gray-400':''} ${check?'pointer-events-none':''}`}
+                required>
+                  <option value="" disabled>{TextProduct[key][1]}</option>
+                  {Object.values(TVACountry).map((country)=>(
+                    <option key={country} value={country} className='text-black'>{country}</option>
+                  ))}
+              </select>
+            }
+
+
             {radioField.hasOwnProperty(key) &&
               <div className={`grid grid-cols-${key==='TVA_category'?4:2} w-3/4`}>
                 {Object.entries(radioField[key]).map(([fieldKey, fieldValue])=>(

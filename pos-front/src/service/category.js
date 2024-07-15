@@ -39,3 +39,20 @@ export const fetchAllCategory = async (rid) => {
     console.error('Error fetching category data:', error)
   }
 }
+
+export const fetchCidByCategoryName = async(categoryName, rid)=>{
+  try{
+    const response = await axios.get(DefaultUrl+'get/cid/by/categoryName/',
+      {params:{'category_name':categoryName, 'rid':rid}},
+      {
+          headers: {
+              'X-CSRFToken': csrfToken, 
+              'content-type': 'multipart/form-data', 
+          }, 
+      })
+    return response.data.cid
+  }catch(error){
+    console.error('fetch cid failed', error);
+    return false
+  }
+}
