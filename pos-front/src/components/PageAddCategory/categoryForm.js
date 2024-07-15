@@ -77,38 +77,6 @@ function CategoryForm({onCategorySubmit}) {
     }catch (error) {
       console.error('Error submit categorydata:', error);
     };
-
-    // const csrfToken = getCsrfToken();
-  
-    // // const nameField = ['ename', 'lname', 'fname', 'zname'];
-    // // const desField = ['edes', 'ldes', 'fdes'];
-    // // const AtLeastOneName = nameField.some((key)=>categorydata[key].trim() !== '');
-    // // const AtLeastOneDes = desField.some((key)=>categorydata[key].trim() !== '');
-
-    // // if (!AtLeastOneName){
-    // //   event.preventDefault();
-    // //   alert('Please fill in at least one of the name inputs.');
-    // //   return;
-    // // }else if(!AtLeastOneDes){
-    // //   event.preventDefault();
-    // //   alert('Please fill in at least one of the description inputs.');
-    // //   return;
-    // // }
-
-    // axios.post(DefaultUrl+'post/product/', 
-    //   categorydata, 
-    //   {
-    //   headers: {
-    //       'X-CSRFToken': csrfToken
-    //   }
-    // })
-    // .then(response => {
-    //     console.log(response.data);
-    //     init();
-    // })
-    // .catch(error => {
-    //     console.error('There was an error submitting the form!', error);
-    // });
   };
 
   const handleChange = (key, value) => {
