@@ -41,6 +41,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             'fdes':'',
             'stb':0,
             'favourite':0,
+            'img':None, 
         }
         request_data = serializer.initial_data
         country_value = request_data.get('TVA_country')
@@ -66,6 +67,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 def update_product_by_id(request):
     try:
         data = request.POST
+        files = request.FILES
         id_received = data.get('id', '')
         rid_received = data.get('rid', 0)
         product_to_update = get_object_or_404(product, Q(id=id_received) & Q(rid=int(rid_received)))
@@ -87,8 +89,16 @@ def update_product_by_id(request):
                         setattr(product_to_update, 'TVA_id', TVA)
                     except (ValueError, category.DoesNotExist):
                         print(f"Invalid TVA data: {data.items.TVA_country}, {data.items.TVA_category}")
+                elif key=='img':
+                    img = data.get('img', '')
+                    print(img)
                 elif hasattr(product_to_update, key) and key!='TVA_category':
+                    print(value)
                     setattr(product_to_update, key, value)
+
+        if 'img' in files:
+            product_to_update.img = files['img']
+
 
         product_to_update.save()
         return JsonResponse({'status': 'success', 'message': 'Product updated successfully.'})
@@ -147,3 +157,16 @@ def get_product_by_id_Xu(request):
     product_info = get_object_or_404(product, Q(id_Xu=id_Xu) & Q(rid=rid_received))
     serializer = AllProductSerializer(product_info)
     return JsonResponse(serializer.data)
+
+@csrf_exempt
+def delete_product(request):
+    try:
+        id_recv = request.POST.get('id')
+        rid_recv = request.POST.get('rid')
+        product_to_delete = get_object_or_404(product, Q(id=id_recv) & Q(rid=rid_recv))
+        product_to_delete.delete()
+
+        return JsonResponse({'status': 'success', 'message': f'product {id_recv} deleted successfully.'})
+
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)

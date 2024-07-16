@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import addPictureDefault from '../../img/add-picture.svg'; 
-import { multiLanguageText } from '../multiLanguageText';
+import noImg from '../../img/no-image.svg'; 
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { Language } from '../../userInfo';
 
 const ImgUploadButton = ({ onImgSelect, check=false, edit=false, imgReceived}) => {
@@ -24,7 +25,7 @@ const ImgUploadButton = ({ onImgSelect, check=false, edit=false, imgReceived}) =
     };
 
     useEffect(()=>{
-        if(check || edit) setImgUrl('http://localhost:8000/'+imgReceived);
+        if((check || edit)&&imgReceived) setImgUrl('http://localhost:8000/'+imgReceived);
 
     },[check, edit, imgReceived]);
 
@@ -41,8 +42,8 @@ const ImgUploadButton = ({ onImgSelect, check=false, edit=false, imgReceived}) =
                 disabled={check}
             />
             <img 
-                src={imgUrl||addPictureDefault} 
-                alt="Selected" 
+                src={imgUrl||(check?noImg:addPictureDefault)} 
+                alt="select failed" 
                 style={{ maxWidth: '100%', maxHeight: '400px' }} 
                 onClick={handleClick}
                 className={`w-full object-fill ${check?'':'cursor-pointer'}`}

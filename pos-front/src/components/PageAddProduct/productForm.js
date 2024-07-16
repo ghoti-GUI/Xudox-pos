@@ -9,7 +9,7 @@ import { addProduct, checkIdXuExistence, fetchProductById_Xu, updateProduct } fr
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA, fetchTVAById } from '../../service/tva';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber, updateCheckboxData, updateObject, truncateString } from '../utils';
 import { fetchAllCategoryForProductForm, } from './utils';
 import { Language, Country, RestaurantID } from '../../userInfo';
@@ -89,23 +89,32 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     init();
     
     const fetchData = async() => {
+      let time_supply_nbr=null
       if(!normalData){
         if(check || edit){
           setProductData(updateObject(productdata, productDataReceived))
           setSameAsBillContent(productDataReceived.bill_content===productDataReceived.kitchen_content)
           setSameAsPrice(productDataReceived.price===productDataReceived.price2)
-          const time_supply_nbr = productDataReceived.time_supply
-          let time_supply_object={}
-          Object.keys(timeSupply).forEach((time, index)=>{
-            if(String(time_supply_nbr).includes(String(index+1))){
-              time_supply_object[time]=true;
-            }else{
-              time_supply_object[time]=false;
-            }
-          })
-          setTimeSupply(time_supply_object)
+          time_supply_nbr = productDataReceived.time_supply
         }
+      }else if(normalData){
+        time_supply_nbr = normalData.time_supply
       }
+      if(time_supply_nbr){
+        let time_supply_object={}
+        Object.keys(timeSupply).forEach((time, index)=>{
+          if(String(time_supply_nbr).includes(String(index+1))){
+            time_supply_object[time]=true;
+          }else{
+            time_supply_object[time]=false;
+          }
+        })
+        setTimeSupply(time_supply_object)
+      }
+
+      
+
+     
 
       const fetchedPrinter = await fetchPrinter();
       const allCategoryData = await fetchAllCategoryForProductForm(RestaurantID);
@@ -312,7 +321,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
           <div className="flex flex-row justify-center mt-1 mx-3 w-full">
             
             {key !== 'print_to_where' && (
-              <label className="flex bg-white py-2 pl-6 border-r  w-1/4 rounded-l-lg">
+              <label className="flex bg-white py-2 pl-4 border-r  w-1/4 rounded-l-lg">
                   {TextProduct[key][0]} :
               </label>
             )}

@@ -18,6 +18,7 @@ function App() {
             
             <Route path='/'  element={<Navigate to='/home' />}/>
             <Route path='/home'  element={<Home/>}/>
+            <Route path='/add/Product'  element={<Navigate to='/addProduct' />}/>
             <Route path='/addProduct' element={<AddProduct/>}/>
             <Route path='/addCategory' element={<AddCategory/>}/>
             <Route path='/checkProduct/:productId' element={<AddProduct/>} />

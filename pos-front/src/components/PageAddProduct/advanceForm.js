@@ -8,7 +8,7 @@ import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
-import { multiLanguageText, multiLanguageAllergen } from '../multiLanguageText';
+import { multiLanguageText, multiLanguageAllergen } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber, mergeObject, updateCheckboxData, updateObject, truncateString } from '../utils';
 import { fetchAllCategoryForProductForm,  } from './utils';
 import { Language, Country } from '../../userInfo';

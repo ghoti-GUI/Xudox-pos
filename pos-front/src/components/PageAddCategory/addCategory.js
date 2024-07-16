@@ -9,11 +9,11 @@ import ColorSelect from '../reuseComponent/colorSelect';
 import { Language, RestaurantID } from '../../userInfo';
 import { addCategory } from '../../service/category';
 import { toast } from 'react-toastify';
-import { multiLanguageAllergen } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 
 function AddCategory() {
 
-  const TextCategory = {...multiLanguageAllergen}[Language].category
+  const TextCategory = {...multiLanguageText}[Language].category
 
   const [img, setImg] = useState(null)
   const handleImgSelect = (img)=>{
@@ -21,19 +21,22 @@ function AddCategory() {
   }
 
   const [color, setColor] = useState('');
-  const handleColorSelect = (color)=>{
+  const [textColor, setTextColor] = useState('');
+  const handleColorSelect = (color, textColor)=>{
     setColor(color);
+    setTextColor(textColor);
   }
+
 
   const handleCategorySubmit = async(categorydata)=>{
 
-    categorydata['color'] = color;
-    categorydata['img'] = img;
-    categorydata['rid'] = RestaurantID;
+    const categorydataCopy = {...categorydata}
+    categorydataCopy['color'] = color;
+    categorydataCopy['text_color'] = textColor;
+    categorydataCopy['img'] = img;
+    categorydataCopy['rid'] = RestaurantID;
 
-    const csrfToken = getCsrfToken();
-
-    const addSucceed = await addCategory(categorydata)
+    const addSucceed = await addCategory(categorydataCopy)
     if(addSucceed){
       console.log(addSucceed);
       toast.success(TextCategory.addSuccess)
@@ -42,6 +45,12 @@ function AddCategory() {
       toast.error(TextCategory.addFailed)
     }
   }
+
+  // const [normalData, setNormalData] = useState(null);
+  // const receiveNormalData = (receivedData)=>{
+  //   console.log('receivedData:', receivedData)
+  //   setNormalData(receivedData)
+  // }
 
 
   return (
@@ -55,7 +64,11 @@ function AddCategory() {
         </button> */}
       </div>
       <div className='w-7/12'>
-        <CategoryForm onCategorySubmit={handleCategorySubmit}/>
+        <CategoryForm 
+          onCategorySubmit={handleCategorySubmit} 
+          // sendDataToParent={receiveNormalData} 
+          // normalData={normalData}
+          />
       </div>
       <div className='w-2/12'>
           <ColorSelect onColorChange={handleColorSelect}/>

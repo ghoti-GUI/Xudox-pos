@@ -5,7 +5,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { addProductModelFull } from '../../models/product';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { Language, RestaurantID } from '../../userInfo';
 import { normalizeText, truncateString } from '../utils';
 import { categoryModelFull } from '../../models/category';

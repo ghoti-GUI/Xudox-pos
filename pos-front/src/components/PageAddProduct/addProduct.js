@@ -10,7 +10,7 @@ import ProductForm from "./productForm";
 import ImgUploadButton from '../reuseComponent/imgUploadButton';
 import ColorSelect from '../reuseComponent/colorSelect';
 import AdvanceForm from './advanceForm.js';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { Language, RestaurantID } from '../../userInfo';
 import { addProduct, checkIdXuExistence, updateProduct } from '../../service/product.js';
 
@@ -103,7 +103,7 @@ function AddProduct() {
     mergedProductData['text_color'] = textColor;
     mergedProductData['rid'] = RestaurantID;
 
-    console.log(mergedProductData)
+    console.log('mergedProductData:', mergedProductData)
 
     const submitSucceed = edit? await updateProduct(mergedProductData): await addProduct(mergedProductData);
     if(edit){

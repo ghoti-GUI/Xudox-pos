@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {SketchPicker} from 'react-color';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { Language } from '../../userInfo';
 
 const ColorSelect = ({ onColorChange, Id, advance=false, check=false, edit=false, colorReceived, textColorReceived }) => {

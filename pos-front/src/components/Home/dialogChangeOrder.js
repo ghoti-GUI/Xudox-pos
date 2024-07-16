@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import ProductCard from './productCard';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { Language } from '../../userInfo';
 
 const DialogChangeOrder = ({orderedProductReceived, handleSubmit, handleCancel}) => {

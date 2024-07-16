@@ -36,8 +36,7 @@ export const addProductModelAdvance = {
 export const addProductModelFull = {
     ...addProductModelNormal, 
     ...addProductModelAdvance, 
-    'color':'#FFFFFF',
-    'text_color':'#000000',
-    'img':null, 
+    'color':'rgb(255, 255, 255)',
+    'text_color':'rgb(0, 0, 0)',
     'rid':RestaurantID,
 }

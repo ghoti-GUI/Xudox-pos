@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchAllProduct } from "../../service/product";
 import { fetchAllCategory } from "../../service/category";
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { Language, RestaurantID } from '../../userInfo';
 import { useSearchParams } from 'react-router-dom';
 // import { handleClickExport } from './export';

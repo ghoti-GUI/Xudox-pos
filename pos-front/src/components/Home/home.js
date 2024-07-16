@@ -7,7 +7,7 @@ import { checkIdXuExistence, fetchAllProduct, fetchAllProductFrontForm, updatePr
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { Language, RestaurantID } from '../../userInfo';
 import { normalizeText, sortStringOfNumber } from '../utils';
 import ProductCard from './productCard';
@@ -27,11 +27,6 @@ function Home() {
 
     useEffect(() => {
         const fetchData = async ()=>{
-            // const products_data_recv = await fetchAllProduct();
-            // const products_data = products_data_recv.filter(product=>product.rid===RestaurantID);
-            // const categories_data_recv = await fetchAllCategory();
-            // const categories_data = categories_data_recv.filter(category=>category.rid===RestaurantID);
-            // const products_data = await fetchAllProductm(RestaurantID);
             const products_data = await fetchAllProductFrontForm(RestaurantID);
             const categories_data = await fetchAllCategory(RestaurantID);
             const productClassifiedCopy = productsClassified;

@@ -6,7 +6,7 @@ import { checkIdXuExistence, fetchAllProduct} from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { Language } from '../../userInfo';
 import { normalizeText, sortStringOfNumber } from '../utils';
 import ProductCard from './productCard';

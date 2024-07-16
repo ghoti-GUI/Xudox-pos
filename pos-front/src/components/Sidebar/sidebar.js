@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaHome, FaInfoCircle, FaServicestack, FaEnvelope } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { Language } from '../../userInfo';
 import { fetchAllProduct } from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
@@ -26,7 +26,7 @@ const Sidebar = () => {
           <FaInfoCircle className='mr-2'/>
           {Text.addCategory}
         </Link>
-        <Link to="/addProduct" className="flex items-center px-4 py-2 hover:bg-gray-700 w-full" >
+        <Link to="/add/Product" className="flex items-center px-4 py-2 hover:bg-gray-700 w-full" >
           <FaInfoCircle className='mr-2'/>
           {Text.addProduct}
         </Link>

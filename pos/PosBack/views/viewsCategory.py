@@ -36,11 +36,17 @@ class CategoryViewSet(viewsets.ModelViewSet):
 
 
 @api_view(['GET'])
-def check_id_category_existence(request):
-    id_category_received = request.query_params.get('id_category', '')
+def check_name_category_existence(request):
+    name_category_received = request.query_params.get('categoryName', '')
     rid_received = request.query_params.get('rid', '')
     try:
-        category.objects.get(id = id_category_received, rid=rid_received)
+        category.objects.get(
+            Q(name = name_category_received)|
+            Q(ename = name_category_received)|
+            Q(fname = name_category_received)|
+            Q(lname = name_category_received)|
+            Q(zname = name_category_received), 
+            rid=rid_received)
         return JsonResponse({'existed':True})
     except category.DoesNotExist:
         return JsonResponse({'existed':False})

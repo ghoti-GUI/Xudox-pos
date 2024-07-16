@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getCsrfToken } from './token';
 import { DefaultUrl, CheckIdXuExistenceUrl, GetAllProduct} from './valueDefault';
-import { multiLanguageText } from '../components/multiLanguageText';
+import { multiLanguageText } from '../multiLanguageText/multiLanguageText';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { Language } from '../userInfo';

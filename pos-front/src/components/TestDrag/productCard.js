@@ -7,7 +7,7 @@ import { checkIdXuExistence, fetchAllProduct} from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter, fetchPrintersById } from '../../service/printer';
 import { fetchTVA, fetchTVAById } from '../../service/tva';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { normalizeText, sortStringOfNumber } from '../utils';
 import { Language } from '../../userInfo';
 import { ReactComponent as Detail } from '../../img/detail.svg';
