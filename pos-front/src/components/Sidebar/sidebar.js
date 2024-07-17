@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FaHome, FaInfoCircle, FaServicestack, FaEnvelope } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
@@ -11,6 +11,7 @@ import ImportButton from '../ImportButton/importButton';
 
 const Sidebar = () => {
   const Text = {...multiLanguageText}[Language].sidebar;
+  const [sidebarChoosed, setSidebarChoosed] = useState('')
 
   return (
     <div className="h-screen w-64 bg-gray-800 text-white">
@@ -18,15 +19,24 @@ const Sidebar = () => {
         <h1 className="text-2xl font-bold">{Text.title}</h1>
       </div>
       <nav className="mt-10">
-        <Link to="/" className="flex items-center px-4 py-2 hover:bg-gray-700 w-full" >
+        <Link 
+          to="/" 
+          className={`flex items-center px-4 py-2 hover:bg-gray-700 w-full ${sidebarChoosed==='home'?'bg-gray-600':''}`} 
+          onClick={()=>{setSidebarChoosed('home')}}>
           <FaHome className='mr-2'/>
           {Text.home}
         </Link>
-        <Link to="/addCategory" className="flex items-center px-4 py-2 hover:bg-gray-700 w-full" >
+        <Link 
+          to="/addCategory" 
+          className={`flex items-center px-4 py-2 hover:bg-gray-700 w-full ${sidebarChoosed==='addCategory'?'bg-gray-600':''}`} 
+          onClick={()=>{setSidebarChoosed('addCategory')}}>
           <FaInfoCircle className='mr-2'/>
           {Text.addCategory}
         </Link>
-        <Link to="/add/Product" className="flex items-center px-4 py-2 hover:bg-gray-700 w-full" >
+        <Link 
+          to="/add/Product" 
+          className={`flex items-center px-4 py-2 hover:bg-gray-700 w-full ${sidebarChoosed==='addProduct'?'bg-gray-600':''}`} 
+          onClick={()=>{setSidebarChoosed('addProduct')}}>
           <FaInfoCircle className='mr-2'/>
           {Text.addProduct}
         </Link>

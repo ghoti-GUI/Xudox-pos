@@ -63,28 +63,29 @@ class ProductViewSet(viewsets.ModelViewSet):
                 save_data[advanceKey]=advanceKeyList[advanceKey]
 
         # 通过收到的图片路径，获取并复制图片，保存
-        imgUrl = request_data['imgUrl']
-        if imgUrl:
-            imgUrl = imgUrl[1:] # 去掉开头的'/'
-            # imgResponse = requests.get('http://localhost:8000/'+imgUrl)
-            fullImgPath = os.path.join(settings.BASE_DIR, imgUrl)
-            imgFile = None
-            # if imgResponse.status_code == 200:
-            if os.path.exists(fullImgPath):
-                imgFile = open(fullImgPath, 'rb')
+        if 'imgUrl' in request_data:
+            imgUrl = request_data['imgUrl']
+            if imgUrl:
+                imgUrl = imgUrl[1:] # 去掉开头的'/'
+                # imgResponse = requests.get('http://localhost:8000/'+imgUrl)
+                fullImgPath = os.path.join(settings.BASE_DIR, imgUrl)
+                imgFile = None
+                # if imgResponse.status_code == 200:
+                if os.path.exists(fullImgPath):
+                    imgFile = open(fullImgPath, 'rb')
 
-                imgPath = os.path.dirname(imgUrl) # 获取名字前面的path
-                imgName = os.path.basename(imgUrl) # 获取名字
-                # 创建新的名字
-                imgNameList = imgName.split('.')
-                newImgName = imgNameList[0]+f'_{request_data.get("id_Xu")}.'+imgNameList[1]
-                # 组合
-                newImgUrl = imgPath+'/'+newImgName
-                # print(newImgUrl)
-                # path = default_storage.save(newImgUrl, ContentFile(imgResponse.content))
-                path = default_storage.save(newImgUrl, imgFile)
-                print(path)
-                save_data['img'] = newImgUrl
+                    imgPath = os.path.dirname(imgUrl) # 获取名字前面的path
+                    imgName = os.path.basename(imgUrl) # 获取名字
+                    # 创建新的名字
+                    imgNameList = imgName.split('.')
+                    newImgName = imgNameList[0]+f'_{request_data.get("id_Xu")}.'+imgNameList[1]
+                    # 组合
+                    newImgUrl = imgPath+'/'+newImgName
+                    # print(newImgUrl)
+                    # path = default_storage.save(newImgUrl, ContentFile(imgResponse.content))
+                    path = default_storage.save(newImgUrl, imgFile)
+                    print(path)
+                    save_data['img'] = newImgUrl
         
         serializer.save(**save_data)
 

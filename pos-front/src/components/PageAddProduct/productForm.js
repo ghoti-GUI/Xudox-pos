@@ -249,6 +249,8 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     setProductData(product_copy)
     updateTimeSupply(product_copy.time_supply)
     setPrinterData(updateCheckboxData(printerData, product_copy.print_to_where))
+    setSameAsBillContent(product.bill_content===product.kitchen_content)
+    setSameAsPrice(product.price===product.price2)
     product.TVA_category = TVA_info.category
     product.TVA_country = TVA_info.country
     sendExistedDataToParent(product)
