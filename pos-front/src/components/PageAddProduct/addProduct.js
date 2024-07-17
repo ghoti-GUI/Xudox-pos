@@ -13,12 +13,14 @@ import AdvanceForm from './advanceForm.js';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { Language, RestaurantID } from '../../userInfo';
 import { addProduct, checkIdXuExistence, updateProduct } from '../../service/product.js';
+import { addProductModelAdvance, addProductModelNormal } from '../../models/product.js';
+import { fetchImgFile } from '../../service/commun.js';
 
 function AddProduct() {
   let location = useLocation();
   const receivedData = location.state;
   const navigate = useNavigate();
-  const productDataReceived = receivedData?receivedData.product:null;
+  const [productDataReceived, setProductDataReceived] = useState(receivedData?receivedData.product:null);
   const check = receivedData?receivedData.type==='check':false;
   const edit = receivedData?receivedData.type==='edit':false;
   const pageName = {...multiLanguageText}[Language].product[check?'check':edit?'edit':'add'].pageName;
@@ -122,6 +124,30 @@ function AddProduct() {
     }
   };
 
+  const handleExistedData = async(existedProductData)=>{
+    console.log('existedProductData:', existedProductData)
+    let existedNormalData = {}
+    for (let key in addProductModelNormal){
+      existedNormalData[key]=existedProductData[key]
+    }
+    setNormalData(existedNormalData)
+    let existedAdvanceData = {}
+    for (let key in addProductModelAdvance){
+      existedAdvanceData[key]=existedProductData[key]
+    }
+    setAdvanceData(existedAdvanceData)
+    const imgUrl = existedProductData.img
+    // const imgUrlList = imgUrl.split('/')
+    // const imgName = imgUrlList[imgUrlList.length-1]
+    const imgFile = await fetchImgFile(imgUrl)
+    setImg(imgFile)
+    setInitProductImg(imgUrl)
+    setColor(existedProductData.color)
+    setTextColor(existedProductData.text_color)
+    console.log('existedNormalData:', existedNormalData)
+
+  }
+
   return (
     <div className='flex flex-col w-full bg-slate-200 pt-10 max-h-screen overflow-y-auto overflow-x-hidden'>
       <span className='-mt-3 mb-3 ml-7 text-3xl'><b>{ pageName }</b></span>
@@ -143,7 +169,8 @@ function AddProduct() {
               sendDataToParent={sendNormalDataToAdvance}
               check={check}
               edit={edit}
-              productDataReceived={productDataReceived}/>
+              productDataReceived={productDataReceived}
+              sendExistedDataToParent={handleExistedData}/>
           }
           {advancePage &&
             <AdvanceForm 

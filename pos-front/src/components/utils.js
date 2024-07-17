@@ -24,8 +24,13 @@ export const normalizeText = (str) => {
 //     return objectMerged
 // }
 
+
+// fetchedData = checkbox的结构
+// printer：{'id':id, 'printer':printer, 'checked':false}
+// allergen：{'allergen':allergen, 'checked':false}
+// checkboxData = 数据，例如：12（printer）， 'Cereals, Crustaceans'（allergen）
 export const updateCheckboxData = (fetchedData, checkboxData) =>{
-    let returnData = fetchedData
+    let returnData = {...fetchedData}
     if(Object.keys(fetchedData[0]).includes('printer')){
         const printers = String(checkboxData).split('')
         returnData = fetchedData.map((printer)=>{

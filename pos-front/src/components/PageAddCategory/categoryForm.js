@@ -106,7 +106,6 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
       {Object.keys(categorydata).map((key)=>(
         <div key={key}>
           <div className="flex flex-row justify-center mt-1 mx-3 w-full">
-            {console.log('key:', key)}
             <label className="flex bg-white py-2 pl-4 border-r w-1/4 rounded-l-lg">
                 {Text[key][0]} :
             </label>

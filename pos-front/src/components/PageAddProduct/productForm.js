@@ -16,7 +16,7 @@ import { Language, Country, RestaurantID } from '../../userInfo';
 import AdvanceForm from './advanceForm';
 import { addProductModelNormal } from '../../models/product';
 
-function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent, check=false, edit=false, productDataReceived}) {
+function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent, check=false, edit=false, productDataReceived, sendExistedDataToParent}) {
 
   const Text = {...multiLanguageText}[Language];
   const TextProduct = Text.product;
@@ -85,6 +85,19 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   // 当通过sidebar打开页面时，值均为默认值。
   // 当从advance返回时，使用normalData值
   // 当从其他页面进入时，使用productDataReceived值
+
+  const updateTimeSupply = (time_supply_nbr)=>{
+    let time_supply_object={}
+    Object.keys(timeSupply).forEach((time, index)=>{
+      if(String(time_supply_nbr).includes(String(index+1))){
+        time_supply_object[time]=true;
+      }else{
+        time_supply_object[time]=false;
+      }
+    })
+    setTimeSupply(time_supply_object)
+  }
+
   useEffect(() => {
     init();
     
@@ -100,21 +113,11 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
       }else if(normalData){
         time_supply_nbr = normalData.time_supply
       }
-      if(time_supply_nbr){
-        let time_supply_object={}
-        Object.keys(timeSupply).forEach((time, index)=>{
-          if(String(time_supply_nbr).includes(String(index+1))){
-            time_supply_object[time]=true;
-          }else{
-            time_supply_object[time]=false;
-          }
-        })
-        setTimeSupply(time_supply_object)
-      }
 
-      
+      console.log()
 
-     
+      if(time_supply_nbr) updateTimeSupply(time_supply_nbr)
+
 
       const fetchedPrinter = await fetchPrinter();
       const allCategoryData = await fetchAllCategoryForProductForm(RestaurantID);
@@ -207,13 +210,13 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
               <div className="flex justify-end mt-2">
                 <button
                   className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 mr-2 rounded"
-                  onClick={() => handleClickYes(product)} // 点击“是”按钮的处理函数
+                  onClick={() => handleClickYes(product)} // 点击“Yes”按钮的处理函数
                 >
                   {TextProduct.id_Xu[3][3][1]}
                 </button>
                 <button
                   className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => toast.dismiss()} // 点击“否”按钮的处理函数
+                  onClick={() => toast.dismiss()} // 点击“No”按钮的处理函数
                 >
                   {TextProduct.id_Xu[3][3][2]}
                 </button>
@@ -234,6 +237,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   }
 
   const handleClickYes = async(product) => {
+    // 将product中有的nomalData的值取出来
     let product_copy = {}
     for (let key in productdata){
       product_copy[key]=product[key]
@@ -243,6 +247,11 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     product_copy.TVA_country = TVA_info.country
     setTVACategory(TVA[TVA_info.country]);
     setProductData(product_copy)
+    updateTimeSupply(product_copy.time_supply)
+    setPrinterData(updateCheckboxData(printerData, product_copy.print_to_where))
+    product.TVA_category = TVA_info.category
+    product.TVA_country = TVA_info.country
+    sendExistedDataToParent(product)
     toast.dismiss(); 
   };
 

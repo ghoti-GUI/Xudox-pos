@@ -25,7 +25,7 @@ const ImgUploadButton = ({ onImgSelect, check=false, edit=false, imgReceived}) =
     };
 
     useEffect(()=>{
-        if((check || edit)&&imgReceived) setImgUrl('http://localhost:8000/'+imgReceived);
+        if(imgReceived) setImgUrl('http://localhost:8000/'+imgReceived);
 
     },[check, edit, imgReceived]);
 

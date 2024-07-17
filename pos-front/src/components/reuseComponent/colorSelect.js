@@ -51,7 +51,11 @@ const ColorSelect = ({ onColorChange, Id, advance=false, check=false, edit=false
   };
 
   useEffect(()=>{
-    if(edit || check){
+    // if(edit || check){
+    //   setColor(colorReceived);
+    //   setTextColor(textColorReceived);
+    // }
+    if(colorReceived){
       setColor(colorReceived);
       setTextColor(textColorReceived);
     }
