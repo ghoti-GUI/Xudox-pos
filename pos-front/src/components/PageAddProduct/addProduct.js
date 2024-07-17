@@ -29,6 +29,7 @@ function AddProduct() {
   const Text = {...TextLanguage}.product;
 
   const [img, setImg] = useState(null)
+  const [imgUrl, setImgUrl] = useState(null)
   const handleImgSelect = (img)=>{
     setImg(img)
   }
@@ -101,6 +102,7 @@ function AddProduct() {
       mergedProductData['id'] = productDataReceived.id;
     }
     mergedProductData['img'] = img;
+    mergedProductData['imgUrl'] = imgUrl;
     mergedProductData['color'] = color;
     mergedProductData['text_color'] = textColor;
     mergedProductData['rid'] = RestaurantID;
@@ -137,10 +139,9 @@ function AddProduct() {
     }
     setAdvanceData(existedAdvanceData)
     const imgUrl = existedProductData.img
-    // const imgUrlList = imgUrl.split('/')
-    // const imgName = imgUrlList[imgUrlList.length-1]
-    const imgFile = await fetchImgFile(imgUrl)
-    setImg(imgFile)
+    // const imgFile = await fetchImgFile(imgUrl)
+    // setImg(imgFile)
+    setImgUrl(imgUrl)
     setInitProductImg(imgUrl)
     setColor(existedProductData.color)
     setTextColor(existedProductData.text_color)

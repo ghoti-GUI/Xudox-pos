@@ -4,6 +4,8 @@ from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth.models import Group, User
 from django.db.models import Max
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 from rest_framework import permissions, viewsets
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -11,7 +13,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action, api_view
 from django.db.models import Q
+from django.conf import settings
 import json
+import requests
+import os
 
 from ..models import product, Test, TestImg, category, printe_to_where, tva
 from ..serializers import TestSerializer, TestImgSerializer, AllTestImgSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, GroupSerializer, UserSerializer
@@ -56,6 +61,29 @@ class ProductViewSet(viewsets.ModelViewSet):
                 save_data[advanceKey]=request_data[advanceKey]
             else:
                 save_data[advanceKey]=advanceKeyList[advanceKey]
+
+        # 通过收到的图片路径，获取并复制图片，保存
+        imgUrl = request_data['imgUrl'][1:] # 获取imgUrl，并去掉开头的'/'
+        if imgUrl:
+            # imgResponse = requests.get('http://localhost:8000/'+imgUrl)
+            fullImgPath = os.path.join(settings.BASE_DIR, imgUrl)
+            imgFile = None
+            # if imgResponse.status_code == 200:
+            if os.path.exists(fullImgPath):
+                imgFile = open(fullImgPath, 'rb')
+
+                imgPath = os.path.dirname(imgUrl) # 获取名字前面的path
+                imgName = os.path.basename(imgUrl) # 获取名字
+                # 创建新的名字
+                imgNameList = imgName.split('.')
+                newImgName = imgNameList[0]+'i.'+imgNameList[1]
+                # 组合
+                newImgUrl = imgPath+'/'+newImgName
+                # print(newImgUrl)
+                # path = default_storage.save(newImgUrl, ContentFile(imgResponse.content))
+                path = default_storage.save(newImgUrl, imgFile)
+                print(path)
+                save_data['img'] = newImgUrl
         
         serializer.save(**save_data)
 
