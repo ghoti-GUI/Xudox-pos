@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { getCsrfToken } from './token';
 import { DefaultUrl, GetAllCategoryUrl} from './valueDefault';
-import { Language } from '../userInfo';
-import { multiLanguageText } from '../components/multiLanguageText';
+import { Language, RestaurantID } from '../userInfo';
+import { multiLanguageText } from '../multiLanguageText/multiLanguageText';
 
 const Text = {...multiLanguageText}[Language];
 
@@ -26,7 +26,7 @@ export const addCategory = async(categorydata)=>{
 }
 }
 
-export const fetchAllCategory = async (rid) => {
+export const fetchAllCategory = async (rid=RestaurantID) => {
   try {
     const response = await axios.get(DefaultUrl+GetAllCategoryUrl, {
       params:{
@@ -40,7 +40,7 @@ export const fetchAllCategory = async (rid) => {
   }
 }
 
-export const fetchCidByCategoryName = async(categoryName, rid)=>{
+export const fetchCidByCategoryName = async(categoryName, rid=RestaurantID)=>{
   try{
     const response = await axios.get(DefaultUrl+'get/cid/by/categoryName/',
       {params:{'category_name':categoryName, 'rid':rid}},
@@ -55,4 +55,19 @@ export const fetchCidByCategoryName = async(categoryName, rid)=>{
     console.error('fetch cid failed', error);
     return false
   }
+}
+
+export const checkCategoryNameExistence = async(categoryName, rid=RestaurantID)=>{
+  try {
+    const response = await axios.get(DefaultUrl+'category/check_name_category_existence/', {
+      params:{
+        'categoryName':categoryName, 
+        'rid':rid
+      }  
+    });
+    return response.data.existed
+  } catch (error) {
+    console.error('Error check category id existence:', error);
+    return error
+  };
 }

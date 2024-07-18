@@ -10,15 +10,17 @@ import ProductForm from "./productForm";
 import ImgUploadButton from '../reuseComponent/imgUploadButton';
 import ColorSelect from '../reuseComponent/colorSelect';
 import AdvanceForm from './advanceForm.js';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { Language, RestaurantID } from '../../userInfo';
 import { addProduct, checkIdXuExistence, updateProduct } from '../../service/product.js';
+import { addProductModelAdvance, addProductModelNormal } from '../../models/product.js';
+import { fetchImgFile } from '../../service/commun.js';
 
 function AddProduct() {
   let location = useLocation();
   const receivedData = location.state;
   const navigate = useNavigate();
-  const productDataReceived = receivedData?receivedData.product:null;
+  const [productDataReceived, setProductDataReceived] = useState(receivedData?receivedData.product:null);
   const check = receivedData?receivedData.type==='check':false;
   const edit = receivedData?receivedData.type==='edit':false;
   const pageName = {...multiLanguageText}[Language].product[check?'check':edit?'edit':'add'].pageName;
@@ -27,6 +29,7 @@ function AddProduct() {
   const Text = {...TextLanguage}.product;
 
   const [img, setImg] = useState(null)
+  const [imgUrl, setImgUrl] = useState(null)
   const handleImgSelect = (img)=>{
     setImg(img)
   }
@@ -99,28 +102,52 @@ function AddProduct() {
       mergedProductData['id'] = productDataReceived.id;
     }
     mergedProductData['img'] = img;
+    mergedProductData['imgUrl'] = imgUrl;
     mergedProductData['color'] = color;
     mergedProductData['text_color'] = textColor;
     mergedProductData['rid'] = RestaurantID;
 
-    console.log(mergedProductData)
+    console.log('mergedProductData:', mergedProductData)
 
     const submitSucceed = edit? await updateProduct(mergedProductData): await addProduct(mergedProductData);
     if(edit){
-      if(submitSucceed){
+      if(submitSucceed.success){
         toast.success(Text.edit.editSuccess)
         navigate('/home', {state: { editedProductId: productDataReceived.id }})
       }else{
         toast.error(Text.edit.editFailed)
       }
     }else{
-      if(submitSucceed){
+      if(submitSucceed.success){
         toast.success(Text.add.addSuccess)
       }else{
         toast.error(Text.add.addFailed)
       }
     }
   };
+
+  const handleExistedData = async(existedProductData)=>{
+    console.log('existedProductData:', existedProductData)
+    let existedNormalData = {}
+    for (let key in addProductModelNormal){
+      existedNormalData[key]=existedProductData[key]
+    }
+    setNormalData(existedNormalData)
+    let existedAdvanceData = {}
+    for (let key in addProductModelAdvance){
+      existedAdvanceData[key]=existedProductData[key]
+    }
+    setAdvanceData(existedAdvanceData)
+    const imgUrl = existedProductData.img
+    // const imgFile = await fetchImgFile(imgUrl)
+    // setImg(imgFile)
+    setImgUrl(imgUrl)
+    setInitProductImg(imgUrl)
+    setColor(existedProductData.color)
+    setTextColor(existedProductData.text_color)
+    console.log('existedNormalData:', existedNormalData)
+
+  }
 
   return (
     <div className='flex flex-col w-full bg-slate-200 pt-10 max-h-screen overflow-y-auto overflow-x-hidden'>
@@ -143,7 +170,8 @@ function AddProduct() {
               sendDataToParent={sendNormalDataToAdvance}
               check={check}
               edit={edit}
-              productDataReceived={productDataReceived}/>
+              productDataReceived={productDataReceived}
+              sendExistedDataToParent={handleExistedData}/>
           }
           {advancePage &&
             <AdvanceForm 

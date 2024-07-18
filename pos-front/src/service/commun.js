@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getCsrfToken } from './token';
 import { DefaultUrl, CheckIdXuExistenceUrl, GetAllProduct} from './valueDefault';
-import { multiLanguageText } from '../components/multiLanguageText';
+import { multiLanguageText } from '../multiLanguageText/multiLanguageText';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { Language } from '../userInfo';
@@ -47,3 +47,27 @@ export const updateXu_class = async(data)=>{
     }
 }
 
+export const fetchImgFile = async(imgUrl)=>{
+  const imgUrlList = imgUrl.split('/')
+  const imgName = imgUrlList[imgUrlList.length-1]
+  try {
+    const response = await fetch('http://localhost:8000'+imgUrl, {
+      method:'GET',
+      headers: {
+        'X-CSRFToken': csrfToken, 
+        'Content-Type': 'image/jpeg', 
+        'Access-Control-Request-Headers': 'access-control-allow-origin,content-type,x-csrftoken',
+        'Access-Control-Request-Method':'GET', 
+        'Sec-Fetch-Mode':'cors', 
+      },
+    });
+    const blob = await response.blob();
+
+    const file = new File([blob], imgName, { type: 'image/'+imgName.split('.')[1] });
+    console.log('file:', file)
+    return(file)
+  } catch (error) {
+    console.error('Error fetching the image:', error);
+    return null
+  }
+}

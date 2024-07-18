@@ -23,10 +23,11 @@ urlpatterns = [
     path('get/product/all/frontform/', viewsProduct.get_all_products_front_form, name = 'get_all_products_front_form'), 
     path('update/product_by_id/', viewsProduct.update_product_by_id, name='update_product_by_id'), 
     path('get/product/by/id_Xu/', viewsProduct.get_product_by_id_Xu, name='get_product_by_id_Xu'), 
+    path('delete/product/', viewsProduct.delete_product, name='delete_product'), 
     
 
     path('get/category/all/', viewsCategory.get_all_categories, name='get_all_categories'), 
-    path('category/check_id_category_existence/', viewsCategory.check_id_category_existence, name = 'check_id_category_existence'), 
+    path('category/check_name_category_existence/', viewsCategory.check_name_category_existence, name = 'check_name_category_existence'), 
     path('get/cid/by/categoryName/', viewsCategory.get_cid_by_categoryName, name='get_cid_by_categoryName'), 
 
     path('get/printers/', viewsPrinter.get_printer, name = 'get_printer'), 

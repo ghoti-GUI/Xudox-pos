@@ -76,6 +76,9 @@ class AuthUserUserPermissions(models.Model):
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
 
+def get_upload_path_category(instance, filename):
+    # 创建路径：'static/img_product/{rid}/{filename}'
+    return f'static/img_category/{instance.rid}/{filename}'
 
 class category(models.Model):
     ename = models.CharField(max_length=200)
@@ -88,7 +91,7 @@ class category(models.Model):
     ldes = models.CharField(max_length=1000, null=True)
     fdes = models.CharField(max_length=1000, null=True)
     des = models.CharField(max_length=1000, null=True)
-    img = models.ImageField(upload_to='static/img_category/%Y/%m', null=True, blank=True)
+    img = models.ImageField(upload_to=get_upload_path_category, null=True, blank=True)
     color = models.CharField(max_length=100, default='rgb(255, 255, 255)')
     text_color = models.CharField(max_length=100, default='rgb(0, 0, 0)')
     time_supply = models.IntegerField()
@@ -190,6 +193,10 @@ class printe_to_where(models.Model):
         db_table = 'printe_to_where'
 
 
+def get_upload_path_product(instance, filename):
+    # 创建路径：'static/img_product/{rid}/{filename}'
+    return f'static/img_product/{instance.rid}/{filename}'
+
 class product(models.Model):
     id_user = models.CharField(unique=True, max_length=100)
     id_Xu = models.CharField(db_column='id_Xu', max_length=100)  # Field name made lowercase.
@@ -207,7 +214,8 @@ class product(models.Model):
     online_des = models.CharField(max_length=1000, null=True)
     allergen = models.CharField(max_length=1000, null=True)
     discount = models.CharField(max_length=200, null=True)
-    img = models.ImageField(upload_to='static/img_product/%Y/%m', null=True, blank=True)
+    # img = models.ImageField(upload_to='static/img_product/', null=True, blank=True)
+    img = models.ImageField(upload_to=get_upload_path_product, null=True, blank=True)
     color = models.CharField(max_length=100, default='rgb(255, 255, 255)')
     text_color = models.CharField(max_length=100, default='rgb(0, 0, 0)')
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
