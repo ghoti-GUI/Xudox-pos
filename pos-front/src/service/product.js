@@ -28,7 +28,7 @@ const csrfToken = getCsrfToken();
 
 export const addProduct = async(productData)=>{
   try{
-    await axios.post(DefaultUrl+'post/product/', 
+    const response = await axios.post(DefaultUrl+'post/product/', 
       productData,
       {
       headers: {
@@ -37,18 +37,18 @@ export const addProduct = async(productData)=>{
       }
     })
     // toast.success(Text.product.addSuccess);
-    return true;
+    return {'success':true, 'message':response.data};
   }catch(error) {
       // toast.error(Text.product.addFailed);
       console.error('There was an error submitting the form!', error);
-      return error;
+      return {'success':false, 'message':error};
   };
 }
 
 
 export const updateProduct = async(productData)=>{
   try{
-    await axios.post(DefaultUrl+'update/product_by_id/', 
+    const response = await axios.post(DefaultUrl+'update/product_by_id/', 
     productData,
     {
       headers: {
@@ -57,11 +57,11 @@ export const updateProduct = async(productData)=>{
       }
     });
     // toast.success(Text.edit.editSuccess);
-    return true;
+    return {'success':true, 'message':response.data};
   }catch(error) {
       // toast.error(Text.edit.editFailed)
       console.error('There was an error submitting the form!', error);
-      return false;
+      return {'success':false, 'message':error};
   };
 }
 

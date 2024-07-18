@@ -131,7 +131,7 @@ const ProductCard = ({data, changeOrder=false})=>{
         const newFavourite = 1-favourite;
         setFavourite(newFavourite);
         const updated = await updateProduct({'id':product.id, 'favourite':newFavourite, 'rid':RestaurantID})
-        if(!updated){
+        if(!updated.success){
             toast.error(Text.changeFavouriteFailed)
         }
     }

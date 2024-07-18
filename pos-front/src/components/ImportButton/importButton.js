@@ -12,6 +12,7 @@ import { categoryModelFull } from '../../models/category';
 import { deleteAll } from '../../service/commun';
 import { addCategory, fetchCidByCategoryName } from '../../service/category';
 import { addProduct } from '../../service/product';
+import { exportFileAfterImport } from '../ExportButton/exportButton.js';
 
 const ImportButton = () => {
 
@@ -21,23 +22,20 @@ const ImportButton = () => {
 
     const [loading, setLoading] = useState(false);
     const onImport = async(onloadEvent, pageEvent)=>{
-        // const file = onloadEvent.target.result;
-        // const content = parseCSV(file)
 
         const delete_all = await deleteAll(rid);
-        console.log('delete_all', delete_all);
 
         const content = onloadEvent.target.result;
         const lines = content.split('\n').filter(line => line.trim() !== '');
-        console.log(lines);
 
         let succeed = true;
         setLoading(true);
         let failed = [];
         let idList = [];
+        let productsData = []
+        let categoriesData = []
         for (const line of lines){
             let succeedCopy = succeed
-            // console.log(line)
             let [id, name, price, Xu_class, category_name] = line.split(';');
             if(!idList.includes(id)) {
                 if(id==='---') {
@@ -89,19 +87,21 @@ const ImportButton = () => {
             productData.cid = cid;
             productData.rid = RestaurantID;
 
-            console.log(productData)
+            // console.log(productData)
 
             const productAddSucceed = await addProduct(productData)
-            if(productAddSucceed!==true) {
+            if(!productAddSucceed.success) {
                 toast.error(Text.product.addFailed);
                 succeedCopy = false;
                 failed.push(line+'---add Failed');
+            }else{
+                productsData.push(productAddSucceed.message)
             }
 
             succeed = succeedCopy;
             pageEvent.target.value = '';
         };
-        // console.log('failed:', failed)
+
         if(succeed){
             toast.success(`All import succeeded`);
         }else{
@@ -115,6 +115,9 @@ const ImportButton = () => {
             </span>, {autoClose:20000});
         }
         setLoading(false);
+        console.log('start exporting')
+        // await exportFileAfterImport(productsData, categoriesData)
+        // const handle = await window.showDirectoryPicker();
         navigate('/');
     }
 

@@ -90,7 +90,7 @@ function Home() {
             const positionData = {'id':orderedProductFromDialog[i].id, 'position':i, 'rid':RestaurantID}
 
             const updated = await updateProduct(positionData)
-            if(updated){
+            if(updated.success){
                 toast.success(Text.addSuccess);
             }else{
                 toast.error(Text.addFailed)
@@ -124,6 +124,8 @@ function Home() {
                         <br/>
                     </div>
                 ))}
+
+
                 {/* <div className='mb-28'></div> */}
                 {isDialogOpen && 
                     <DialogChangeOrder 

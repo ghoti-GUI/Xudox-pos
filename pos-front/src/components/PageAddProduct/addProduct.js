@@ -111,14 +111,14 @@ function AddProduct() {
 
     const submitSucceed = edit? await updateProduct(mergedProductData): await addProduct(mergedProductData);
     if(edit){
-      if(submitSucceed){
+      if(submitSucceed.success){
         toast.success(Text.edit.editSuccess)
         navigate('/home', {state: { editedProductId: productDataReceived.id }})
       }else{
         toast.error(Text.edit.editFailed)
       }
     }else{
-      if(submitSucceed){
+      if(submitSucceed.success){
         toast.success(Text.add.addSuccess)
       }else{
         toast.error(Text.add.addFailed)
