@@ -3,27 +3,30 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
-import { fetchAllCategory } from '../../service/category';
+import { checkCategoryNameExistence, fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber } from '../utils';
-import { Language } from '../../userInfo';
+import { Language, RestaurantID } from '../../userInfo';
+import { categoryModel } from '../../models/category';
+import { toast } from 'react-toastify';
 
-function CategoryForm({onCategorySubmit}) {
-  const Text = multiLanguageText[Language].category
-  const [categorydata, setCategoryData] = useState({
-    'name':'',
-    'des':'',
-    'time_supply':1,
-  })
-  const initData = categorydata;
+function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=false}) {
+  const Text = {...multiLanguageText}[Language].category
+  const [categorydata, setCategoryData] = useState(normalData||{...categoryModel})
+  const initData = {...categorydata};
 
-  const TimeSupplyData = Text.time_supply[1]
+  const TimeSupplyData = {...Text.time_supply[1]}
   const TimeSuppyKeys = Object.keys(TimeSupplyData)
   const [timeSupply, setTimeSupply] = useState(Text.time_supply[1]) //['lunch', true, 'dinner', true]
 
-  const requiredFields = ['name', 'des', 'time_supply'];
+  let Xu_classList = []
+  for(let i=1;i<=14;i++){
+    Xu_classList.push('ab'+String(i)+'.txt')
+  }
+
+  const requiredFields = ['name', 'time_supply'];
 
   const noInputField = [
     ...Object.keys(requiredFields), 
@@ -43,7 +46,7 @@ function CategoryForm({onCategorySubmit}) {
 
   const checkAtlLeastOneField = () => {
     if(!categorydata.time_supply){
-      alert(Text.time_supply[2]);
+      toast.error(Text.time_supply[2]);
       return false
     }
     return true
@@ -56,19 +59,12 @@ function CategoryForm({onCategorySubmit}) {
       return
     }
 
-    try {
-      const response = await axios.get(DefaultUrl+'category/check_id_category_existence/', {
-        params:{
-          'id_category':categorydata.id, 
-        }
-      });
-      if (response.data.existed){
-        alert(Text.id[2])
-        return
-      } 
-    } catch (error) {
-      console.error('Error check category id existence:', error);
-    };
+    const nameExisted = await checkCategoryNameExistence(categorydata.name, RestaurantID)
+    if (nameExisted){
+      toast.error(Text.nameExisted, {autoClose:7000})
+      return
+    }
+
 
     try {
       onCategorySubmit(categorydata)
@@ -76,49 +72,16 @@ function CategoryForm({onCategorySubmit}) {
     }catch (error) {
       console.error('Error submit categorydata:', error);
     };
-
-    // const csrfToken = getCsrfToken();
-  
-    // // const nameField = ['ename', 'lname', 'fname', 'zname'];
-    // // const desField = ['edes', 'ldes', 'fdes'];
-    // // const AtLeastOneName = nameField.some((key)=>categorydata[key].trim() !== '');
-    // // const AtLeastOneDes = desField.some((key)=>categorydata[key].trim() !== '');
-
-    // // if (!AtLeastOneName){
-    // //   event.preventDefault();
-    // //   alert('Please fill in at least one of the name inputs.');
-    // //   return;
-    // // }else if(!AtLeastOneDes){
-    // //   event.preventDefault();
-    // //   alert('Please fill in at least one of the description inputs.');
-    // //   return;
-    // // }
-
-    // axios.post(DefaultUrl+'post/product/', 
-    //   categorydata, 
-    //   {
-    //   headers: {
-    //       'X-CSRFToken': csrfToken
-    //   }
-    // })
-    // .then(response => {
-    //     console.log(response.data);
-    //     init();
-    // })
-    // .catch(error => {
-    //     console.error('There was an error submitting the form!', error);
-    // });
   };
 
   const handleChange = (key, value) => {
-    setCategoryData({
+    let updatedData = {
       ...categorydata,
       [key]: value,
-    });
-    console.log({
-      ...categorydata,
-      [key]: value,
-    });
+    }
+    setCategoryData(updatedData);
+    console.log(updatedData);
+    // sendDataToParent(updatedData);
   };
 
   const handleChangeID = (key, value) => {
@@ -137,12 +100,13 @@ function CategoryForm({onCategorySubmit}) {
     handleChange('time_supply', parseInt(TimeSupplyId));
   }
 
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col w-full">
       {Object.keys(categorydata).map((key)=>(
         <div key={key}>
           <div className="flex flex-row justify-center mt-1 mx-3 w-full">
-            <label className="flex bg-white py-2 pl-6 border-r w-1/4 rounded-l-lg">
+            <label className="flex bg-white py-2 pl-4 border-r w-1/4 rounded-l-lg">
                 {Text[key][0]} :
             </label>
 
@@ -176,18 +140,23 @@ function CategoryForm({onCategorySubmit}) {
               </div>
             )}
 
-          </div>
+            {key==='Xu_class' && 
+              <select 
+                value={categorydata[key]} 
+                onChange={(e) => {
+                  handleChange(key, e.target.value);
+                }}
+                className={`flex w-3/4 px-2 rounded-r-lg bg-white ${categorydata[key]===''&&!check?'text-gray-400':''} ${check?'pointer-events-none':''}`}
+                required>
+                  <option value="" disabled>{Text[key][1]}</option>
+                  {Xu_classList.map((Xu_calss)=>(
+                    <option key={Xu_calss} value={Xu_calss} className='text-black'>{Xu_calss}</option>
+                  ))}
+              </select>
+            }
 
-          {key === 'id' &&(
-              <>
-                <span 
-                  dangerouslySetInnerHTML={{ __html: Text.id[3][0]}}
-                  className='ml-4'/>
-                <span 
-                  dangerouslySetInnerHTML={{ __html: Text.id[3][1]}}
-                  className='ml-4'/>
-              </>
-            )}
+          </div>
+          
         </div>
       ))}
 

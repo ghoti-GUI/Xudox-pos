@@ -8,35 +8,19 @@ import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
-import { multiLanguageText, multiLanguageAllergen } from '../multiLanguageText';
-import { normalizeText, sortStringOfNumber, mergeObject, updateCheckboxData, updateObject } from '../utils';
-import { fetchAllCategoryForProductForm, truncateString } from './utils';
+import { multiLanguageText, multiLanguageAllergen } from '../../multiLanguageText/multiLanguageText';
+import { normalizeText, sortStringOfNumber, mergeObject, updateCheckboxData, updateObject, truncateString } from '../utils';
+import { fetchAllCategoryForProductForm,  } from './utils';
 import { Language, Country } from '../../userInfo';
+import { addProductModelAdvance } from '../../models/product';
 
-function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceData, sendDataToParent, check=false, edit=false, productDataReceived}) {
+function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, edit=false, productDataReceived}) {
   // const [productdataNormal, setProductdataNormal] = useState(productdataNormal)
-  const Text = multiLanguageText[Language].productAdvance
+  const Text = {...multiLanguageText}[Language].productAdvance
   const AllergenText = multiLanguageAllergen[Language]
   const maxIDLength = 3
   const maxPrintContentLength = 25
-  const [productdata, setProductData] = useState(advanceData||{
-    'id_user':'',
-    'online_content':'',
-    'online_des':'', 
-    'product_type':0,
-    'min_nbr':1,
-    'discount':'',
-    'allergen':'',  //database: '', 'b1g1f', '-10€', '-10%'
-    'ename':'',
-    'lname':'', 
-    'fname':'', 
-    'zname':'', 
-    'edes':'',
-    'ldes':'',
-    'fdes':'',
-    'stb':0,
-    'favourite':0,
-  })
+  const [productdata, setProductData] = useState(advanceData||{...addProductModelAdvance})
   const [allergens, setAllergens] = useState([]) //[{'allergen':'Eggs products', 'checked':false}]
   
 
@@ -104,73 +88,6 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
     // console.log('useEffect')
   },[check, edit, productDataReceived]);
 
-  const checkAtlLeastOneField = (productdata) => {
-    if(!productdata.time_supply){
-      toast.warning(Text.time_supply[2]);
-      return false
-    }
-    if(productdata.print_to_where===0){
-      toast.warning(Text.print_to_where[2]);
-      return false
-    }
-    return true
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    try {
-      const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
-        params:{
-          'id_Xu':productdata.id_Xu, 
-        }
-      });
-      if (response.data.existed){
-        toast.error(Text.id_Xu[2])
-        return
-      } 
-    } catch (error) {
-      console.error('Error check id_Xu existence:', error);
-      return
-    };
-
-    console.log()
-
-    const mergedProductData = Object.assign({}, normalData, productdata)
-
-    mergedProductData['img'] = img
-    mergedProductData['color'] = color;
-    mergedProductData['text_color'] = textColor;
-
-    console.log(mergedProductData)
-
-    if(!checkAtlLeastOneField(mergedProductData)){
-      return
-    }
-
-    
-
-    const csrfToken = getCsrfToken();
-
-    axios.post(DefaultUrl+'post/product/', 
-      mergedProductData,
-      // newProductData, 
-      {
-      headers: {
-          'X-CSRFToken': csrfToken, 
-          'content-type': 'multipart/form-data', 
-      }
-    })
-    .then(response => {
-        toast.success(Text.addSuccess);
-        init();
-    })
-    .catch(error => {
-        toast.error(Text.addFailed)
-        console.error('There was an error submitting the form!', error);
-    });
-  };
-
   const handleChange = (key, value, key2=null) => {
     let updatedProductData = {}
     if(key2){
@@ -192,14 +109,13 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
   };
 
   const handleChangeID = (key, value) => {
-    const truncatedID = truncateString(value, maxIDLength)
+    const [truncatedID, exceed] = truncateString(value, maxIDLength)
     handleChange(key, normalizeText(truncatedID))
-    sendIdToColor(normalizeText(truncatedID))
   }
 
   const [sameAsBillContent, setSameAsBillContent] = useState(true)
   const handleChangePrintContent = (key, value)=>{
-    const truncatedContent = truncateString(value, maxPrintContentLength);
+    const [truncatedContent, exceed] = truncateString(value, maxPrintContentLength);
     if(sameAsBillContent && key==='bill_content'){
       handleChange(key, normalizeText(truncatedContent), 'kitchen_content')
     }else{
@@ -428,7 +344,7 @@ function AdvanceForm({sendIdToColor, img, color, textColor, normalData, advanceD
       </div>
 
       {!check && 
-        <button type="submit" className="rounded bg-blue-500 text-white py-1 ml-3 my-5 w-full">Submit</button>
+        <button type="submit" className="rounded bg-blue-500 text-white py-1 ml-3 my-5 w-full">{Text.submitButton}</button>
       }
       <div className='mb-10'></div>
     </form>

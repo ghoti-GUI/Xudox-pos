@@ -18,11 +18,11 @@ from django.urls import include, path
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
 
-from PosBack import views
+from PosBack.views import viewsUser
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
+router.register(r'users', viewsUser.UserViewSet)
+router.register(r'groups', viewsUser.GroupViewSet)
 
 
 

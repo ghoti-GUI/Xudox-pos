@@ -1,60 +1,52 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
-import axios from 'axios';
+import axios, { all } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast} from 'react-toastify';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
-import { fetchProductById_Xu } from '../../service/product';
+import { addProduct, checkIdXuExistence, fetchProductById_Xu, updateProduct } from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA, fetchTVAById } from '../../service/tva';
-import { multiLanguageText } from '../multiLanguageText';
-import { normalizeText, sortStringOfNumber, updateCheckboxData, updateObject } from '../utils';
-import { fetchAllCategoryForProductForm, truncateString  } from './utils';
-import { Language, Country } from '../../userInfo';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
+import { normalizeText, sortStringOfNumber, updateCheckboxData, updateObject, truncateString } from '../utils';
+import { fetchAllCategoryForProductForm, } from './utils';
+import { Language, Country, RestaurantID } from '../../userInfo';
 import AdvanceForm from './advanceForm';
+import { addProductModelNormal } from '../../models/product';
 
-function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceData, sendDataToParent, check=false, edit=false, productDataReceived}) {
-  const navigate=useNavigate();
+function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent, check=false, edit=false, productDataReceived, sendExistedDataToParent}) {
 
-  const Text = multiLanguageText[Language].product
+  const Text = {...multiLanguageText}[Language];
+  const TextProduct = Text.product;
+  
   const maxIDLength = 3
   const maxPrintContentLength = 25
-  const [productdata, setProductData] = useState(normalData||{
-    'id_Xu':'',
-    'cid':'',
-    'bill_content':'',
-    'kitchen_content':'',
-    'price':'',
-    'price2':'',
-    'TVA_country':'',
-    'TVA_category':1,
-    'time_supply':12,
-    'print_to_where':0,
-  })
-  const initData = productdata;
+  const [productdata, setProductData] = useState(normalData||{...addProductModelNormal})
+  const initData = {...productdata};
   const [printerData, setPrinterData] = useState([
     //{'id':1, 'printer': "cashier's desk", 'checked': false}, 
   ])
   const [TVA, setTVA] = useState({
     //'country':{'21.00': '1', '9.00': '2', '0.00': '3'}, 
   })
-  const [TVACountry, setTVACountry] = useState({
-    //'country':'country', 
-  })
+  const [TVACountry, setTVACountry] = useState([
+    //'country', 
+  ])
   const [TVACategory, setTVACategory] = useState({
     'A':1,
     'B':2,
     'C':3,
     //'21.00%':1
   })
-  const [categoryData, setCategoryData] = useState({
-    //'starter':1, 
-  });
-  const TimeSupplyData = Text.time_supply[1]; 
-  const TimeSuppyKeys = Object.keys(TimeSupplyData); 
-  const [timeSupply, setTimeSupply] = useState(Text.time_supply[1]) //['lunch', true, 'dinner', true]
+  const [categoryData, setCategoryData] = useState([
+    // 'name':name,
+    // 'id':category.id,
+    // 'Xu_class':category.Xu_class
+  ]);
+
+  const [timeSupply, setTimeSupply] = useState({...TextProduct.time_supply[1]}) //{'lunch':true, 'dinner':true}
 
   const requiredFields = ['id_Xu','online_content', 'bill_content', 'kitchen_content', 'price', 'price2', 'time_supply'];
   const selectFields = {
@@ -85,33 +77,52 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
 
   const init = useCallback(async ()=>{
     setProductData(initData)
-    if(!check&&!edit){
-      let TimeSupplyDataCopy = TimeSupplyData
-      for(const key in TimeSupplyData){
-        TimeSupplyDataCopy[key]=true
-      }
-      setTimeSupply(TimeSupplyDataCopy)
-    }
-    // console.log('TimeSupplyData:', TimeSupplyData)
     // eslint-disable-next-line
-  }, [TimeSupplyData]);
+  }, []);
+
+
+
+  // 当通过sidebar打开页面时，值均为默认值。
+  // 当从advance返回时，使用normalData值
+  // 当从其他页面进入时，使用productDataReceived值
+
+  const updateTimeSupply = (time_supply_nbr)=>{
+    let time_supply_object={}
+    Object.keys(timeSupply).forEach((time, index)=>{
+      if(String(time_supply_nbr).includes(String(index+1))){
+        time_supply_object[time]=true;
+      }else{
+        time_supply_object[time]=false;
+      }
+    })
+    setTimeSupply(time_supply_object)
+  }
 
   useEffect(() => {
-    console.log('normalData:', normalData)
-    console.log('productDataReceived:', productDataReceived)
     init();
     
     const fetchData = async() => {
+      let time_supply_nbr=null
       if(!normalData){
         if(check || edit){
           setProductData(updateObject(productdata, productDataReceived))
           setSameAsBillContent(productDataReceived.bill_content===productDataReceived.kitchen_content)
           setSameAsPrice(productDataReceived.price===productDataReceived.price2)
+          time_supply_nbr = productDataReceived.time_supply
         }
+      }else if(normalData){
+        time_supply_nbr = normalData.time_supply
       }
 
-      const fetchedPrinter = await fetchPrinter()
-      setCategoryData(await fetchAllCategoryForProductForm())
+      console.log()
+
+      if(time_supply_nbr) updateTimeSupply(time_supply_nbr)
+
+
+      const fetchedPrinter = await fetchPrinter();
+      const allCategoryData = await fetchAllCategoryForProductForm(RestaurantID);
+      // console.log(allCategoryData)
+      setCategoryData(allCategoryData);
 
       if(normalData && !check){
         setPrinterData(updateCheckboxData(fetchedPrinter, normalData.print_to_where));
@@ -123,28 +134,21 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
 
       try{
         const TVAData = await fetchTVA(Language);
-        // console.log('TVAData:', TVAData)
         setTVA(TVAData); 
-        const TVACountry = {}
+        const TVACountry = []
         for (const country in TVAData){
-          TVACountry[country]=country;
+          TVACountry.push(country)
+          // TVACountry[country]=country;
         }
         setTVACountry(TVACountry)
 
         if( (check || edit) && !normalData ){
-          const tvaReceived = await fetchTVAById(productDataReceived.TVA_id, Language)
-          console.log(tvaReceived)
-          const value = multiLanguageText[Language].country[tvaReceived.country];
-          const updatedProductData = {
-            ...productdata,
-            'TVA_country': value,
-            'TVA_category': tvaReceived.category
-          }
-          console.log('updatedProductData:', updatedProductData)
-          setProductData(updatedProductData)
+          const tvaReceived = await fetchTVAById(productDataReceived.TVA_id, Language);
+          const value = Text.country[tvaReceived.country];
+          handleChange('TVA_country', value, 'TVA_category', tvaReceived.category)
           setTVACategory(TVAData[value]);
         }else{
-          const value = normalData?normalData.TVA_country:multiLanguageText[Language].country[Country]
+          const value = normalData?normalData.TVA_country:Text.country[Country]
           handleChange('TVA_country', value)
           setTVACategory(TVAData[value]);
         }
@@ -155,87 +159,13 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
     };fetchData();
   },[check, edit, productDataReceived]);
 
-  const checkAtlLeastOneField = () => {
-    if(!productdata.time_supply){
-      toast.warning(Text.time_supply[2]);
-      return false
-    }
-    if(productdata.print_to_where===0){
-      toast.warning(Text.print_to_where[2]);
-      return false
-    }
-    return true
-  }
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    
-    if(!checkAtlLeastOneField()){
-      return
-    }
-
-    if(!edit||(edit&&productDataReceived.id_Xu!==productdata.id_Xu)){
-      try {
-        const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
-          params:{
-            'id_Xu':productdata.id_Xu, 
-          }
-        });
-        if (response.data.existed){
-          toast.error(Text.id_Xu[2])
-          return
-        } 
-      } catch (error) {
-        console.error('Error check id_Xu existence:', error);
-        return
-      };
-    }
-
-
-    const mergedProductData = Object.assign({}, advanceData, productdata)
-
-    if(edit){
-      mergedProductData['id'] = productDataReceived.id;
-    }
-    mergedProductData['img'] = img;
-    mergedProductData['color'] = color;
-    mergedProductData['text_color'] = textColor;
-
-    console.log(mergedProductData)
-
-    const csrfToken = getCsrfToken();
-
-    const addedRoute = edit?'update/product_by_id/':'post/product/';
-    console.log(addedRoute)
-    axios.post(DefaultUrl+addedRoute, 
-      mergedProductData,
-      // newProductData, 
-      {
-      headers: {
-          'X-CSRFToken': csrfToken, 
-          'content-type': 'multipart/form-data', 
-      }
-    })
-    .then(response => {
-        toast.success(Text.addSuccess);
-        // init();
-        if(edit){
-          navigate('/home', {state: { editedProductId: productDataReceived.id }})
-        }
-    })
-    .catch(error => {
-        toast.error(Text.addFailed)
-        console.error('There was an error submitting the form!', error);
-    });
-  };
-
-  const handleChange = (key, value, key2=null) => {
+  const handleChange = (key, value, key2=null, value2=null) => {
     let updatedProductData = {}
     if(key2){
       updatedProductData = {
         ...productdata,
         [key]: value,
-        [key2]: value,
+        [key2]: value2||value,
       }
     }else{
       updatedProductData = {
@@ -248,43 +178,47 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
     sendDataToParent(updatedProductData);
   };
 
+  const handleChangeCategory = (index, value)=>{
+    let category = categoryData[index]
+    handleChange('cid', value, 'Xu_class', category.Xu_class)
+  }
+
   const [idExisted, setIdExisted] = useState(false);
   const handleChangeID = (key, value) => {
-    const truncatedID = truncateString(value, maxIDLength)
+    const [truncatedID, exceed] = truncateString(value, maxIDLength);
     handleChange(key, normalizeText(truncatedID).replace(/\s+/g, ''))
     sendIDToColor(normalizeText(truncatedID).replace(/\s+/g, ''))
   }
 
+
+  // 如果id重复，让用户选择是否读取数据
   const handleBlurID = async()=>{
     if(productdata.id_Xu.trim() !== ''){
       try {
-        const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
-          params:{
-            'id_Xu':productdata.id_Xu, 
-          }
-        });
-        if (response.data.existed){
+        const existed = await checkIdXuExistence(productdata.id_Xu, RestaurantID)
+        if (existed){
           setIdExisted(true);
-          const product = await fetchProductById_Xu(productdata.id_Xu);
+          const product = await fetchProductById_Xu(productdata.id_Xu, RestaurantID);
           toast.warning(
             <>
-              <span>{Text.id_Xu[3][3][0]}</span>
+              <span>{TextProduct.id_Xu[3][3][0]}</span>
               <div className='felx flex-row w-full py-2' style={{backgroundColor: product.color, color:product.text_color}}>
-                  <p className='mx-1'>{Text.bill_content[0]}: {product.bill_content}</p>
-                  <p className='mx-1'>{Text.price[0]}: {product.price}€</p>
+                <p className='mx-1'>{TextProduct.id_Xu[0]}: {product.id_Xu}</p>
+                <p className='mx-1'>{TextProduct.bill_content[0]}: {product.bill_content}</p>
+                <p className='mx-1'>{TextProduct.price[0]}: {product.price}€</p>
               </div>
               <div className="flex justify-end mt-2">
                 <button
                   className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 mr-2 rounded"
-                  onClick={() => handleClickYes()} // 点击“是”按钮的处理函数
+                  onClick={() => handleClickYes(product)} // 点击“Yes”按钮的处理函数
                 >
-                  {Text.id_Xu[3][3][1]}
+                  {TextProduct.id_Xu[3][3][1]}
                 </button>
                 <button
                   className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => toast.dismiss()} // 点击“否”按钮的处理函数
+                  onClick={() => toast.dismiss()} // 点击“No”按钮的处理函数
                 >
-                  {Text.id_Xu[3][3][2]}
+                  {TextProduct.id_Xu[3][3][2]}
                 </button>
               </div>
             </>, {
@@ -302,8 +236,8 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
     }
   }
 
-  const handleClickYes = async() => {
-    const product = await fetchProductById_Xu(productdata.id_Xu);
+  const handleClickYes = async(product) => {
+    // 将product中有的nomalData的值取出来
     let product_copy = {}
     for (let key in productdata){
       product_copy[key]=product[key]
@@ -311,13 +245,21 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
     const TVA_info = await fetchTVAById(product.TVA_id, Language)
     product_copy.TVA_category = TVA_info.category
     product_copy.TVA_country = TVA_info.country
+    setTVACategory(TVA[TVA_info.country]);
     setProductData(product_copy)
+    updateTimeSupply(product_copy.time_supply)
+    setPrinterData(updateCheckboxData(printerData, product_copy.print_to_where))
+    setSameAsBillContent(product.bill_content===product.kitchen_content)
+    setSameAsPrice(product.price===product.price2)
+    product.TVA_category = TVA_info.category
+    product.TVA_country = TVA_info.country
+    sendExistedDataToParent(product)
     toast.dismiss(); 
   };
 
   const [sameAsBillContent, setSameAsBillContent] = useState(true)
   const handleChangePrintContent = (key, value)=>{
-    const truncatedContent = truncateString(value, maxPrintContentLength);
+    const [truncatedContent, exceed] = truncateString(value, maxPrintContentLength);
     if(sameAsBillContent && key==='bill_content'){
       handleChange(key, normalizeText(truncatedContent), 'kitchen_content')
     }else{
@@ -348,10 +290,10 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
 
   const handleChangeTimeSupply = (name, checked) => {
     // const { name, checked } = event.target;
-    let timeSupplyCopy = timeSupply;
+    let timeSupplyCopy = {...timeSupply};
     timeSupplyCopy[name] = checked;
     let TimeSupplyId = '';
-    TimeSuppyKeys.forEach((value,index)=>{
+    Object.keys(timeSupplyCopy).forEach((value,index)=>{
       if (timeSupplyCopy[value]) TimeSupplyId += String(index+1);
     })
     setTimeSupply(timeSupplyCopy);
@@ -377,17 +319,11 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
     <form onSubmit={handleSubmit} className="flex flex-col w-full">
       {Object.keys(productdata).map((key)=>(
         <div key={key}>
-          {/* {key === 'ename' && (
-            <div className="justify-center mt-2 mx-4">Fill in at least one of the name</div>
-          )}
-          {key === 'edes' && (
-            <div className="justify-center mt-2 mx-4">Fill in at least one of the description</div>
-          )} */}
 
           {key==='bill_content' &&(
               <>
                 <span 
-                  dangerouslySetInnerHTML={{ __html: Text.notesForPrintContent[0]}}
+                  dangerouslySetInnerHTML={{ __html: TextProduct.notesForPrintContent[0]}}
                   className='ml-4'/>
                   <br/>
               </>
@@ -396,17 +332,17 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
           <div className="flex flex-row justify-center mt-1 mx-3 w-full">
             
             {key !== 'print_to_where' && (
-              <label className="flex bg-white py-2 pl-6 border-r  w-1/4 rounded-l-lg">
-                  {Text[key][0]} :
+              <label className="flex bg-white py-2 pl-4 border-r  w-1/4 rounded-l-lg">
+                  {TextProduct[key][0]} :
               </label>
             )}
 
             {inputField.includes(key) && 
               <input 
               type={numericFields.includes(key) ? 'number':'text'} name={key} 
-              className="flex px-2 w-3/4 rounded-r-lg bg-white" 
+              className={`flex px-2 w-3/4 rounded-r-lg  ${key==='Xu_class'?'bg-gray-300 text-gray-600':'bg-white'}`}
               value={check?productDataReceived[key]:productdata[key]} 
-              placeholder={Text[key][1]}
+              placeholder={TextProduct[key][1]}
               onChange={(e) => {
                 const value = e.target.value;
                 if(key==='id_Xu') handleChangeID(key, value)
@@ -416,21 +352,39 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
               }}
               onBlur={key==='id_Xu'?handleBlurID:null}
               required={requiredFields.includes(key)}
-              disabled={check}/>
+              disabled={key==='Xu_class'||check}/>
             }
-              
-            {selectFields.hasOwnProperty(key) && 
+
+            {key==='cid' && 
               <select 
-                value={check && !['TVA_country', 'TVA_category'].includes(key)?productDataReceived[key]:productdata[key]} 
-                onChange={(e) => key==='TVA_country'?handleChangeTVACountry(key, e.target.value):handleChange(key, e.target.value)}
+                value={productdata[key]} 
+                onChange={(e) => {
+                  const selectedOption = e.target.options[e.target.selectedIndex];
+                  const index = selectedOption.getAttribute('optionIndex');
+                  handleChangeCategory(index, e.target.value);
+                }}
                 className={`flex w-3/4 px-2 rounded-r-lg bg-white ${productdata[key]===''&&!check?'text-gray-400':''} ${check?'pointer-events-none':''}`}
                 required>
-                  <option value="" disabled>{Text[key][1]}</option>
-                {Object.entries(selectFields[key]).map(([optionKey, optionValue])=>(
-                  <option key={optionKey} value={optionValue} className='text-black'>{optionKey}</option>
-                ))}
+                  <option value="" disabled>{TextProduct[key][1]}</option>
+                  {Object.entries(categoryData).map(([index, category])=>(
+                    <option key={index} value={category.id} optionIndex={index} className='text-black'>{category.name}</option>
+                  ))}
               </select>
             }
+
+            {key==='TVA_country' && 
+              <select 
+                value={productdata[key]} 
+                onChange={(e) => handleChangeTVACountry(key, e.target.value)}
+                className={`flex w-3/4 px-2 rounded-r-lg bg-white ${productdata[key]===''&&!check?'text-gray-400':''} ${check?'pointer-events-none':''}`}
+                required>
+                  <option value="" disabled>{TextProduct[key][1]}</option>
+                  {Object.values(TVACountry).map((country)=>(
+                    <option key={country} value={country} className='text-black'>{country}</option>
+                  ))}
+              </select>
+            }
+
 
             {radioField.hasOwnProperty(key) &&
               <div className={`grid grid-cols-${key==='TVA_category'?4:2} w-3/4`}>
@@ -470,7 +424,7 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
             {key === 'print_to_where' && (
               <div className='w-full'>
                 <label className="flex justify-center bg-white py-2 pl-6 border-r  w-full rounded-t-lg">
-                  {Text[key][0]} :
+                  {TextProduct[key][0]} :
                 </label>
                 <div className='grid grid-cols-4 w-full'>
                   {printerData.map((printer)=>(
@@ -498,16 +452,16 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
                   <div>
                     <span 
                       className='text-red-600'
-                      dangerouslySetInnerHTML={{ __html: Text[key][3][2]}}/>
+                      dangerouslySetInnerHTML={{ __html: TextProduct[key][3][2]}}/>
                     <br/>
                   </div>
                 }
                 <span 
-                  dangerouslySetInnerHTML={{ __html: Text[key][3][0]}}
+                  dangerouslySetInnerHTML={{ __html: TextProduct[key][3][0]}}
                   className=''/>
                 <br/>
                 <span 
-                  dangerouslySetInnerHTML={{ __html: Text[key][3][1]}}
+                  dangerouslySetInnerHTML={{ __html: TextProduct[key][3][1]}}
                   className=''/>
               </div>
           )}
@@ -515,7 +469,7 @@ function ProductForm({sendIDToColor, img, color, textColor, normalData, advanceD
       ))}
 
       {!check && 
-        <button type="submit" className="rounded bg-blue-500 text-white py-1 ml-3 my-5 w-full">Submit</button>
+        <button type="submit" className="rounded bg-blue-500 text-white py-1 ml-3 my-5 w-full">{TextProduct.submitButton}</button>
       }
       <div className='mb-10'></div>
     </form>

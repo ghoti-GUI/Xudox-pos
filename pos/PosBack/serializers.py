@@ -45,6 +45,8 @@ class ProductSerializer(serializers.ModelSerializer):
             # 'discount', 
             'online_content',
             'online_des',
+            'Xu_class',
+            'rid', 
             ]
         # fields = '__all__'
 
@@ -64,6 +66,8 @@ class CategorySerializer(serializers.ModelSerializer):
             'text_color', 
             'time_supply',
             'img', 
+            'Xu_class', 
+            'rid', 
         ]
 
 class AllCategorySerializer(serializers.ModelSerializer):

@@ -13,7 +13,7 @@ export const fetchAllCategoryForProductForm = async () => {
         })
         return categiriesDataForProductForm
     }catch (error){
-        console.error('Error fetching category data in addProduct.utils:', error)
+        console.error('Error fetching category data in addCategory.utils:', error)
     }
     
 }

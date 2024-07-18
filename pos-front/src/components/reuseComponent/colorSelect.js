@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {SketchPicker} from 'react-color';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { Language } from '../../userInfo';
 
 const ColorSelect = ({ onColorChange, Id, advance=false, check=false, edit=false, colorReceived, textColorReceived }) => {
-  const Text = multiLanguageText[Language]
+  const Text = {...multiLanguageText}[Language].color
   const [color, setColor] = useState(`rgb(255, 255, 255)`);
   const colorDefault = [
     '#FF0000', "#FF4F00", '#FFAF00', "#FFFE00", '#E6FF00', '#86FF00', '#00FFBE', '#00F2FF',
@@ -51,7 +51,11 @@ const ColorSelect = ({ onColorChange, Id, advance=false, check=false, edit=false
   };
 
   useEffect(()=>{
-    if(edit || check){
+    // if(edit || check){
+    //   setColor(colorReceived);
+    //   setTextColor(textColorReceived);
+    // }
+    if(colorReceived){
       setColor(colorReceived);
       setTextColor(textColorReceived);
     }
@@ -101,11 +105,11 @@ const ColorSelect = ({ onColorChange, Id, advance=false, check=false, edit=false
         }
         <div className='mt-2 w-full mr-3'>
           <div className='flex justify-center items-center w-full h-20' style={{backgroundColor:color}}>
-            <span style={{ color:textColor}}>{Id||'Text'}</span>
+            <span style={{ color:textColor}}>{Id||Text.textDefault}</span>
           </div>
         </div>
         {!check &&
-          <span className='mt-2'>{Text.color}</span>
+          <span className='mt-2'>{Text.bgcolor}</span>
         }
         {!check &&
           <SketchPicker

@@ -7,7 +7,7 @@ import { checkIdXuExistence, fetchAllProduct} from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter, fetchPrintersById } from '../../service/printer';
 import { fetchTVA, fetchTVAById } from '../../service/tva';
-import { multiLanguageText } from '../multiLanguageText';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { normalizeText, sortStringOfNumber } from '../utils';
 import { Language } from '../../userInfo';
 import { ReactComponent as Detail } from '../../img/detail.svg';
@@ -20,7 +20,7 @@ const ProductCard = (props)=>{
     const product = props.data;
     const navigate = useNavigate();
     
-    const Text = multiLanguageText[Language].home;
+    const Text = {...multiLanguageText}[Language].home;
     const [soldout, setSoldout] = useState(false);
     const [TVAData, setTVAData] = useState(null);
     const [printers, setPrinters] = useState([]);

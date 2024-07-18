@@ -3,36 +3,21 @@ import { useState } from "react"
 import { fetchAllCategory } from "../../service/category"
 
 
-export const fetchAllCategoryForProductForm = async () => {
+export const fetchAllCategoryForProductForm = async (rid) => {
     try{
-        const categoriesData = await fetchAllCategory()
-        let categiriesDataForProductForm = {}
+        const categoriesData = await fetchAllCategory(rid)
+        let categiriesDataForProductForm = []
         categoriesData.forEach((category)=>{
             const name = category.ename || category.lname || category.fname || category.zname || category.name
-            categiriesDataForProductForm[name] = category.id
+            categiriesDataForProductForm.push({
+                'name':name,
+                'id':category.id,
+                'Xu_class':category.Xu_class
+            })
         })
+        // console.log(categiriesDataForProductForm)
         return categiriesDataForProductForm
     }catch (error){
         console.error('Error fetching category data in addProduct.utils:', error)
     }
-}
-
-export const truncateString = (string, maxLength)=>{
-    let length = 0;
-    let result = '';
-    for (let i = 0; i < string.length; i++) {
-        if (string.charCodeAt(i) > 127) {
-            length += 2;
-        } else {
-            length += 1;
-        }
-
-        if (length > maxLength) {
-            break;
-        }
-
-        result += string[i];
-    }
-
-    return result
 }
