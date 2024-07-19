@@ -15,6 +15,7 @@ import json
 
 from ..models import product, Test, TestImg, category, printe_to_where, tva
 from ..serializers import TestSerializer, TestImgSerializer, AllTestImgSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, GroupSerializer, UserSerializer
+from .utils import delete_image
 
 language = 'English'
 
@@ -55,8 +56,14 @@ def delete_all(request):
     try:
         restaurant = request.POST.get('rid', '')
         products_to_delete = product.objects.filter(rid = restaurant)
+        for product_to_delete in products_to_delete:
+            if product_to_delete.img:
+                delete_image(product_to_delete.img.path)
         deleted_count_product, _ = products_to_delete.delete()
         categories_to_delete = category.objects.filter(rid = restaurant)
+        for category_to_delete in categories_to_delete:
+            if category_to_delete.img:
+                delete_image(category_to_delete.img.path)
         deleted_count_category, _ = categories_to_delete.delete()
 
         return JsonResponse({'status': 'success', 'message': f'{deleted_count_product}, {deleted_count_category} products and categories deleted successfully.'})

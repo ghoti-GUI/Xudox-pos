@@ -32,6 +32,7 @@ function AddProduct() {
   const [imgUrl, setImgUrl] = useState(null)
   const handleImgSelect = (img)=>{
     setImg(img)
+    setImgUrl(null)
   }
 
   const [initProductImg, setInitProductImg] = useState(null)
@@ -102,7 +103,7 @@ function AddProduct() {
       mergedProductData['id'] = productDataReceived.id;
     }
     mergedProductData['img'] = img;
-    mergedProductData['imgUrl'] = imgUrl;
+    if(imgUrl) mergedProductData['imgUrl'] = imgUrl;
     mergedProductData['color'] = color;
     mergedProductData['text_color'] = textColor;
     mergedProductData['rid'] = RestaurantID;

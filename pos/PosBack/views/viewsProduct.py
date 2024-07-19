@@ -20,6 +20,7 @@ import os
 
 from ..models import product, Test, TestImg, category, printe_to_where, tva
 from ..serializers import TestSerializer, TestImgSerializer, AllTestImgSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, GroupSerializer, UserSerializer
+from .utils import delete_image
 
 language = 'English'
 
@@ -67,10 +68,8 @@ class ProductViewSet(viewsets.ModelViewSet):
             imgUrl = request_data['imgUrl']
             if imgUrl:
                 imgUrl = imgUrl[1:] # 去掉开头的'/'
-                # imgResponse = requests.get('http://localhost:8000/'+imgUrl)
                 fullImgPath = os.path.join(settings.BASE_DIR, imgUrl)
                 imgFile = None
-                # if imgResponse.status_code == 200:
                 if os.path.exists(fullImgPath):
                     imgFile = open(fullImgPath, 'rb')
 
@@ -194,7 +193,14 @@ def delete_product(request):
         id_recv = request.POST.get('id')
         rid_recv = request.POST.get('rid')
         product_to_delete = get_object_or_404(product, Q(id=id_recv) & Q(rid=rid_recv))
+        img_to_delete = product_to_delete.img
+        if(img_to_delete):
+            img_path = str(img_to_delete.path)
+            delete_image(img_path)
+
         product_to_delete.delete()
+
+            
 
         return JsonResponse({'status': 'success', 'message': f'product {id_recv} deleted successfully.'})
 
