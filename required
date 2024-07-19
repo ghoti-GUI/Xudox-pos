@@ -6,3 +6,10 @@ front:
 
 export:
     npm install file-saver jszip
+
+production:
+    npm install --production 
+    npm install -g serve
+
+运行production:
+    serve -s build
