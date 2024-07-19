@@ -13,6 +13,7 @@ import { normalizeText, sortStringOfNumber } from '../utils';
 import ProductCard from './productCard';
 import DialogChangeOrder from './dialogChangeOrder';
 import { toast } from 'react-toastify';
+import '../../styles.css'
 
 
 function Home() {
@@ -109,7 +110,11 @@ function Home() {
             <div className='h-5/6  ml-5 max-h-screen overflow-y-auto overflow-x-hidden pr-5'>
                 {Object.values(categories).map((category,index)=>(
                     <div key={category.id} className={` relative flex flex-col justify-center px-3 pt-2 my-3 w-full rounded-lg`} style={{backgroundColor: category.color, color:category.text_color}}>
-                        <button onClick={() => openDialog(category.id)} className=' absolute right-5 top-1 px-4 py-1 bg-blue-500 hover:bg-blue-700 text-white rounded '>{Text.modifyOrder}</button>
+                        <button 
+                            onClick={() => openDialog(category.id)} 
+                            className=' absolute right-5 top-1 px-4 py-1 bg-buttonBleu hover:bg-buttonBleuHover text-white rounded '>
+                                {Text.modifyOrder}
+                        </button>
                         <span className='font-sans text-xl font-bold'>{category.ename || category.lname || category.fname || category.zname || category.name}</span>
                         <span className='text-sm mb-1'>{category.edes || category.ldes || category.fdes || category.zdes || category.des}</span>
                         <div className='mx-2'>

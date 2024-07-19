@@ -15,6 +15,7 @@ import { ReactComponent as Edit } from '../../img/edit.svg';
 import { ReactComponent as Star } from '../../img/star.svg';
 import { ReactComponent as Delete } from '../../img/delete.svg';
 import { toast } from 'react-toastify';
+import '../../styles.css'
 
 
 
@@ -94,13 +95,13 @@ const ProductCard = ({data, changeOrder=false})=>{
                     </div>
                     <div className='flex flex-row w-full items-center justify-center mt-5'>
                         <button
-                            className="mr-2 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700"
+                            className="mr-2 btn-red"
                             onClick={()=>handleDelete()}
                         >
                             {TextProduct.delete.deleteButton}
                         </button>
                         <button
-                            className="ml-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700"
+                            className="ml-2 btn-bleu"
                             onClick={()=>handleCancelDelete()}
                         >
                             {TextProduct.delete.cancelButton}

@@ -3,6 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import ProductCard from './productCard';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { Language } from '../../userInfo';
+import '../../styles.css'
 
 const DialogChangeOrder = ({orderedProductReceived, handleSubmit, handleCancel}) => {
     const Text = {...multiLanguageText}[Language].dialogChangeOrder;
@@ -69,13 +70,13 @@ const DialogChangeOrder = ({orderedProductReceived, handleSubmit, handleCancel})
                     )
                 })}
                 <button
-                    className="right-[23%] top-[13%] px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700 absolute"
+                    className="right-[23%] top-[13%] btn-bleu absolute"
                     onClick={()=>handleSubmit(orderedProduct)}
                 >
                     {Text.submitButton}
                 </button>
                 <button
-                    className="right-[14%] top-[13%] px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 absolute"
+                    className="right-[14%] top-[13%] btn-gray absolute"
                     onClick={()=>handleCancel()}
                 >
                     {Text.cancelButton}

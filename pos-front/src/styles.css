@@ -1,0 +1,11 @@
+.btn-bleu {
+    @apply bg-buttonBleu hover:bg-buttonBleuHover text-white py-2 px-4 rounded
+}
+
+.btn-red {
+    @apply bg-buttonRed hover:bg-buttonRedHover text-white py-2 px-4 rounded
+}
+
+.btn-gray {
+    @apply bg-buttonGray hover:bg-buttonGrayHover text-white py-2 px-4 rounded
+}

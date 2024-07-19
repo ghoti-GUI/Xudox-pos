@@ -15,12 +15,15 @@ import { Language, RestaurantID } from '../../userInfo';
 import { addProduct, checkIdXuExistence, updateProduct } from '../../service/product.js';
 import { addProductModelAdvance, addProductModelNormal } from '../../models/product.js';
 import { fetchImgFile } from '../../service/commun.js';
+import '../../styles.css'
 
 function AddProduct() {
+  // receivedData、productDataReceived = 从home传输过来的data，和data中的product信息
+  // normalData、advanceData用于同步两张表单的数据，以便submit
   let location = useLocation();
   const receivedData = location.state;
   const navigate = useNavigate();
-  const [productDataReceived, setProductDataReceived] = useState(receivedData?receivedData.product:null);
+  const productDataReceived = useState(receivedData?receivedData.product:null);
   const check = receivedData?receivedData.type==='check':false;
   const edit = receivedData?receivedData.type==='edit':false;
   const pageName = {...multiLanguageText}[Language].product[check?'check':edit?'edit':'add'].pageName;
@@ -99,9 +102,7 @@ function AddProduct() {
 
     const mergedProductData = Object.assign({}, advanceData, normalData)
 
-    if(edit){
-      mergedProductData['id'] = productDataReceived.id;
-    }
+    if(edit) mergedProductData['id'] = productDataReceived.id;
     mergedProductData['img'] = img;
     if(imgUrl) mergedProductData['imgUrl'] = imgUrl;
     mergedProductData['color'] = color;
@@ -147,7 +148,15 @@ function AddProduct() {
     setColor(existedProductData.color)
     setTextColor(existedProductData.text_color)
     console.log('existedNormalData:', existedNormalData)
+  }
 
+  const handleClickReturn=()=>{
+    navigate('/home', {state: { editedProductId: productDataReceived.id }})
+  }
+
+  const handleDelete=()=>{
+    const id = receivedData.id
+    console.log(id)
   }
 
   return (
@@ -157,10 +166,15 @@ function AddProduct() {
         <div className='flex flex-col items-center w-2/12 mt-5'>
           <ImgUploadButton onImgSelect={handleImgSelect} check={check} edit={edit} imgReceived={initProductImg} />
           <button 
-            className="flex justify-center items-center px-4 py-2 mt-20 w-2/3 bg-red-500 text-white rounded-lg" 
+            className="flex justify-center items-center px-4 py-2 mt-20 w-2/3 bg-buttonRed hover:bg-buttonRedHover text-white rounded-lg" 
             onClick={()=>{setAdvancePage(advancePage?false:true)}}>
             {advancePage?Text.returnNormalButton:Text.advanceButton}
           </button>
+          {edit &&
+            <button className='btn-red mt-64' onClick={handleDelete}>
+              {Text.delete.deleteButton}
+            </button>
+          }
         </div>
         <div className='w-7/12'>
           {!advancePage && 
@@ -194,7 +208,13 @@ function AddProduct() {
               colorReceived={color}
               textColorReceived={textColor}/>
         </div>
+        
       </div>
+      {(edit||check)&&
+        <button className='absolute right-20 bottom-5 ml-5 btn-bleu' onClick={handleClickReturn}>
+          {TextLanguage.returnButton}
+        </button>
+      }
     </div>
   );
 }

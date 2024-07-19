@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { RestaurantID } from '../../userInfo';
 import { updateXu_class } from '../../service/commun';
 
+
 const ChangeExportRuleButton = () => {
 
     const changeRule = async (onloadEvent, pageEvent)=>{
@@ -60,7 +61,7 @@ const ChangeExportRuleButton = () => {
 
     return (
         <div className='flex items-center justify-center w-full mt-4'>
-            <button onClick={handleClick} className='flex items-center justify-center py-1 w-5/6 bg-blue-500 text-white hover:bg-blue-700 rounded-lg'>
+            <button onClick={handleClick} className='flex items-center justify-center py-1 w-5/6 bg-buttonBleu text-white hover:bg-buttonBleuHover rounded-lg'>
                 Change Export Rules
             </button>
             <input

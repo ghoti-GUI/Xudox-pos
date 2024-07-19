@@ -103,9 +103,11 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     
     const fetchData = async() => {
       let time_supply_nbr=null
+      let updatedData = null
       if(!normalData){
         if(check || edit){
-          setProductData(updateObject(productdata, productDataReceived))
+          // console.log('update:', updateObject(productdata, productDataReceived))
+          updatedData=updateObject(productdata, productDataReceived)
           setSameAsBillContent(productDataReceived.bill_content===productDataReceived.kitchen_content)
           setSameAsPrice(productDataReceived.price===productDataReceived.price2)
           time_supply_nbr = productDataReceived.time_supply
@@ -145,13 +147,17 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
         if( (check || edit) && !normalData ){
           const tvaReceived = await fetchTVAById(productDataReceived.TVA_id, Language);
           const value = Text.country[tvaReceived.country];
-          handleChange('TVA_country', value, 'TVA_category', tvaReceived.category)
+          updatedData.TVA_country = value
+          updatedData.TVA_category = tvaReceived.category
           setTVACategory(TVAData[value]);
         }else{
           const value = normalData?normalData.TVA_country:Text.country[Country]
-          handleChange('TVA_country', value)
+          updatedData.TVA_country = value
           setTVACategory(TVAData[value]);
         }
+
+        setProductData(updatedData)
+        sendDataToParent(updatedData)
         
       }catch (error){
         console.error('Error fetching TVA data:', error)
@@ -209,13 +215,13 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
               </div>
               <div className="flex justify-end mt-2">
                 <button
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 mr-2 rounded"
+                  className="btn-bleu font-bold mr-2"
                   onClick={() => handleClickYes(product)} // 点击“Yes”按钮的处理函数
                 >
                   {TextProduct.id_Xu[3][3][1]}
                 </button>
                 <button
-                  className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
+                  className="btn-gray font-bold"
                   onClick={() => toast.dismiss()} // 点击“No”按钮的处理函数
                 >
                   {TextProduct.id_Xu[3][3][2]}
@@ -469,7 +475,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
       ))}
 
       {!check && 
-        <button type="submit" className="rounded bg-blue-500 text-white py-1 ml-3 my-5 w-full">{TextProduct.submitButton}</button>
+        <button type="submit" className="rounded bg-buttonBleu hover:bg-buttonBleuHover text-white py-1 ml-3 my-5 w-full">{TextProduct.submitButton}</button>
       }
       <div className='mb-10'></div>
     </form>

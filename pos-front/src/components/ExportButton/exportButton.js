@@ -163,7 +163,7 @@ const ExportButton = () => {
 
     
     return (
-        <button onClick={selectDirAndExport} className='flex items-center justify-center py-1 mt-4 w-5/6 bg-blue-500 text-white hover:bg-blue-700 rounded-lg'>
+        <button onClick={selectDirAndExport} className='flex items-center justify-center py-1 mt-4 w-5/6 bg-buttonBleu text-white hover:bg-buttonBleuHover rounded-lg'>
             {Text}
         </button>
     );

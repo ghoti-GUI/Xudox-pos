@@ -121,6 +121,7 @@ export const EnglishText = {
         'cancelButton':'Cancel', 
     }, 
     'export':'Export', 
+    'returnButton':'Return', 
 }
 
 

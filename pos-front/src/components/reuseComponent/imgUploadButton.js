@@ -49,7 +49,7 @@ const ImgUploadButton = ({ onImgSelect, check=false, edit=false, imgReceived}) =
                 className={`w-full object-fill ${check?'':'cursor-pointer'}`}
                 disabled={check}/>
             {!check&&
-                <button className="rounded bg-blue-500 text-white py-1 my-2 w-full" onClick={handleClick}>
+                <button className="btn-bleu mt-2 w-full" onClick={handleClick}>
                     {Text.changeImg}
                 </button>
             }

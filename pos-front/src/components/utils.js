@@ -53,7 +53,7 @@ export const updateCheckboxData = (fetchedData, checkboxData) =>{
 }
 
 export const updateObject = (objUpdate, objSource)=>{
-    let objUpdateCopy = objUpdate;
+    let objUpdateCopy = {...objUpdate};
     for(const key in objUpdate){
         if(Object.keys(objSource).includes(key)){
             objUpdateCopy[key]=objSource[key];

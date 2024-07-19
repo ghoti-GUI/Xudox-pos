@@ -54,21 +54,27 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
     }
   }
 
-  const init = useCallback(async ()=>{
-    setProductData(initData)
-    // eslint-disable-next-line
-  }, []);
 
   useEffect(() => {
-    setProductData(advanceData);
-    if(!advanceData){
+    let discountRecv=null
+    if(advanceData){
+      setProductData(advanceData);
+      discountRecv = advanceData.discount
+      
+    }else if(!advanceData){
       if(check || edit){
-        updateObject(productdata, productDataReceived)
-        console.log(productDataReceived)
+        const updatedData = updateObject(productdata, productDataReceived)
+        setProductData(updatedData)
+        sendDataToParent(updatedData)
+        discountRecv = productDataReceived.discount
       }
     }
 
-    init();
+    if(discountRecv.includes('€')){
+      setRecordDiscountFixed(discountRecv)
+    }else if(discountRecv.includes('%')){
+      setRecordDiscountPercentage(discountRecv)
+    }
 
     const fetchData = async() => {
     };fetchData()
@@ -344,7 +350,7 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
       </div>
 
       {!check && 
-        <button type="submit" className="rounded bg-blue-500 text-white py-1 ml-3 my-5 w-full">{Text.submitButton}</button>
+        <button type="submit" className="rounded bg-buttonBleu hover:bg-buttonBleuHover text-white py-1 ml-3 my-5 w-full">{Text.submitButton}</button>
       }
       <div className='mb-10'></div>
     </form>

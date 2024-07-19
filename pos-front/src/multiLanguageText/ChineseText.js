@@ -121,8 +121,8 @@ export const ChineseText={
         'submitButton':'保存',
         'cancelButton':'取消', 
     }, 
-    
     'export':'导出', 
+    'returnButton':'返回', 
 }
 
 
