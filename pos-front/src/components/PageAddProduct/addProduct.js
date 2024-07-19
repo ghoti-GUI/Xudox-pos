@@ -23,7 +23,7 @@ function AddProduct() {
   let location = useLocation();
   const receivedData = location.state;
   const navigate = useNavigate();
-  const productDataReceived = useState(receivedData?receivedData.product:null);
+  const productDataReceived = receivedData?receivedData.product:null;
   const check = receivedData?receivedData.type==='check':false;
   const edit = receivedData?receivedData.type==='edit':false;
   const pageName = {...multiLanguageText}[Language].product[check?'check':edit?'edit':'add'].pageName;

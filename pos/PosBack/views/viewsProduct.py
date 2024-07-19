@@ -72,7 +72,6 @@ class ProductViewSet(viewsets.ModelViewSet):
                 imgFile = None
                 if os.path.exists(fullImgPath):
                     imgFile = open(fullImgPath, 'rb')
-
                     imgPath = os.path.dirname(imgUrl) # 获取名字前面的path
                     imgName = os.path.basename(imgUrl) # 获取名字
                     # 创建新的名字
@@ -80,10 +79,7 @@ class ProductViewSet(viewsets.ModelViewSet):
                     newImgName = imgNameList[0]+f'_{request_data.get("id_Xu")}.'+imgNameList[1]
                     # 组合
                     newImgUrl = imgPath+'/'+newImgName
-                    # print(newImgUrl)
-                    # path = default_storage.save(newImgUrl, ContentFile(imgResponse.content))
                     path = default_storage.save(newImgUrl, imgFile)
-                    print(path)
                     save_data['img'] = newImgUrl
         
         serializer.save(**save_data)
@@ -112,17 +108,13 @@ def update_product_by_id(request):
                     try:
                         TVA_country = data.get('TVA_country', '')
                         TVA_category = data.get('TVA_category', '')
-                        # print(TVA_country, TVA_category, type(TVA_category))
                         TVA = get_object_or_404(tva, **{f'countryEnglish' : TVA_country, 'category' : TVA_category})
-                        # print(TVA)
                         setattr(product_to_update, 'TVA_id', TVA)
                     except (ValueError, category.DoesNotExist):
                         print(f"Invalid TVA data: {data.items.TVA_country}, {data.items.TVA_category}")
                 elif key=='img':
                     img = data.get('img', '')
-                    print(img)
                 elif hasattr(product_to_update, key) and key!='TVA_category':
-                    print(value)
                     setattr(product_to_update, key, value)
 
         if 'img' in files:
@@ -169,14 +161,12 @@ def get_all_products_front_form(request):
     product_serializer = AllProductSerializer(products, many = True)
     products_data = product_serializer.data
     for product_data in products_data:
-        # print(product_data)
         tva_id = product_data.get('TVA_id')
         tva_data = tva.objects.get(id=tva_id)
         product_data['tva_country'] = tva_data.countryEnglish
         product_data['tva_category'] = tva_data.category
         product_data['tva_value'] = tva_data.tva_value
     return JsonResponse(products_data, safe = False)
-    # return JsonResponse(serializer.data, safe = False)
 
 
 @api_view(['GET'])
