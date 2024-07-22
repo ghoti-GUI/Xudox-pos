@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import QMessageBox, QFileDialog
 from PyQt5.QtCore import QTimer
 from .export_data import export_data
 # from infos.userInfo import restaurantId, lengthContent, load_selected_path
-from infos.userInfo import restaurantId, lengthContent, save_import_path, load_import_path
+from infos.userInfo import restaurantId, country, lengthContent, save_import_path, load_import_path
 from infos.models import productModel, categoryModel
 from infos.mysqlInfo import *
 
@@ -17,7 +17,7 @@ def create_connection(host_name, user_name, user_password, db_name):
     try:
         connection = mysql.connector.connect(
             host=host_name,
-            port=port, 
+            port=mysql_port, 
             user=user_name,
             passwd=user_password,
             database=db_name
@@ -50,38 +50,42 @@ def handle_file_select(window):
         import_data(window, file_name)
 
 def execute_query(connection, query, data):
-    cursor = connection.cursor()
+    cursor = connection.cursor(buffered=True)
     try:
         cursor.execute(query, data)
         connection.commit()
-        # print("Query executed successfully")
     except Error as e:
         print(f"The error '{e}' occurred in execute")
         return e
+    finally:
+        cursor.close()
 
 def execute_fetch_query(connection, query, data):
-    cursor = connection.cursor()
+    cursor = connection.cursor(buffered=True)
     try:
         cursor.execute(query, data)
-        result = cursor.fetchone()
+        result = cursor.fetchall()
         return result
     except Error as e:
         print(f"The error '{e}' occurred in fetch")
         return None
+    finally:
+        cursor.close()
         
 def execute_many_query(connection, query, data):
-    cursor = connection.cursor()
+    cursor = connection.cursor(buffered=True)
     try:
         cursor.executemany(query, data)
         connection.commit()
-        print("Query executed successfully")
     except Error as e:
         print(f"The error '{e}' occurred in execute many")
         return e
+    finally:
+        cursor.close()
 
 insert_product_query = """
-INSERT INTO product (id_Xu, bill_content, kitchen_content, price, price2, Xu_class, cid, rid)
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+INSERT INTO product (id_Xu, bill_content, kitchen_content, zname, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
 """
 insert_category_query = """
 INSERT INTO category (name, Xu_class, rid)
@@ -91,6 +95,10 @@ select_category_query = """
 SELECT id FROM category WHERE name = %s AND rid = %s
 """
 last_insert_id_query = "SELECT LAST_INSERT_ID()"
+select_tva_id_query = "SELECT id FROM tva WHERE countryEnglish = %s AND category = %s"
+select_all_printer_query = "SELECT id_printer FROM printe_to_where WHERE rid = %s"
+
+# select_product_Xu_class_query = "SELECT id FROM tva WHERE countryEnglish = %s AND category = %s"
 
 def import_data(window, file):
     connection = create_connection(host_name, user_name, user_password, db_name)
@@ -99,7 +107,7 @@ def import_data(window, file):
     
     product_data = []
 
-    e = delete_all_data(connection, restaurantId)
+    e = delete_all_data(window, connection, restaurantId)
     if e:
         QMessageBox.warning(window, "Delete Failed", f"Delete old data failed:\n\n{e}")
         return
@@ -108,36 +116,96 @@ def import_data(window, file):
 
         failed = []
         id_list = []
+        id_takeaway = []
+        allprinters_recv = execute_fetch_query(connection, select_all_printer_query, (restaurantId,))
+        allprinters = [printer[0] for printer in allprinters_recv]
 
         for line in csvfile.readlines():
             line = line.strip().split(';') # 使用strip()去掉行尾的换行符
 
-            if len(line) < 5:
+            if len(line) < 12:
+                failed.append(f"failed to add product:{line} --- Insufficient data")
                 continue
-            id, name, price, Xu_class, category_name = line[:5]
+            id, name, price, Xu_class, category_name, zname, TVA_category, printer, color, cut_group, custom1, custom2 = line[:12]
 
             category_id = get_or_create_category_id(connection, category_name, Xu_class, restaurantId)
             if not category_id:
-                failed.append(f"{line} --- category create failed")
+                failed.append(f"'{id};{name};{category_name}' --- category create failed")
                 continue
 
-
-            if id in id_list:
-                failed.append(f"{line} --- ID duplicated")
-                continue
-            if id != '---':
-                id_list.append(id)
+            dinein_takeaway = 1
+            if Xu_class == 'meeneem.txt':
+                if id in id_takeaway:
+                    failed.append(f"'{id};{name}' --- ID duplicated")
+                    continue
+                if id == '---':
+                    id = 'hyphen3'
+                else:
+                    id_takeaway.append(id)
+                    if id in id_list:
+                        dinein_takeaway = 3
+                    else:
+                        dinein_takeaway = 2
             else:
-                id = 'hyphen3'
+                if id in id_list:
+                    failed.append(f"'{id};{name}' --- ID duplicated")
+                    continue
+                if id == '---':
+                    id = 'hyphen3'
+                else:
+                    id_list.append(id)
+                    if id in id_takeaway:
+                        dinein_takeaway = 3
+                    else:
+                        dinein_takeaway = 1
 
             bill_content, exceed = truncate_string(name, lengthContent)
             if exceed:
                 QMessageBox.warning(window, 'Name over the limit:', f'ID:{id}\nname:{name}')
 
 
-            # print(id, bill_content, bill_content, price, price, Xu_class, category_id, restaurantId)
+            # get tva_id
+            tva_id = None
+            if TVA_category == 'A':
+                TVA_category = 1
+            elif TVA_category == 'B':
+                TVA_category = 2
+            elif TVA_category == 'C':
+                TVA_category = 3
+            elif TVA_category == 'D':
+                TVA_category = 4
+            
+            try:
+                tva_id = execute_fetch_query(connection, select_tva_id_query, (country, TVA_category))[0][0]
+            except Error as e:
+                print(f"The error '{e}' occurred when getting tva")
+                QMessageBox.warning(window, "fetch tva failed", f"The error '{e}' occurred when getting tva")
+                continue
+            
+            # set color
+            r, g, b = color.split(' ')
+            bg_color = f"rgb({','.join([r, g, b])})"
+            text_color = set_text_color(int(r), int(g), int(b))
+
+            printer_list = list(str(printer))
+            printer_list_copy = printer_list[:]
+            printer_removed = ''
+            for printer_id in printer_list_copy:
+                if int(printer_id) not in allprinters:
+                    printer_list.remove(printer_id)
+                    printer_removed += printer_id
+            if printer_removed != '':
+                failed.append(f"printers of product '{id};{name}' don't exist: {printer_removed}")
+            if printer_list==[]:
+                printer = 1
+            else:
+                printer = int(''.join(printer_list))
+
+
+
+# (id_Xu, bill_content, kitchen_content, zname, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
             product_data.append(
-                (id, bill_content, bill_content, price, price, Xu_class, category_id, restaurantId)
+                (id, bill_content, bill_content, zname, tva_id, printer, bg_color, text_color, cut_group, dinein_takeaway, price, price, Xu_class, category_id, restaurantId, custom1, custom2)
             )
 
         e = execute_many_query(connection, insert_product_query, product_data)
@@ -155,21 +223,28 @@ def import_data(window, file):
 
 
 
-def delete_all_data(connection, restaurantId):
+def delete_all_data(window, connection, restaurantId):
     delete_product_query = """
     DELETE FROM product WHERE rid = %s
     """
     delete_category_query = """
     DELETE FROM category WHERE rid = %s
     """
+    select_Xu_class_query = "SELECT Xu_class FROM product WHERE rid = %s"
+    files_recv = execute_fetch_query(connection, select_Xu_class_query, (restaurantId,))
 
     e_product = execute_query(connection, delete_product_query, (restaurantId,))
-    print('e_product', e_product)
     if e_product:
         return e_product
 
     e_category = execute_query(connection, delete_category_query, (restaurantId,))
-    print('e_category', e_category)
+
+    # delete all files
+    for file in files_recv:
+        file_name = file[0]
+        file_path = os.path.join(window.path, file_name)
+        if os.path.exists(file_path):
+            os.remove(file_path)
     return e_category
 
 
@@ -181,10 +256,11 @@ def get_or_create_category_id(connection, category_name, Xu_class, restaurantId)
     if not id:
         if execute_query(connection, insert_category_query, category_data):
             return None
-        return execute_fetch_query(connection, last_insert_id_query, ())[0]
-    return id[0]
+        return execute_fetch_query(connection, last_insert_id_query, ())[0][0]
+    return id[0][0]
 
 
+# 以防用户输入content大于25字符
 def truncate_string(string, max_length):
     length = 0
     result = ''
@@ -203,3 +279,15 @@ def truncate_string(string, max_length):
         result += char
 
     return result, exceed
+
+
+# 根据颜色深浅，设置文本颜色
+def set_text_color(r, g, b):
+    # 计算亮度
+    luminance = 0.299 * r + 0.587 * g + 0.114 * b
+
+    # 设置阈值
+    if luminance > 128:
+        return 'rgb(0, 0, 0)'
+    else:
+        return 'rgb(255, 255, 255)'
