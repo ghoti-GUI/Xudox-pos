@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState, useCallback } from 'react';
 import axios, { all } from 'axios';
 import { ToastContainer, toast} from 'react-toastify';
@@ -70,11 +69,14 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
       }
     }
 
-    if(discountRecv.includes('€')){
-      setRecordDiscountFixed(discountRecv)
-    }else if(discountRecv.includes('%')){
-      setRecordDiscountPercentage(discountRecv)
+    if(discountRecv){
+      if(discountRecv.includes('€')){
+        setRecordDiscountFixed(discountRecv)
+      }else if(discountRecv.includes('%')){
+        setRecordDiscountPercentage(discountRecv)
+      }
     }
+    
 
     const fetchData = async() => {
     };fetchData()

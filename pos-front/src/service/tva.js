@@ -4,12 +4,12 @@ import { DefaultUrl, GetTVACountryUrl } from './valueDefault';
 
 
 
-export const fetchTVA = async (language) =>{
+export const fetchTVA = async (language='English') =>{
     try {
       const response = await axios.get(DefaultUrl+GetTVACountryUrl, {
-        params:{
-          'language':language, 
-        }
+        // params:{
+        //   'language':language, 
+        // }
       });
       const TVAData = response.data; //Dutch: {21.00%: 1, 9.00%: 2, 0.00%: 3}
       // console.log(TVAData)

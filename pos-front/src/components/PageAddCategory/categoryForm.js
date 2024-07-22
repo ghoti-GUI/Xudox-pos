@@ -160,7 +160,7 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
         </div>
       ))}
 
-      <button type="submit" className="rounded bg-buttonBleu hover:bg-buttonBleuHover text-white py-1 ml-3 my-5 w-full">Submit</button>
+      <button type="submit" className="rounded bg-buttonBleu hover:bg-buttonBleuHover text-white py-1 ml-3 my-5 w-full">{Text.submitButton}</button>
     </form>
   );
 }

@@ -12,7 +12,7 @@ import ColorSelect from '../reuseComponent/colorSelect';
 import AdvanceForm from './advanceForm.js';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { Language, RestaurantID } from '../../userInfo';
-import { addProduct, checkIdXuExistence, updateProduct } from '../../service/product.js';
+import { addProduct, checkIdXuExistence, deleteProduct, updateProduct } from '../../service/product.js';
 import { addProductModelAdvance, addProductModelNormal } from '../../models/product.js';
 import { fetchImgFile } from '../../service/commun.js';
 import '../../styles.css'
@@ -26,10 +26,10 @@ function AddProduct() {
   const productDataReceived = receivedData?receivedData.product:null;
   const check = receivedData?receivedData.type==='check':false;
   const edit = receivedData?receivedData.type==='edit':false;
-  const pageName = {...multiLanguageText}[Language].product[check?'check':edit?'edit':'add'].pageName;
-
+  
   const TextLanguage = {...multiLanguageText}[Language]
   const Text = {...TextLanguage}.product;
+  const pageName = Text[check?'check':edit?'edit':'add'].pageName;
 
   const [img, setImg] = useState(null)
   const [imgUrl, setImgUrl] = useState(null)
@@ -154,9 +154,16 @@ function AddProduct() {
     navigate('/home', {state: { editedProductId: productDataReceived.id }})
   }
 
-  const handleDelete=()=>{
-    const id = receivedData.id
-    console.log(id)
+  const handleDelete=async()=>{
+    const id = productDataReceived.id
+    try{
+      await deleteProduct(id)
+      toast.success(Text.delete.deleteSuccess[0] + productDataReceived.id_Xu + Text.delete.deleteSuccess[1])
+      navigate('/home')
+    }catch(e){
+      toast.error(Text.delete.deleteFailed[0] + productDataReceived.id_Xu + Text.delete.deleteFailed[1] + '\nerror:' + e)
+    }
+    
   }
 
   return (

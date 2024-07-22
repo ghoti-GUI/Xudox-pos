@@ -128,7 +128,7 @@ export const fetchProductById_Xu = async(id_Xu, rid)=>{
 }
 
 
-export const deleteProduct = async(id, rid)=>{
+export const deleteProduct = async(id, rid=RestaurantID)=>{
   try {
     const response = await axios.post(DefaultUrl+'delete/product/', {
       'id':id, 

@@ -103,7 +103,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     
     const fetchData = async() => {
       let time_supply_nbr=null
-      let updatedData = null
+      let updatedData = {...productdata}
       if(!normalData){
         if(check || edit){
           // console.log('update:', updateObject(productdata, productDataReceived))
@@ -395,7 +395,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
             {radioField.hasOwnProperty(key) &&
               <div className={`grid grid-cols-${key==='TVA_category'?4:2} w-3/4`}>
                 {Object.entries(radioField[key]).map(([fieldKey, fieldValue])=>(
-                  <label className='flex bg-white py-2 pl-6 border-r ' key={fieldKey}>
+                  <label className='flex bg-white py-2 pl-2 border-r ' key={fieldKey}>
                     <input
                       type='radio'
                       value={fieldValue}
@@ -411,7 +411,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
             {key === 'time_supply' && (
               <div className='grid grid-cols-2 w-3/4'>
                 {Object.entries(timeSupply).map(([name,checked]) => (
-                  <div key={name} className={`bg-white py-2 pl-6 border-r`}>
+                  <div key={name} className={`bg-white py-2 pl-2 border-r`}>
                     <label className='flex'>
                         <input
                             type="checkbox"
@@ -434,7 +434,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
                 </label>
                 <div className='grid grid-cols-4 w-full'>
                   {printerData.map((printer)=>(
-                    <div key={printer.id} className={`bg-white py-2 pl-6 border `}>
+                    <div key={printer.id} className={`bg-white py-2 pl-2 border `}>
                       <label className='flex'>
                           <input
                               type="checkbox"

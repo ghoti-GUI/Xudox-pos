@@ -81,10 +81,32 @@ export const EnglishText = {
         'name':['Name', 'Enter the name of your new category'],
         'des':['Description', 'Enter the description of your new category'],
         'time_supply':['Supply time', TimeSupplyData.English, 'Please choose at least one supply time'], 
-        'addSuccess':'Category added successfully', 
-        'addFailed':'Category added failed', 
         'Xu_class':['Category-ab', 'Choose the category ab1 - ab14'],
         'nameExisted':'The category name already existed ! ', 
+        'advanceButton':'Advance settings', 
+        'returnNormalButton':'Return to normal settings', 
+        'submitButton':'Submit', 
+        'add':{
+            'pageName':'Add Category',
+            'addSuccess':'Category added successfully', 
+            'addFailed':'Category added failed', 
+        }, 
+        'check':{
+            'pageName':'Check Category', 
+            'editButton':'Edit',
+        },
+        'edit':{
+            'pageName':'Edit Category',
+            'editSuccess':'Edit succeed!',
+            'editFailed':'Edit failed!',
+        }, 
+        'delete':{
+            'deleteButton':'Delete', 
+            'cancelButton':'Cancel', 
+            'deleteSuccess':['category ', ' deleted successfully.'],
+            'deleteFailed':['category ', ' deleted failed.'],
+            'confirmDelete':'Are you sure to delete this category?',        
+        }
     }, 
     'img':{
         'check':'Your choosed image: ',

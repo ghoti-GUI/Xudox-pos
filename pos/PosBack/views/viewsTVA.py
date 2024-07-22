@@ -20,8 +20,8 @@ language = 'English'
 
 @api_view(['GET'])
 def get_TVA(request):
-    request_language = request.query_params.get('language', '')
-    # request_language='English'
+    # request_language = request.query_params.get('language', '')
+    request_language='English'
     country_field = f'country{request_language}'
     TVA_countrys = tva.objects.values_list(country_field, flat=True).distinct()
     TVAData = {}
