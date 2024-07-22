@@ -4,7 +4,6 @@ import os
 import requests
 import mysql.connector
 from mysql.connector import Error
-from infos.urls import fetchAllProductUrl, fetchAllCategoryUrl
 from infos.userInfo import restaurantId, lengthContent, lengthID
 from infos.exportValue import AbList, HooftNameValue
 from infos.mysqlInfo import *
@@ -44,10 +43,20 @@ def create_connection(host_name, user_name, user_password, db_name):
     try:
         connection = mysql.connector.connect(
             host=host_name,
+            port=port, 
             user=user_name,
-            passwd=user_password,
-            database=db_name
+            password=user_password,
+            database=db_name,
+            raise_on_warnings=True
         )
+        # connection = mysql.connector.connect(
+        #     host='fastorder.be.mysql:3306',
+        #     # port=3306, 
+        #     user='fastorder_bexudox',
+        #     password='xzystar0800#',
+        #     database='fastorder_bexudox',
+        #     raise_on_warnings=True
+        # )
         print("Connection to MySQL DB successful")
     except Error as e:
         print(f"The error '{e}' occurred")
@@ -73,11 +82,8 @@ def execute_fetch_query(window, connection, query, data):
 
 def fetch_data(window):
     connection = create_connection(host_name, user_name, user_password, db_name)
-
-    # try:
-    #     responseProduct = requests.get(fetchAllProductUrl, params={'rid': restaurantId})
-    #     responseProduct.raise_for_status()
-    #     products = responseProduct.json()
+    if not connection:
+        return
 
     products = execute_fetch_query(window, connection, select_all_products_query, (restaurantId,))
     if not products:
@@ -143,9 +149,6 @@ def format_kitchen_data(product):
 def format_hooft_name(window, connection):
 
     categories = execute_fetch_query(window, connection, select_all_categories_query, (restaurantId,))
-    # responseCategory = requests.get(fetchAllCategoryUrl, params={'rid': restaurantId})
-    # responseCategory.raise_for_status()
-    # categories = responseCategory.json()
 
     HooftNameValueCopy = dict(HooftNameValue)
     for category in categories:
