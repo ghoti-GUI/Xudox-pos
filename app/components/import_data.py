@@ -10,29 +10,32 @@ from .export_data import export_data
 from infos.userInfo import restaurantId, country, lengthContent, save_import_path, load_import_path
 from infos.models import productModel, categoryModel
 from infos.mysqlInfo import *
+from .utils import create_conn_tunnel, create_connection
 
+# # Establishing a database connection
+# def create_connection(host_name, user_name, user_password, db_name):
+#     connection = None
+#     try:
+#         connection = mysql.connector.connect(
+#             host=host_name,
+#             port=mysql_port, 
+#             user=user_name,
+#             passwd=user_password,
+#             database=db_name
+#         )
+#         print("Connection to MySQL DB successful")
+#     except Error as e:
+#         print(f"The error '{e}' occurred")
+#         QMessageBox.warning(window, "Connection to MySQL DB successful Failed", f"The error '{e}' occurred")
+#     return connection
 
-def create_connection(host_name, user_name, user_password, db_name):
-    connection = None
-    try:
-        connection = mysql.connector.connect(
-            host=host_name,
-            port=mysql_port, 
-            user=user_name,
-            passwd=user_password,
-            database=db_name
-        )
-        print("Connection to MySQL DB successful")
-    except Error as e:
-        print(f"The error '{e}' occurred")
-        QMessageBox.warning(window, "Connection to MySQL DB successful Failed", f"The error '{e}' occurred")
-    return connection
-
+# Close connection
 def close_connection(connection):
     if connection.is_connected():
         connection.close()
         print("The connection is closed")
 
+# Create import button
 def create_import_data_button(window, layout):
     from PyQt5.QtWidgets import QPushButton
 
@@ -40,12 +43,13 @@ def create_import_data_button(window, layout):
     btn_import.clicked.connect(lambda: handle_file_select(window))
     layout.addWidget(btn_import)
 
-
+# File selection window pops up
 def handle_file_select(window):
     options = QFileDialog.Options()
     initial_path = load_import_path()
     file_name, _ = QFileDialog.getOpenFileName(window, "Select Import File", initial_path, "CSV Files (*.csv);;All Files (*)", options=options)
     if file_name:
+        # After selecting a file, save the path to the selected folder for the next selection.
         save_import_path(os.path.dirname(file_name))
         import_data(window, file_name)
 
@@ -110,152 +114,151 @@ last_insert_id_query = "SELECT LAST_INSERT_ID()"
 select_tva_id_query = "SELECT id FROM tva WHERE countryEnglish = %s AND category = %s"
 select_all_printer_query = "SELECT id_printer FROM printe_to_where WHERE rid = %s"
 
-# select_product_Xu_class_query = "SELECT id FROM tva WHERE countryEnglish = %s AND category = %s"
-
 def import_data(window, file):
-    connection = create_connection(host_name, user_name, user_password, db_name)
-    if not connection:
-        return
-    
-    product_data = []
-
-    e = delete_all_data(window, connection, restaurantId)
-    if e:
-        QMessageBox.warning(window, "Delete Failed", f"Delete old data failed:\n\n{e}")
-        return
-
-    with open(file, 'r', encoding='gbk') as csvfile:
-
-        failed = []
-        id_list = []
-        id_takeaway = []
-        allprinters_recv = execute_fetch_query(connection, select_all_printer_query, (restaurantId,))
-        allprinters = [printer[0] for printer in allprinters_recv]
-
-        for line in csvfile.readlines():
-            line = line.strip().split(';') # 使用strip()去掉行尾的换行符
-
-            if len(line) < 12:
-                failed.append(f"failed to add product:{line} --- Insufficient data")
-                continue
-            id, name, price, Xu_class, category_name, zname, TVA_category, printer, color, cut_group, custom1, custom2 = line[:12]
-
-            category_id = get_or_create_category_id(connection, category_name, Xu_class, restaurantId)
-            if not category_id:
-                failed.append(f"'{id};{name};{category_name}' --- category create failed")
-                continue
-
-            dinein_takeaway = 1
-            if Xu_class == 'meeneem.txt':
-                if id in id_takeaway:
-                    failed.append(f"'{id};{name}' --- ID duplicated")
-                    continue
-                if id == '---':
-                    id = 'hyphen3'
-                    dinein_takeaway = 2
-                else:
-                    id_takeaway.append(id)
-                    # if id in id_list:
-                    #     dinein_takeaway = 3
-                    #     # (connection, product, 'dinein_takeaway=%s, takeaway_content=%s', 'id_Xu = %s',(dinein_takeaway, name, id))
-                    # else:
-                    dinein_takeaway = 2
-            else:
-                if id in id_list:
-                    failed.append(f"'{id};{name}' --- ID duplicated")
-                    continue
-                if id == '---':
-                    id = 'hyphen3'
-                    dinein_takeaway = 1
-                else:
-                    id_list.append(id)
-                    # if id in id_takeaway:
-                    #     dinein_takeaway = 3
-                    # else:
-                    dinein_takeaway = 1
-
-            bill_content, exceed = truncate_string(name, lengthContent)
-            if exceed:
-                QMessageBox.warning(window, 'Name over the limit:', f'ID:{id}\nname:{name}')
-
-
-            # get tva_id
-            tva_id = None
-            if TVA_category == 'A':
-                TVA_category = 1
-            elif TVA_category == 'B':
-                TVA_category = 2
-            elif TVA_category == 'C':
-                TVA_category = 3
-            elif TVA_category == 'D':
-                TVA_category = 4
-            else:
-                QMessageBox.warning(window, f"fetch tva failed for product '{id};{name}'", f"This tva {TVA_category} does not exist !")
-                continue
-            
-            try:
-                tva_id = execute_fetch_query(connection, select_tva_id_query, (country, TVA_category))[0][0]
-            except Error as e:
-                print(f"The error '{e}' occurred when getting tva")
-                QMessageBox.warning(window, f"fetch tva failed for product '{id};{name}'", f"The error '{e}' occurred when getting tva")
-                continue
-            
-            # set color
-            if color:
-                r, g, b = color.split(' ')
-                bg_color = f"rgb({','.join([r, g, b])})"
-                text_color = set_text_color(int(r), int(g), int(b))
-            else:
-                bg_color = 'rgb(255,255,255)'
-                text_color = 'rgb(0,0,0)'
-
-            printer_list = list(str(printer))
-            printer_list_copy = printer_list[:]
-            printer_removed = ''
-            # 判断printer是否为空
-            if printer_list_copy!=[]:
-                # 检查printerID是否都存在，删去不存在的id
-                for printer_id in printer_list_copy:
-                    if int(printer_id) not in allprinters:
-                        printer_list.remove(printer_id)
-                        printer_removed += printer_id
-            else:
-                QMessageBox.warning(window, f"printer error", f"Printer for product '{id};{name}' is null")
-
-            # 删去不存在的printer后，提示printerID不存在
-            # 若全被删去，则printer变成1
-            if printer_removed != '':
-                failed.append(f"printers of product '{id};{name}' don't exist: {printer_removed}")
-            if printer_list==[]:
-                printer = 1
-            else:
-                printer = int(''.join(printer_list))
-
-            if not cut_group:
-                cut_group = -1
-
-
-
-# (id_Xu, bill_content, kitchen_content, zname, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
-            product_data.append(
-                (id, bill_content, bill_content, zname, tva_id, printer, bg_color, text_color, cut_group, dinein_takeaway, price, price, Xu_class, category_id, restaurantId, custom1, custom2)
-            )
-
-        e = execute_many_query(connection, insert_product_query, product_data)
+    # 建立数据库连接
+    connection = create_connection(host_name, mysql_port, user_name, user_password, db_name)
+    if connection.is_connected():
+        product_data = []
+        # 删除所有数据库中的数据和文件
+        e = delete_all_data(window, connection, restaurantId)
         if e:
-            failed.append(f"--- product add failed\n\n{e}")
+            QMessageBox.warning(window, "Delete Failed", f"Delete old data failed:\n\n{e}")
+            return
 
-        if failed:
-            QMessageBox.warning(window, "Import Results", f"Some imports failed:\n\n" + "\n".join(failed))
-        else:
-            QTimer.singleShot(0, lambda: QMessageBox.information(window, "Import Results", "All imports succeeded"))
+        with open(file, 'r', encoding='gbk') as csvfile:
+            failed = [] # 用来储存所有保存失败的数据
+            id_list = [] # 存储出现过的餐楼的id
+            id_takeaway = [] # 存储出现过的外卖的id
+            # 获取所有printer的id
+            allprinters_recv = execute_fetch_query(connection, select_all_printer_query, (restaurantId,))
+            allprinters = [printer[0] for printer in allprinters_recv]
 
-    # close_connection(connection)
-    export_data(window)
+            for line in csvfile.readlines():
+                line = line.strip().split(';') # 使用strip()去掉行尾的换行符，不然分割时会多一个空数据
+
+                if len(line) < 12:
+                    failed.append(f"failed to add product:{line} --- Insufficient data")
+                    continue
+                id, name, price, Xu_class, category_name, zname, TVA_category, printer, color, cut_group, custom1, custom2 = line[:12]
+
+                # 通过category_name获取cid，若category_name不存在则创建新的category
+                category_id = get_or_create_category_id(connection, category_name, Xu_class, restaurantId)
+                if not category_id:
+                    failed.append(f"'{id};{name};{category_name}' --- category create failed")
+                    continue
+
+                # 通过Xu_class == 'meeneem.txt'判断是餐楼还是外带，并给dinein_takeaway赋值
+                dinein_takeaway = 1
+                if Xu_class == 'meeneem.txt':
+                    if id in id_takeaway:
+                        failed.append(f"'{id};{name}' --- ID duplicated")
+                        continue
+                    if id == '---':
+                        id = 'hyphen3'
+                        dinein_takeaway = 2
+                    else:
+                        id_takeaway.append(id)
+                        # if id in id_list:
+                        #     dinein_takeaway = 3
+                        #     # (connection, product, 'dinein_takeaway=%s, takeaway_content=%s', 'id_Xu = %s',(dinein_takeaway, name, id))
+                        # else:
+                        dinein_takeaway = 2
+                else:
+                    if id in id_list:
+                        failed.append(f"'{id};{name}' --- ID duplicated")
+                        continue
+                    if id == '---':
+                        id = 'hyphen3'
+                        dinein_takeaway = 1
+                    else:
+                        id_list.append(id)
+                        # if id in id_takeaway:
+                        #     dinein_takeaway = 3
+                        # else:
+                        dinein_takeaway = 1
+
+                # 切割content中超过25个字符的部分
+                bill_content, exceed = truncate_string(name, lengthContent)
+                if exceed:
+                    QMessageBox.warning(window, 'Name over the limit:', f'ID:{id}\nname:{name}')
+
+
+                # get tva_id
+                tva_id = None
+                if TVA_category == 'A':
+                    TVA_category = 1
+                elif TVA_category == 'B':
+                    TVA_category = 2
+                elif TVA_category == 'C':
+                    TVA_category = 3
+                elif TVA_category == 'D':
+                    TVA_category = 4
+                else:
+                    QMessageBox.warning(window, f"fetch tva failed for product '{id};{name}'", f"This tva {TVA_category} does not exist !")
+                    continue
+                
+                # 通过tva_category和储存在config.ini文件中的country获取tva_id
+                try:
+                    tva_id = execute_fetch_query(connection, select_tva_id_query, (country, TVA_category))[0][0]
+                except Error as e:
+                    print(f"The error '{e}' occurred when getting tva")
+                    QMessageBox.warning(window, f"fetch tva failed for product '{id};{name}'", f"The error '{e}' occurred when getting tva")
+                    continue
+                
+                # set color
+                if color:
+                    r, g, b = color.split(' ')
+                    bg_color = f"rgb({','.join([r, g, b])})"
+                    text_color = set_text_color(int(r), int(g), int(b))
+                else:
+                    bg_color = 'rgb(255,255,255)'
+                    text_color = 'rgb(0,0,0)'
+
+                printer_list = list(str(printer))
+                printer_list_copy = printer_list[:]
+                printer_removed = ''
+                # 判断printer是否为空
+                if printer_list_copy!=[]:
+                    # 检查printerID是否都存在，删去不存在的id
+                    for printer_id in printer_list_copy:
+                        if int(printer_id) not in allprinters:
+                            printer_list.remove(printer_id)
+                            printer_removed += printer_id
+                else:
+                    QMessageBox.warning(window, f"printer error", f"Printer for product '{id};{name}' is null")
+
+                # 删去不存在的printer后，提示printerID不存在
+                # 若全被删去，则printer变成1
+                if printer_removed != '':
+                    failed.append(f"printers of product '{id};{name}' don't exist: {printer_removed}")
+                if printer_list==[]:
+                    printer = 1
+                else:
+                    printer = int(''.join(printer_list))
+
+                if not cut_group:
+                    cut_group = -1
+
+                # (id_Xu, bill_content, kitchen_content, zname, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
+                product_data.append(
+                    (id, bill_content, bill_content, zname, tva_id, printer, bg_color, text_color, cut_group, dinein_takeaway, price, price, Xu_class, category_id, restaurantId, custom1, custom2)
+                )
+
+            e = execute_many_query(connection, insert_product_query, product_data)
+            if e:
+                failed.append(f"--- product add failed\n\n{e}")
+
+            if failed:
+                QMessageBox.warning(window, "Import Results", f"Some imports failed:\n\n" + "\n".join(failed))
+            else:
+                QTimer.singleShot(0, lambda: QMessageBox.information(window, "Import Results", "All imports succeeded"))
+
+        # close_connection(connection)
+        export_data(window)
 
 
 
-
+# 删除所有数据库中的数据，以及本地数据文件
 def delete_all_data(window, connection, restaurantId):
     delete_product_query = """
     DELETE FROM product WHERE rid = %s
@@ -280,7 +283,7 @@ def delete_all_data(window, connection, restaurantId):
             os.remove(file_path)
     return e_category
 
-
+# 通过name获取cid，若name不存在则创建category
 def get_or_create_category_id(connection, category_name, Xu_class, restaurantId):
     category_data = (category_name, Xu_class, restaurantId)
 
