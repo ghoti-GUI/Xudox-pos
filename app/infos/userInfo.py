@@ -8,10 +8,15 @@ config = configparser.ConfigParser()
 def load_rid(section):
     if config.read(CONFIG_FILE) and config.has_section(section):
         return config.get(section, 'rid', fallback=-1)
-    return restaurantId
+    return -1
+
+def load_country(section):
+    if config.read(CONFIG_FILE) and config.has_section(section):
+        return config.get(section, 'country', fallback='Belgium')
+    return 'Belgium'
 
 restaurantId = load_rid('restaurent')
-country = 'Belgium'
+country = load_country('country')
 # abPath = 'D:/work/Stage fr/XudoX.be/project/testFile'
 abPath = '.'
 

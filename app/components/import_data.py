@@ -83,6 +83,18 @@ def execute_many_query(connection, query, data):
     finally:
         cursor.close()
 
+def update_data(connection, table_name, set_clause, condition_clause, values):
+    cursor = connection.cursor()
+    query = f"UPDATE {table_name} SET {set_clause} WHERE {condition_clause}"
+    try:
+        cursor.execute(query, values)
+        connection.commit()
+        print("Record updated successfully")
+    except Error as e:
+        print(f"The error '{e}' occurred")
+    finally:
+        cursor.close()
+
 insert_product_query = """
 INSERT INTO product (id_Xu, bill_content, kitchen_content, zname, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -140,24 +152,27 @@ def import_data(window, file):
                     continue
                 if id == '---':
                     id = 'hyphen3'
+                    dinein_takeaway = 2
                 else:
                     id_takeaway.append(id)
-                    if id in id_list:
-                        dinein_takeaway = 3
-                    else:
-                        dinein_takeaway = 2
+                    # if id in id_list:
+                    #     dinein_takeaway = 3
+                    #     # (connection, product, 'dinein_takeaway=%s, takeaway_content=%s', 'id_Xu = %s',(dinein_takeaway, name, id))
+                    # else:
+                    dinein_takeaway = 2
             else:
                 if id in id_list:
                     failed.append(f"'{id};{name}' --- ID duplicated")
                     continue
                 if id == '---':
                     id = 'hyphen3'
+                    dinein_takeaway = 1
                 else:
                     id_list.append(id)
-                    if id in id_takeaway:
-                        dinein_takeaway = 3
-                    else:
-                        dinein_takeaway = 1
+                    # if id in id_takeaway:
+                    #     dinein_takeaway = 3
+                    # else:
+                    dinein_takeaway = 1
 
             bill_content, exceed = truncate_string(name, lengthContent)
             if exceed:
@@ -174,32 +189,50 @@ def import_data(window, file):
                 TVA_category = 3
             elif TVA_category == 'D':
                 TVA_category = 4
+            else:
+                QMessageBox.warning(window, f"fetch tva failed for product '{id};{name}'", f"This tva {TVA_category} does not exist !")
+                continue
             
             try:
                 tva_id = execute_fetch_query(connection, select_tva_id_query, (country, TVA_category))[0][0]
             except Error as e:
                 print(f"The error '{e}' occurred when getting tva")
-                QMessageBox.warning(window, "fetch tva failed", f"The error '{e}' occurred when getting tva")
+                QMessageBox.warning(window, f"fetch tva failed for product '{id};{name}'", f"The error '{e}' occurred when getting tva")
                 continue
             
             # set color
-            r, g, b = color.split(' ')
-            bg_color = f"rgb({','.join([r, g, b])})"
-            text_color = set_text_color(int(r), int(g), int(b))
+            if color:
+                r, g, b = color.split(' ')
+                bg_color = f"rgb({','.join([r, g, b])})"
+                text_color = set_text_color(int(r), int(g), int(b))
+            else:
+                bg_color = 'rgb(255,255,255)'
+                text_color = 'rgb(0,0,0)'
 
             printer_list = list(str(printer))
             printer_list_copy = printer_list[:]
             printer_removed = ''
-            for printer_id in printer_list_copy:
-                if int(printer_id) not in allprinters:
-                    printer_list.remove(printer_id)
-                    printer_removed += printer_id
+            # 判断printer是否为空
+            if printer_list_copy!=[]:
+                # 检查printerID是否都存在，删去不存在的id
+                for printer_id in printer_list_copy:
+                    if int(printer_id) not in allprinters:
+                        printer_list.remove(printer_id)
+                        printer_removed += printer_id
+            else:
+                QMessageBox.warning(window, f"printer error", f"Printer for product '{id};{name}' is null")
+
+            # 删去不存在的printer后，提示printerID不存在
+            # 若全被删去，则printer变成1
             if printer_removed != '':
                 failed.append(f"printers of product '{id};{name}' don't exist: {printer_removed}")
             if printer_list==[]:
                 printer = 1
             else:
                 printer = int(''.join(printer_list))
+
+            if not cut_group:
+                cut_group = -1
 
 
 

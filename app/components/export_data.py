@@ -101,19 +101,19 @@ def fetch_data(window):
                         riscd_file_path = os.path.join(window.path, 'riscd.txt')
                         with open(riscd_file_path, 'a', encoding='utf-8') as file:
                             file.write(riscd_data + '\n')
-                    elif dinein_takeaway == 3:
-                        zwcd_file_path = os.path.join(window.path, 'zwcd.txt')
-                        with open(zwcd_file_path, 'a', encoding='utf-8') as file:
-                            file.write(zwcd_data + '\n')
-                        zwcd_file_path = os.path.join(window.path, 'zwwm.txt')
-                        with open(zwcd_file_path, 'a', encoding='utf-8') as file:
-                            file.write(zwcd_data + '\n')
-                        riscd_file_path = os.path.join(window.path, 'riscd.txt')
-                        with open(riscd_file_path, 'a', encoding='utf-8') as file:
-                            file.write(riscd_data + '\n')
-                        riscd_file_path = os.path.join(window.path, 'riswm.txt')
-                        with open(riscd_file_path, 'a', encoding='utf-8') as file:
-                            file.write(riscd_data + '\n')
+                    # elif dinein_takeaway == 3:
+                    #     zwcd_file_path = os.path.join(window.path, 'zwcd.txt')
+                    #     with open(zwcd_file_path, 'a', encoding='utf-8') as file:
+                    #         file.write(zwcd_data + '\n')
+                    #     zwcd_file_path = os.path.join(window.path, 'zwwm.txt')
+                    #     with open(zwcd_file_path, 'a', encoding='utf-8') as file:
+                    #         file.write(zwcd_data + '\n')
+                    #     riscd_file_path = os.path.join(window.path, 'riscd.txt')
+                    #     with open(riscd_file_path, 'a', encoding='utf-8') as file:
+                    #         file.write(riscd_data + '\n')
+                    #     riscd_file_path = os.path.join(window.path, 'riswm.txt')
+                    #     with open(riscd_file_path, 'a', encoding='utf-8') as file:
+                    #         file.write(riscd_data + '\n')
                     elif dinein_takeaway == 2:
                         zwcd_file_path = os.path.join(window.path, 'zwwm.txt')
                         with open(zwcd_file_path, 'a', encoding='utf-8') as file:
