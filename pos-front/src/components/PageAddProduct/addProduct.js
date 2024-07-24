@@ -120,7 +120,11 @@ function AddProduct() {
       if(edit){
         if(submitSucceed.success){
           toast.success(Text.edit.editSuccess)
-          navigate('/home', {state: { editedProductId: productDataReceived.id }})
+          navigate('/home', {
+            state: { 
+              editedProductId: productDataReceived.id ,
+              dinein_takeaway:productDataReceived.dinein_takeaway,
+          }})
         }else{
           toast.error(Text.edit.editFailed)
         }
@@ -157,7 +161,11 @@ function AddProduct() {
   }
 
   const handleClickReturn=()=>{
-    navigate('/home', {state: { editedProductId: productDataReceived.id }})
+    navigate('/home', {
+      state: { 
+        editedProductId: productDataReceived.id ,
+        dinein_takeaway:productDataReceived.dinein_takeaway,
+    }})
   }
 
   const handleDelete=async()=>{

@@ -20,6 +20,8 @@ function Home() {
     const Text = {...multiLanguageText}[Language].home;
     const location = useLocation();
     const editedProductId = location.state?.editedProductId;
+    const dinein_takeaway_recv = location.state?.dinein_takeaway; // 1=dine-in, 2=takeaway
+    const [DineinTakeaway, setDineinTakeaway] = useState(dinein_takeaway_recv||1); // 1=dine-in, 2=takeaway
     const [categories, setCategories] = useState({});
     const [productsClassified, setProductsClassified] = useState({
         // 'categoryId-1':[
@@ -66,11 +68,6 @@ function Home() {
         };fetchData();
         
     },[editedProductId]);
-
-    const [DineinTakeaway, setDineinTakeaway] = useState(1); // 1=dine-in, 2=takeaway
-    const handleChangeDineinTakeaway = ()=>{
-        setDineinTakeaway(DineinTakeaway===1?2:1);
-    }
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dataToDialog, setDataToDialog] = useState(null);
@@ -138,7 +135,7 @@ function Home() {
                             {productsClassified[category.id].map((product, index) => {
                                 if(product.dinein_takeaway===DineinTakeaway){
                                     return(
-                                        <div key={product.id} id={product.id} className={product.id===editedProductId?`border-4 border-blue-500`:``}>
+                                        <div key={product.id} id={product.id} className={product.id===editedProductId?`border-4 border-blue-500 -mx-1`:``}>
                                             <ProductCard data={product} />
                                         </div>
                                     )

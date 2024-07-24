@@ -202,7 +202,15 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
 
   const handleChangeCategory = (index, value)=>{
     let category = categoryData[index]
-    handleChange('cid', value, 'Xu_class', category.Xu_class)
+    let key2 = null
+    let value2 = null
+    if(!productdata.dinein_takeaway.toString().includes('2')){
+      console.log('change Xu_class')
+      key2 = 'Xu_class'
+      value2 = category.Xu_class
+    }
+    console.log('change category:',productdata.dinein_takeaway, key2, value2)
+    handleChange('cid', value, key2, value2)
   }
 
   const [idExisted, setIdExisted] = useState(false);
@@ -337,6 +345,27 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     handleChange('print_to_where', parseInt(sortStringOfNumber(printerId)));
   }
 
+  const handleChangeRadioField = (key, value)=>{
+    let key2 = null
+    let value2 = null
+    if(key==='dinein_takeaway'){
+      if(value===2){
+        key2 = 'Xu_class'
+        value2 = 'meeneem.txt'
+      }else{
+        key2 = 'Xu_class'
+        for (const category of categoryData){
+          console.log(category)
+          if (Number(category.id)===Number(productdata.cid)){
+            value2 = category.Xu_class
+          }
+        }
+      }
+      
+    }
+    handleChange(key, value, key2, value2)
+  }
+
   return (
     <form onSubmit={handleSubmit} className="flex flex-col w-full">
       {Object.keys(productdata).map((key)=>(
@@ -416,7 +445,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
                       type='radio'
                       value={fieldValue}
                       checked={productdata[key]===fieldValue}
-                      onChange={(e) => check?'':handleChange(key, parseInt(e.target.value))}
+                      onChange={(e) => check?'':handleChangeRadioField(key, parseInt(e.target.value))}
                       className='form-radio'/>
                       {fieldKey}
                   </label>

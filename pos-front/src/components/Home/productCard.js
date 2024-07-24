@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCsrfToken } from '../../service/token';
-import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
+import { DefaultUrl, CheckIdXuExistenceUrl, DefaultHost } from '../../service/valueDefault';
 import { checkIdXuExistence, deleteProduct, fetchAllProduct, updateProduct} from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter, fetchPrintersById } from '../../service/printer';
@@ -101,7 +101,12 @@ const ProductCard = ({data, changeOrder=false})=>{
     const handleClickStar = async()=>{
         const newFavourite = 1-favourite;
         setFavourite(newFavourite);
-        const updated = await updateProduct({'id':product.id, 'favourite':newFavourite, 'rid':RestaurantID})
+        const updated = await updateProduct({
+            'id':product.id, 
+            'favourite':newFavourite, 
+            'dinein_takeaway':product.dinein_takeaway, 
+            'rid':RestaurantID, 
+        })
         if(!updated.success){
             toast.error(Text.changeFavouriteFailed)
         }
@@ -111,7 +116,7 @@ const ProductCard = ({data, changeOrder=false})=>{
     return(
         <div className='grid grid-cols-10 w-full py-2 border-t-2 border-x-2 border-black' style={{backgroundColor: product.color, color:product.text_color}}>
             <img 
-                src={'http://localhost:8000'+product.img} 
+                src={DefaultHost.slice(0, -1)+product.img} 
                 alt="no product Img" 
                 style={{ maxWidth: '100%', maxHeight: '400px' }} 
                 className='col-span-1 w-28 h-24 ml-1 object-fill border-2 border-black'/>
@@ -134,7 +139,7 @@ const ProductCard = ({data, changeOrder=false})=>{
                 <p className='mx-1'>{Text.kitchen_content[0]}: {product.kitchen_content}</p>
             </div>
 
-            <div className='col-span-1 flex flex-row items-center justify-center mr-1'>
+            <div className='col-span-1 flex flex-row items-center justify-center px-1 -my-2 bg-white border-l-2 border-black'>
                 <button className='w-1/2 mr-1 -mt-3' onClick={handleClickStar}>
                     <Star className={`w-full ${favourite===1?'fill-yellow-400':''}`}/>
                 </button>

@@ -25,6 +25,7 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
   for(let i=1;i<=14;i++){
     Xu_classList.push('ab'+String(i)+'.txt')
   }
+  // Xu_classList.push('meeneem.txt')
 
   const requiredFields = ['name', 'time_supply'];
 
