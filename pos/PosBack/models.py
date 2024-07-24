@@ -185,12 +185,14 @@ class option_list(models.Model):
 
 
 class printe_to_where(models.Model):
+    id_printer = models.IntegerField()
     printer = models.CharField(max_length=1000, db_comment='print to where list id')
-    cutgroup = models.IntegerField()
+    rid = models.IntegerField()
 
     class Meta:
         managed = False
         db_table = 'printe_to_where'
+        unique_together = (('id_printer','rid'),)
 
 
 def get_upload_path_product(instance, filename):
@@ -222,8 +224,9 @@ class product(models.Model):
     price2 = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     price_extra = models.CharField(max_length=2000, null=True)
     extra_TVA = models.DecimalField(db_column='extra_TVA', max_digits=8, decimal_places=2, default=0)  # Field name made lowercase.
-    time_supply = models.IntegerField(db_comment='1:lunch,2:dinner,12:allday', default=0)
+    time_supply = models.IntegerField(db_comment='1:lunch,2:dinner,12:allday', default=12)
     product_type = models.IntegerField(db_comment='product/set/option', default=0)
+    dinein_takeaway = models.IntegerField(db_comment='1=dine-in, 2=takeaway', default=1)
     soldout = models.IntegerField(default=0)
     min_nbr = models.IntegerField(db_comment='minimum purchase nbr', default=1)
     rid = models.IntegerField(db_comment='restaurant id', default=0)
@@ -233,6 +236,7 @@ class product(models.Model):
     follow_id = models.IntegerField(default=0)
     extra_id = models.IntegerField(default=0)
     Xu_class = models.CharField(db_column='Xu_class', max_length=200, null=True)  # Field name made lowercase.
+    cut_group = models.IntegerField(null=True)
     custom = models.CharField(max_length=200, db_comment='customisation', null=True)
     custom2 = models.CharField(max_length=200, db_comment='customisation 2', null=True)
     custom3 = models.CharField(max_length=200, null=True)

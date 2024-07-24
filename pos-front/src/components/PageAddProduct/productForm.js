@@ -40,6 +40,11 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     'C':3,
     //'21.00%':1
   })
+
+  const [DineinTakeawaySelection, SetDineinTakeawaySelection] = useState({
+    [TextProduct.dinein_takeaway[1][0]]:1,
+    [TextProduct.dinein_takeaway[1][1]]:2,
+  })
   const [categoryData, setCategoryData] = useState([
     // 'name':name,
     // 'id':category.id,
@@ -55,6 +60,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   };
   const radioField = {
     'TVA_category':TVACategory,
+    'dinein_takeaway':DineinTakeawaySelection
   }
   const noInputField = [
     ...Object.keys(requiredFields), 
@@ -134,8 +140,10 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
         setPrinterData(fetchedPrinter);
       }
 
+
       try{
-        const TVAData = await fetchTVA(Language);
+        // fetch tva data from sql
+        const TVAData = await fetchTVA();
         setTVA(TVAData); 
         const TVACountry = []
         for (const country in TVAData){
@@ -162,6 +170,14 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
       }catch (error){
         console.error('Error fetching TVA data:', error)
       };
+
+      // 根据edit/check与否，设置dinein_takeaway的选项，edit/check时，没有both选项
+      if(!(check||edit)){
+        const DineinTakeawaySelectionCopy = {...DineinTakeawaySelection}
+        DineinTakeawaySelectionCopy[TextProduct.dinein_takeaway[1][2]]=12
+        SetDineinTakeawaySelection(DineinTakeawaySelectionCopy)
+      }
+
     };fetchData();
   },[check, edit, productDataReceived]);
 
@@ -201,10 +217,10 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   const handleBlurID = async()=>{
     if(productdata.id_Xu.trim() !== ''){
       try {
-        const existed = await checkIdXuExistence(productdata.id_Xu, RestaurantID)
+        const existed = await checkIdXuExistence(productdata.id_Xu, productdata.dinein_takeaway, RestaurantID)
         if (existed){
           setIdExisted(true);
-          const product = await fetchProductById_Xu(productdata.id_Xu, RestaurantID);
+          const product = await fetchProductById_Xu(productdata.id_Xu, productdata.dinein_takeaway, RestaurantID);
           toast.warning(
             <>
               <span>{TextProduct.id_Xu[3][3][0]}</span>
@@ -393,7 +409,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
 
 
             {radioField.hasOwnProperty(key) &&
-              <div className={`grid grid-cols-${key==='TVA_category'?4:2} w-3/4`}>
+              <div className={`grid grid-cols-${key==='TVA_category'?4:3} w-3/4`}>
                 {Object.entries(radioField[key]).map(([fieldKey, fieldValue])=>(
                   <label className='flex bg-white py-2 pl-2 border-r ' key={fieldKey}>
                     <input

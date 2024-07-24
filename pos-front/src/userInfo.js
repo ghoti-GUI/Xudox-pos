@@ -1,3 +1,3 @@
 export const Language = 'English'
 export const Country = 'Belgium'
-export const RestaurantID = 0
+export const RestaurantID = 1

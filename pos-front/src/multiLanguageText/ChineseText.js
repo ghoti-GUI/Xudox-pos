@@ -12,7 +12,7 @@ export const ChineseText={
         'addProduct':'添加产品',
     },
     'product':{
-        'id_Xu':['ID', '输入产品ID', 'ID已存在', notesUnderID.Chinese],
+        'id_Xu':['ID', '输入产品ID', 'ID已存在在菜单中', notesUnderID.Chinese],
         'online_content':['在线名字', '输入显示在 “在线应用” 中的名字'],
         'notesForPrintContent':['您可以在下面两个输入框中输入<b>最多25个字符（12个中文）</b>'], 
         'bill_content':['账单内容', '输入显示在 “账单” 中的内容'],
@@ -33,6 +33,7 @@ export const ChineseText={
         'returnNormalButton':'返回一般设置', 
         'submitButton':'添加', 
         'Xu_class':['ab类别'], 
+        'dinein_takeaway':['堂食/外带',['堂食','外带','堂食和外带']],
         'add':{
             'pageName':'新增页面',
             'addSuccess':'产品添加成功', 
@@ -112,7 +113,11 @@ export const ChineseText={
         'time_supply':['供应时间',['午餐', '晚餐', '全天']],
         'print_to_where':['打印机选择'], 
         'title':'主页',
-        'productList':'产品列表', 
+        // 'productList':'产品列表', 
+        'DineinMenu':'堂食菜单', 
+        'DineinMenuButton':'堂食', 
+        'TakeawayMenu':'外卖菜单', 
+        'TakeawayMenuButton':'外卖', 
         'modifyOrder':'修改产品顺序',
         'changeFavouriteFailed':'修改收藏失败'
     },

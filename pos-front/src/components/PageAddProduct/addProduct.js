@@ -92,12 +92,15 @@ function AddProduct() {
     }
 
     // 检查id_Xu是否重复
-    if(!edit||(edit&&productDataReceived.id_Xu!==normalData.id_Xu)){
-      const existed = await checkIdXuExistence(normalData.id_Xu)
-      if (existed){
-        toast.error(Text.id_Xu[2]);
-        return
-      } 
+    // 在添加产品，或者在edit页面且产品id_Xu或dinein_takeaway变了的情况下检查
+    if(!edit||(edit&&(productDataReceived.id_Xu!==normalData.id_Xu || productDataReceived.dinein_takeaway!==normalData.dinein_takeaway))){
+      for (const dinein_takeaway_nbr of normalData.dinein_takeaway.toString()){
+        const existed = await checkIdXuExistence(normalData.id_Xu, dinein_takeaway_nbr)
+        if (existed){
+          toast.error(Text.id_Xu[2]+`: ${dinein_takeaway_nbr==='1'?Text.dinein_takeaway[1][0]:Text.dinein_takeaway[1][1]}`);
+          return
+        } 
+      }
     }
 
     const mergedProductData = Object.assign({}, advanceData, normalData)
@@ -109,21 +112,24 @@ function AddProduct() {
     mergedProductData['text_color'] = textColor;
     mergedProductData['rid'] = RestaurantID;
 
-    console.log('mergedProductData:', mergedProductData)
+    const dinein_takeaway_data = mergedProductData.dinein_takeaway
+    for (const dinein_takeaway_nbr of dinein_takeaway_data.toString()){
+      mergedProductData.dinein_takeaway = Number(dinein_takeaway_nbr)
 
-    const submitSucceed = edit? await updateProduct(mergedProductData): await addProduct(mergedProductData);
-    if(edit){
-      if(submitSucceed.success){
-        toast.success(Text.edit.editSuccess)
-        navigate('/home', {state: { editedProductId: productDataReceived.id }})
+      const submitSucceed = edit? await updateProduct(mergedProductData): await addProduct(mergedProductData);
+      if(edit){
+        if(submitSucceed.success){
+          toast.success(Text.edit.editSuccess)
+          navigate('/home', {state: { editedProductId: productDataReceived.id }})
+        }else{
+          toast.error(Text.edit.editFailed)
+        }
       }else{
-        toast.error(Text.edit.editFailed)
-      }
-    }else{
-      if(submitSucceed.success){
-        toast.success(Text.add.addSuccess)
-      }else{
-        toast.error(Text.add.addFailed)
+        if(submitSucceed.success){
+          toast.success(Text.add.addSuccess)
+        }else{
+          toast.error(Text.add.addFailed)
+        }
       }
     }
   };

@@ -12,3 +12,4 @@ export const multiLanguageAllergen = {
     'English':EnglishAllergen, 
     'Chinese':ChineseAllergen, 
 }
+

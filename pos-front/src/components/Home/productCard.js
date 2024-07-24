@@ -26,43 +26,13 @@ const ProductCard = ({data, changeOrder=false})=>{
     const TextLanguage = {...multiLanguageText}[Language];
     const TextProduct = {...TextLanguage}.product;
     const Text = {...TextLanguage}.home;
-    const [soldout, setSoldout] = useState(false);
     const [TVAData, setTVAData] = useState(null);
-    // const [printers, setPrinters] = useState([]);
-
-
-    const getSupplyTime = ()=>{
-        let supplyTime = ''
-        if(product.time_supply===1) supplyTime = Text.time_supply[1][0]
-        if(product.time_supply===2) supplyTime = Text.time_supply[1][1]
-        if(product.time_supply===12) supplyTime = Text.time_supply[1][2]
-        return supplyTime
-    }
-
-    // const getTVAInfo = async(TVA_id) =>{
-    //     const TVAData = await fetchTVAById(TVA_id, Language);
-    //     return TVAData.country+', '+TVAData.tva_value+'%'
-    // }
-
-    // const getPrinters = async(printers_id)=>{
-    //     const printersData = await fetchPrintersById(printers_id)
-    //     // console.log(printersData)
-    //     return printersData
-    // }
 
     useEffect(()=>{
         const getInitInfo = async()=>{
-            // setTVAData(await getTVAInfo(product.TVA_id))
             setTVAData(product.tva_country+', '+product.tva_value+'%')
-            // setPrinters(await getPrinters(product.print_to_where))
-        };
-        getInitInfo();
+        };getInitInfo();
     },[])
-
-
-    const handleSouldout = ()=>{
-        setSoldout(!soldout)
-    }
 
     const handleClickDetail = ()=>{
         navigate(
@@ -163,12 +133,6 @@ const ProductCard = ({data, changeOrder=false})=>{
                 <p className='mx-1'>{Text.bill_content[0]}: {product.bill_content}</p>
                 <p className='mx-1'>{Text.kitchen_content[0]}: {product.kitchen_content}</p>
             </div>
-            {/* <div className='col-span-2 flex flex-col ml-5'>
-                <p className='mx-1'>Printers: </p>
-                {printers.map((printer, index)=>(
-                    <p key={index} className='mx-2' >&#8226;{printer}</p>
-                ))}
-            </div> */}
 
             <div className='col-span-1 flex flex-row items-center justify-center mr-1'>
                 <button className='w-1/2 mr-1 -mt-3' onClick={handleClickStar}>

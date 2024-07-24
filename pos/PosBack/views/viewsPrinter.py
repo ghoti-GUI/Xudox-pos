@@ -18,19 +18,21 @@ from ..serializers import TestSerializer, TestImgSerializer, AllTestImgSerialize
 
 language = 'English'
 
-
+@api_view(['GET'])
 def get_printer(request):
-    printers = printe_to_where.objects.filter(id__lt=10) # return id<10
-    printerData = {printer.id:printer.printer for printer in printers}
+    rid_recv = request.query_params.get('rid')
+    printers = printe_to_where.objects.filter(id_printer__lt=10, rid=rid_recv) # return id_printer<10
+    printerData = {printer.id_printer:printer.printer for printer in printers}
     return JsonResponse(printerData)
 
 @api_view(['GET'])
 def get_printers_by_id(request):
     printers_id_group = request.query_params.get('printers_id', '')
+    rid_recv = request.query_params.get('rid')
     printers_id = str(printers_id_group)
     printers_data = []
     for printer_id in printers_id:
-        printer = get_object_or_404(printe_to_where, id=printer_id)
+        printer = get_object_or_404(printe_to_where, Q(id=printer_id) & Q(rid=rid_recv))
         printers_data.append(printer.printer)
     return JsonResponse(printers_data, safe = False)
 

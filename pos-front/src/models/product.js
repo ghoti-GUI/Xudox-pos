@@ -1,6 +1,7 @@
 import { RestaurantID } from "../userInfo"
 
 export const addProductModelNormal = {
+    'dinein_takeaway':1, 
     'id_Xu':'',
     'cid':'',
     'bill_content':'',

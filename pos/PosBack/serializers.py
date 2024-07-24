@@ -38,6 +38,7 @@ class ProductSerializer(serializers.ModelSerializer):
             'price2',
             'time_supply',
             # 'product_type',
+            'dinein_takeaway', 
             'cid',
             'print_to_where',
             'img',

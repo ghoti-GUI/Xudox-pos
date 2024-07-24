@@ -1,6 +1,5 @@
 import { notesUnderID, TimeSupplyData } from "./otherText"
 
-
 export const EnglishText = {
     'country':{
         'Belgium':'Belgium',
@@ -13,8 +12,7 @@ export const EnglishText = {
         'addProduct':'AddProduct',
     },
     'product':{
-        // 'id_Xu':['ID', 'Enter your product\'s ID', 'ID can be entered up to <b>&nbsp three digits &nbsp</b> in <b>&nbsp letters &nbsp</b> and <b>&nbsp numbers &nbsp</b>'],
-        'id_Xu':['ID', 'Enter your product\'s ID', 'ID already existed', notesUnderID.English],
+        'id_Xu':['ID', 'Enter your product\'s ID', `ID already existed in menu`, notesUnderID.English],
         'notesForPrintContent':['You can enter up to <b>25 characters</b> for the two contents below'], 
         'bill_content':['Bill content', 'Enter the content shown on the bill'],
         'kitchen_content':['Kitchen content', 'Enter the content to send to the kitchen'],
@@ -32,6 +30,7 @@ export const EnglishText = {
         'returnNormalButton':'Return to normal settings', 
         'submitButton':'Submit', 
         'Xu_class':['Category-ab'], 
+        'dinein_takeaway':['Type',['dine-in','take-away','both']],
         'add':{
             'pageName':'Add Product',
             'addSuccess':'Product added successfully', 
@@ -133,7 +132,11 @@ export const EnglishText = {
         'time_supply':['Supply time', ['Lunch', 'Dinner', 'Whole day']],
         'print_to_where':['Printers selected'], 
         'title':'Home',
-        'productList':'Product List', 
+        // 'productList':'Product List', 
+        'DineinMenu':'Dine-in Menu', 
+        'DineinMenuButton':'Dine-in', 
+        'TakeawayMenu':'Take-away Menu', 
+        'TakeawayMenuButton':'Take-away', 
         'modifyOrder':'Modify product order',
         'changeFavouriteFailed':'Failed to modify favourite'
     },

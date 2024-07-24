@@ -95,7 +95,8 @@ def update_product_by_id(request):
         files = request.FILES
         id_received = data.get('id', '')
         rid_received = data.get('rid', 0)
-        product_to_update = get_object_or_404(product, Q(id=id_received) & Q(rid=int(rid_received)))
+        dinein_takeaway_recv = data.get('dinein_takeaway')
+        product_to_update = get_object_or_404(product, Q(id=id_received) & Q(rid=int(rid_received)) & Q(dinein_takeaway=int(dinein_takeaway_recv)))
         for key, value in data.items():
             if key!='id' and key!='rid':  # 确保不修改 id
                 if key=='cid':
@@ -141,8 +142,10 @@ def update_product_by_id(request):
 def check_id_Xu_existence(request):
     id_Xu_received = request.query_params.get('id_Xu', '')
     rid_received = request.query_params.get('rid', '')
+    dinein_takeaway_recv = request.query_params.get('dinein_takeaway')
+    print(dinein_takeaway_recv)
     try:
-        product.objects.get(id_Xu = id_Xu_received, rid=rid_received)
+        product.objects.get(id_Xu = id_Xu_received, rid=rid_received, dinein_takeaway=dinein_takeaway_recv)
         return JsonResponse({'existed':True})
     except product.DoesNotExist:
         return JsonResponse({'existed':False})
@@ -173,7 +176,8 @@ def get_all_products_front_form(request):
 def get_product_by_id_Xu(request):
     id_Xu = request.query_params.get('id_Xu', '')
     rid_received = request.query_params.get('rid', '')
-    product_info = get_object_or_404(product, Q(id_Xu=id_Xu) & Q(rid=rid_received))
+    dinein_takeaway_recv = request.query_params.get('dinein_takeaway')
+    product_info = get_object_or_404(product, Q(id_Xu=id_Xu) & Q(rid=rid_received) & Q(dinein_takeaway=dinein_takeaway_recv))
     serializer = AllProductSerializer(product_info)
     return JsonResponse(serializer.data)
 

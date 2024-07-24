@@ -66,12 +66,13 @@ export const updateProduct = async(productData)=>{
 }
 
 
-export const checkIdXuExistence = async (id_Xu, rid=RestaurantID) => {
+export const checkIdXuExistence = async (id_Xu, dinein_takeaway, rid=RestaurantID) => {
   try {
     const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
       params:{
         'id_Xu':id_Xu, 
-        'rid':rid
+        'rid':rid, 
+        'dinein_takeaway':dinein_takeaway,
       }
     });
     console.log('checked back', response.data.existed)
@@ -112,12 +113,13 @@ export const fetchAllProductFrontForm = async(rid)=>{
 }
 
 
-export const fetchProductById_Xu = async(id_Xu, rid)=>{
+export const fetchProductById_Xu = async(id_Xu, dinein_takeaway, rid)=>{
   try {
     const response = await axios.get(DefaultUrl+'get/product/by/id_Xu/', {
       params:{
         'id_Xu':id_Xu, 
-        'rid':rid
+        'rid':rid,
+        'dinein_takeaway':dinein_takeaway
       }
     });
     return (response.data)

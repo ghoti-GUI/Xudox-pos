@@ -13,30 +13,38 @@ import { normalizeText, sortStringOfNumber } from '../utils';
 import ProductCard from './productCard';
 import DialogChangeOrder from './dialogChangeOrder';
 import { toast } from 'react-toastify';
-import '../../styles.css'
+// import '../../styles.css'
 
 
 function Home() {
     const Text = {...multiLanguageText}[Language].home;
-    const location=useLocation();
+    const location = useLocation();
     const editedProductId = location.state?.editedProductId;
-    const productRefs = useRef(null);
-    const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState({});
-    const [productsClassified, setProductsClassified] = useState({});
-    
+    const [productsClassified, setProductsClassified] = useState({
+        // 'categoryId-1':[
+        //     {'id':1, 'bill_content':'laziji', ...},
+        //     {'id':2, 'bill_content':'doufu', ...},
+        // ],
+        // 'categoryId-2':[]
+    });
 
     useEffect(() => {
         const fetchData = async ()=>{
+            // fetch all product and category data
             const products_data = await fetchAllProductFrontForm(RestaurantID);
             const categories_data = await fetchAllCategory(RestaurantID);
-            const productClassifiedCopy = productsClassified;
+            const productClassifiedCopy = {...productsClassified};
+
+            // classify all product data to each category
             for(const category of categories_data){
                 productClassifiedCopy[category.id]=[];
             };
             for (const product of products_data){
                 productClassifiedCopy[product.cid].push(product);
             };
+
+            // sort product in each category
             Object.values(productClassifiedCopy).forEach(value=>{
                 return value.sort((a, b) => {
                     if (a.favourite === b.favourite) {
@@ -47,21 +55,10 @@ function Home() {
                     return b.favourite - a.favourite;
                 });
             });
-
             setProductsClassified(productClassifiedCopy)
-
-            const products_sorted = products_data.sort((a, b) => {
-                if (a.favourite === b.favourite) {
-                // 如果 favourite 相同，则按 position 排序
-                    return a.position - b.position;
-                }
-                // 否则按 favourite 排序
-                return b.favourite - a.favourite;
-            });
-
-            setProducts(products_sorted);
             setCategories(categories_data);
 
+            // when return from edit/check page scroll to product edited/checked
             const getEle = document.getElementById(editedProductId);
             if (getEle) {
               getEle.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -70,6 +67,10 @@ function Home() {
         
     },[editedProductId]);
 
+    const [DineinTakeaway, setDineinTakeaway] = useState(1); // 1=dine-in, 2=takeaway
+    const handleChangeDineinTakeaway = ()=>{
+        setDineinTakeaway(DineinTakeaway===1?2:1);
+    }
 
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [dataToDialog, setDataToDialog] = useState(null);
@@ -82,7 +83,8 @@ function Home() {
         setIsDialogOpen(false);
     };
 
-    const handleSubmit = async(orderedProductFromDialog) => {
+    // function to submit position
+    const handleSubmitPosition = async(orderedProductFromDialog) => {
         const cid = orderedProductFromDialog[0].cid;
         const productsClassifiedCopy = productsClassified;
         productsClassifiedCopy[cid]=orderedProductFromDialog;
@@ -103,11 +105,26 @@ function Home() {
 
 
     return(
-        <div className='h-screen overflow-y-hidden'>
-            <span className='h-1/6 ml-2 font-sans text-4xl font-bold text-gray-800'>{Text.title}</span> 
-            <br/><br/>
-            <span className='h-1/6 ml-2 font-sans text-2xl font-bold text-gray-800'>{Text.productList}</span>
-            <div className='h-5/6  ml-5 max-h-screen overflow-y-auto overflow-x-hidden pr-5'>
+        <div className='flex flex-col h-screen overflow-y-hidden'>
+            <span className='my-3 ml-5 font-sans text-4xl font-bold text-gray-800'>{Text.title}</span> 
+            <div className='grid grid-cols-3 items-center ml-5 '>
+                <span className=' col-span-1 font-sans text-2xl font-bold text-gray-800'>
+                    {DineinTakeaway===1?Text.DineinMenu:Text.TakeawayMenu}
+                </span>
+                <div className=' col-span-1'>
+                    <button 
+                        className={`ml-3 h-8 px-3 text-sm text-white rounded-lg ${DineinTakeaway===1?'bg-buttonBleu':'bg-buttonGray'}`}
+                        onClick={()=>setDineinTakeaway(1)}>
+                            {Text.DineinMenuButton}
+                    </button>
+                    <button 
+                        className={`ml-3 h-8 px-3 text-sm text-white rounded-lg ${DineinTakeaway===2?'bg-buttonBleu':'bg-buttonGray'}`}
+                        onClick={()=>setDineinTakeaway(2)}>
+                            {Text.TakeawayMenuButton}
+                    </button>
+                </div>
+            </div>
+            <div className='ml-5 max-h-screen overflow-y-auto overflow-x-hidden pr-5'>
                 {Object.values(categories).map((category,index)=>(
                     <div key={category.id} className={` relative flex flex-col justify-center px-3 pt-2 my-3 w-full rounded-lg`} style={{backgroundColor: category.color, color:category.text_color}}>
                         <button 
@@ -119,24 +136,26 @@ function Home() {
                         <span className='text-sm mb-1'>{category.edes || category.ldes || category.fdes || category.zdes || category.des}</span>
                         <div className='mx-2'>
                             {productsClassified[category.id].map((product, index) => {
-                                return(
-                                    <div key={product.id} id={product.id} className={product.id===editedProductId?`border-4 border-blue-500`:``}>
-                                        <ProductCard data={product} />
-                                    </div>
-                                )
+                                if(product.dinein_takeaway===DineinTakeaway){
+                                    return(
+                                        <div key={product.id} id={product.id} className={product.id===editedProductId?`border-4 border-blue-500`:``}>
+                                            <ProductCard data={product} />
+                                        </div>
+                                    )
+                                }
+                                return(<></>)
                             })}
                         </div>
                         <br/>
                     </div>
                 ))}
 
-
-                {/* <div className='mb-28'></div> */}
                 {isDialogOpen && 
                     <DialogChangeOrder 
                         orderedProductReceived={dataToDialog} 
-                        handleSubmit={handleSubmit}
+                        handleSubmit={handleSubmitPosition}
                         handleCancel={closeDialog}
+                        DineinTakeaway={DineinTakeaway}
                     />
                 }
             </div>
