@@ -119,11 +119,11 @@ def import_data(window, file):
             allprinters_recv = execute_fetch_query(connection, select_all_printer_query, (restaurantId,))
             allprinters = [printer[0] for printer in allprinters_recv]
 
-            for line in csvfile.readlines():
-                line = line.split(';') # 分割后结尾会多出一个'\n'数据
+            for line_origin in csvfile.readlines():
+                line = line_origin.split(';') # 分割后结尾会多出一个'\n'数据
 
                 if len(line) < lengthData+1:
-                    failed.append(f"failed to add product:{line} --- Insufficient data, {lengthData+1-len(line)} datas are messing")
+                    failed.append(f"'{line_origin}' --- Insufficient data, {lengthData+1-len(line)} datas are missing")
                     continue
                 id, name, price, Xu_class, category_name, zname, TVA_category, printer, color, cut_group, custom1, custom2 = line[:lengthData]
 
