@@ -5,8 +5,8 @@ import re
 import requests
 import mysql.connector
 from mysql.connector import Error
-from infos.userInfo import restaurantId, lengthContent, lengthID, country
-from infos.exportValue import AbList, HooftNameValue
+from infos.userInfo import restaurantId, country
+from infos.exportImportValue import AbList, HooftNameValue, lengthContent, lengthID
 from infos.mysqlInfo import *
 from .utils import create_conn_tunnel, create_connection
 

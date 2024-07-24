@@ -21,10 +21,6 @@ country = load_country('country')
 abPath = '.'
 
 
-lengthID = 3
-lengthContent = 25
-
-
 
 def save_path(section, path):
     if not config.has_section(section):

@@ -5,8 +5,8 @@ import requests
 import mysql.connector
 from mysql.connector import Error
 import sshtunnel
-from infos.userInfo import restaurantId, lengthContent, lengthID
-from infos.exportValue import AbList, HooftNameValue
+from infos.userInfo import restaurantId
+from infos.exportImportValue import AbList, HooftNameValue, lengthContent, lengthID
 
 def create_conn_tunnel(ssh_host, ssh_port, ssh_username, ssh_password, mysql_host_name, mysql_port):
     tunnel = None

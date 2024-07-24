@@ -7,27 +7,11 @@ from PyQt5.QtWidgets import QMessageBox, QFileDialog
 from PyQt5.QtCore import QTimer
 from .export_data import export_data
 # from infos.userInfo import restaurantId, lengthContent, load_selected_path
-from infos.userInfo import restaurantId, country, lengthContent, save_import_path, load_import_path
+from infos.userInfo import restaurantId, country, save_import_path, load_import_path
 from infos.models import productModel, categoryModel
 from infos.mysqlInfo import *
 from .utils import create_conn_tunnel, create_connection
-
-# # Establishing a database connection
-# def create_connection(host_name, user_name, user_password, db_name):
-#     connection = None
-#     try:
-#         connection = mysql.connector.connect(
-#             host=host_name,
-#             port=mysql_port, 
-#             user=user_name,
-#             passwd=user_password,
-#             database=db_name
-#         )
-#         print("Connection to MySQL DB successful")
-#     except Error as e:
-#         print(f"The error '{e}' occurred")
-#         QMessageBox.warning(window, "Connection to MySQL DB successful Failed", f"The error '{e}' occurred")
-#     return connection
+from infos.exportImportValue import lengthContent, lengthData
 
 # Close connection
 def close_connection(connection):
@@ -108,8 +92,10 @@ INSERT INTO category (name, Xu_class, rid)
 VALUES (%s, %s, %s)
 """
 select_category_query = """
-SELECT id FROM category WHERE name = %s AND rid = %s
+SELECT id, Xu_class FROM category WHERE name = %s AND rid = %s
 """
+update_Xu_class_category_query = "UPDATE category SET Xu_class = %s WHERE id = %s AND rid = %s"
+
 last_insert_id_query = "SELECT LAST_INSERT_ID()"
 select_tva_id_query = "SELECT id FROM tva WHERE countryEnglish = %s AND category = %s"
 select_all_printer_query = "SELECT id_printer FROM printe_to_where WHERE rid = %s"
@@ -134,12 +120,12 @@ def import_data(window, file):
             allprinters = [printer[0] for printer in allprinters_recv]
 
             for line in csvfile.readlines():
-                line = line.strip().split(';') # 使用strip()去掉行尾的换行符，不然分割时会多一个空数据
+                line = line.split(';') # 分割后结尾会多出一个'\n'数据
 
-                if len(line) < 12:
-                    failed.append(f"failed to add product:{line} --- Insufficient data")
+                if len(line) < lengthData+1:
+                    failed.append(f"failed to add product:{line} --- Insufficient data, {lengthData+1-len(line)} datas are messing")
                     continue
-                id, name, price, Xu_class, category_name, zname, TVA_category, printer, color, cut_group, custom1, custom2 = line[:12]
+                id, name, price, Xu_class, category_name, zname, TVA_category, printer, color, cut_group, custom1, custom2 = line[:lengthData]
 
                 # 通过category_name获取cid，若category_name不存在则创建新的category
                 category_id = get_or_create_category_id(connection, category_name, Xu_class, restaurantId)
@@ -151,7 +137,7 @@ def import_data(window, file):
                 dinein_takeaway = 1
                 if Xu_class == 'meeneem.txt':
                     if id in id_takeaway:
-                        failed.append(f"'{id};{name}' --- ID duplicated")
+                        failed.append(f"'{id};{name}' --- ID duplicated in take-away menu")
                         continue
                     if id == '---':
                         id = 'hyphen3'
@@ -165,7 +151,7 @@ def import_data(window, file):
                         dinein_takeaway = 2
                 else:
                     if id in id_list:
-                        failed.append(f"'{id};{name}' --- ID duplicated")
+                        failed.append(f"'{id};{name}' --- ID duplicated in dine-in menu")
                         continue
                     if id == '---':
                         id = 'hyphen3'
@@ -284,16 +270,24 @@ def delete_all_data(window, connection, restaurantId):
     return e_category
 
 # 通过name获取cid，若name不存在则创建category
+# 如果已存在的category的Xu_class是‘meeneem.txt’，且product的Xu_class不是‘meeneem.txt’，则修改category的Xu_class
 def get_or_create_category_id(connection, category_name, Xu_class, restaurantId):
     category_data = (category_name, Xu_class, restaurantId)
 
-    id = execute_fetch_query(connection, select_category_query, (category_name, restaurantId))
+    category_result = execute_fetch_query(connection, select_category_query, (category_name, restaurantId))
 
-    if not id:
+    if not category_result:
+        # 不存在则创建新的category
         if execute_query(connection, insert_category_query, category_data):
             return None
         return execute_fetch_query(connection, last_insert_id_query, ())[0][0]
-    return id[0][0]
+    else:
+        id = category_result[0][0]
+        Xu_class_category = category_result[0][1]
+        # 输入的product的Xu_class不是‘meeneem.txt’，且获取的category的Xu_class是‘meeneem.txt’，则修改category的Xu_class
+        if Xu_class!='meeneem.txt' and Xu_class_category=='meeneem.txt':
+            execute_query(connection, update_Xu_class_category_query, (Xu_class, id, restaurantId))
+        return id
 
 
 # 以防用户输入content大于25字符
