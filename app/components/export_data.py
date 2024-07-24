@@ -5,7 +5,6 @@ import re
 import requests
 import mysql.connector
 from mysql.connector import Error
-import sshtunnel
 from infos.userInfo import restaurantId, lengthContent, lengthID, country
 from infos.exportValue import AbList, HooftNameValue
 from infos.mysqlInfo import *
