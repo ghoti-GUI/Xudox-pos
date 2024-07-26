@@ -1,4 +1,4 @@
-import { RestaurantID } from "../userInfo"
+
 
 export const addProductModelNormal = {
     'dinein_takeaway':1, 
@@ -39,5 +39,5 @@ export const addProductModelFull = {
     ...addProductModelAdvance, 
     'color':'rgb(255, 255, 255)',
     'text_color':'rgb(0, 0, 0)',
-    'rid':RestaurantID,
+    'rid':0,
 }

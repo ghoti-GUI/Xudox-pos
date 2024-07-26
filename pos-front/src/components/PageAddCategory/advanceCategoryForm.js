@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import axios, { all } from 'axios';
 import { ToastContainer, toast} from 'react-toastify';
 import { getCsrfToken } from '../../service/token';
@@ -9,11 +9,11 @@ import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
 import { multiLanguageText, multiLanguageAllergen } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber, mergeObject, updateCheckboxData, updateObject, truncateString } from '../utils';
-import { fetchAllCategoryForProductForm,  } from './utils';
-import { Language, Country } from '../../userInfo';
+import { Language, Country, UserContext } from '../../userInfo';
 import { addProductModelAdvance } from '../../models/product';
 
 const AdvanceCategoryForm = () => {
+    const { RestaurantID } = useContext(UserContext);
     return (
         <div>
             

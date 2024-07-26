@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, lengthContent } from '../../service/valueDefault';
 import axios from 'axios';
@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { addProductModelFull } from '../../models/product';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
-import { Language, RestaurantID } from '../../userInfo';
+import { Language, UserContext } from '../../userInfo';
 import { normalizeText, truncateString } from '../utils';
 import { categoryModelFull } from '../../models/category';
 import { deleteAll } from '../../service/commun';
@@ -15,6 +15,7 @@ import { addProduct } from '../../service/product';
 import { exportFileAfterImport } from '../ExportButton/exportButton.js';
 
 const ImportButton = () => {
+    const { RestaurantID } = useContext(UserContext);
 
     const Text={...multiLanguageText}[Language];
     const rid = RestaurantID;

@@ -1,11 +1,11 @@
 // import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
-import { getCsrfToken } from './token';
+import { getCsrfToken, token } from './token';
 import { DefaultUrl, CheckIdXuExistenceUrl, GetAllProduct} from './valueDefault';
 import { multiLanguageText } from '../multiLanguageText/multiLanguageText';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { Language, RestaurantID } from '../userInfo';
+import { Language } from '../userInfo';
 
 
 const Text = {...multiLanguageText}[Language];
@@ -34,9 +34,9 @@ export const addProduct = async(productData)=>{
       headers: {
           'X-CSRFToken': csrfToken, 
           'content-type': 'multipart/form-data', 
+          // 'Authorization': `Bearer ${token}`,
       }
     })
-    // toast.success(Text.product.addSuccess);
     return {'success':true, 'message':response.data};
   }catch(error) {
       // toast.error(Text.product.addFailed);
@@ -54,6 +54,7 @@ export const updateProduct = async(productData)=>{
       headers: {
         'X-CSRFToken': csrfToken, 
         'content-type': 'multipart/form-data', 
+        // 'Authorization': `Bearer ${token}`,
       }
     });
     // toast.success(Text.edit.editSuccess);
@@ -66,13 +67,16 @@ export const updateProduct = async(productData)=>{
 }
 
 
-export const checkIdXuExistence = async (id_Xu, dinein_takeaway, rid=RestaurantID) => {
+export const checkIdXuExistence = async (id_Xu, dinein_takeaway, rid) => {
   try {
     const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
       params:{
         'id_Xu':id_Xu, 
         'rid':rid, 
         'dinein_takeaway':dinein_takeaway,
+      },
+      headers: {
+        // 'Authorization': `Bearer ${token}`,
       }
     });
     console.log('checked back', response.data.existed)
@@ -89,6 +93,9 @@ export const fetchAllProduct = async (rid) => {
     const response = await axios.get(DefaultUrl+GetAllProduct, {
       params:{
         'rid':rid, 
+      },
+      headers: {
+        // 'Authorization': `Bearer ${token}`,
       }
     });
     const productsData = response.data;
@@ -99,10 +106,14 @@ export const fetchAllProduct = async (rid) => {
 }
 
 export const fetchAllProductFrontForm = async(rid)=>{
+  // console.log('token:', token)
   try {
     const response = await axios.get(DefaultUrl+'get/product/all/frontform/', {
       params:{
         'rid':rid, 
+      },
+      headers: {
+        // 'Authorization': `Bearer ${token}`,
       }
     });
     const productsData = response.data;
@@ -120,6 +131,9 @@ export const fetchProductById_Xu = async(id_Xu, dinein_takeaway, rid)=>{
         'id_Xu':id_Xu, 
         'rid':rid,
         'dinein_takeaway':dinein_takeaway
+      },
+      headers: {
+        // 'Authorization': `Bearer ${token}`,
       }
     });
     return (response.data)
@@ -130,7 +144,7 @@ export const fetchProductById_Xu = async(id_Xu, dinein_takeaway, rid)=>{
 }
 
 
-export const deleteProduct = async(id, rid=RestaurantID)=>{
+export const deleteProduct = async(id, rid)=>{
   try {
     const response = await axios.post(DefaultUrl+'delete/product/', {
       'id':id, 
@@ -140,6 +154,7 @@ export const deleteProduct = async(id, rid=RestaurantID)=>{
       headers: {
         'X-CSRFToken': csrfToken, 
         'content-type': 'multipart/form-data', 
+        // 'Authorization': `Bearer ${token}`,
       }
     });
     return {'success':true, 'message':response.data.message}

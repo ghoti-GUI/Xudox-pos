@@ -24,7 +24,9 @@ def update_Xu_class(request):
     try:
         data = request.POST
         Xu_class = data.get('Xu_class', '')
-        rid_received = data.get('rid', '')
+        # rid_received = data.get('rid', '')
+        user = request.user
+        rid_received = user.id
         category_name = data.get('category_name', '')
         categories = category.objects.filter(
             Q(rid=rid_received) & (
@@ -54,7 +56,9 @@ def update_Xu_class(request):
 @csrf_exempt
 def delete_all(request):
     try:
-        restaurant = request.POST.get('rid', '')
+        # restaurant = request.POST.get('rid', '')
+        user = request.user
+        restaurant = user.id
         products_to_delete = product.objects.filter(rid = restaurant)
         for product_to_delete in products_to_delete:
             if product_to_delete.img:

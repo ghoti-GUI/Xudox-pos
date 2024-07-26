@@ -20,7 +20,9 @@ language = 'English'
 
 @api_view(['GET'])
 def get_printer(request):
-    rid_recv = request.query_params.get('rid')
+    # rid_recv = request.query_params.get('rid')
+    user = request.user
+    rid_recv = user.id
     printers = printe_to_where.objects.filter(id_printer__lt=10, rid=rid_recv) # return id_printer<10
     printerData = {printer.id_printer:printer.printer for printer in printers}
     return JsonResponse(printerData)
@@ -28,7 +30,9 @@ def get_printer(request):
 @api_view(['GET'])
 def get_printers_by_id(request):
     printers_id_group = request.query_params.get('printers_id', '')
-    rid_recv = request.query_params.get('rid')
+    # rid_recv = request.query_params.get('rid')
+    user = request.user
+    rid_recv = user.id
     printers_id = str(printers_id_group)
     printers_data = []
     for printer_id in printers_id:

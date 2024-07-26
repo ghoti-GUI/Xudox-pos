@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useCallback, useParams } from 'react';
+import React, { useEffect, useState, useCallback, useParams, useContext } from 'react';
 import axios from 'axios';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -11,13 +11,14 @@ import ImgUploadButton from '../reuseComponent/imgUploadButton';
 import ColorSelect from '../reuseComponent/colorSelect';
 import AdvanceForm from './advanceForm.js';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
-import { Language, RestaurantID } from '../../userInfo';
+import { Language, UserContext } from '../../userInfo';
 import { addProduct, checkIdXuExistence, deleteProduct, updateProduct } from '../../service/product.js';
 import { addProductModelAdvance, addProductModelNormal } from '../../models/product.js';
 import { fetchImgFile } from '../../service/commun.js';
 import '../../styles.css'
 
 function AddProduct() {
+  const { RestaurantID } = useContext(UserContext);
   // receivedData、productDataReceived = 从home传输过来的data，和data中的product信息
   // normalData、advanceData用于同步两张表单的数据，以便submit
   let location = useLocation();
@@ -161,7 +162,7 @@ function AddProduct() {
   }
 
   const handleClickReturn=()=>{
-    navigate('/home', {
+    navigate('../home', {
       state: { 
         editedProductId: productDataReceived.id ,
         dinein_takeaway:productDataReceived.dinein_takeaway,

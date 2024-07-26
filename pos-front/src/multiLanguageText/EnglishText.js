@@ -11,6 +11,13 @@ export const EnglishText = {
         'addCategory':'AddCategory',
         'addProduct':'AddProduct',
     },
+    'login':{
+        'title':'Login', 
+        'loginFailed':'Incorrect username or password',
+        'username':'Username',
+        'password':'Password', 
+        'loginButton':'Login'
+    },
     'product':{
         'id_Xu':['ID', 'Enter your product\'s ID', `ID already existed in menu`, notesUnderID.English],
         'notesForPrintContent':['You can enter up to <b>25 characters</b> for the two contents below'], 

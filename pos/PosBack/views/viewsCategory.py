@@ -10,6 +10,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action, api_view
+from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 import json
 
@@ -22,7 +23,8 @@ language = 'English'
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
+    # permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
+    permission_classes = (IsAuthenticated, )
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -38,7 +40,9 @@ class CategoryViewSet(viewsets.ModelViewSet):
 @api_view(['GET'])
 def check_name_category_existence(request):
     name_category_received = request.query_params.get('categoryName', '')
-    rid_received = request.query_params.get('rid', '')
+    # rid_received = request.query_params.get('rid', '')
+    user = request.user
+    rid_received = user.id
     try:
         category.objects.get(
             Q(name = name_category_received)|
@@ -53,7 +57,9 @@ def check_name_category_existence(request):
 
 @api_view(['GET'])
 def get_all_categories(request):
-    restaurant = request.query_params.get('rid', '')
+    # restaurant = request.query_params.get('rid', '')
+    user = request.user
+    restaurant = user.id
     categories = category.objects.filter(rid = restaurant)
     serializer = AllCategorySerializer(categories, many = True)
     return JsonResponse(serializer.data, safe = False)
@@ -61,7 +67,9 @@ def get_all_categories(request):
 @api_view(['GET'])
 def get_cid_by_categoryName(request):
     category_name = request.query_params.get('category_name', '')
-    rid_received = request.query_params.get('rid', '')
+    # rid_received = request.query_params.get('rid', '')
+    user = request.user
+    rid_received = user.id
     categories = category.objects.filter(
         Q(rid=rid_received) & (
         Q(name=category_name) |

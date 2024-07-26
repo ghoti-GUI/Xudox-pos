@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { fetchAllProduct } from "../../service/product";
 import { fetchAllCategory } from "../../service/category";
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
-import { Language, RestaurantID } from '../../userInfo';
+import { Language, UserContext } from '../../userInfo';
 import { useSearchParams } from 'react-router-dom';
 // import { handleClickExport } from './export';
 import JSZip from 'jszip';
@@ -10,6 +10,7 @@ import { saveAs } from 'file-saver';
 import { lengthContent, lengthID } from '../../service/valueDefault';
 
 const ExportButton = () => {
+    const { RestaurantID } = useContext(UserContext);
     const Text = {...multiLanguageText}[Language].export
     // const [products, setProducts] = useState([])
     // const [categories, setCategories] = useState([])
@@ -109,7 +110,7 @@ const ExportButton = () => {
     
     const exportFileZip = async()=>{
 
-        const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData();
+        const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData(RestaurantID);
         const zip = new JSZip();
 
 
@@ -142,7 +143,7 @@ const ExportButton = () => {
     const selectDirAndExport = async()=>{
         try{
             const handle = await window.showDirectoryPicker();
-            const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData();
+            const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData(RestaurantID);
             for (const [key, value] of Object.entries(abListCopy)){
                 createFile(handle, `${key}`, value)
             }
@@ -206,7 +207,7 @@ const initHooftNameValue = {
     'ab14.txt':'',
 };
 
-const fetchData=async(fetch=true, productsData=null, categoriesData=null)=>{
+const fetchData=async(RestaurantID, fetch=true, productsData=null, categoriesData=null)=>{
 
     const productsRecv = fetch?await fetchAllProduct(RestaurantID):productsData;
     const categoriesRecv = fetch?await fetchAllCategory(RestaurantID):categoriesData;
@@ -265,11 +266,11 @@ const createFile = async(handle, name, value)=>{
 }
 
 
-export const exportFileAfterImport = async(productsData, categoriesData)=>{
+export const exportFileAfterImport = async(productsData, categoriesData, RestaurantID)=>{
     console.log('exporting')
     try{
         const handle = await window.showDirectoryPicker();
-        const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData(false, productsData, categoriesData);
+        const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData(RestaurantID, false, productsData, categoriesData);
         for (const [key, value] of Object.entries(abListCopy)){
             createFile(handle, `${key}`, value)
         }

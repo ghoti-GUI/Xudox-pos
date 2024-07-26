@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCsrfToken } from '../../service/token';
@@ -9,7 +9,7 @@ import { fetchPrinter, fetchPrintersById } from '../../service/printer';
 import { fetchTVA, fetchTVAById } from '../../service/tva';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber } from '../utils';
-import { Language, RestaurantID } from '../../userInfo';
+import { Language, UserContext } from '../../userInfo';
 import { ReactComponent as Detail } from '../../img/detail.svg';
 import { ReactComponent as Edit } from '../../img/edit.svg';
 import { ReactComponent as Star } from '../../img/star.svg';
@@ -20,6 +20,7 @@ import '../../styles.css'
 
 
 const ProductCard = ({data, changeOrder=false})=>{
+    const { RestaurantID } = useContext(UserContext);
     const product = data;
     const navigate = useNavigate();
     
@@ -36,14 +37,14 @@ const ProductCard = ({data, changeOrder=false})=>{
 
     const handleClickDetail = ()=>{
         navigate(
-            `/checkProduct/${product.id}`, 
+            `../checkProduct/${product.id}`, 
             {state:{product:product, 'type':'check'}}
         )
     }
 
     const handleClickEdit = ()=>{
         navigate(
-            `/editProduct/${product.id}`, 
+            `../editProduct/${product.id}`, 
             {state:{product:product, 'type':'edit'}}
         )
     }

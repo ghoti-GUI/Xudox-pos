@@ -12,6 +12,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action, api_view
+from rest_framework.permissions import IsAuthenticated
 from django.db.models import Q
 from django.conf import settings
 import json
@@ -27,7 +28,8 @@ language = 'English'
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = product.objects.all()
     serializer_class = ProductSerializer
-    permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
+    # permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
+    permission_classes = (IsAuthenticated, )
 
     def perform_create(self, serializer):
         advanceKeyList = {
@@ -94,36 +96,38 @@ def update_product_by_id(request):
         data = request.POST
         files = request.FILES
         id_received = data.get('id', '')
-        rid_received = data.get('rid', 0)
-        dinein_takeaway_recv = data.get('dinein_takeaway')
-        product_to_update = get_object_or_404(product, Q(id=id_received) & Q(rid=int(rid_received)) & Q(dinein_takeaway=int(dinein_takeaway_recv)))
-        for key, value in data.items():
-            if key!='id' and key!='rid':  # 确保不修改 id
-                if key=='cid':
-                    try:
-                        category_instance = get_object_or_404(category, Q(id=int(value)) & Q(rid=int(rid_received)))
-                        setattr(product_to_update, key, category_instance)
-                    except (ValueError, category.DoesNotExist):
-                        print(f"Invalid category id: {value}")
-                elif key=='TVA_country':
-                    try:
-                        TVA_country = data.get('TVA_country', '')
-                        TVA_category = data.get('TVA_category', '')
-                        TVA = get_object_or_404(tva, **{f'countryEnglish' : TVA_country, 'category' : TVA_category})
-                        setattr(product_to_update, 'TVA_id', TVA)
-                    except (ValueError, category.DoesNotExist):
-                        print(f"Invalid TVA data: {data.items.TVA_country}, {data.items.TVA_category}")
-                elif key=='img':
-                    img = data.get('img', '')
-                elif hasattr(product_to_update, key) and key!='TVA_category':
-                    setattr(product_to_update, key, value)
-
-        if 'img' in files:
-            product_to_update.img = files['img']
-
-
-        product_to_update.save()
-        return JsonResponse({'status': 'success', 'message': 'Product updated successfully.'})
+        # rid_received = data.get('rid', 0)
+        user = request.user
+        rid_received = user.id
+        if rid_received:
+            dinein_takeaway_recv = data.get('dinein_takeaway')
+            product_to_update = get_object_or_404(product, Q(id=id_received) & Q(rid=int(rid_received)) & Q(dinein_takeaway=int(dinein_takeaway_recv)))
+            for key, value in data.items():
+                if key!='id' and key!='rid':  # 确保不修改 id
+                    if key=='cid':
+                        try:
+                            category_instance = get_object_or_404(category, Q(id=int(value)) & Q(rid=int(rid_received)))
+                            setattr(product_to_update, key, category_instance)
+                        except (ValueError, category.DoesNotExist):
+                            print(f"Invalid category id: {value}")
+                    elif key=='TVA_country':
+                        try:
+                            TVA_country = data.get('TVA_country', '')
+                            TVA_category = data.get('TVA_category', '')
+                            TVA = get_object_or_404(tva, **{f'countryEnglish' : TVA_country, 'category' : TVA_category})
+                            setattr(product_to_update, 'TVA_id', TVA)
+                        except (ValueError, category.DoesNotExist):
+                            print(f"Invalid TVA data: {data.items.TVA_country}, {data.items.TVA_category}")
+                    elif key=='img':
+                        img = data.get('img', '')
+                    elif hasattr(product_to_update, key) and key!='TVA_category':
+                        setattr(product_to_update, key, value)
+            if 'img' in files:
+                product_to_update.img = files['img']
+            product_to_update.save()
+            return JsonResponse({'status': 'success', 'message': 'Product updated successfully.'})
+        else:
+            return JsonResponse({'message': 'Invalid credentials'}, status=401)
 
     except product.DoesNotExist:
         return JsonResponse({'status': 'error', 'message': 'Product not found.'}, status=404)
@@ -141,62 +145,85 @@ def update_product_by_id(request):
 @api_view(['GET'])
 def check_id_Xu_existence(request):
     id_Xu_received = request.query_params.get('id_Xu', '')
-    rid_received = request.query_params.get('rid', '')
-    dinein_takeaway_recv = request.query_params.get('dinein_takeaway')
-    print(dinein_takeaway_recv)
-    try:
-        product.objects.get(id_Xu = id_Xu_received, rid=rid_received, dinein_takeaway=dinein_takeaway_recv)
-        return JsonResponse({'existed':True})
-    except product.DoesNotExist:
-        return JsonResponse({'existed':False})
+    # rid_received = request.query_params.get('rid', '')
+    user = request.user
+    rid_received = user.id
+    if rid_received:
+        dinein_takeaway_recv = request.query_params.get('dinein_takeaway')
+        print(dinein_takeaway_recv)
+        try:
+            product.objects.get(id_Xu = id_Xu_received, rid=rid_received, dinein_takeaway=dinein_takeaway_recv)
+            return JsonResponse({'existed':True})
+        except product.DoesNotExist:
+            return JsonResponse({'existed':False})
+    else:
+        return JsonResponse({'message': 'Invalid credentials'}, status=401)
 
 @api_view(['GET'])
 def get_all_products(request):
-    rid_received = request.query_params.get('rid', '')
-    products = product.objects.filter(rid = rid_received)
-    serializer = AllProductSerializer(products, many = True)
-    return JsonResponse(serializer.data, safe = False)
+    # rid_received = request.query_params.get('rid', '')
+    user = request.user
+    rid_received = user.id
+    if rid_received:
+        products = product.objects.filter(rid = rid_received)
+        serializer = AllProductSerializer(products, many = True)
+        return JsonResponse(serializer.data, safe = False)
+    else:
+        return JsonResponse({'message': 'Invalid credentials'}, status=401)
 
 @api_view(['GET'])
 def get_all_products_front_form(request):
-    rid_received = request.query_params.get('rid', '')
-    products = product.objects.filter(rid = rid_received)
-    product_serializer = AllProductSerializer(products, many = True)
-    products_data = product_serializer.data
-    for product_data in products_data:
-        tva_id = product_data.get('TVA_id')
-        tva_data = tva.objects.get(id=tva_id)
-        product_data['tva_country'] = tva_data.countryEnglish
-        product_data['tva_category'] = tva_data.category
-        product_data['tva_value'] = tva_data.tva_value
-    return JsonResponse(products_data, safe = False)
+    # rid_received = request.query_params.get('rid', '')
+    user = request.user
+    rid_received = user.id
+    print(user)
+    print(rid_received)
+    if rid_received:
+        products = product.objects.filter(rid = rid_received)
+        product_serializer = AllProductSerializer(products, many = True)
+        products_data = product_serializer.data
+        for product_data in products_data:
+            tva_id = product_data.get('TVA_id')
+            tva_data = tva.objects.get(id=tva_id)
+            product_data['tva_country'] = tva_data.countryEnglish
+            product_data['tva_category'] = tva_data.category
+            product_data['tva_value'] = tva_data.tva_value
+        return JsonResponse(products_data, safe = False)
+    else:
+        return JsonResponse({'message': 'Invalid credentials'}, status=401)
 
 
 @api_view(['GET'])
 def get_product_by_id_Xu(request):
     id_Xu = request.query_params.get('id_Xu', '')
-    rid_received = request.query_params.get('rid', '')
-    dinein_takeaway_recv = request.query_params.get('dinein_takeaway')
-    product_info = get_object_or_404(product, Q(id_Xu=id_Xu) & Q(rid=rid_received) & Q(dinein_takeaway=dinein_takeaway_recv))
-    serializer = AllProductSerializer(product_info)
-    return JsonResponse(serializer.data)
+    # rid_received = request.query_params.get('rid', '')
+    user = request.user
+    rid_received = user.id
+    if rid_received:
+        dinein_takeaway_recv = request.query_params.get('dinein_takeaway')
+        product_info = get_object_or_404(product, Q(id_Xu=id_Xu) & Q(rid=rid_received) & Q(dinein_takeaway=dinein_takeaway_recv))
+        serializer = AllProductSerializer(product_info)
+        return JsonResponse(serializer.data)
+    else:
+        return JsonResponse({'message': 'Invalid credentials'}, status=401)
 
 @csrf_exempt
 def delete_product(request):
     try:
         id_recv = request.POST.get('id')
-        rid_recv = request.POST.get('rid')
-        product_to_delete = get_object_or_404(product, Q(id=id_recv) & Q(rid=rid_recv))
-        img_to_delete = product_to_delete.img
-        if(img_to_delete):
-            img_path = str(img_to_delete.path)
-            delete_image(img_path)
-
-        product_to_delete.delete()
-
-            
-
-        return JsonResponse({'status': 'success', 'message': f'product {id_recv} deleted successfully.'})
+        # rid_recv = request.POST.get('rid')
+        user = request.user
+        rid_recv = user.id
+        if rid_recv:
+            product_to_delete = get_object_or_404(product, Q(id=id_recv) & Q(rid=rid_recv))
+            img_to_delete = product_to_delete.img
+            if(img_to_delete):
+                img_path = str(img_to_delete.path)
+                delete_image(img_path)
+            product_to_delete.delete()
+            return JsonResponse({'status': 'success', 'message': f'product {id_recv} deleted successfully.'})
+        else:
+            return JsonResponse({'message': 'Invalid credentials'}, status=401)
 
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)

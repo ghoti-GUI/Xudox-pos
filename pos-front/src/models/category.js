@@ -1,5 +1,3 @@
-import { RestaurantID } from "../userInfo"
-
 export const categoryModel = {
     'name':'',
     'des':'',
@@ -11,5 +9,5 @@ export const categoryModelFull = {
     ...categoryModel, 
     'color':'rgb(255, 255, 255)',
     'text_color':'rgb(0, 0, 0)',
-    'rid':RestaurantID, 
+    'rid':0, 
 }

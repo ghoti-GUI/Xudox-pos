@@ -1,12 +1,12 @@
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import axios from 'axios';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
 import CategoryForm from "./categoryForm";
 import ImgUploadButton from '../reuseComponent/imgUploadButton';
 import ColorSelect from '../reuseComponent/colorSelect';
-import { Language, RestaurantID } from '../../userInfo';
+import { Language, UserContext } from '../../userInfo';
 import { addCategory } from '../../service/category';
 import { toast } from 'react-toastify';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
@@ -14,6 +14,7 @@ import AdvanceCategoryForm from './advanceCategoryForm';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 function AddCategory() {
+  const { RestaurantID } = useContext(UserContext);
   // receivedData、productDataReceived = 从home传输过来的data，和data中的product信息
   // normalData、advanceData用于同步两张表单的数据，以便submit
   let location = useLocation();

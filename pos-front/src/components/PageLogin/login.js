@@ -1,45 +1,62 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
-import { DefaultUrl } from '../valueDefault';
+import { useNavigate } from 'react-router-dom';
+import { login } from '../../service/auth';
+import { toast } from 'react-toastify';
+import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
+import { Language } from '../../userInfo';
+import { UserContext } from '../../userInfo';
 
 const Login = () => {
+    const navigate = useNavigate();
+    const Text = {...multiLanguageText}[Language].login
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    // const { setRestaurantID } = useContext(UserContext);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:8000/api/accounts/login/', { username, password });
-            localStorage.setItem('token', response.data.token);  // 存储token
-            setMessage('Login successful!');
-        } catch (error) {
-            setMessage('Invalid credentials');
+    // 向后端发送认证请求
+    const handleLogin = async (event) => {
+        event.preventDefault();
+        const response = await login({'username':username, 'password':password,});
+        
+        if(response.success){
+            console.log(response)
+            const accessToken = response.data.access;
+            const refreshToken = response.data.refresh;
+            localStorage.setItem('access_token', accessToken);
+            localStorage.setItem('refresh_token', refreshToken);
+            axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+            setMessage(null);
+            navigate('/')
+        }else{
+            setMessage(Text.loginFailed);
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Username:</label>
+        <div className='flex flex-col w-full h-screen justify-center items-center pb-20'>
+            <h2 className='mb-5 text-2xl font-bold'>{Text.title}</h2>
+            <form onSubmit={handleLogin} className='flex flex-col justify-center'>
+                <div className='mb-2 flex flex-row justify-end'>
+                    <label className='mr-1'>{Text.username}:</label>
                     <input
-                        type="text"
+                        className='px-1 rounded'
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
                 </div>
-                <div>
-                    <label>Password:</label>
+                <div className='mb-2 flex flex-row justify-end'>
+                    <label className='mr-1'>{Text.password}:</label>
                     <input
-                        type="password"
+                        className='px-1 rounded'
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
-                <button type="submit">Login</button>
+                <button className='btn-bleu'>{Text.loginButton}</button>
             </form>
-            {message && <p>{message}</p>}
+            <p className='text-red-500 my-2'>{message}</p>
         </div>
     );
 };

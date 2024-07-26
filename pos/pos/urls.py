@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from PosBack.views import viewsUser
 
@@ -30,6 +31,11 @@ urlpatterns = [
     path('', include(router.urls)),
     path("admin/", admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace = "rest_framework")),
+
+    path('api/login/', viewsUser.login_view, name='login'), 
+    path('api/logout/', viewsUser.logout_view, name='logout'), 
+    path('api/token/obtain/' , TokenObtainPairView.as_view(), name= 'token_create' ),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), 
     
     path('api/posback/', include('PosBack.urls')),
 

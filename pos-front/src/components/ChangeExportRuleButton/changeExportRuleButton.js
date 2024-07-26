@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { getCsrfToken } from '../../service/token';
 import axios from 'axios';
 import { DefaultUrl } from '../../service/valueDefault';
 import { toast } from 'react-toastify';
-import { RestaurantID } from '../../userInfo';
+import { UserContext  } from '../../userInfo';
 import { updateXu_class } from '../../service/commun';
 
 
 const ChangeExportRuleButton = () => {
+    const { RestaurantID } = useContext(UserContext);
 
     const changeRule = async (onloadEvent, pageEvent)=>{
         console.log('changeRule')

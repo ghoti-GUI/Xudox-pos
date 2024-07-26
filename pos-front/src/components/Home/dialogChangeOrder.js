@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useState, useRef, useEffect } from 'react';
 import ProductCard from './productCard';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
@@ -6,6 +6,7 @@ import { Language } from '../../userInfo';
 import '../../styles.css'
 
 const DialogChangeOrder = ({orderedProductReceived, handleSubmit, handleCancel, DineinTakeaway}) => {
+
     const Text = {...multiLanguageText}[Language].dialogChangeOrder;
     const [orderedProduct, setOrderedProduct] = useState(orderedProductReceived);
     const [draggedItemIndex, setDraggedItemIndex] = useState(null);

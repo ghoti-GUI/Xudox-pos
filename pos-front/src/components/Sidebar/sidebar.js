@@ -20,21 +20,21 @@ const Sidebar = () => {
       </div>
       <nav className="mt-10">
         <Link 
-          to="/" 
+          to="" 
           className={`flex items-center px-4 py-2 hover:bg-gray-700 w-full ${sidebarChoosed==='home'?'bg-gray-600':''}`} 
           onClick={()=>{setSidebarChoosed('home')}}>
           <FaHome className='mr-2'/>
           {Text.home}
         </Link>
         <Link 
-          to="/addCategory" 
+          to="addCategory" 
           className={`flex items-center px-4 py-2 hover:bg-gray-700 w-full ${sidebarChoosed==='addCategory'?'bg-gray-600':''}`} 
           onClick={()=>{setSidebarChoosed('addCategory')}}>
           <FaInfoCircle className='mr-2'/>
           {Text.addCategory}
         </Link>
         <Link 
-          to="/add/Product" 
+          to="add/Product" 
           className={`flex items-center px-4 py-2 hover:bg-gray-700 w-full ${sidebarChoosed==='addProduct'?'bg-gray-600':''}`} 
           onClick={()=>{setSidebarChoosed('addProduct')}}>
           <FaInfoCircle className='mr-2'/>

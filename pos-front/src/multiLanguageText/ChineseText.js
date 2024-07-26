@@ -11,6 +11,12 @@ export const ChineseText={
         'addCategory':'添加产品类别',
         'addProduct':'添加产品',
     },
+    'login':{
+        'title':'登录', 
+        'loginFailed':'用户名或密码不正确',
+        'username':'用户名',
+        'password':'密码', 
+    },
     'product':{
         'id_Xu':['ID', '输入产品ID', 'ID已存在在菜单中', notesUnderID.Chinese],
         'online_content':['在线名字', '输入显示在 “在线应用” 中的名字'],

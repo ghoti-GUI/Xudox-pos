@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import axios from 'axios';
 import { getCsrfToken } from '../../service/token';
 import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
@@ -8,11 +8,12 @@ import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber } from '../utils';
-import { Language, RestaurantID } from '../../userInfo';
+import { Language, UserContext } from '../../userInfo';
 import { categoryModel } from '../../models/category';
 import { toast } from 'react-toastify';
 
 function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=false}) {
+  const { RestaurantID } = useContext(UserContext);
   const Text = {...multiLanguageText}[Language].category
   const [categorydata, setCategoryData] = useState(normalData||{...categoryModel})
   const initData = {...categorydata};

@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { getCsrfToken } from './token';
+import { getCsrfToken, token } from './token';
 import { DefaultUrl, GetAllCategoryUrl} from './valueDefault';
-import { Language, RestaurantID } from '../userInfo';
+import { Language } from '../userInfo';
 import { multiLanguageText } from '../multiLanguageText/multiLanguageText';
 
 const Text = {...multiLanguageText}[Language];
@@ -16,6 +16,7 @@ export const addCategory = async(categorydata)=>{
           headers: {
               'X-CSRFToken': csrfToken,
               'content-type': 'multipart/form-data',
+              // 'Authorization': `Bearer ${token}`,
           }
       }
     );
@@ -26,12 +27,15 @@ export const addCategory = async(categorydata)=>{
 }
 }
 
-export const fetchAllCategory = async (rid=RestaurantID) => {
+export const fetchAllCategory = async (rid) => {
   try {
     const response = await axios.get(DefaultUrl+GetAllCategoryUrl, {
       params:{
         'rid':rid, 
-      }
+      },
+      headers: {
+        // 'Authorization': `Bearer ${token}`,
+    }
     });
     const categoryData = response.data;
     return categoryData
@@ -40,7 +44,7 @@ export const fetchAllCategory = async (rid=RestaurantID) => {
   }
 }
 
-export const fetchCidByCategoryName = async(categoryName, rid=RestaurantID)=>{
+export const fetchCidByCategoryName = async(categoryName, rid)=>{
   try{
     const response = await axios.get(DefaultUrl+'get/cid/by/categoryName/',
       {params:{'category_name':categoryName, 'rid':rid}},
@@ -48,6 +52,7 @@ export const fetchCidByCategoryName = async(categoryName, rid=RestaurantID)=>{
           headers: {
               'X-CSRFToken': csrfToken, 
               'content-type': 'multipart/form-data', 
+              // 'Authorization': `Bearer ${token}`,
           }, 
       })
     return response.data.cid
@@ -57,13 +62,16 @@ export const fetchCidByCategoryName = async(categoryName, rid=RestaurantID)=>{
   }
 }
 
-export const checkCategoryNameExistence = async(categoryName, rid=RestaurantID)=>{
+export const checkCategoryNameExistence = async(categoryName, rid)=>{
   try {
     const response = await axios.get(DefaultUrl+'category/check_name_category_existence/', {
       params:{
         'categoryName':categoryName, 
         'rid':rid
-      }  
+      },
+      headers: {
+        // 'Authorization': `Bearer ${token}`,
+      }, 
     });
     return response.data.existed
   } catch (error) {

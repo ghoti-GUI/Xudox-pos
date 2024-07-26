@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import axios, { all } from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast} from 'react-toastify';
@@ -12,11 +12,12 @@ import { fetchTVA, fetchTVAById } from '../../service/tva';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber, updateCheckboxData, updateObject, truncateString } from '../utils';
 import { fetchAllCategoryForProductForm, } from './utils';
-import { Language, Country, RestaurantID } from '../../userInfo';
+import { Language, Country, UserContext } from '../../userInfo';
 import AdvanceForm from './advanceForm';
 import { addProductModelNormal } from '../../models/product';
 
 function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent, check=false, edit=false, productDataReceived, sendExistedDataToParent}) {
+  const { RestaurantID } = useContext(UserContext);
 
   const Text = {...multiLanguageText}[Language];
   const TextProduct = Text.product;
