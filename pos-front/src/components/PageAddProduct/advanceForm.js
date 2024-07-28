@@ -9,7 +9,7 @@ import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
 import { multiLanguageText, multiLanguageAllergen } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber, mergeObject, updateCheckboxData, updateObject, truncateString } from '../utils';
-import { fetchAllCategoryForProductForm,  } from './utils';
+import { fetchAllCategoryForProductForm,  } from './utilsAddProduct';
 import { Language, Country } from '../../userInfo';
 import { addProductModelAdvance } from '../../models/product';
 
@@ -197,7 +197,7 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
               <input 
               type={numericFields.includes(key) ? 'number':'text'} name={key} 
               className="flex px-2 w-2/3 rounded-r-lg bg-white" 
-              value={check?productDataReceived[key]:productdata[key]} 
+              value={(check?productDataReceived[key]:productdata[key])||''} 
               placeholder={Text[key][1]}
               onChange={(e) => {
                 const value = e.target.value;
@@ -252,7 +252,7 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
                       <input
                         type='radio'
                         value=''
-                        checked={productdata[key]===''}
+                        checked={productdata[key]==='' || !productdata[key]}
                         onChange={(e) => check?'':handleChange(key, '')}
                         className='form-radio'/>
                         {Text[key][1][0]}
@@ -273,16 +273,16 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
                       <input
                         type='radio'
                         value={Text[key][1][2]}
-                        checked={productdata[key].includes('€')}
+                        checked={productdata[key]?.includes('€')}
                         onChange={(e) => check?'':handleChange(key, recordDiscountFixed)}
                         className='form-radio'/>
                         {Text[key][1][2]}
                     </label>
                       <input
                         type='text'
-                        value={!productdata[key].includes('€')?'':productdata[key]}
+                        value={!productdata[key]?.includes('€')?'':productdata[key]}
                         placeholder={recordDiscountFixed}
-                        disabled={!productdata[key].includes('€')||check}
+                        disabled={!productdata[key]?.includes('€')||check}
                         onChange={(e) => handleChangeDiscount('fixed', e.target.value)}
                         className='w-1/2 text-right pr-5 bg-white'/>
                   </div>
@@ -292,16 +292,16 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
                       <input
                         type='radio'
                         value={Text[key][1][3]}
-                        checked={productdata[key].includes('%')}
+                        checked={productdata[key]?.includes('%')}
                         onChange={(e) => check?'':handleChange(key, recordDiscountPercentage)}
                         className='form-radio'/>
                         {Text[key][1][3]}
                     </label>
                       <input
                         type='text'
-                        value={!productdata[key].includes('%')?'':productdata[key]}
+                        value={!productdata[key]?.includes('%')?'':productdata[key]}
                         placeholder={recordDiscountPercentage}
-                        disabled={!productdata[key].includes('%')||check}
+                        disabled={!productdata[key]?.includes('%')||check}
                         onChange={(e) => handleChangeDiscount('percentage', e.target.value)}
                         className='w-1/2 text-right pr-5 bg-white'/>
                   </div>

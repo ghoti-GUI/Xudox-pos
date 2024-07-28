@@ -39,7 +39,7 @@ export const ChineseText={
         'returnNormalButton':'返回一般设置', 
         'submitButton':'添加', 
         'Xu_class':['ab类别'], 
-        'dinein_takeaway':['堂食/外带',['堂食','外带','堂食和外带']],
+        'dinein_takeaway':['添加到',['堂食菜单','外带菜单','堂食和外带']],
         'add':{
             'pageName':'新增页面',
             'addSuccess':'产品添加成功', 

@@ -19,7 +19,7 @@ from .utils import delete_image
 
 language = 'English'
 
-@csrf_exempt
+@api_view(['POST'])
 def update_Xu_class(request):
     try:
         data = request.POST
@@ -53,7 +53,7 @@ def update_Xu_class(request):
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
 
-@csrf_exempt
+@api_view(['POST'])
 def delete_all(request):
     try:
         # restaurant = request.POST.get('rid', '')

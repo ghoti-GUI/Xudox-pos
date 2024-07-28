@@ -144,17 +144,17 @@ export const fetchProductById_Xu = async(id_Xu, dinein_takeaway, rid)=>{
 }
 
 
-export const deleteProduct = async(id, rid)=>{
+export const deleteProduct = async(id)=>{
+  console.log(token)
   try {
     const response = await axios.post(DefaultUrl+'delete/product/', {
       'id':id, 
-      'rid':rid
     },
     {
       headers: {
         'X-CSRFToken': csrfToken, 
         'content-type': 'multipart/form-data', 
-        // 'Authorization': `Bearer ${token}`,
+        'Authorization': `Bearer ${token}`,
       }
     });
     return {'success':true, 'message':response.data.message}

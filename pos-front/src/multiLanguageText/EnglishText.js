@@ -37,7 +37,7 @@ export const EnglishText = {
         'returnNormalButton':'Return to normal settings', 
         'submitButton':'Submit', 
         'Xu_class':['Category-ab'], 
-        'dinein_takeaway':['Type',['dine-in','take-away','both']],
+        'dinein_takeaway':['Add to',['dine-in menu','take-away menu','both']],
         'add':{
             'pageName':'Add Product',
             'addSuccess':'Product added successfully', 

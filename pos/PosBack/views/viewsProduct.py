@@ -90,7 +90,7 @@ class ProductViewSet(viewsets.ModelViewSet):
 #     TVA_ = get_object_or_404(tva, **{f'country{language}' : TVA_country, 'category' : TVA_category})
 #     return TVA
 
-@csrf_exempt
+@api_view(['POST'])
 def update_product_by_id(request):
     try:
         data = request.POST
@@ -99,14 +99,17 @@ def update_product_by_id(request):
         # rid_received = data.get('rid', 0)
         user = request.user
         rid_received = user.id
+        # print(user, rid_received)
         if rid_received:
             dinein_takeaway_recv = data.get('dinein_takeaway')
-            product_to_update = get_object_or_404(product, Q(id=id_received) & Q(rid=int(rid_received)) & Q(dinein_takeaway=int(dinein_takeaway_recv)))
+            product_to_update = get_object_or_404(product, Q(id=id_received) & Q(rid=int(rid_received)))
+            print('get product succeed')
             for key, value in data.items():
                 if key!='id' and key!='rid':  # 确保不修改 id
                     if key=='cid':
                         try:
                             category_instance = get_object_or_404(category, Q(id=int(value)) & Q(rid=int(rid_received)))
+                            print('get cid succeed')
                             setattr(product_to_update, key, category_instance)
                         except (ValueError, category.DoesNotExist):
                             print(f"Invalid category id: {value}")
@@ -115,6 +118,7 @@ def update_product_by_id(request):
                             TVA_country = data.get('TVA_country', '')
                             TVA_category = data.get('TVA_category', '')
                             TVA = get_object_or_404(tva, **{f'countryEnglish' : TVA_country, 'category' : TVA_category})
+                            print('get tva succeed')
                             setattr(product_to_update, 'TVA_id', TVA)
                         except (ValueError, category.DoesNotExist):
                             print(f"Invalid TVA data: {data.items.TVA_country}, {data.items.TVA_category}")
@@ -176,8 +180,8 @@ def get_all_products_front_form(request):
     # rid_received = request.query_params.get('rid', '')
     user = request.user
     rid_received = user.id
-    print(user)
-    print(rid_received)
+    # print(user)
+    # print(rid_received)
     if rid_received:
         products = product.objects.filter(rid = rid_received)
         product_serializer = AllProductSerializer(products, many = True)
@@ -207,7 +211,8 @@ def get_product_by_id_Xu(request):
     else:
         return JsonResponse({'message': 'Invalid credentials'}, status=401)
 
-@csrf_exempt
+# @csrf_exempt
+@api_view(['POST'])
 def delete_product(request):
     try:
         id_recv = request.POST.get('id')

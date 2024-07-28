@@ -121,7 +121,7 @@ function AddProduct() {
       if(edit){
         if(submitSucceed.success){
           toast.success(Text.edit.editSuccess)
-          navigate('/home', {
+          navigate('../home', {
             state: { 
               editedProductId: productDataReceived.id ,
               dinein_takeaway:productDataReceived.dinein_takeaway,

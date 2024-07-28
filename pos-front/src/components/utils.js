@@ -41,7 +41,7 @@ export const updateCheckboxData = (fetchedData, checkboxData) =>{
         })
     }else if(Object.keys(fetchedData[0]).includes('allergen')){
         const allergens = checkboxData.split(',');
-        console.log('allergens:', allergens)
+        // console.log('allergens:', allergens)
         returnData = fetchedData.map((allergen)=>{
             if(allergens.includes(allergen.allergen)){
                 return {...allergen, 'checked':true}

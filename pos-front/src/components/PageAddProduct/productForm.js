@@ -11,7 +11,7 @@ import { fetchPrinter } from '../../service/printer';
 import { fetchTVA, fetchTVAById } from '../../service/tva';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber, updateCheckboxData, updateObject, truncateString } from '../utils';
-import { fetchAllCategoryForProductForm, } from './utils';
+import { fetchAllCategoryForProductForm, } from './utilsAddProduct';
 import { Language, Country, UserContext } from '../../userInfo';
 import AdvanceForm from './advanceForm';
 import { addProductModelNormal } from '../../models/product';
@@ -133,13 +133,18 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
       // console.log(allCategoryData)
       setCategoryData(allCategoryData);
 
-      if(normalData && !check){
-        setPrinterData(updateCheckboxData(fetchedPrinter, normalData.print_to_where));
-      }else if (check||edit){
-        setPrinterData(updateCheckboxData(fetchedPrinter, productDataReceived.print_to_where));
-      }else{
-        setPrinterData(fetchedPrinter);
+      if(fetchedPrinter.length>0){
+        console.log(fetchedPrinter)
+        if(normalData && !check){
+          setPrinterData(updateCheckboxData(fetchedPrinter, normalData.print_to_where));
+        }else if (check||edit){
+          setPrinterData(updateCheckboxData(fetchedPrinter, productDataReceived.print_to_where));
+        }else{
+          setPrinterData(fetchedPrinter);
+        }
       }
+      
+      
 
 
       try{
