@@ -3,5 +3,10 @@
     "axios": "^1.7.2",
     "react-native-fs": "^2.20.0"
   },
-  "packageManager": "yarn@3.6.4"
+  "packageManager": "yarn@3.6.4",
+  "homepage": "http://ghoti-GUI.github.io/Xudox-pos",
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+  }
 }

@@ -13,3 +13,14 @@ production:
 
 运行production:
     serve -s build
+
+
+
+test:
+    npm install --save gh-pages
+    "homepage": "http://ghoti-GUI.github.io/Xudox-pos",
+    "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
+    }
+    npm run deploy
