@@ -40,4 +40,5 @@ ZwcdValue = ''
 lengthID = 3
 lengthContent = 25
 
-lengthData = 12
+lengthDataMin = 7
+lengthDataFull = 12

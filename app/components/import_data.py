@@ -11,7 +11,7 @@ from infos.userInfo import restaurantId, country, save_import_path, load_import_
 from infos.models import productModel, categoryModel
 from infos.mysqlInfo import *
 from .utils import create_conn_tunnel, create_connection
-from infos.exportImportValue import lengthContent, lengthData
+from infos.exportImportValue import lengthContent, lengthDataMin, lengthDataFull
 
 # Close connection
 def close_connection(connection):
@@ -122,10 +122,11 @@ def import_data(window, file):
             for line_origin in csvfile.readlines():
                 line = line_origin.split(';') # 分割后结尾会多出一个'\n'数据
 
-                if len(line) < lengthData+1:
-                    failed.append(f"'{line_origin}' --- Insufficient data, {lengthData+1-len(line)} datas are missing")
+                if len(line) < lengthDataMin+1:
+                    failed.append(f"'{line_origin}' --- Insufficient data, {lengthDataMin+1-len(line)} datas are missing")
                     continue
-                id, name, price, Xu_class, category_name, zname, TVA_category, printer, color, cut_group, custom1, custom2 = line[:lengthData]
+                line += [None]*(lengthDataFull+1-len(line))
+                id, name, price, Xu_class, category_name, zname, TVA_category, printer, color, cut_group, custom1, custom2 = line[:lengthDataFull]
 
                 # 通过category_name获取cid，若category_name不存在则创建新的category
                 category_id = get_or_create_category_id(connection, category_name, Xu_class, restaurantId)

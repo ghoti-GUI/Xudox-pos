@@ -31,7 +31,7 @@ def delete_all_ab_files(app):
         files_to_delete = glob.glob(search_pattern, recursive=False)
         pattern = re.compile(r'^ab\d+\.txt$', re.IGNORECASE)
         for file_path in files_to_delete:
-            print(file_path)
+            # print(file_path)
             # 判断路径是否是个文件，获取路径中的文件名并判断是否匹配pattern
             if os.path.isfile(file_path) and pattern.match(os.path.basename(file_path).lower()):
                 try:
