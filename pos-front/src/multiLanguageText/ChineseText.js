@@ -132,7 +132,10 @@ export const ChineseText={
         'submitButton':'保存',
         'cancelButton':'取消', 
     }, 
-    'export':'导出', 
+    'export':{
+        'chooseButton':['导出到文件夹', '导出成压缩包'],
+        'exportButton':'导出', 
+    }, 
     'returnButton':'返回', 
 }
 

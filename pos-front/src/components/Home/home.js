@@ -124,8 +124,9 @@ function Home() {
                 </div>
             </div>
             <div className='ml-5 max-h-screen overflow-y-auto overflow-x-hidden pr-5'>
-                {Object.values(categories).map((category,index)=>(
-                    <div key={category.id} className={` relative flex flex-col justify-center px-3 pt-2 my-3 w-full rounded-lg`} style={{backgroundColor: category.color, color:category.text_color}}>
+                {Object.values(categories).map((category,index)=>{
+                    // if(category.type===1){}
+                    return(<div key={category.id} className={` relative flex flex-col justify-center px-3 pt-2 my-3 w-full rounded-lg`} style={{backgroundColor: category.color, color:category.text_color}}>
                         <button 
                             onClick={() => openDialog(category.id)} 
                             className=' absolute right-5 top-1 px-4 py-1 bg-buttonBleu hover:bg-buttonBleuHover text-white rounded '>
@@ -146,8 +147,8 @@ function Home() {
                             })}
                         </div>
                         <br/>
-                    </div>
-                ))}
+                    </div>)
+                })}
 
                 {isDialogOpen && 
                     <DialogChangeOrder 

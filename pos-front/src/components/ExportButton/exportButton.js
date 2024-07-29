@@ -107,12 +107,16 @@ const ExportButton = () => {
     //     const kitchen_content = product.kitchen_content;
     //     return `${id_Xu} ${kitchen_content}`;
     // };
+
+    const [exportMode, setExportMode] = useState('folder')
     
     const exportFileZip = async()=>{
 
-        const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData(RestaurantID);
+        // const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData(RestaurantID);
+        const abListCopy = {...initAbList}
+        const zwcdValueCopy = {...initZwcdValue}
+        const HooftNameValueCopy = {...initHooftNameValue}
         const zip = new JSZip();
-
 
         // export adn.txt
         for (const [key, value] of Object.entries(abListCopy)){
@@ -132,13 +136,6 @@ const ExportButton = () => {
             saveAs(blob, 'abFiles.zip');
         });
     }
-
-    // const createFile = async(handle, name, value)=>{
-    //     const newFileHandle = await handle.getFileHandle(name, { create: true });
-    //     const writable = await newFileHandle.createWritable();
-    //     await writable.write(value);
-    //     await writable.close();
-    // }
 
     const selectDirAndExport = async()=>{
         try{
@@ -164,9 +161,25 @@ const ExportButton = () => {
 
     
     return (
-        <button onClick={selectDirAndExport} className='flex items-center justify-center py-1 mt-4 w-5/6 bg-buttonBleu text-white hover:bg-buttonBleuHover rounded-lg'>
-            {Text}
-        </button>
+        <div className='mt-4 w-5/6'>
+            <div className='flex flex-row items-center justify-center py-1'>
+                <button 
+                    className={`w-1/2 ${exportMode==='folder'?'bg-buttonBleu':'bg-buttonGray'} rounded-l-lg text-sm`}
+                    onClick={()=>setExportMode('folder')}>
+                    {Text.chooseButton[0]}<br/>{Text.chooseButton[1]}
+                </button>
+                <button 
+                    className={`w-1/2 ${exportMode==='zip'?'bg-buttonBleu':'bg-buttonGray'} rounded-r-lg text-sm`}
+                    onClick={()=>setExportMode('zip')}>
+                    {Text.chooseButton[0]}<br/>{Text.chooseButton[2]}
+                </button>
+            </div>
+            <button 
+                onClick={exportMode==='folder'?selectDirAndExport:exportFileZip} 
+                className='flex items-center justify-center w-full py-1 mt-3 bg-buttonBleu text-white hover:bg-buttonBleuHover rounded-lg'>
+                {Text.exportButton}
+            </button>
+        </div>
     );
 }
 
@@ -244,12 +257,15 @@ const fetchData=async(RestaurantID, fetch=true, productsData=null, categoriesDat
 
 };
 
-const formatProductData = (product) => {
+const formatProductData = (product, tva_list) => {
     const id_XuRecv = product.id_Xu.toString();
     const id_Xu = id_XuRecv==='hyphen3'?'---':id_XuRecv.padStart(lengthID, ' ');
     const bill_content = product.bill_content+'.'.padEnd(lengthContent-product.bill_content.length, ' ');
     const price = product.price;
-    return `${id_Xu} ${bill_content} ${price}`;
+    const tva = tva_list.find(tva => tva.id === product.TVA_id)
+    const tva_category = tva.category
+    if()
+    return `${id_Xu} ${bill_content} ${price} ${tva_category}`;
 };
 
 const formatKitchenData = (product) => {

@@ -41,8 +41,8 @@ const Sidebar = () => {
           {Text.addProduct}
         </Link>
         <div className='flex flex-col items-center justify-center w-full mt-10'>
-          <ImportButton/>
           <ExportButton/>
+          <ImportButton/>
           <ChangeExportRuleButton/>
         </div>
       </nav>

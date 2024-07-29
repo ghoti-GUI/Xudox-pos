@@ -152,7 +152,10 @@ export const EnglishText = {
         'submitButton':'Submit',
         'cancelButton':'Cancel', 
     }, 
-    'export':'Export', 
+    'export':{
+        'chooseButton':['Export ', 'to folder', 'as .zip'], 
+        'exportButton':'Export'
+    }, 
     'returnButton':'Return', 
 }
 
