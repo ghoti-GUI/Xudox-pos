@@ -186,6 +186,8 @@ def format_product_data(product, tva_category_sql):
         tva_category = 'B'
     elif tva_category_sql == 3:
         tva_category = 'C'
+    elif tva_category_sql == 4:
+        tva_category = 'D'
     else:
         tva_category = None
 
