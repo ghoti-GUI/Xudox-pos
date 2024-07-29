@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
-from .models import Test, TestImg, product, category, tva
+from .models import Test, TestImg, product, category, tva, printe_to_where
 
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -79,6 +79,11 @@ class AllCategorySerializer(serializers.ModelSerializer):
 class AllTvaSerializer(serializers.ModelSerializer):
     class Meta:
         model = tva
+        fields = '__all__'
+
+class AllPrinterSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = printe_to_where
         fields = '__all__'
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):

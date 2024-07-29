@@ -40,3 +40,18 @@ export const fetchTVAById = async (TVA_id, language) =>{
     console.error('Error fetching TVA data by id:', error)
   }
 }
+
+export const fetchTVAIdByCountryCategory = async (tva_country, tva_category) =>{
+  try{
+    const response = await axios.get(DefaultUrl+'get/tva_id/by_country_category/', {
+      params:{
+        'tva_country':tva_country, 
+        'tva_category':tva_category, 
+      }
+    })
+    const TVAData = response.data
+    return TVAData
+  }catch (error){
+    console.error('Error fetching TVA data by id:', error)
+  }
+}

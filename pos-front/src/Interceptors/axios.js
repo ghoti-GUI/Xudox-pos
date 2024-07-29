@@ -37,10 +37,10 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(resp => resp, async error => {
     const refreshToken = localStorage.getItem('refresh_token');
     const originalRequest = error.config;
-    console.log(originalRequest)
 
     // 错误码为401，有refreshToken且还未进行重试时
     if (error.response.status === 401 && refreshToken && !refresh) {
+        console.log('token not valid')
         refresh = true;
         // if (isRefreshing) {
         //     return new Promise(function (resolve, reject) {

@@ -26,7 +26,17 @@ class CategoryViewSet(viewsets.ModelViewSet):
     # permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
     permission_classes = (IsAuthenticated, )
 
+    def perform_create(self, serializer):
+        user_id = self.request.user.id
+        save_data = {'rid':user_id}
+        serializer.save(**save_data)
+
     def create(self, request, *args, **kwargs):
+        # user_id = request.user.id
+        # # 将用户ID添加到请求数据中
+        # data = request.data.copy()
+        # data['rid'] = user_id
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)

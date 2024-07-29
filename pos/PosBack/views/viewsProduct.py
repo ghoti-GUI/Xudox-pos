@@ -54,10 +54,12 @@ class ProductViewSet(viewsets.ModelViewSet):
         request_data = serializer.initial_data
         country_value = request_data.get('TVA_country')
         category_value = request_data.get('TVA_category')
+        user_id = self.request.user.id
         TVA = get_object_or_404(tva, **{f'country{language}' : country_value, 'category' : category_value})
         save_data={
             'TVA_id' : TVA, 
-            'id_user' : request_data.get('id_Xu'),  
+            'id_user' : request_data.get('id_Xu'), 
+            'rid':user_id,  
         }
         for advanceKey in advanceKeyList:
             if advanceKey in request_data:

@@ -28,7 +28,7 @@ const Login = () => {
             localStorage.setItem('refresh_token', refreshToken);
             axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
             setMessage(null);
-            navigate('/')
+            navigate('/');
         }else{
             setMessage(Text.loginFailed);
         }

@@ -18,7 +18,7 @@ from ..serializers import TestSerializer, TestImgSerializer, AllTestImgSerialize
 
 language = 'English'
 
-# fetch tva data dor add product form
+# fetch tva data dor add product form (strange data form)
 @api_view(['GET'])
 def get_TVA(request):
     country_field = 'countryEnglish'
@@ -38,16 +38,30 @@ def get_all_TVA(request):
 
 @api_view(['GET'])
 def get_TVA_by_id(request):
-    language = request.query_params.get('language', '')
     id = request.query_params.get('TVA_id', '')
     TVA_info = get_object_or_404(tva, id=id)
-    country = f'country{language}'
+    country = 'countryEnglish'
     TVA_data = {
         'country':getattr(TVA_info, country, None),
         'category':TVA_info.category,
         'tva_value':TVA_info.tva_value, 
     }
     return JsonResponse(TVA_data)
+
+@api_view(['GET'])
+def get_TVA_id_by_country_category(request):
+    tva_country = request.query_params.get('tva_country', '')
+    tva_category = request.query_params.get('tva_category', '')
+    user = request.user
+    tva_category = user.country
+    if not tva_country or not tva_category:
+        return HttpResponseBadRequest("Country and category parameters are required.")
+
+    try:
+        tva = TVA.objects.get(countryEnglish=tva_country, category=tva_category)
+        return JsonResponse({'id': tva.id})
+    except TVA.DoesNotExist:
+        return JsonResponse({'error': 'TVA not found for the given country and category'}, status=404)
 
 
 

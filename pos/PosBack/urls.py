@@ -31,11 +31,13 @@ urlpatterns = [
     path('get/cid/by/categoryName/', viewsCategory.get_cid_by_categoryName, name='get_cid_by_categoryName'), 
 
     path('get/printers/', viewsPrinter.get_printer, name = 'get_printer'), 
+    path('get/printers/all/', viewsPrinter.get_all_printer, name = 'get_all_printer'), 
     path('get/printers/by_id/', viewsPrinter.get_printers_by_id, name='get_printers_by_id'), 
 
     path('get/tva/', viewsTVA.get_TVA, name = 'get_TVA'),  
     path('get/tva/all/', viewsTVA.get_all_TVA, name = 'get_all_TVA'),  
     path('get/tva/by_id/', viewsTVA.get_TVA_by_id, name = 'get_TVA_by_id'), 
+    path('get/tva_id/by_country_category/', viewsTVA.get_TVA_id_by_country_category, name = 'get_TVA_id_by_country_category'), 
 
     path('delete/all/', viewsCommon.delete_all, name='delete_all'), 
     path('update/Xu_class/', viewsCommon.update_Xu_class, name='update_Xu_class'), 

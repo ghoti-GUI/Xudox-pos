@@ -5,24 +5,34 @@ import { DefaultUrl, GetPrinterUrl} from './valueDefault';
 
 
 
-export const fetchPrinter = async (rid) => {
-    try {
-      const response = await axios.get(DefaultUrl+GetPrinterUrl, {
-        params:{
-          'rid':rid, 
-        },
-        headers: {
-          // 'Authorization': `Bearer ${token}`,
-        }
-      });
-      const printDataList = Object.entries(response.data).map(([id, printer])=>{
-        return{'id':id, 'printer':printer, 'checked':false}
-      })
-      return(printDataList); 
-    } catch (error){
-      console.error('Error fetching printer data:', error)
-    }
+export const fetchPrinter = async () => {
+  try {
+    const response = await axios.get(DefaultUrl+GetPrinterUrl, {
+      headers: {
+        // 'Authorization': `Bearer ${token}`,
+      }
+    });
+    const printDataList = Object.entries(response.data).map(([id, printer])=>{
+      return{'id':id, 'printer':printer, 'checked':false}
+    })
+    return(printDataList); 
+  } catch (error){
+    console.error('Error fetching printer data:', error)
   }
+}
+
+export const fetchAllPrinter = async () => {
+  try {
+    const response = await axios.get(DefaultUrl+'get/printers/all/', {
+      headers: {
+        // 'Authorization': `Bearer ${token}`,
+      }
+    });
+    return(response.data); 
+  } catch (error){
+    console.error('Error fetching printer data:', error)
+  }
+}
 
 export const fetchPrintersById = async(printers_id, rid)=>{
   try {

@@ -53,7 +53,7 @@ class AuthUser(models.Model):
     is_staff = models.IntegerField()
     is_active = models.IntegerField()
     date_joined = models.DateTimeField()
-    rid = models.IntegerField()
+    country = models.CharField(max_length=150)
 
     class Meta:
         managed = False

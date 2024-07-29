@@ -41,12 +41,16 @@ function Home() {
             const productClassifiedCopy = {...productsClassified};
 
             // classify all product data to each category
-            for(const category of categories_data){
-                productClassifiedCopy[category.id]=[];
-            };
-            for (const product of products_data){
-                productClassifiedCopy[product.cid].push(product);
-            };
+            if(categories_data && categories_data.length > 0){
+                for(const category of categories_data){
+                    productClassifiedCopy[category.id]=[];
+                };
+            }
+            if(products_data && products_data.length > 0){
+                for (const product of products_data){
+                    productClassifiedCopy[product.cid].push(product);
+                };
+            }
 
             // sort product in each category
             Object.values(productClassifiedCopy).forEach(value=>{

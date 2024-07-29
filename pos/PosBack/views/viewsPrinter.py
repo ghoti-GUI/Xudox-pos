@@ -14,18 +14,28 @@ from django.db.models import Q
 import json
 
 from ..models import product, Test, TestImg, category, printe_to_where, tva
-from ..serializers import TestSerializer, TestImgSerializer, AllTestImgSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, GroupSerializer, UserSerializer
+from ..serializers import TestSerializer, TestImgSerializer, AllTestImgSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, AllPrinterSerializer, GroupSerializer, UserSerializer
 
 language = 'English'
 
+# fetch printer for add product form (strange data form)
 @api_view(['GET'])
 def get_printer(request):
     # rid_recv = request.query_params.get('rid')
     user = request.user
     rid_recv = user.id
-    printers = printe_to_where.objects.filter(id_printer__lt=10, rid=rid_recv) # return id_printer<10
+    printers = printe_to_where.objects.filter(rid=rid_recv)
     printerData = {printer.id_printer:printer.printer for printer in printers}
     return JsonResponse(printerData)
+
+@api_view(['GET'])
+def get_all_printer(request):
+    # rid_recv = request.query_params.get('rid')
+    user = request.user
+    rid_recv = user.id
+    printers = printe_to_where.objects.filter(rid=rid_recv)
+    serializer = AllPrinterSerializer(printers, many = True)
+    return JsonResponse(serializer.data, safe=False)
 
 @api_view(['GET'])
 def get_printers_by_id(request):
