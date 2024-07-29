@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
-from .models import Test, TestImg, product, category
+from .models import Test, TestImg, product, category, tva
 
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -76,6 +76,10 @@ class AllCategorySerializer(serializers.ModelSerializer):
         model = category
         fields = '__all__'
 
+class AllTvaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = tva
+        fields = '__all__'
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

@@ -34,6 +34,7 @@ urlpatterns = [
     path('get/printers/by_id/', viewsPrinter.get_printers_by_id, name='get_printers_by_id'), 
 
     path('get/tva/', viewsTVA.get_TVA, name = 'get_TVA'),  
+    path('get/tva/all/', viewsTVA.get_all_TVA, name = 'get_all_TVA'),  
     path('get/tva/by_id/', viewsTVA.get_TVA_by_id, name = 'get_TVA_by_id'), 
 
     path('delete/all/', viewsCommon.delete_all, name='delete_all'), 

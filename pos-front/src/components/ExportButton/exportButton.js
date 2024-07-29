@@ -8,114 +8,16 @@ import { useSearchParams } from 'react-router-dom';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { lengthContent, lengthID } from '../../service/valueDefault';
+import { fetchAllTVA, fetchTVA } from '../../service/tva.js';
 
 const ExportButton = () => {
-    const { RestaurantID } = useContext(UserContext);
     const Text = {...multiLanguageText}[Language].export
-    // const [products, setProducts] = useState([])
-    // const [categories, setCategories] = useState([])
-    // const initAbList = {
-    //     'ab1.txt':'',
-    //     'ab2.txt':'',
-    //     'ab3.txt':'',
-    //     'ab4.txt':'',
-    //     'ab5.txt':'',
-    //     'ab6.txt':'',
-    //     'ab7.txt':'',
-    //     'ab8.txt':'',
-    //     'ab9.txt':'',
-    //     'ab10.txt':'',
-    //     'ab11.txt':'',
-    //     'ab12.txt':'',
-    //     'ab13.txt':'',
-    //     'ab14.txt':'',
-    //     'met.txt':'',
-    // };
-    // const [abList, setAbList] = useState({...initAbList});
-    // const initZwcdValue = ''
-    // const [zwcdValue, setZwcdValue] = useState(initZwcdValue); 
-    // const initHooftNameValue = {
-    //     'ab1.txt':'',
-    //     'ab2.txt':'',
-    //     'ab3.txt':'',
-    //     'ab4.txt':'',
-    //     'ab5.txt':'',
-    //     'ab6.txt':'',
-    //     'ab7.txt':'',
-    //     'ab8.txt':'',
-    //     'ab9.txt':'',
-    //     'ab10.txt':'',
-    //     'ab11.txt':'',
-    //     'ab12.txt':'',
-    //     'ab13.txt':'',
-    //     'ab14.txt':'',
-    // };
-    // const [HooftNameValue, setHooftNameValue ]= useState({...initHooftNameValue});
-
-    // const fetchData=async()=>{
-
-    //     const productsRecv = await fetchAllProduct(RestaurantID);
-    //     const categoriesRecv = await fetchAllCategory(RestaurantID);
-    //     setProducts(productsRecv);
-    //     setCategories(categoriesRecv);
-    //     let abListCopy = { ...initAbList };
-    //     let zwcdValueCopy = initZwcdValue;
-        
-
-    //     productsRecv.forEach((product, index) => {
-    //         const Xu_class = product.Xu_class
-    //         if(!Object.keys(abListCopy).includes(Xu_class)){
-    //             abListCopy[Xu_class]='';
-    //         }
-    //         abListCopy[product.Xu_class] += formatProductData(product)+'\n';
-    //         zwcdValueCopy += formatKitchenData(product)+'\n';
-    //     });
-    //     setAbList(abListCopy);
-    //     setZwcdValue(zwcdValueCopy);
-
-    //     let HooftNameValueCopy = {...initHooftNameValue};
-    //     categoriesRecv.forEach((category, index) => {
-    //         if(category.Xu_class!=='met.txt'){
-    //             const name = category.name||category.ename||category.lname||category.fname||category.zname;
-    //             if(!Object.keys(HooftNameValueCopy).includes(category.Xu_class)){
-    //                 HooftNameValueCopy[category.Xu_class] = '';
-    //             }
-    //             HooftNameValueCopy[category.Xu_class] += ' '+name;
-    //         }
-    //     });
-
-    //     // 给HooftName添加void
-    //     for(let [key, value] of Object.entries(HooftNameValueCopy)){
-    //         if(!value) HooftNameValueCopy[key]+=' void';
-    //     };
-    //     console.log(HooftNameValueCopy)
-    //     setHooftNameValue(HooftNameValueCopy);
-    //     return [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy]
-
-    // };
-
-    // const formatProductData = (product) => {
-    //     const id_XuRecv = product.id_Xu.toString();
-    //     const id_Xu = id_XuRecv==='hyphen3'?'---':id_XuRecv.padStart(lengthID, ' ');
-    //     const bill_content = product.bill_content+'.'.padEnd(lengthContent-product.bill_content.length, ' ');
-    //     const price = product.price;
-    //     return `${id_Xu} ${bill_content} ${price}`;
-    // };
-
-    // const formatKitchenData = (product) => {
-    //     const id_Xu = product.id_Xu.toString().padStart(lengthID, ' ');
-    //     const kitchen_content = product.kitchen_content;
-    //     return `${id_Xu} ${kitchen_content}`;
-    // };
 
     const [exportMode, setExportMode] = useState('folder')
     
     const exportFileZip = async()=>{
 
-        // const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData(RestaurantID);
-        const abListCopy = {...initAbList}
-        const zwcdValueCopy = {...initZwcdValue}
-        const HooftNameValueCopy = {...initHooftNameValue}
+        const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData();
         const zip = new JSZip();
 
         // export adn.txt
@@ -140,7 +42,7 @@ const ExportButton = () => {
     const selectDirAndExport = async()=>{
         try{
             const handle = await window.showDirectoryPicker();
-            const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData(RestaurantID);
+            const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData();
             for (const [key, value] of Object.entries(abListCopy)){
                 createFile(handle, `${key}`, value)
             }
@@ -220,10 +122,12 @@ const initHooftNameValue = {
     'ab14.txt':'',
 };
 
-const fetchData=async(RestaurantID, fetch=true, productsData=null, categoriesData=null)=>{
+const fetchData=async(fetch=true, productsData=null, categoriesData=null)=>{
 
-    const productsRecv = fetch?await fetchAllProduct(RestaurantID):productsData;
-    const categoriesRecv = fetch?await fetchAllCategory(RestaurantID):categoriesData;
+    const productsRecv = fetch?await fetchAllProduct():productsData;
+    const categoriesRecv = fetch?await fetchAllCategory():categoriesData;
+    const tvaRecv = await fetchAllTVA();
+    console.log('tvaRecv:', tvaRecv)
     let abListCopy = { ...initAbList };
     let zwcdValueCopy = initZwcdValue;
     
@@ -233,7 +137,7 @@ const fetchData=async(RestaurantID, fetch=true, productsData=null, categoriesDat
         if(!Object.keys(abListCopy).includes(Xu_class)){
             abListCopy[Xu_class]='';
         }
-        abListCopy[product.Xu_class] += formatProductData(product)+'\n';
+        abListCopy[product.Xu_class] += formatProductData(product, tvaRecv)+'\n';
         zwcdValueCopy += formatKitchenData(product)+'\n';
     });
 
@@ -263,8 +167,25 @@ const formatProductData = (product, tva_list) => {
     const bill_content = product.bill_content+'.'.padEnd(lengthContent-product.bill_content.length, ' ');
     const price = product.price;
     const tva = tva_list.find(tva => tva.id === product.TVA_id)
-    const tva_category = tva.category
-    if()
+    let tva_category = 'A';
+    if(tva){
+        switch (tva.category){
+            case 1:
+                tva_category = 'A';
+                break;
+            case 2:
+                tva_category = 'B';
+                break;
+            case 3:
+                tva_category = 'C';
+                break;
+            case 4:
+                tva_category = 'D';
+                break;
+            default:
+                tva_category = 'A';
+        }
+    }
     return `${id_Xu} ${bill_content} ${price} ${tva_category}`;
 };
 
@@ -282,11 +203,11 @@ const createFile = async(handle, name, value)=>{
 }
 
 
-export const exportFileAfterImport = async(productsData, categoriesData, RestaurantID)=>{
+export const exportFileAfterImport = async(productsData, categoriesData)=>{
     console.log('exporting')
     try{
         const handle = await window.showDirectoryPicker();
-        const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData(RestaurantID, false, productsData, categoriesData);
+        const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData(false, productsData, categoriesData);
         for (const [key, value] of Object.entries(abListCopy)){
             createFile(handle, `${key}`, value)
         }

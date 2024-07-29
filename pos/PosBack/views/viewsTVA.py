@@ -14,21 +14,27 @@ from django.db.models import Q
 import json
 
 from ..models import product, Test, TestImg, category, printe_to_where, tva
-from ..serializers import TestSerializer, TestImgSerializer, AllTestImgSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, GroupSerializer, UserSerializer
+from ..serializers import TestSerializer, TestImgSerializer, AllTestImgSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, AllTvaSerializer, GroupSerializer, UserSerializer
 
 language = 'English'
 
+# fetch tva data dor add product form
 @api_view(['GET'])
 def get_TVA(request):
-    # request_language = request.query_params.get('language', '')
-    request_language='English'
-    country_field = f'country{request_language}'
+    country_field = 'countryEnglish'
     TVA_countrys = tva.objects.values_list(country_field, flat=True).distinct()
     TVAData = {}
     for TVA_country in TVA_countrys:
         tva_records = tva.objects.filter(**{country_field: TVA_country})
         TVAData[TVA_country] = {f'{tva_record.tva_value}%':tva_record.category for tva_record in tva_records}
     return JsonResponse(TVAData)
+
+@api_view(['GET'])
+def get_all_TVA(request):
+    country_field = 'countryEnglish'
+    tvaList = tva.objects.all()
+    serializer = AllTvaSerializer(tvaList, many = True)
+    return JsonResponse(serializer.data, safe=False)
 
 @api_view(['GET'])
 def get_TVA_by_id(request):
