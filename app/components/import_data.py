@@ -84,8 +84,8 @@ def update_data(connection, table_name, set_clause, condition_clause, values):
         cursor.close()
 
 insert_product_query = """
-INSERT INTO product (id_Xu, bill_content, kitchen_content, zname, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+INSERT INTO product (id_Xu, bill_content, kitchen_content, online_content, zname, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
 """
 insert_category_query = """
 INSERT INTO category (name, Xu_class, rid)
@@ -117,7 +117,11 @@ def import_data(window, file):
             id_takeaway = [] # 存储出现过的外卖的id
             # 获取所有printer的id
             allprinters_recv = execute_fetch_query(connection, select_all_printer_query, (restaurantId,))
-            allprinters = [printer[0] for printer in allprinters_recv]
+            # print('allprinters_recv:', allprinters_recv)
+            if(allprinters_recv and len(allprinters_recv)>0):
+                allprinters = [printer[0] for printer in allprinters_recv]
+            else:
+                allprinters = []
 
             for line_origin in csvfile.readlines():
                 line = line_origin.split(';') # 分割后结尾会多出一个'\n'数据
@@ -166,8 +170,8 @@ def import_data(window, file):
 
                 # 切割content中超过25个字符的部分
                 bill_content, exceed = truncate_string(name, lengthContent)
-                if exceed:
-                    QMessageBox.warning(window, 'Name over the limit:', f'ID:{id}\nname:{name}')
+                # if exceed:
+                #     QMessageBox.warning(window, 'Name over the limit:', f'ID:{id}\nname:{name}')
 
 
                 # get tva_id
@@ -226,9 +230,9 @@ def import_data(window, file):
                 if not cut_group:
                     cut_group = -1
 
-                # (id_Xu, bill_content, kitchen_content, zname, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
+                # (id_Xu, bill_content, kitchen_content, online_content, zname, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
                 product_data.append(
-                    (id, bill_content, bill_content, zname, tva_id, printer, bg_color, text_color, cut_group, dinein_takeaway, price, price, Xu_class, category_id, restaurantId, custom1, custom2)
+                    (id, bill_content, bill_content, name, zname, tva_id, printer, bg_color, text_color, cut_group, dinein_takeaway, price, price, Xu_class, category_id, restaurantId, custom1, custom2)
                 )
 
             e = execute_many_query(connection, insert_product_query, product_data)
