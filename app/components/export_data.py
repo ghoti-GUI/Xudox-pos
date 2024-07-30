@@ -101,7 +101,7 @@ def fetch_data(app):
                         init_file(app, Xu_class)
                     # Add to 'ab' file
                     file_path = os.path.join(app.path, Xu_class)
-                    with open(file_path, 'a', encoding='utf-8') as file:
+                    with open(file_path, 'a', encoding='utf-16') as file:
                         file.write(abData + '\n')
 
                     # Write zwcd.txt, zwwm.txt, riscd.txt, riswm.txt
@@ -110,42 +110,29 @@ def fetch_data(app):
                     dinein_takeaway = product.get('dinein_takeaway')
                     if dinein_takeaway == 1:
                         zwcd_file_path = os.path.join(app.path, 'zwcd.txt')
-                        with open(zwcd_file_path, 'a', encoding='utf-8') as file:
-                            file.write(zwcd_data + '\n')
+                        with open(zwcd_file_path, 'a', encoding='utf-16') as file:
+                            file.write(zwcd_data)
                         riscd_file_path = os.path.join(app.path, 'riscd.txt')
-                        with open(riscd_file_path, 'a', encoding='utf-8') as file:
+                        with open(riscd_file_path, 'a', encoding='utf-16') as file:
                             file.write(riscd_data + '\n')
-                    # elif dinein_takeaway == 3:
-                    #     zwcd_file_path = os.path.join(app.path, 'zwcd.txt')
-                    #     with open(zwcd_file_path, 'a', encoding='utf-8') as file:
-                    #         file.write(zwcd_data + '\n')
-                    #     zwcd_file_path = os.path.join(app.path, 'zwwm.txt')
-                    #     with open(zwcd_file_path, 'a', encoding='utf-8') as file:
-                    #         file.write(zwcd_data + '\n')
-                    #     riscd_file_path = os.path.join(app.path, 'riscd.txt')
-                    #     with open(riscd_file_path, 'a', encoding='utf-8') as file:
-                    #         file.write(riscd_data + '\n')
-                    #     riscd_file_path = os.path.join(app.path, 'riswm.txt')
-                    #     with open(riscd_file_path, 'a', encoding='utf-8') as file:
-                    #         file.write(riscd_data + '\n')
                     elif dinein_takeaway == 2:
                         zwcd_file_path = os.path.join(app.path, 'zwwm.txt')
-                        with open(zwcd_file_path, 'a', encoding='utf-8') as file:
-                            file.write(zwcd_data + '\n')
+                        with open(zwcd_file_path, 'a', encoding='utf-16') as file:
+                            file.write(zwcd_data)
                         riscd_file_path = os.path.join(app.path, 'riswm.txt')
-                        with open(riscd_file_path, 'a', encoding='utf-8') as file:
+                        with open(riscd_file_path, 'a', encoding='utf-16') as file:
                             file.write(riscd_data + '\n')
 
                     # Write RGB.txt
                     color_text = format_rgb_data(product)
                     zwcd_file_path = os.path.join(app.path, 'RGB.txt')
-                    with open(zwcd_file_path, 'a', encoding='utf-8') as file:
+                    with open(zwcd_file_path, 'a', encoding='utf-16') as file:
                         file.write(color_text + '\n')
 
                 # Write HooftName.txt
                 HooftValue = format_hooft_name(app, connection)
                 HooftName_file_path = os.path.join(app.path, 'HooftName.txt')
-                with open(HooftName_file_path, 'a', encoding='utf-8') as file:
+                with open(HooftName_file_path, 'a', encoding='utf-16') as file:
                     file.write(HooftValue)
 
                 # Delete files other than 'ad.txt' that are empty.
@@ -197,8 +184,11 @@ def format_product_data(product, tva_category_sql):
 def format_zname_data(product):
     id_Xu_recv = product.get('id_Xu', '')
     id_Xu = '---' if id_Xu_recv == 'hyphen3' else id_Xu_recv.rjust(lengthID, ' ')
-    zname = product.get('zname', '')
-    return f"{id_Xu} {zname}"
+    kitchen_content = product.get('kitchen_content', '')
+    if kitchen_content:
+        return f"{id_Xu} {kitchen_content}\n"
+    else:
+        return ''
 
 # Return consolidated rows to 'RGB.txt'
 def format_rgb_data(product):
@@ -212,22 +202,21 @@ def format_rgb_data(product):
 # Return consolidated rows to 'printer.txt'
 def format_print_data(product):
     printer = product.get('print_to_where', '')
-    zname = product.get('zname', '')
-    return f"{printer} {zname}"
+    kitchen_content = product.get('kitchen_content', '')
+    return f"{printer} {kitchen_content}"
 
 
 # Returns all integrated data to HooftName.txt
 def format_hooft_name(app, connection):
-
     categories = execute_fetch_query(app, connection, select_all_categories_query, (restaurantId,))
-
     HooftNameValueCopy = dict(HooftNameValue)
     for category in categories:
         if category.get('Xu_class') != 'met.txt':
             name = category.get('name') or category.get('ename') or category.get('lname') or category.get('fname') or category.get('zname')
             if category.get('Xu_class') not in HooftNameValueCopy:
                 HooftNameValueCopy[category.get('Xu_class')] = ''
-            HooftNameValueCopy[category.get('Xu_class')] += ' ' + name
+            if HooftNameValueCopy[category.get('Xu_class')] == '':
+                HooftNameValueCopy[category.get('Xu_class')] += ' ' + name
     for key, value in HooftNameValueCopy.items():
         if not value.strip():
             HooftNameValueCopy[key] += ' void'

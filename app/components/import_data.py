@@ -1,5 +1,7 @@
 import requests
 import os
+import unicodedata
+import re
 # import csv
 import mysql.connector
 from mysql.connector import Error
@@ -48,10 +50,13 @@ def execute_query(connection, query, data):
     finally:
         cursor.close()
 
-def execute_fetch_query(connection, query, data):
+def execute_fetch_query(connection, query, data=None):
     cursor = connection.cursor(buffered=True)
     try:
-        cursor.execute(query, data)
+        if data:
+            cursor.execute(query, data)
+        else:
+            cursor.execute(query)
         result = cursor.fetchall()
         return result
     except Error as e:
@@ -84,8 +89,8 @@ def update_data(connection, table_name, set_clause, condition_clause, values):
         cursor.close()
 
 insert_product_query = """
-INSERT INTO product (id_Xu, bill_content, kitchen_content, online_content, zname, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
-VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+INSERT INTO product (id_Xu, bill_content, kitchen_content, online_content, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
+VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
 """
 insert_category_query = """
 INSERT INTO category (name, Xu_class, rid)
@@ -99,6 +104,7 @@ update_Xu_class_category_query = "UPDATE category SET Xu_class = %s WHERE id = %
 last_insert_id_query = "SELECT LAST_INSERT_ID()"
 select_tva_id_query = "SELECT id FROM tva WHERE countryEnglish = %s AND category = %s"
 select_all_printer_query = "SELECT id_printer FROM printe_to_where WHERE rid = %s"
+select_all_ablist_kitchen_nonull_query = 'SELECT Xu_class FROM ablist_kitchen_nonull'
 
 def import_data(window, file):
     # 建立数据库连接
@@ -117,6 +123,8 @@ def import_data(window, file):
             id_takeaway = [] # 存储出现过的外卖的id
             # 获取所有printer的id
             allprinters_recv = execute_fetch_query(connection, select_all_printer_query, (restaurantId,))
+            ablist_kitchencontetn_nonull_recv = execute_fetch_query(connection, select_all_ablist_kitchen_nonull_query)
+            # print('ablist_kitchencontetn_nonull_recv:', ablist_kitchencontetn_nonull_recv)
             # print('allprinters_recv:', allprinters_recv)
             if(allprinters_recv and len(allprinters_recv)>0):
                 allprinters = [printer[0] for printer in allprinters_recv]
@@ -168,11 +176,18 @@ def import_data(window, file):
                         # else:
                         dinein_takeaway = 1
 
-                # 切割content中超过25个字符的部分
-                bill_content, exceed = truncate_string(name, lengthContent)
+                # 切割content中超过25个字符的部分，转化特殊字符
+                bill_content = normalize_string(name)
+                bill_content, exceed_bill = truncate_string(bill_content, lengthContent)
                 # if exceed:
                 #     QMessageBox.warning(window, 'Name over the limit:', f'ID:{id}\nname:{name}')
 
+                if zname:
+                    zname = normalize_string(zname)
+                    zname, exceed_z = truncate_string(zname, lengthContent)
+                elif (Xu_class,) in ablist_kitchencontetn_nonull_recv:
+                    zname = bill_content
+                
 
                 # get tva_id
                 tva_id = None
@@ -230,9 +245,9 @@ def import_data(window, file):
                 if not cut_group:
                     cut_group = -1
 
-                # (id_Xu, bill_content, kitchen_content, online_content, zname, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
+                # (id_Xu, bill_content, kitchen_content, online_content, TVA_id, print_to_where, color, text_color, cut_group, dinein_takeaway, price, price2, Xu_class, cid, rid, custom, custom2)
                 product_data.append(
-                    (id, bill_content, bill_content, name, zname, tva_id, printer, bg_color, text_color, cut_group, dinein_takeaway, price, price, Xu_class, category_id, restaurantId, custom1, custom2)
+                    (id, bill_content, zname, name, tva_id, printer, bg_color, text_color, cut_group, dinein_takeaway, price, price, Xu_class, category_id, restaurantId, custom1, custom2)
                 )
 
             e = execute_many_query(connection, insert_product_query, product_data)
@@ -314,6 +329,12 @@ def truncate_string(string, max_length):
         result += char
 
     return result, exceed
+
+def normalize_string(string):
+    normalized_str = unicodedata.normalize('NFD', string)
+    # 使用正则表达式去除音标和组合字符
+    cleaned_str = re.sub(r'[\u0300-\u036f]', '', normalized_str)
+    return cleaned_str
 
 
 # 根据颜色深浅，设置文本颜色
