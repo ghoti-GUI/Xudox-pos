@@ -39,7 +39,7 @@ def handle_file_select(window):
         save_import_path(os.path.dirname(file_name))
         import_data(window, file_name)
 
-def execute_query(connection, query, data):
+def execute_query_no_return(connection, query, data):
     cursor = connection.cursor(buffered=True)
     try:
         cursor.execute(query, data)
@@ -59,13 +59,18 @@ def execute_fetch_query(connection, query, data=None):
             cursor.execute(query)
         result = cursor.fetchall()
         return result
+    except ProgrammingError as e:
+        # 特定捕获表或字段不存在的错误
+        print(f"The error '{e}' occurred: Table or field does not exist")
+        QMessageBox.warning(window, "Table or field does not exist", f"{e}")
+        return None
     except Error as e:
         print(f"The error '{e}' occurred in fetch")
         return None
     finally:
         cursor.close()
         
-def execute_many_query(connection, query, data):
+def execute_many_query_no_return(connection, query, data):
     cursor = connection.cursor(buffered=True)
     try:
         cursor.executemany(query, data)
@@ -123,7 +128,11 @@ def import_data(window, file):
             id_takeaway = [] # 存储出现过的外卖的id
             # 获取所有printer的id
             allprinters_recv = execute_fetch_query(connection, select_all_printer_query, (restaurantId,))
+            if not allprinters_recv:
+                return
             ablist_kitchencontetn_nonull_recv = execute_fetch_query(connection, select_all_ablist_kitchen_nonull_query)
+            if not ablist_kitchencontetn_nonull_recv:
+                return
             # print('ablist_kitchencontetn_nonull_recv:', ablist_kitchencontetn_nonull_recv)
             # print('allprinters_recv:', allprinters_recv)
             if(allprinters_recv and len(allprinters_recv)>0):
@@ -205,7 +214,11 @@ def import_data(window, file):
                 
                 # 通过tva_category和储存在config.ini文件中的country获取tva_id
                 try:
-                    tva_id = execute_fetch_query(connection, select_tva_id_query, (country, TVA_category))[0][0]
+                    tva_id = execute_fetch_query(connection, select_tva_id_query, (country, TVA_category))
+                    if not tva_id:
+                        return
+                    else:
+                        tva_id = tva_id[0][0]
                 except Error as e:
                     print(f"The error '{e}' occurred when getting tva")
                     QMessageBox.warning(window, f"fetch tva failed for product '{id};{name}'", f"The error '{e}' occurred when getting tva")
@@ -250,7 +263,7 @@ def import_data(window, file):
                     (id, bill_content, zname, name, tva_id, printer, bg_color, text_color, cut_group, dinein_takeaway, price, price, Xu_class, category_id, restaurantId, custom1, custom2)
                 )
 
-            e = execute_many_query(connection, insert_product_query, product_data)
+            e = execute_many_query_no_return(connection, insert_product_query, product_data)
             if e:
                 failed.append(f"--- product add failed\n\n{e}")
 
@@ -274,12 +287,14 @@ def delete_all_data(window, connection, restaurantId):
     """
     select_Xu_class_query = "SELECT Xu_class FROM product WHERE rid = %s"
     files_recv = execute_fetch_query(connection, select_Xu_class_query, (restaurantId,))
+    if not files_recv:
+        return 'Error fetch Xu_class'
 
-    e_product = execute_query(connection, delete_product_query, (restaurantId,))
-    if e_product:
-        return e_product
+    error_product = execute_query_no_return(connection, delete_product_query, (restaurantId,))
+    if error_product:
+        return error_product
 
-    e_category = execute_query(connection, delete_category_query, (restaurantId,))
+    error_category = execute_query_no_return(connection, delete_category_query, (restaurantId,))
 
     # delete all files
     for file in files_recv:
@@ -287,7 +302,7 @@ def delete_all_data(window, connection, restaurantId):
         file_path = os.path.join(window.path, file_name)
         if os.path.exists(file_path):
             os.remove(file_path)
-    return e_category
+    return error_category
 
 # 通过name获取cid，若name不存在则创建category
 # 如果已存在的category的Xu_class是‘meeneem.txt’，且product的Xu_class不是‘meeneem.txt’，则修改category的Xu_class
@@ -298,7 +313,7 @@ def get_or_create_category_id(connection, category_name, Xu_class, restaurantId)
 
     if not category_result:
         # 不存在则创建新的category
-        if execute_query(connection, insert_category_query, category_data):
+        if execute_query_no_return(connection, insert_category_query, category_data):
             return None
         return execute_fetch_query(connection, last_insert_id_query, ())[0][0]
     else:
@@ -306,7 +321,7 @@ def get_or_create_category_id(connection, category_name, Xu_class, restaurantId)
         Xu_class_category = category_result[0][1]
         # 输入的product的Xu_class不是‘meeneem.txt’，且获取的category的Xu_class是‘meeneem.txt’，则修改category的Xu_class
         if Xu_class!='meeneem.txt' and Xu_class_category=='meeneem.txt':
-            execute_query(connection, update_Xu_class_category_query, (Xu_class, id, restaurantId))
+            execute_query_no_return(connection, update_Xu_class_category_query, (Xu_class, id, restaurantId))
         return id
 
 

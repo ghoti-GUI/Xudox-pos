@@ -19,6 +19,14 @@ def create_export_data_button(app, layout):
     layout.addWidget(btn_export)
 
 def export_data(app):
+    if not os.path.exists(app.path):
+        print(f"The path {app.path} does not exist. Stopping execution.")
+        QMessageBox.critical(app, 'Error', f"The path {app.path} does not exist. Please change another directory.")
+        return
+    if not os.path.isdir(app.path):
+        print(f"The path {app.path} is not a directory. Stopping execution.")
+        QMessageBox.critical(app, 'Error', f"The path {app.path} is not a directory. Please change a directory.")
+        return
     delete_all_ab_files(app)
     create_all_ab_files(app)
     fetch_data(app)
@@ -63,6 +71,11 @@ def execute_fetch_query(app, connection, query, data):
         cursor.execute(query, data)
         result = cursor.fetchall()
         return result
+    except ProgrammingError as e:
+        # 特定捕获表或字段不存在的错误
+        print(f"The error '{e}' occurred: Table or field does not exist")
+        QMessageBox.warning(window, "Table or field does not exist", f"{e}")
+        return None
     except Error as e:
         print(f"The error '{e}' occurred in fetching all product")
         QMessageBox.critical(app, 'Error', f'Failed to fetch data')
