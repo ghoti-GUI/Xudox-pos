@@ -63,7 +63,7 @@ def execute_fetch_query(connection, query, data=None):
         # 特定捕获表或字段不存在的错误
         print(f"The error '{e}' occurred: Table or field does not exist")
         QMessageBox.warning(window, "Table or field does not exist", f"{e}")
-        return None
+        return 'fetch error'
     except Error as e:
         print(f"The error '{e}' occurred in fetch")
         return None
@@ -128,10 +128,10 @@ def import_data(window, file):
             id_takeaway = [] # 存储出现过的外卖的id
             # 获取所有printer的id
             allprinters_recv = execute_fetch_query(connection, select_all_printer_query, (restaurantId,))
-            if not allprinters_recv:
+            if allprinters_recv == 'fetch error':
                 return
             ablist_kitchencontetn_nonull_recv = execute_fetch_query(connection, select_all_ablist_kitchen_nonull_query)
-            if not ablist_kitchencontetn_nonull_recv:
+            if ablist_kitchencontetn_nonull_recv == 'fetch error':
                 return
             # print('ablist_kitchencontetn_nonull_recv:', ablist_kitchencontetn_nonull_recv)
             # print('allprinters_recv:', allprinters_recv)
@@ -215,7 +215,7 @@ def import_data(window, file):
                 # 通过tva_category和储存在config.ini文件中的country获取tva_id
                 try:
                     tva_id = execute_fetch_query(connection, select_tva_id_query, (country, TVA_category))
-                    if not tva_id:
+                    if tva_id == 'fetch error':
                         return
                     else:
                         tva_id = tva_id[0][0]
@@ -287,7 +287,7 @@ def delete_all_data(window, connection, restaurantId):
     """
     select_Xu_class_query = "SELECT Xu_class FROM product WHERE rid = %s"
     files_recv = execute_fetch_query(connection, select_Xu_class_query, (restaurantId,))
-    if not files_recv:
+    if files_recv == 'fetch error':
         return 'Error fetch Xu_class'
 
     error_product = execute_query_no_return(connection, delete_product_query, (restaurantId,))
