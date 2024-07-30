@@ -31,7 +31,7 @@ const ProductCard = ({data, changeOrder=false})=>{
 
     useEffect(()=>{
         const getInitInfo = async()=>{
-            setTVAData(product.tva_country+', '+product.tva_value+'%')
+            setTVAData(product.tva_value+'%')
         };getInitInfo();
     },[])
 
@@ -124,7 +124,7 @@ const ProductCard = ({data, changeOrder=false})=>{
             <div className='col-span-2 flex flex-col ml-1 -mr-1'>
                 <p className='mx-1'>{Text.id[0]}: {product.id_Xu}</p>
                 <p className='mx-1'>{Text.price[0]}: {product.price}€</p>
-                <p className='mx-1'>{Text.price2[0]}: {product.price2}€</p>
+                <p className='mx-1'>{Text.TVA[0]}: {TVAData}</p>
                 {/* <div className='mx-1 flex'>
                     {Text.soldout[0]}: 
                     <input 
@@ -135,13 +135,12 @@ const ProductCard = ({data, changeOrder=false})=>{
                 </div> */}
             </div>
             <div className='col-span-6 flex flex-col'>
-                <p className='mx-1'>{Text.TVA[0]}: {TVAData}</p>
                 <p className='mx-1'>{Text.bill_content[0]}: {product.bill_content}</p>
                 <p className='mx-1'>{Text.kitchen_content[0]}: {product.kitchen_content}</p>
             </div>
 
             <div className='col-span-1 flex flex-row items-center justify-center px-1 -my-2 bg-white border-l-2 border-black'>
-                <button className='w-1/2 mr-1 -mt-3' onClick={handleClickStar}>
+                <button className='mr-1 -mt-3' onClick={handleClickStar}>
                     <Star className={`w-full ${favourite===1?'fill-yellow-400':''}`}/>
                 </button>
                 {!changeOrder && 

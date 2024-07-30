@@ -13,8 +13,8 @@ from rest_framework.decorators import action, api_view
 from django.db.models import Q
 import json
 
-from ..models import product, Test, TestImg, category, printe_to_where, tva
-from ..serializers import TestSerializer, TestImgSerializer, AllTestImgSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, GroupSerializer, UserSerializer
+from ..models import product, Test, TestImg, category, printe_to_where, tva, ablist_kitchen_nonull
+from ..serializers import ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, AllAblistKitchenNonullSerializer
 from .utils import delete_image
 
 language = 'English'
@@ -75,3 +75,10 @@ def delete_all(request):
     except Exception as e:
         return JsonResponse({'status': 'error', 'message': str(e)}, status=400)
 
+@api_view(['GET'])
+def get_all_ablist_kitchen_nonull(request):
+    user = request.user
+    rid_recv = user.id
+    ablist_kitchen_nonull_data = ablist_kitchen_nonull.objects.all
+    serializer = AllAblistKitchenNonullSerializer(ablist_kitchen_nonull_data, many = True)
+    return JsonResponse(serializer.data, safe=False)

@@ -12,7 +12,7 @@ import { categoryModelFull } from '../../models/category';
 import { deleteAll } from '../../service/commun';
 import { addCategory, fetchCidByCategoryName } from '../../service/category';
 import { addProduct } from '../../service/product';
-import { exportFileAfterImport } from '../ExportButton/exportButton.js';
+import { exportFileAfterImport } from '../ExportButton/exportFunctions.js';
 import { fetchAllPrinter } from '../../service/printer.js';
 import { fetchTVAById, fetchTVAIdByCountryCategory } from '../../service/tva.js';
 
@@ -58,21 +58,6 @@ const ImportButton = () => {
                 line.push(null);
             }
             let [id, name, price, Xu_class, category_name, zname, TVA_category, printer, color, cut_group, custom1, custom2] = line.slice(0, lengthDataFull);
-            // if(!idList.includes(id)) {
-            //     if(id==='---') {
-            //         id = 'hyphen3';
-            //     }else{
-            //         idList.push(id);
-            //     }
-            // }else{
-            //     toast.warning(<span>
-            //         <b>ID duplicated: {id}</b><br/>
-            //         product:{line}
-            //     </span>, {position: "bottom-right",autoClose:10000})
-            //     succeed=false;
-            //     failed.push(line+'---ID duplicated');
-            //     continue;
-            // }
 
             let dinein_takeaway = 1;
             if (Xu_class === 'meeneem.txt') {

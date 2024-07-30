@@ -303,3 +303,11 @@ class tva(models.Model):
 
 
 
+class ablist_kitchen_nonull(models.Model):
+    Xu_class = models.CharField(max_length=1000)
+
+    class Meta:
+        managed = False
+        db_table = 'ablist_kitchen_nonull'
+
+

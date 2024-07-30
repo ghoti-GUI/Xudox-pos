@@ -32,21 +32,32 @@ export const deleteAll = async(rid)=>{
 
 
 export const updateXu_class = async(data)=>{
-    try{
-        await axios.post(DefaultUrl+'update/Xu_class/', 
-            data,
-            {
-            headers: {
-                'X-CSRFToken': csrfToken, 
-                'content-type': 'multipart/form-data', 
-                // 'Authorization': `Bearer ${token}`,
-            }
-        })
-        return;
-    }catch(error){
-        console.error('There was an error updating rules', error);
-        return error;
-    }
+  try{
+    await axios.post(DefaultUrl+'update/Xu_class/', 
+        data,
+        {
+        headers: {
+            'X-CSRFToken': csrfToken, 
+            'content-type': 'multipart/form-data', 
+            // 'Authorization': `Bearer ${token}`,
+        }
+    })
+    return;
+  }catch(error){
+      console.error('There was an error updating rules', error);
+      return error;
+  }
+}
+
+
+export const fetchAblistKitchenNonull = async()=>{
+  try{
+    const reponse = await axios.get(DefaultUrl+'get/ablist_kitchen_nonull/all/')
+    return {'succeed':true, 'data':reponse.data};
+  }catch(error){
+      console.error('There was an error updating rules', error);
+      return {'succeed':false, 'message':error};
+  }
 }
 
 // export const fetchImgFile = async(imgUrl)=>{

@@ -41,6 +41,7 @@ urlpatterns = [
 
     path('delete/all/', viewsCommon.delete_all, name='delete_all'), 
     path('update/Xu_class/', viewsCommon.update_Xu_class, name='update_Xu_class'), 
+    path('get/ablist_kitchen_nonull/all/', viewsCommon.get_all_ablist_kitchen_nonull, name='get_all_ablist_kitchen_nonull'), 
 
     path('testimg/APIView/', viewsTest.TestImgView.as_view(), name = 'test_img'), 
     path('testimg/get_all_TestImg/', viewsTest.get_all_TestImg, name='get_all_TestImg'), 
