@@ -221,7 +221,7 @@ def format_hooft_name(app, connection):
         if not value.strip():
             HooftNameValueCopy[key] += ' void'
 
-    valueHooft = 'Contents\n'
+    valueHooft = ''
     for key, value in HooftNameValueCopy.items():
         valueHooft += f"{key}{value}\n"
 
