@@ -13,7 +13,7 @@ from infos.userInfo import restaurantId, country, save_import_path, load_import_
 from infos.models import productModel, categoryModel
 from infos.mysqlInfo import *
 from .utils import create_conn_tunnel, create_connection
-from infos.exportImportValue import lengthContent, lengthDataMin, lengthDataFull
+from infos.exportImportValue import lengthContent, lengthDataMin, lengthDataFull, decode_type
 
 # Close connection
 def close_connection(connection):
@@ -117,7 +117,7 @@ def import_data(window, file):
             QMessageBox.warning(window, "Delete Failed", f"Delete old data failed:\n\n{e}")
             return
 
-        with open(file, 'r', encoding='gbk') as csvfile:
+        with open(file, 'r', encoding=decode_type) as csvfile:
             failed = [] # 用来储存所有保存失败的数据
             id_list = [] # 存储出现过的餐楼的id
             id_takeaway = [] # 存储出现过的外卖的id

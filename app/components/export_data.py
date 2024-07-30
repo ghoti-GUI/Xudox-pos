@@ -6,7 +6,7 @@ import requests
 import mysql.connector
 from mysql.connector import Error
 from infos.userInfo import restaurantId, country
-from infos.exportImportValue import AbList, HooftNameValue, lengthContent, lengthID
+from infos.exportImportValue import AbList, HooftNameValue, lengthContent, lengthID, encode_type
 from infos.mysqlInfo import *
 from .utils import create_conn_tunnel, create_connection
 
@@ -101,7 +101,7 @@ def fetch_data(app):
                         init_file(app, Xu_class)
                     # Add to 'ab' file
                     file_path = os.path.join(app.path, Xu_class)
-                    with open(file_path, 'a', encoding='utf-16') as file:
+                    with open(file_path, 'a', encoding=encode_type) as file:
                         file.write(abData + '\n')
 
                     # Write zwcd.txt, zwwm.txt, riscd.txt, riswm.txt
@@ -110,29 +110,29 @@ def fetch_data(app):
                     dinein_takeaway = product.get('dinein_takeaway')
                     if dinein_takeaway == 1:
                         zwcd_file_path = os.path.join(app.path, 'zwcd.txt')
-                        with open(zwcd_file_path, 'a', encoding='utf-16') as file:
+                        with open(zwcd_file_path, 'a', encoding=encode_type) as file:
                             file.write(zwcd_data)
                         riscd_file_path = os.path.join(app.path, 'riscd.txt')
-                        with open(riscd_file_path, 'a', encoding='utf-16') as file:
+                        with open(riscd_file_path, 'a', encoding=encode_type) as file:
                             file.write(riscd_data + '\n')
                     elif dinein_takeaway == 2:
                         zwcd_file_path = os.path.join(app.path, 'zwwm.txt')
-                        with open(zwcd_file_path, 'a', encoding='utf-16') as file:
+                        with open(zwcd_file_path, 'a', encoding=encode_type) as file:
                             file.write(zwcd_data)
                         riscd_file_path = os.path.join(app.path, 'riswm.txt')
-                        with open(riscd_file_path, 'a', encoding='utf-16') as file:
+                        with open(riscd_file_path, 'a', encoding=encode_type) as file:
                             file.write(riscd_data + '\n')
 
                     # Write RGB.txt
                     color_text = format_rgb_data(product)
                     zwcd_file_path = os.path.join(app.path, 'RGB.txt')
-                    with open(zwcd_file_path, 'a', encoding='utf-16') as file:
+                    with open(zwcd_file_path, 'a', encoding=encode_type) as file:
                         file.write(color_text + '\n')
 
                 # Write HooftName.txt
                 HooftValue = format_hooft_name(app, connection)
                 HooftName_file_path = os.path.join(app.path, 'HooftName.txt')
-                with open(HooftName_file_path, 'a', encoding='utf-16') as file:
+                with open(HooftName_file_path, 'a', encoding=encode_type) as file:
                     file.write(HooftValue)
 
                 # Delete files other than 'ad.txt' that are empty.

@@ -42,3 +42,6 @@ lengthContent = 25
 
 lengthDataMin = 7
 lengthDataFull = 12
+
+decode_type = 'gbk'
+encode_type = 'gb2312'
