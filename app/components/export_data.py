@@ -127,14 +127,14 @@ def fetch_data(app):
                             file.write(zwcd_data)
                         riscd_file_path = os.path.join(app.path, 'riscd.txt')
                         with open(riscd_file_path, 'a', encoding=encode_type) as file:
-                            file.write(riscd_data + '\n')
+                            file.write(riscd_data)
                     elif dinein_takeaway == 2:
                         zwcd_file_path = os.path.join(app.path, 'zwwm.txt')
                         with open(zwcd_file_path, 'a', encoding=encode_type) as file:
                             file.write(zwcd_data)
                         riscd_file_path = os.path.join(app.path, 'riswm.txt')
                         with open(riscd_file_path, 'a', encoding=encode_type) as file:
-                            file.write(riscd_data + '\n')
+                            file.write(riscd_data)
 
                     # Write RGB.txt
                     color_text = format_rgb_data(product)
@@ -214,9 +214,14 @@ def format_rgb_data(product):
 
 # Return consolidated rows to 'printer.txt'
 def format_print_data(product):
-    printer = product.get('print_to_where', '')
+    printers = product.get('print_to_where', '')
     kitchen_content = product.get('kitchen_content', '')
-    return f"{printer} {kitchen_content}"
+    text_data = ''
+    for printer in str(printers):
+        # 若没有中文则输出printer行
+        if kitchen_content:
+            text_data += f"{printer} {kitchen_content}\n"
+    return text_data
 
 
 # Returns all integrated data to HooftName.txt
