@@ -265,6 +265,7 @@ export const exportData = async(mode, productsData=null, categoriesData=null)=>{
             }
             zip.file('HooftName.txt', valueHooft);
     
+            console.log('zip create success')
             zip.generateAsync({ type: 'blob' }).then((blob) => {
                 saveAs(blob, 'abFiles.zip');
             });

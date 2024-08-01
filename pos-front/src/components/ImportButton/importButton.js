@@ -16,13 +16,16 @@ import { exportData } from '../ExportButton/exportFunctions.js';
 import { fetchAllPrinter } from '../../service/printer.js';
 import { fetchTVAById, fetchTVAIdByCountryCategory } from '../../service/tva.js';
 import { notesUnderID } from '../../multiLanguageText/otherText.js';
+import ConfirmExportDialog from './confirmExportDialog.js';
 
 const ImportButton = () => {
-    const { Language } = useContext(UserContext);
+    const { Language, exportMode } = useContext(UserContext);
     const Text={...multiLanguageText}[Language];
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+
     const onImport = async(onloadEvent, pageEvent)=>{
 
         const delete_all = await deleteAll();
@@ -243,10 +246,16 @@ const ImportButton = () => {
                 {autoClose:20000});
         }
         setLoading(false);
-        console.log('productsData:', productsData)
-        await exportData(true, productsData, categoriesData)
-        navigate('/');
+
+        setShowConfirmDialog(true);
+        // await exportData(exportMode, productsData, categoriesData)
+        // navigate('/');
     }
+
+    const handleConfirm = () => {
+        // 关闭确认对话框
+        setShowConfirmDialog(false);
+    };
 
     const setTextColor = (r, g, b) => {
         // 计算亮度
@@ -281,7 +290,7 @@ const ImportButton = () => {
     return (
         <div className='flex items-center justify-center w-full mt-4 '>
             <button onClick={handleClick} className='flex items-center justify-center py-1 w-5/6 bg-buttonBleu text-white hover:bg-buttonBleuHover rounded-lg'>
-                Import
+                {'Import'}
             </button>
             <input
                 type='file'
@@ -298,6 +307,9 @@ const ImportButton = () => {
                         </button> */}
                     </div>
                 </div>
+            }
+            {showConfirmDialog &&
+                <ConfirmExportDialog handleConfirm={handleConfirm}/>
             }
         </div>
     );
