@@ -218,7 +218,7 @@ def format_print_data(product):
     kitchen_content = product.get('kitchen_content', '')
     text_data = ''
     for printer in str(printers):
-        # 若没有中文则输出printer行
+        # 若没有中文则不输出printer行
         if kitchen_content:
             text_data += f"{printer} {kitchen_content}\n"
     return text_data
