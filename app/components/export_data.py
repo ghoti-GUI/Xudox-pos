@@ -177,7 +177,7 @@ def format_product_data(product, tva_category_sql):
     id_Xu_recv = product.get('id_Xu', 'noID')
     id_Xu = '---' if id_Xu_recv == 'hyphen3' else id_Xu_recv.rjust(lengthID, ' ')
     bill_content_recv = product.get('bill_content', 'noBillContent')
-    bill_content = bill_content_recv + '.'.ljust(lengthContent - len(bill_content_recv), ' ')
+    bill_content = (bill_content_recv + '.').ljust(lengthContent+2, ' ')
     price = str(product.get('price', '0.00'))
 
     if tva_category_sql == 1:
