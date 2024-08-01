@@ -23,6 +23,7 @@ function AddCategory() {
   const productDataReceived = receivedData?receivedData.product:null;
   const check = receivedData?receivedData.type==='check':false;
   const edit = receivedData?receivedData.type==='edit':false;
+  // const Language = localStorage.getItem('Language') || 'English';
   const { Language } = useContext(UserContext);
   const TextLanguage = {...multiLanguageText}[Language]
   const Text = TextLanguage.category

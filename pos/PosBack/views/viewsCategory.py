@@ -76,7 +76,6 @@ def get_all_categories(request):
 @api_view(['GET'])
 def get_cid_by_categoryName(request):
     category_name = request.query_params.get('category_name', '')
-    # rid_received = request.query_params.get('rid', '')
     user = request.user
     rid_received = user.id
     categories = category.objects.filter(
@@ -90,5 +89,24 @@ def get_cid_by_categoryName(request):
     if categories:
         cid = categories[0].id
         return JsonResponse({'cid':cid})
+    else:
+        return JsonResponse({'status': 'get cid by name error'}, status=111)
+
+@api_view(['GET'])
+def get_category_by_name(request):
+    category_name = request.query_params.get('category_name', '')
+    user = request.user
+    rid_received = user.id
+    categories = category.objects.filter(
+        Q(rid=rid_received) & (
+        Q(name=category_name) |
+        Q(ename=category_name) |
+        Q(lname=category_name) |
+        Q(fname=category_name) |
+        Q(zname=category_name))
+    )
+    if categories:
+        serializer = AllCategorySerializer(categories[0])
+        return JsonResponse(serializer.data, safe=False)
     else:
         return JsonResponse({'status': 'get cid by name error'}, status=111)

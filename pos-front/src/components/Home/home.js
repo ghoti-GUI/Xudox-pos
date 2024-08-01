@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 
 function Home() {
     const { RestaurantID } = useContext(UserContext);
+    // const Language = localStorage.getItem('Language') || 'English'
     const { Language } = useContext(UserContext);
     const Text = {...multiLanguageText}[Language].home;
     const location = useLocation();

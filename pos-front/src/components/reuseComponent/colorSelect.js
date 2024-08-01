@@ -4,6 +4,7 @@ import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { UserContext } from '../../userInfo';
 
 const ColorSelect = ({ onColorChange, Id, advance=false, check=false, edit=false, colorReceived, textColorReceived }) => {
+  
   const { Language } = useContext(UserContext);
   const Text = {...multiLanguageText}[Language].color
   const [color, setColor] = useState(`rgb(255, 255, 255)`);

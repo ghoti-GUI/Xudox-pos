@@ -36,6 +36,7 @@ urlpatterns = [
     path('get/category/all/', viewsCategory.get_all_categories, name='get_all_categories'), 
     path('category/check_name_category_existence/', viewsCategory.check_name_category_existence, name = 'check_name_category_existence'), 
     path('get/cid/by/categoryName/', viewsCategory.get_cid_by_categoryName, name='get_cid_by_categoryName'), 
+    path('get/category/by/name/', viewsCategory.get_category_by_name, name='get_category_by_name'), 
 
     path('get/printers/', viewsPrinter.get_printer, name = 'get_printer'), 
     path('get/printers/all/', viewsPrinter.get_all_printer, name = 'get_all_printer'), 

@@ -3,6 +3,7 @@ import { getCsrfToken, token } from './token';
 import { DefaultUrl, GetAllCategoryUrl} from './valueDefault';
 import { Language } from '../userInfo';
 import { multiLanguageText } from '../multiLanguageText/multiLanguageText';
+import { toast } from 'react-toastify';
 
 const Text = {...multiLanguageText}[Language];
 
@@ -16,13 +17,13 @@ export const addCategory = async(categorydata)=>{
           headers: {
               'X-CSRFToken': csrfToken,
               'content-type': 'multipart/form-data',
-              // 'Authorization': `Bearer ${token}`,
           }
       }
     );
     return response.data; 
   } catch (error) {
     console.error('There was an error submitting the form!', error);
+    toast.error('add category failed:\n', error)
     return false; 
 }
 }
@@ -30,9 +31,6 @@ export const addCategory = async(categorydata)=>{
 export const fetchAllCategory = async () => {
   try {
     const response = await axios.get(DefaultUrl+GetAllCategoryUrl, {
-      headers: {
-        // 'Authorization': `Bearer ${token}`,
-    }
     });
     const categoryData = response.data;
     return categoryData
@@ -49,7 +47,6 @@ export const fetchCidByCategoryName = async(categoryName)=>{
           headers: {
               'X-CSRFToken': csrfToken, 
               'content-type': 'multipart/form-data', 
-              // 'Authorization': `Bearer ${token}`,
           }, 
       })
     return response.data.cid
@@ -59,15 +56,29 @@ export const fetchCidByCategoryName = async(categoryName)=>{
   }
 }
 
+export const fetchCategoryByName = async(categoryName)=>{
+  try{
+    const response = await axios.get(DefaultUrl+'get/category/by/name/',
+      {params:{'category_name':categoryName}},
+      {
+          headers: {
+              'X-CSRFToken': csrfToken, 
+              'content-type': 'multipart/form-data', 
+          }, 
+      })
+    return {'success':true, 'data':response.data}
+  }catch(error){
+    console.error('fetch cid failed', error);
+    return {'success':false, 'message':error}
+  }
+}
+
 export const checkCategoryNameExistence = async(categoryName)=>{
   try {
     const response = await axios.get(DefaultUrl+'category/check_name_category_existence/', {
       params:{
         'categoryName':categoryName, 
       },
-      headers: {
-        // 'Authorization': `Bearer ${token}`,
-      }, 
     });
     return response.data.existed
   } catch (error) {

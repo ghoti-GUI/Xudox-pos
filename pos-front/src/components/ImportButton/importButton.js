@@ -10,24 +10,22 @@ import { UserContext } from '../../userInfo';
 import { normalizeText, truncateString } from '../utils';
 import { categoryModelFull } from '../../models/category';
 import { deleteAll, fetchAblistKitchenNonull } from '../../service/commun';
-import { addCategory, fetchCidByCategoryName } from '../../service/category';
+import { addCategory, fetchCategoryByName, fetchCidByCategoryName } from '../../service/category';
 import { addProduct } from '../../service/product';
-import { exportFileAfterImport } from '../ExportButton/exportFunctions.js';
+import { exportData } from '../ExportButton/exportFunctions.js';
 import { fetchAllPrinter } from '../../service/printer.js';
 import { fetchTVAById, fetchTVAIdByCountryCategory } from '../../service/tva.js';
 import { notesUnderID } from '../../multiLanguageText/otherText.js';
 
 const ImportButton = () => {
-    const { RestaurantID } = useContext(UserContext);
     const { Language } = useContext(UserContext);
     const Text={...multiLanguageText}[Language];
-    const rid = RestaurantID;
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
     const onImport = async(onloadEvent, pageEvent)=>{
 
-        const delete_all = await deleteAll(rid);
+        const delete_all = await deleteAll();
 
         const content = onloadEvent.target.result;
         const lines = content.split('\n').filter(line => line.trim() !== ''); // 根据换行符读取每一行，并过滤掉空行
@@ -47,7 +45,7 @@ const ImportButton = () => {
             toast.error(`fetch special ab.txt failed\n${ablist_kitchen_nonull_recv_data.message}`)
         }
         
-        console.log('ablist_kitchen_nonull_recv:', ablist_kitchen_nonull_recv)
+        // console.log('ablist_kitchen_nonull_recv:', ablist_kitchen_nonull_recv)
         let allprinters;
         if (allprinters_recv && allprinters_recv.length > 0) {
             allprinters = allprinters_recv.map(printer => printer[0]);
@@ -57,6 +55,7 @@ const ImportButton = () => {
 
         let productsData = []
         let categoriesData = []
+        let categoryIdName = {} // name:id
         for (const line_origin of lines){
             const line = line_origin.split(';');
             if (line.length < lengthDataMin + 1) {
@@ -112,16 +111,28 @@ const ImportButton = () => {
             pageEvent.preventDefault();
 
             let cid = 0; 
-            const cid_received = await fetchCidByCategoryName(category_name, RestaurantID)
-            if (!cid_received){
-                let categoryData = {...categoryModelFull};
-                categoryData.name = category_name;
-                categoryData.Xu_class = Xu_class;
-                categoryData.rid = RestaurantID
-                const receivedData = await addCategory(categoryData);
-                cid = receivedData.id
+            if(categoryIdName.hasOwnProperty(category_name)){
+                cid = categoryIdName[category_name]
             }else{
-                cid = cid_received
+                const responseCategory = await fetchCategoryByName(category_name)
+                if(responseCategory.success){
+                    categoriesData.push(responseCategory.data)
+                    cid = responseCategory.data.id
+                    const categoryNameRecv = responseCategory.data.name || responseCategory.data.ename || responseCategory.data.lname || responseCategory.data.fname || responseCategory.data.zname
+                    categoryIdName[categoryNameRecv]=cid
+                }else{
+                    let categoryData = {...categoryModelFull};
+                    categoryData.name = category_name;
+                    categoryData.Xu_class = Xu_class;
+                    const receivedData = await addCategory(categoryData);
+                    if (receivedData){
+                        cid = receivedData.id
+                        const categoryNameRecv = receivedData.name || receivedData.ename || receivedData.lname || receivedData.fname || receivedData.zname
+                        categoryIdName[categoryNameRecv]=cid
+                    }else{
+                        continue
+                    }
+                }
             }
 
             // get tva_category
@@ -232,9 +243,8 @@ const ImportButton = () => {
                 {autoClose:20000});
         }
         setLoading(false);
-        console.log('start exporting')
-        // await exportFileAfterImport(productsData, categoriesData)
-        // const handle = await window.showDirectoryPicker();
+        console.log('productsData:', productsData)
+        await exportData(true, productsData, categoriesData)
         navigate('/');
     }
 

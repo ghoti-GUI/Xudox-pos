@@ -13,6 +13,7 @@ import { Country, UserContext } from '../../userInfo';
 import { addProductModelAdvance } from '../../models/product';
 
 const AdvanceCategoryForm = () => {
+    // const Language = localStorage.getItem('Language') || 'English';
     const { Language } = useContext(UserContext);
     return (
         <div>

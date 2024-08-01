@@ -86,13 +86,14 @@ def login_view(request):
             'message': 'Login successful',
             'access': str(refresh.access_token),
             'refresh': str(refresh),
+            'country': user.country,
             # 'user_id': user.id,
         })
     else:
         return JsonResponse({'message': 'Invalid credentials'}, status=400)
 
 
-@csrf_exempt
+@api_view(['POST'])
 def logout_view(request):
     try:
         data = request.POST

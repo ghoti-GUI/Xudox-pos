@@ -15,6 +15,7 @@ import { addProductModelAdvance } from '../../models/product';
 
 function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, edit=false, productDataReceived}) {
   // const [productdataNormal, setProductdataNormal] = useState(productdataNormal)
+  // const Language = localStorage.getItem('Language') || 'English';
   const { Language } = useContext(UserContext);
   const Text = {...multiLanguageText}[Language].productAdvance
   const AllergenText = multiLanguageAllergen[Language]

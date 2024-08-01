@@ -13,7 +13,8 @@ import { categoryModel } from '../../models/category';
 import { toast } from 'react-toastify';
 
 function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=false}) {
-  const { Language } = useContext(UserContext);
+  // const Language = localStorage.getItem('Language') || 'English';
+    const { Language } = useContext(UserContext);
   const Text = {...multiLanguageText}[Language].category
   const [categorydata, setCategoryData] = useState(normalData||{...categoryModel})
   const initData = {...categorydata};

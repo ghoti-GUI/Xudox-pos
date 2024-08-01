@@ -9,6 +9,7 @@ import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { lengthContent, lengthID } from '../../service/valueDefault';
 import { fetchAllTVA, fetchTVA } from '../../service/tva.js';
+import { toast } from 'react-toastify';
 
 
 const initAbList = {
@@ -49,11 +50,12 @@ const initHooftNameValue = {
 };
 
 export const fetchData=async(fetch=true, productsData=null, categoriesData=null)=>{
-
+    console.log('fetch:', fetch)
     const productsRecv = fetch?await fetchAllProduct():productsData;
     const categoriesRecv = fetch?await fetchAllCategory():categoriesData;
     const tvaRecv = await fetchAllTVA();
-    console.log('tvaRecv:', tvaRecv)
+    console.log('productsRecv:', productsRecv)
+    console.log('categoriesRecv:', categoriesRecv)
     let abListCopy = { ...initAbList };
     let zwcdValueCopy = initZwcdValue;
     let zwwmValueCopy = initZwcdValue;
@@ -117,6 +119,7 @@ export const fetchData=async(fetch=true, productsData=null, categoriesData=null)
 
 // export for ab.txt
 const formatProductData = (product, tva_list) => {
+    console.log(product)
     const id_XuRecv = product.id_Xu.toString();
     const id_Xu = id_XuRecv==='hyphen3'?'---':id_XuRecv.padStart(lengthID, ' ');
     const bill_content = product.bill_content+'.'.padEnd(lengthContent-product.bill_content.length, ' ');
@@ -194,25 +197,83 @@ export const createFile = async(handle, name, value)=>{
     await writable.close();
 }
 
-// export function after import, to avoid fetch data from database ones more. 
-export const exportFileAfterImport = async(productsData, categoriesData)=>{
-    console.log('exporting')
+// export function
+// mode 控制下载到文件夹还是下载成zip
+// productsData和categoriesData数据用来控制是否从后端获取数据（import完成后无需从后端获取数据）
+export const exportData = async(mode, productsData=null, categoriesData=null)=>{
     try{
-        const handle = await window.showDirectoryPicker();
-        const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData(false, productsData, categoriesData);
-        for (const [key, value] of Object.entries(abListCopy)){
-            createFile(handle, `${key}`, value)
-        }
-        createFile(handle, 'zwcd.txt', zwcdValueCopy)
+        const [
+            productsRecv, 
+            categoriesRecv, 
+            abListCopy, 
+            zwcdValueCopy, 
+            zwwmValueCopy, 
+            riscdValueCopy, 
+            riswmValueCopy, 
+            colorValueCopy, 
+            HooftNameValueCopy
+        ] = productsData?await fetchData(false, productsData, categoriesData):await fetchData();
+        if(mode === 'folder'){
+            const handle = await window.showDirectoryPicker();
+            for (const [key, value] of Object.entries(abListCopy)){
+                createFile(handle, `${key}`, value)
+            }
+    
+            if(zwcdValueCopy.length > 0){
+                createFile(handle, 'zwcd.txt', zwcdValueCopy)
+            }
+            if(zwwmValueCopy.length > 0){
+                createFile(handle, 'zwwm.txt', zwcdValueCopy)
+            }
+            if(riscdValueCopy.length > 0){
+                createFile(handle, 'riscd.txt', zwcdValueCopy)
+            }
+            if(riswmValueCopy.length > 0){
+                createFile(handle, 'riswm.txt', zwcdValueCopy)
+            }
+            createFile(handle, 'RGB.txt', colorValueCopy)
+    
+            let valueHooft = ''
+            for (const [key, value] of Object.entries(HooftNameValueCopy)){
+                valueHooft+=`${key} ${value}\n`;
+            }
+            createFile(handle, 'HooftName.txt', valueHooft)
 
-        let valueHooft = 'Contents\n'
-        for (const [key, value] of Object.entries(HooftNameValueCopy)){
-            valueHooft+=`${key}${value}\n`;
+        }else if(mode === 'zip'){
+            const zip = new JSZip();
+            // export ad.txt
+            for (const [key, value] of Object.entries(abListCopy)){
+                zip.file(`${key}`, value);
+            }
+            if(zwcdValueCopy.length > 0){
+                zip.file('zwcd.txt', zwcdValueCopy);
+            }
+            if(zwwmValueCopy.length > 0){
+                zip.file('zwwm.txt', zwcdValueCopy);
+            }
+            if(riscdValueCopy.length > 0){
+                zip.file('riscd.txt', zwcdValueCopy);
+            }
+            if(riswmValueCopy.length > 0){
+                zip.file('riswm.txt', zwcdValueCopy);
+            }
+            zip.file('RGB.txt', colorValueCopy);
+            
+            let valueHooft = ''
+            for (const [key, value] of Object.entries(HooftNameValueCopy)){
+                valueHooft+=`${key} ${value}\n`;
+            }
+            zip.file('HooftName.txt', valueHooft);
+    
+            zip.generateAsync({ type: 'blob' }).then((blob) => {
+                saveAs(blob, 'abFiles.zip');
+            });
         }
-        createFile(handle, 'HooftName.txt', valueHooft)
+        
 
-        alert('File downloaded successfully!');
+        toast.success('File downloaded successfully!');
     }catch(e){
         console.error('Error downloading file:', e);
+        toast.error(`Error downloading file:${e}`);
     }
 }

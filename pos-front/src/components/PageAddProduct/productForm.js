@@ -12,12 +12,15 @@ import { fetchTVA, fetchTVAById } from '../../service/tva';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber, updateCheckboxData, updateObject, truncateString } from '../utils';
 import { fetchAllCategoryForProductForm, } from './utilsAddProduct';
-import { Country, UserContext } from '../../userInfo';
+import { UserContext } from '../../userInfo';
 import AdvanceForm from './advanceForm';
 import { addProductModelNormal } from '../../models/product';
 
 function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent, check=false, edit=false, productDataReceived, sendExistedDataToParent}) {
+  // const Language = localStorage.getItem('Language') || 'English';
   const { Language } = useContext(UserContext);
+  const Country = localStorage.getItem('Country') || 'Belgium'
+  console.log('Country', Country)
   const Text = {...multiLanguageText}[Language];
   const TextProduct = Text.product;
   

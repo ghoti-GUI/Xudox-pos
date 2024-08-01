@@ -9,6 +9,7 @@ import ExportButton from '../ExportButton/exportButton';
 import ChangeExportRuleButton from '../ChangeExportRuleButton/changeExportRuleButton';
 import ImportButton from '../ImportButton/importButton';
 import ChangeLanguageButton from '../ChangeLanguageButton/changeLanguageButton.js';
+import LogoutButton from '../LogoutButton/logoutButton.js';
 
 const Sidebar = () => {
   const { Language } = useContext(UserContext);
@@ -51,6 +52,9 @@ const Sidebar = () => {
           <ChangeExportRuleButton/>
         </div>
       </nav>
+      <div className='flex justify-center mt-28'>
+        <LogoutButton/>
+      </div>
     </div>
   );
 }

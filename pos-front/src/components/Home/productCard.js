@@ -20,9 +20,9 @@ import '../../styles.css'
 
 
 const ProductCard = ({data, changeOrder=false})=>{
-    const { RestaurantID } = useContext(UserContext);
     const product = data;
     const navigate = useNavigate();
+    // const Language = localStorage.getItem('Language') || 'English'
     const { Language } = useContext(UserContext);
     const TextLanguage = {...multiLanguageText}[Language];
     const TextProduct = {...TextLanguage}.product;
@@ -85,7 +85,7 @@ const ProductCard = ({data, changeOrder=false})=>{
 
     const handleDelete = async()=>{
         setIsDialogOpen(false)
-        const deleteSuccess = await deleteProduct(product.id, RestaurantID)
+        const deleteSuccess = await deleteProduct(product.id)
         if(deleteSuccess.success){
             toast.success(TextProduct.delete.deleteSuccess[0] + product.id_Xu + TextProduct.delete.deleteSuccess[1])
             navigate('/');
@@ -106,7 +106,6 @@ const ProductCard = ({data, changeOrder=false})=>{
             'id':product.id, 
             'favourite':newFavourite, 
             'dinein_takeaway':product.dinein_takeaway, 
-            'rid':RestaurantID, 
         })
         if(!updated.success){
             toast.error(Text.changeFavouriteFailed)

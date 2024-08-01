@@ -8,8 +8,8 @@ import { updateXu_class } from '../../service/commun';
 
 
 const ChangeExportRuleButton = () => {
-    const { RestaurantID } = useContext(UserContext);
-
+    // const LanguageLocal = localStorage.getItem('Language') || 'English';
+    const { Language } = useContext(UserContext);
     const changeRule = async (onloadEvent, pageEvent)=>{
         console.log('changeRule')
         const content = onloadEvent.target.result;
@@ -32,7 +32,7 @@ const ChangeExportRuleButton = () => {
 
                 pageEvent.preventDefault();
 
-                const error = await updateXu_class({'Xu_class':Xu_class, 'category_name':category, 'rid':RestaurantID});
+                const error = await updateXu_class({'Xu_class':Xu_class, 'category_name':category});
                 if(error){
                     toast.error(`Update failed ${Xu_class}, ${category}: ${error}`, {autoClose:10000});
                     console.error('There was an error updating rules', error);
@@ -63,7 +63,7 @@ const ChangeExportRuleButton = () => {
     return (
         <div className='flex items-center justify-center w-full mt-4'>
             <button onClick={handleClick} className='flex items-center justify-center py-1 w-5/6 bg-buttonBleu text-white hover:bg-buttonBleuHover rounded-lg'>
-                Change Export Rules
+                {'Change Export Rules'}
             </button>
             <input
                 type='file'

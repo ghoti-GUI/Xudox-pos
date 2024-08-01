@@ -3,7 +3,7 @@ import { notesUnderID, TimeSupplyData } from "./otherText"
 export const EnglishText = {
     'country':{
         'Belgium':'Belgium',
-        'French':'French', 
+        'France':'France', 
     }, 
     'sidebar':{
         'title':'Sidebar',

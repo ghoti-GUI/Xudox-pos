@@ -6,6 +6,7 @@ import { UserContext } from '../../userInfo';
 import '../../styles.css'
 
 const DialogChangeOrder = ({orderedProductReceived, handleSubmit, handleCancel, DineinTakeaway}) => {
+    // const Language = localStorage.getItem('Language') || 'English'
     const { Language } = useContext(UserContext);
     const Text = {...multiLanguageText}[Language].dialogChangeOrder;
     const [orderedProduct, setOrderedProduct] = useState(orderedProductReceived);

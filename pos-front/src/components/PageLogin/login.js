@@ -8,6 +8,7 @@ import { UserContext } from '../../userInfo';
 
 const Login = () => {
     const navigate = useNavigate();
+    // const Language = localStorage.getItem('Language') || 'English';
     const { Language } = useContext(UserContext);
     const Text = {...multiLanguageText}[Language].login
     const [username, setUsername] = useState('');
@@ -24,8 +25,11 @@ const Login = () => {
             console.log(response)
             const accessToken = response.data.access;
             const refreshToken = response.data.refresh;
+            const country = response.data.country;
+            console.log('country:', country)
             localStorage.setItem('access_token', accessToken);
             localStorage.setItem('refresh_token', refreshToken);
+            localStorage.setItem('Country', country);
             axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
             setMessage(null);
             navigate('/');

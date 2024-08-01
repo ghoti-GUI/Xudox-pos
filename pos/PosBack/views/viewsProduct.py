@@ -31,29 +31,30 @@ class ProductViewSet(viewsets.ModelViewSet):
     # permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
     permission_classes = (IsAuthenticated, )
 
+    advanceKeyList = {
+        'id_user':'', 
+        'online_content':'',
+        'online_des':'', 
+        'product_type':0,
+        'min_nbr':1,
+        'discount':'',
+        'allergen':'', 
+        'ename':'',
+        'lname':'', 
+        'fname':'', 
+        'zname':'', 
+        'edes':'',
+        'ldes':'',
+        'fdes':'',
+        'stb':0,
+        'favourite':0,
+        'cut_group':-1,
+        'img':None, 
+        'custom':'',
+        'custom2':'',
+    }
+
     def perform_create(self, serializer):
-        advanceKeyList = {
-            'id_user':'', 
-            'online_content':'',
-            'online_des':'', 
-            'product_type':0,
-            'min_nbr':1,
-            'discount':'',
-            'allergen':'', 
-            'ename':'',
-            'lname':'', 
-            'fname':'', 
-            'zname':'', 
-            'edes':'',
-            'ldes':'',
-            'fdes':'',
-            'stb':0,
-            'favourite':0,
-            'cut_group':-1,
-            'img':None, 
-            'custom':'',
-            'custom2':'',
-        }
         request_data = serializer.initial_data
         country_value = request_data.get('TVA_country')
         category_value = request_data.get('TVA_category')
@@ -64,11 +65,11 @@ class ProductViewSet(viewsets.ModelViewSet):
             'id_user' : request_data.get('id_Xu'), 
             'rid':user_id,  
         }
-        for advanceKey in advanceKeyList:
+        for advanceKey in self.advanceKeyList:
             if advanceKey in request_data:
                 save_data[advanceKey]=request_data[advanceKey]
             else:
-                save_data[advanceKey]=advanceKeyList[advanceKey]
+                save_data[advanceKey]=self.advanceKeyList[advanceKey]
 
         # 通过收到的图片路径，获取并复制图片，保存
         if 'imgUrl' in request_data:
@@ -91,9 +92,21 @@ class ProductViewSet(viewsets.ModelViewSet):
         
         serializer.save(**save_data)
 
-# def searchTVAId(TVA_country, TVA_category, language):
-#     TVA_ = get_object_or_404(tva, **{f'country{language}' : TVA_country, 'category' : TVA_category})
-#     return TVA
+
+    # def create(self, request, *args, **kwargs):
+    #     serializer = self.get_serializer(data=request.data)
+    #     serializer.is_valid(raise_exception=True)
+    #     self.perform_create(serializer)
+    #     headers = self.get_success_headers(serializer.data)
+    #     instance = serializer.instance
+    #     returnData = self.get_serializer(instance).data
+    #     # returnData = serializer.data
+    #     # returnData['id'] = serializer.instance.id
+    #     # for key in self.advanceKeyList:
+    #     #     if hasattr(serializer.instance, key) and key != 'img':
+    #     #         returnData[key] = getattr(serializer.instance, key)
+    #     return Response(returnData, status=status.HTTP_201_CREATED, headers=headers)
+
 
 @api_view(['POST'])
 def update_product_by_id(request):

@@ -3,7 +3,7 @@ import { notesUnderID, TimeSupplyData } from "./otherText"
 export const ChineseText={
     'country':{
         'Belgium':'比利时',
-        'French':'法国', 
+        'France':'法国', 
     }, 
     'sidebar':{
         'title':'侧栏',

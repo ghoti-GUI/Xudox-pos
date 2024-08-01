@@ -313,7 +313,7 @@ class tva(models.Model):
     class Meta:
         managed = False
         db_table = 'tva'
-        unique_together = (('countryEnglish', 'countryChinese', 'countryFrench', 'countryDutch', 'category'),)
+        unique_together = (('countryEnglish', 'category'),)
 
 
 

@@ -28,7 +28,7 @@ export const login = async(userData)=>{
 export const logout = async()=>{
     const refreshToken = localStorage.getItem('refresh_token');
     try{
-        const response = await axios.post(DefaultUrl+'api/login/', 
+        const response = await axios.post(DefaultUrl+'api/logout/', 
             {'refreshToken':refreshToken},
             {
             headers: {
@@ -36,7 +36,7 @@ export const logout = async()=>{
                 'content-type': 'multipart/form-data', 
             }
         })
-        console.log(response.data)
+        // console.log(response.data)
         return {'success':true, 'data':response.data};
     }catch(error) {
         console.error('There was an error login!', error);
