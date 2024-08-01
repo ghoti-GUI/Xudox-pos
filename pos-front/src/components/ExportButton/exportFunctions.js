@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { fetchAllProduct } from "../../service/product";
 import { fetchAllCategory } from "../../service/category";
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
-import { Language, UserContext } from '../../userInfo';
+import { UserContext } from '../../userInfo';
 import { useSearchParams } from 'react-router-dom';
 // import { handleClickExport } from './export';
 import JSZip from 'jszip';

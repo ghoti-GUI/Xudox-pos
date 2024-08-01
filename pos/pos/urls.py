@@ -33,5 +33,6 @@ urlpatterns = [
     path('api-auth/', include('rest_framework.urls', namespace = "rest_framework")),
     
     path('api/posback/', include('PosBack.urls')),
+    path('api/posback/', include('django.contrib.auth.urls')),
 
 ]

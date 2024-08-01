@@ -8,7 +8,7 @@ import { fetchAllCategory } from '../../service/category';
 import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
-import { Language, UserContext  } from '../../userInfo';
+import { UserContext  } from '../../userInfo';
 import { normalizeText, sortStringOfNumber } from '../utils';
 import ProductCard from './productCard';
 import DialogChangeOrder from './dialogChangeOrder';
@@ -18,7 +18,7 @@ import { toast } from 'react-toastify';
 
 function Home() {
     const { RestaurantID } = useContext(UserContext);
-    // console.log(RestaurantID)
+    const { Language } = useContext(UserContext);
     const Text = {...multiLanguageText}[Language].home;
     const location = useLocation();
     const editedProductId = location.state?.editedProductId;

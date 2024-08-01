@@ -8,12 +8,12 @@ import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber } from '../utils';
-import { Language, UserContext } from '../../userInfo';
+import { UserContext } from '../../userInfo';
 import { categoryModel } from '../../models/category';
 import { toast } from 'react-toastify';
 
 function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=false}) {
-  const { RestaurantID } = useContext(UserContext);
+  const { Language } = useContext(UserContext);
   const Text = {...multiLanguageText}[Language].category
   const [categorydata, setCategoryData] = useState(normalData||{...categoryModel})
   const initData = {...categorydata};
@@ -61,7 +61,7 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
       return
     }
 
-    const nameExisted = await checkCategoryNameExistence(categorydata.name, RestaurantID)
+    const nameExisted = await checkCategoryNameExistence(categorydata.name)
     if (nameExisted){
       toast.error(Text.nameExisted, {autoClose:7000})
       return

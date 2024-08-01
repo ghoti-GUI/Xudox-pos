@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { addProductModelFull } from '../../models/product';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
-import { Language, UserContext } from '../../userInfo';
+import { UserContext } from '../../userInfo';
 import { normalizeText, truncateString } from '../utils';
 import { categoryModelFull } from '../../models/category';
 import { deleteAll, fetchAblistKitchenNonull } from '../../service/commun';
@@ -19,7 +19,7 @@ import { notesUnderID } from '../../multiLanguageText/otherText.js';
 
 const ImportButton = () => {
     const { RestaurantID } = useContext(UserContext);
-
+    const { Language } = useContext(UserContext);
     const Text={...multiLanguageText}[Language];
     const rid = RestaurantID;
     const navigate = useNavigate();

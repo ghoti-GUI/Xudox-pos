@@ -3,7 +3,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
 from django.template import loader
 from django.contrib.auth.models import Group, User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.db.models import Max
 from rest_framework import permissions, viewsets
 from rest_framework.views import APIView
@@ -23,29 +23,21 @@ from ..serializers import TestSerializer, TestImgSerializer, AllTestImgSerialize
 
 language = 'English'
 
-class CustomTokenRefreshView(TokenRefreshView):
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+# class CustomTokenRefreshView(TokenRefreshView):
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
 
-        # try:
-        #     serializer.is_valid(raise_exception=True)
-        # except TokenError as e:
-        #     raise InvalidToken(e.args[0])
+#         # try:
+#         #     serializer.is_valid(raise_exception=True)
+#         # except TokenError as e:
+#         #     raise InvalidToken(e.args[0])
 
-        # 检查 refresh token 是否在数据库中
-        refresh_token = serializer.validated_data['refresh']
-        if not OutstandingToken.objects.filter(token=refresh_token).exists():
-            return Response({'detail': 'Refresh token is invalid or expired.'}, status=status.HTTP_401_UNAUTHORIZED)
+#         # 检查 refresh token 是否在数据库中
+#         refresh_token = serializer.validated_data['refresh']
+#         if not OutstandingToken.objects.filter(token=refresh_token).exists():
+#             return Response({'detail': 'Refresh token is invalid or expired.'}, status=status.HTTP_401_UNAUTHORIZED)
 
-        return Response(serializer.validated_data, status=status.HTTP_200_OK)
-
-class TokenRefreshView(TokenViewBase):
-    """
-    Takes a refresh type JSON web token and returns an access type JSON web
-    token if the refresh token is valid.
-    """
-    
-    _serializer_class = api_settings.TOKEN_REFRESH_SERIALIZER
+#         return Response(serializer.validated_data, status=status.HTTP_200_OK)
 
 
 
@@ -53,6 +45,7 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
     """
+    User = get_user_model()
     queryset = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]

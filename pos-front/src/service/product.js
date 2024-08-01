@@ -67,12 +67,11 @@ export const updateProduct = async(productData)=>{
 }
 
 
-export const checkIdXuExistence = async (id_Xu, dinein_takeaway, rid) => {
+export const checkIdXuExistence = async (id_Xu, dinein_takeaway) => {
   try {
     const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
       params:{
         'id_Xu':id_Xu, 
-        'rid':rid, 
         'dinein_takeaway':dinein_takeaway,
       },
       headers: {
@@ -88,12 +87,9 @@ export const checkIdXuExistence = async (id_Xu, dinein_takeaway, rid) => {
 }
 
 
-export const fetchAllProduct = async (rid) => {
+export const fetchAllProduct = async () => {
   try {
     const response = await axios.get(DefaultUrl+GetAllProduct, {
-      params:{
-        'rid':rid, 
-      },
       headers: {
         // 'Authorization': `Bearer ${token}`,
       }
@@ -105,13 +101,10 @@ export const fetchAllProduct = async (rid) => {
   }
 }
 
-export const fetchAllProductFrontForm = async(rid)=>{
+export const fetchAllProductFrontForm = async()=>{
   // console.log('token:', token)
   try {
     const response = await axios.get(DefaultUrl+'get/product/all/frontform/', {
-      params:{
-        'rid':rid, 
-      },
       headers: {
         // 'Authorization': `Bearer ${token}`,
       }
@@ -124,12 +117,11 @@ export const fetchAllProductFrontForm = async(rid)=>{
 }
 
 
-export const fetchProductById_Xu = async(id_Xu, dinein_takeaway, rid)=>{
+export const fetchProductById_Xu = async(id_Xu, dinein_takeaway)=>{
   try {
     const response = await axios.get(DefaultUrl+'get/product/by/id_Xu/', {
       params:{
         'id_Xu':id_Xu, 
-        'rid':rid,
         'dinein_takeaway':dinein_takeaway
       },
       headers: {

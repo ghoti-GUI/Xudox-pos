@@ -4,10 +4,6 @@ import { DefaultUrl, CheckIdXuExistenceUrl, GetAllProduct, DefaultHost} from './
 import { multiLanguageText } from '../multiLanguageText/multiLanguageText';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { Language } from '../userInfo';
-
-
-const Text = {...multiLanguageText}[Language];
 
 const csrfToken = getCsrfToken();
 

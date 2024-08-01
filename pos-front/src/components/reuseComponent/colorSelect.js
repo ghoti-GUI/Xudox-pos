@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {SketchPicker} from 'react-color';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
-import { Language } from '../../userInfo';
+import { UserContext } from '../../userInfo';
 
 const ColorSelect = ({ onColorChange, Id, advance=false, check=false, edit=false, colorReceived, textColorReceived }) => {
+  const { Language } = useContext(UserContext);
   const Text = {...multiLanguageText}[Language].color
   const [color, setColor] = useState(`rgb(255, 255, 255)`);
   const colorDefault = [

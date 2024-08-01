@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import axios, { all } from 'axios';
 import { ToastContainer, toast} from 'react-toastify';
 import { getCsrfToken } from '../../service/token';
@@ -10,11 +10,12 @@ import { fetchTVA } from '../../service/tva';
 import { multiLanguageText, multiLanguageAllergen } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber, mergeObject, updateCheckboxData, updateObject, truncateString } from '../utils';
 import { fetchAllCategoryForProductForm,  } from './utilsAddProduct';
-import { Language, Country } from '../../userInfo';
+import { Country, UserContext } from '../../userInfo';
 import { addProductModelAdvance } from '../../models/product';
 
 function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, edit=false, productDataReceived}) {
   // const [productdataNormal, setProductdataNormal] = useState(productdataNormal)
+  const { Language } = useContext(UserContext);
   const Text = {...multiLanguageText}[Language].productAdvance
   const AllergenText = multiLanguageAllergen[Language]
   const maxIDLength = 3

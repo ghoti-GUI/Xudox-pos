@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { fetchAllProduct } from "../../service/product";
 import { fetchAllCategory } from "../../service/category";
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
-import { Language, UserContext } from '../../userInfo';
+import { UserContext } from '../../userInfo';
 import { useSearchParams } from 'react-router-dom';
 // import { handleClickExport } from './export';
 import JSZip from 'jszip';
@@ -13,6 +13,7 @@ import { createFile, fetchData } from './exportFunctions.js';
 import { toast } from 'react-toastify';
 
 const ExportButton = () => {
+    const { Language } = useContext(UserContext);
     const Text = {...multiLanguageText}[Language].export
 
     const [exportMode, setExportMode] = useState('folder')

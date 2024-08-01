@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../../service/auth';
 import { toast } from 'react-toastify';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
-import { Language } from '../../userInfo';
 import { UserContext } from '../../userInfo';
 
 const Login = () => {
     const navigate = useNavigate();
+    const { Language } = useContext(UserContext);
     const Text = {...multiLanguageText}[Language].login
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');

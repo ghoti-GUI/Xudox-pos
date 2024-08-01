@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useContext } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { getCsrfToken } from '../../service/token';
@@ -9,7 +9,7 @@ import { fetchPrinter, fetchPrintersById } from '../../service/printer';
 import { fetchTVA, fetchTVAById } from '../../service/tva';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { normalizeText, sortStringOfNumber } from '../utils';
-import { Language } from '../../userInfo';
+import { UserContext } from '../../userInfo';
 import { ReactComponent as Detail } from '../../img/detail.svg';
 import { ReactComponent as Edit } from '../../img/edit.svg';
 import { ReactComponent as Star } from '../../img/star.svg';
@@ -19,7 +19,7 @@ import { ReactComponent as Star } from '../../img/star.svg';
 const ProductCard = (props)=>{
     const product = props.data;
     const navigate = useNavigate();
-    
+    const { Language } = useContext(UserContext);
     const Text = {...multiLanguageText}[Language].home;
     const [soldout, setSoldout] = useState(false);
     const [TVAData, setTVAData] = useState(null);

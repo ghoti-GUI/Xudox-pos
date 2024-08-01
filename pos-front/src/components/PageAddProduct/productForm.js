@@ -12,13 +12,12 @@ import { fetchTVA, fetchTVAById } from '../../service/tva';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber, updateCheckboxData, updateObject, truncateString } from '../utils';
 import { fetchAllCategoryForProductForm, } from './utilsAddProduct';
-import { Language, Country, UserContext } from '../../userInfo';
+import { Country, UserContext } from '../../userInfo';
 import AdvanceForm from './advanceForm';
 import { addProductModelNormal } from '../../models/product';
 
 function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent, check=false, edit=false, productDataReceived, sendExistedDataToParent}) {
-  const { RestaurantID } = useContext(UserContext);
-
+  const { Language } = useContext(UserContext);
   const Text = {...multiLanguageText}[Language];
   const TextProduct = Text.product;
   
@@ -129,7 +128,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
 
 
       const fetchedPrinter = await fetchPrinter();
-      const allCategoryData = await fetchAllCategoryForProductForm(RestaurantID);
+      const allCategoryData = await fetchAllCategoryForProductForm();
       // console.log(allCategoryData)
       setCategoryData(allCategoryData);
 
@@ -231,10 +230,10 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   const handleBlurID = async()=>{
     if(productdata.id_Xu.trim() !== ''){
       try {
-        const existed = await checkIdXuExistence(productdata.id_Xu, productdata.dinein_takeaway, RestaurantID)
+        const existed = await checkIdXuExistence(productdata.id_Xu, productdata.dinein_takeaway)
         if (existed){
           setIdExisted(true);
-          const product = await fetchProductById_Xu(productdata.id_Xu, productdata.dinein_takeaway, RestaurantID);
+          const product = await fetchProductById_Xu(productdata.id_Xu, productdata.dinein_takeaway);
           toast.warning(
             <>
               <span>{TextProduct.id_Xu[3][3][0]}</span>

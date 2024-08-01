@@ -10,10 +10,9 @@ const Text = {...multiLanguageText}[Language];
 
 const csrfToken = getCsrfToken();
 
-export const deleteAll = async(rid)=>{
+export const deleteAll = async()=>{
     try{
       await axios.post(DefaultUrl+'delete/all/', 
-      {'rid':rid},
       {
         headers: {
           'X-CSRFToken': csrfToken, 

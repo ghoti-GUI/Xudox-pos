@@ -1,10 +1,11 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import addPictureDefault from '../../img/add-picture.svg'; 
 import noImg from '../../img/no-image.svg'; 
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
-import { Language } from '../../userInfo';
+import { UserContext } from '../../userInfo';
 
 const ImgUploadButton = ({ onImgSelect, check=false, edit=false, imgReceived}) => {
+    const { Language } = useContext(UserContext);
     const Text = {...multiLanguageText}[Language].img
     const [imgUrl, setImgUrl] = useState(false);
     // const [imgChanged, setImgChanged] = useState(false);

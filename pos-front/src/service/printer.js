@@ -34,12 +34,11 @@ export const fetchAllPrinter = async () => {
   }
 }
 
-export const fetchPrintersById = async(printers_id, rid)=>{
+export const fetchPrintersById = async(printers_id)=>{
   try {
     const response = await axios.get(DefaultUrl+'get/printers/by_id/', {
       params:{
         'printers_id':printers_id, 
-        'rid':rid, 
       },
       headers: {
         // 'Authorization': `Bearer ${token}`,

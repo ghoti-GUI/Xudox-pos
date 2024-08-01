@@ -27,12 +27,9 @@ export const addCategory = async(categorydata)=>{
 }
 }
 
-export const fetchAllCategory = async (rid) => {
+export const fetchAllCategory = async () => {
   try {
     const response = await axios.get(DefaultUrl+GetAllCategoryUrl, {
-      params:{
-        'rid':rid, 
-      },
       headers: {
         // 'Authorization': `Bearer ${token}`,
     }
@@ -44,10 +41,10 @@ export const fetchAllCategory = async (rid) => {
   }
 }
 
-export const fetchCidByCategoryName = async(categoryName, rid)=>{
+export const fetchCidByCategoryName = async(categoryName)=>{
   try{
     const response = await axios.get(DefaultUrl+'get/cid/by/categoryName/',
-      {params:{'category_name':categoryName, 'rid':rid}},
+      {params:{'category_name':categoryName}},
       {
           headers: {
               'X-CSRFToken': csrfToken, 
@@ -62,12 +59,11 @@ export const fetchCidByCategoryName = async(categoryName, rid)=>{
   }
 }
 
-export const checkCategoryNameExistence = async(categoryName, rid)=>{
+export const checkCategoryNameExistence = async(categoryName)=>{
   try {
     const response = await axios.get(DefaultUrl+'category/check_name_category_existence/', {
       params:{
         'categoryName':categoryName, 
-        'rid':rid
       },
       headers: {
         // 'Authorization': `Bearer ${token}`,

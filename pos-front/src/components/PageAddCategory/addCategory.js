@@ -6,7 +6,7 @@ import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
 import CategoryForm from "./categoryForm";
 import ImgUploadButton from '../reuseComponent/imgUploadButton';
 import ColorSelect from '../reuseComponent/colorSelect';
-import { Language, UserContext } from '../../userInfo';
+import { UserContext } from '../../userInfo';
 import { addCategory } from '../../service/category';
 import { toast } from 'react-toastify';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
@@ -23,7 +23,7 @@ function AddCategory() {
   const productDataReceived = receivedData?receivedData.product:null;
   const check = receivedData?receivedData.type==='check':false;
   const edit = receivedData?receivedData.type==='edit':false;
-
+  const { Language } = useContext(UserContext);
   const TextLanguage = {...multiLanguageText}[Language]
   const Text = TextLanguage.category
   const pageName = Text[check?'check':edit?'edit':'add'].pageName;

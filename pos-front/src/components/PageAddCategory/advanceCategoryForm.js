@@ -9,11 +9,11 @@ import { fetchPrinter } from '../../service/printer';
 import { fetchTVA } from '../../service/tva';
 import { multiLanguageText, multiLanguageAllergen } from '../../multiLanguageText/multiLanguageText';
 import { normalizeText, sortStringOfNumber, mergeObject, updateCheckboxData, updateObject, truncateString } from '../utils';
-import { Language, Country, UserContext } from '../../userInfo';
+import { Country, UserContext } from '../../userInfo';
 import { addProductModelAdvance } from '../../models/product';
 
 const AdvanceCategoryForm = () => {
-    const { RestaurantID } = useContext(UserContext);
+    const { Language } = useContext(UserContext);
     return (
         <div>
             
