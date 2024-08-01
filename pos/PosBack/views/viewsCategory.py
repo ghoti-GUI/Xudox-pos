@@ -43,7 +43,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
         headers = self.get_success_headers(serializer.data)
         returnData = serializer.data
         returnData['id'] = serializer.instance.id
-        # print(returnData)
         return Response(returnData, status=status.HTTP_201_CREATED, headers=headers)
 
 

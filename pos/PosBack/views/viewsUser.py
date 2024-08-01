@@ -12,6 +12,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import action, api_view
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenViewBase
+from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from rest_framework_simplejwt.token_blacklist.models import OutstandingToken
 from django.db.models import Q
 import json
 
@@ -19,6 +22,32 @@ from ..models import product, Test, TestImg, category, printe_to_where, tva
 from ..serializers import TestSerializer, TestImgSerializer, AllTestImgSerializer, ProductSerializer, AllProductSerializer, AllCategorySerializer, CategorySerializer, GroupSerializer, UserSerializer
 
 language = 'English'
+
+class CustomTokenRefreshView(TokenRefreshView):
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+
+        # try:
+        #     serializer.is_valid(raise_exception=True)
+        # except TokenError as e:
+        #     raise InvalidToken(e.args[0])
+
+        # 检查 refresh token 是否在数据库中
+        refresh_token = serializer.validated_data['refresh']
+        if not OutstandingToken.objects.filter(token=refresh_token).exists():
+            return Response({'detail': 'Refresh token is invalid or expired.'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+
+class TokenRefreshView(TokenViewBase):
+    """
+    Takes a refresh type JSON web token and returns an access type JSON web
+    token if the refresh token is valid.
+    """
+    
+    _serializer_class = api_settings.TOKEN_REFRESH_SERIALIZER
+
+
 
 class UserViewSet(viewsets.ModelViewSet):
     """

@@ -10,6 +10,7 @@ import { saveAs } from 'file-saver';
 import { lengthContent, lengthID } from '../../service/valueDefault';
 import { fetchAllTVA, fetchTVA } from '../../service/tva.js';
 import { createFile, fetchData } from './exportFunctions.js';
+import { toast } from 'react-toastify';
 
 const ExportButton = () => {
     const Text = {...multiLanguageText}[Language].export
@@ -17,56 +18,96 @@ const ExportButton = () => {
     const [exportMode, setExportMode] = useState('folder')
     
     const exportFileZip = async()=>{
+        try{
+            const [
+                productsRecv, 
+                categoriesRecv, 
+                abListCopy, 
+                zwcdValueCopy, 
+                zwwmValueCopy, 
+                riscdValueCopy, 
+                riswmValueCopy, 
+                colorValueCopy, 
+                HooftNameValueCopy
+            ] = await fetchData();
+            const zip = new JSZip();
+            // export ad.txt
+            for (const [key, value] of Object.entries(abListCopy)){
+                zip.file(`${key}`, value);
+            }
+            if(zwcdValueCopy.length > 0){
+                zip.file('zwcd.txt', zwcdValueCopy);
+            }
+            if(zwwmValueCopy.length > 0){
+                zip.file('zwwm.txt', zwcdValueCopy);
+            }
+            if(riscdValueCopy.length > 0){
+                zip.file('riscd.txt', zwcdValueCopy);
+            }
+            if(riswmValueCopy.length > 0){
+                zip.file('riswm.txt', zwcdValueCopy);
+            }
+            zip.file('RGB.txt', colorValueCopy);
+            
+            let valueHooft = ''
+            for (const [key, value] of Object.entries(HooftNameValueCopy)){
+                valueHooft+=`${key} ${value}\n`;
+            }
+            zip.file('HooftName.txt', valueHooft);
 
-        const [
-            productsRecv, 
-            categoriesRecv, 
-            abListCopy, 
-            zwcdValueCopy, 
-            HooftNameValueCopy
-        ] = await fetchData();
-
-        
-        const zip = new JSZip();
-
-        // export adn.txt
-        for (const [key, value] of Object.entries(abListCopy)){
-            zip.file(`${key}`, value);
+            zip.generateAsync({ type: 'blob' }).then((blob) => {
+                saveAs(blob, 'abFiles.zip');
+            });
+            
+            toast.success('File downloaded successfully!');
+        }catch(e){
+            console.log('Error downloading file:', e);
+            toast.error(`Error downloading file:${e}`);
         }
-        
-        zip.file('zwcd.txt', zwcdValueCopy);
-
-
-        let valueHooft = 'Contents\n'
-        for (const [key, value] of Object.entries(HooftNameValueCopy)){
-            valueHooft+=`${key}${value}\n`;
-        }
-        zip.file('HooftName.txt', valueHooft);
-
-        zip.generateAsync({ type: 'blob' }).then((blob) => {
-            saveAs(blob, 'abFiles.zip');
-        });
     }
 
     const selectDirAndExport = async()=>{
         try{
             const handle = await window.showDirectoryPicker();
-            const [productsRecv, categoriesRecv, abListCopy, zwcdValueCopy, HooftNameValueCopy] = await fetchData();
+            const [
+                productsRecv, 
+                categoriesRecv, 
+                abListCopy, 
+                zwcdValueCopy, 
+                zwwmValueCopy, 
+                riscdValueCopy, 
+                riswmValueCopy, 
+                colorValueCopy, 
+                HooftNameValueCopy
+            ] = await fetchData();
             for (const [key, value] of Object.entries(abListCopy)){
                 createFile(handle, `${key}`, value)
             }
-            createFile(handle, 'zwcd.txt', zwcdValueCopy)
 
-            let valueHooft = 'Contents\n'
+            if(zwcdValueCopy.length > 0){
+                createFile(handle, 'zwcd.txt', zwcdValueCopy)
+            }
+            if(zwwmValueCopy.length > 0){
+                createFile(handle, 'zwwm.txt', zwcdValueCopy)
+            }
+            if(riscdValueCopy.length > 0){
+                createFile(handle, 'riscd.txt', zwcdValueCopy)
+            }
+            if(riswmValueCopy.length > 0){
+                createFile(handle, 'riswm.txt', zwcdValueCopy)
+            }
+            createFile(handle, 'RGB.txt', colorValueCopy)
+
+            let valueHooft = ''
             for (const [key, value] of Object.entries(HooftNameValueCopy)){
-                valueHooft+=`${key}${value}\n`;
+                valueHooft+=`${key} ${value}\n`;
             }
             createFile(handle, 'HooftName.txt', valueHooft)
 
-
-            alert('File downloaded successfully!');
+            toast.success('File downloaded successfully!');
         }catch(e){
-            console.error('Error downloading file:', e);
+            console.log('Error downloading file:', e);
+            toast.error(`Error downloading file:${e}`);
         }
     }
 

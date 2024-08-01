@@ -28,26 +28,20 @@ class ProductSerializer(serializers.ModelSerializer):
         model = product
         fields = [
             'id_Xu', 
-            # 'online_content',
             'bill_content',
             'kitchen_content', 
-            # 'online_des',
             'color', 
             'text_color', 
             'price',
             'price2',
             'time_supply',
-            # 'product_type',
             'dinein_takeaway', 
             'cid',
             'print_to_where',
             'img',
-            # 'allergen', 
-            # 'discount', 
             'online_content',
             'online_des',
             'Xu_class',
-            'rid', 
             ]
         # fields = '__all__'
 

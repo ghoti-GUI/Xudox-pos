@@ -4,6 +4,7 @@ from django.views.static import serve
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 # from .views import TestViewSet, TestImgViewSet, ProductViewSet, CategoryViewSet
 from .views import viewsProduct, viewsCategory, viewsPrinter, viewsTVA, viewsCommon, viewsUser, viewsTest
 
@@ -16,6 +17,12 @@ router.register(r'post/category', viewsCategory.CategoryViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+
+    path('api/login/', viewsUser.login_view, name='login'), 
+    path('api/logout/', viewsUser.logout_view, name='logout'), 
+    path('api/token/obtain/' , TokenObtainPairView.as_view(), name= 'token_create' ),
+    # path('api/token/refresh/', viewsUser.CustomTokenRefreshView.as_view(), name='token_refresh'), 
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'), 
 
     # path('get/product/next_id_user/', viewsProduct.get_next_product_id, name='get_next_product_id'), 
     path('product/check_id_Xu_existence/', viewsProduct.check_id_Xu_existence, name = 'check_id_Xu_existence'), 

@@ -30,6 +30,7 @@ const initAbList = {
 };
 const initZwcdValue = ''
 const initRiscdValue = ''
+const initColorValue = ''
 const initHooftNameValue = {
     'ab1.txt':'',
     'ab2.txt':'',
@@ -58,6 +59,7 @@ export const fetchData=async(fetch=true, productsData=null, categoriesData=null)
     let zwwmValueCopy = initZwcdValue;
     let riscdValueCopy = initRiscdValue;
     let riswmValueCopy = initRiscdValue;
+    let colorValueCopy = initColorValue;
     
 
     productsRecv.forEach((product, index) => {
@@ -75,16 +77,22 @@ export const fetchData=async(fetch=true, productsData=null, categoriesData=null)
             zwwmValueCopy += formatKitchenData(product);
             riswmValueCopy += formatPrintData(product);
         }
+
+        colorValueCopy += formatRgbData(product);
+
     });
 
     let HooftNameValueCopy = {...initHooftNameValue};
     categoriesRecv.forEach((category, index) => {
         if(category.Xu_class!=='met.txt'){
             const name = category.name||category.ename||category.lname||category.fname||category.zname;
-            if(!Object.keys(HooftNameValueCopy).includes(category.Xu_class)){
-                HooftNameValueCopy[category.Xu_class] = '';
+            const Xu_class = category.Xu_class
+            if(!Object.keys(HooftNameValueCopy).includes(Xu_class)){
+                HooftNameValueCopy[Xu_class] = '';
             }
-            HooftNameValueCopy[category.Xu_class] += ' '+name;
+            if(HooftNameValueCopy[Xu_class].length === 0){
+                HooftNameValueCopy[Xu_class] = name;
+            }
         }
     });
 
@@ -92,7 +100,7 @@ export const fetchData=async(fetch=true, productsData=null, categoriesData=null)
     for(let [key, value] of Object.entries(HooftNameValueCopy)){
         if(!value) HooftNameValueCopy[key]+=' void';
     };
-    console.log(HooftNameValueCopy)
+    // console.log(HooftNameValueCopy)
     return [
         productsRecv, 
         categoriesRecv, 
@@ -101,11 +109,13 @@ export const fetchData=async(fetch=true, productsData=null, categoriesData=null)
         zwwmValueCopy, 
         riscdValueCopy, 
         riswmValueCopy, 
+        colorValueCopy, 
         HooftNameValueCopy
     ]
 
 };
 
+// export for ab.txt
 const formatProductData = (product, tva_list) => {
     const id_XuRecv = product.id_Xu.toString();
     const id_Xu = id_XuRecv==='hyphen3'?'---':id_XuRecv.padStart(lengthID, ' ');
@@ -134,12 +144,39 @@ const formatProductData = (product, tva_list) => {
     return `${id_Xu} ${bill_content} ${price} ${tva_category}`;
 };
 
+// export for zwcd.txt and zwwm.txt
 const formatKitchenData = (product) => {
-    const id_Xu = product.id_Xu.toString().padStart(lengthID, ' ');
+    const id_Xu_recv = product.id_Xu.toString()
+    let id_Xu = ''
+    if(id_Xu_recv === 'hyphen3'){
+        id_Xu = '---'
+    }else{
+        id_Xu = id_Xu_recv.padStart(lengthID, ' ');
+    }
     const kitchen_content = product.kitchen_content;
-    return `${id_Xu} ${kitchen_content}\n`;
+    if (kitchen_content){
+        return `${id_Xu} ${kitchen_content}\n`;
+    }else{
+        return ''
+    }  
 };
 
+// export for RGB.txt
+const formatRgbData = (product) =>{
+    const id_Xu_recv = product.id_Xu;
+    let id_Xu = '';
+    if(id_Xu_recv === 'hyphen3'){
+        id_Xu = '---'
+    }else{
+        id_Xu = id_Xu_recv.padStart(lengthID, ' ');
+    }
+    const rgb_data = product.color;
+    const rgb_ls = rgb_data.match(/\d+/g);
+    const rgb_text = rgb_ls.join(' ');
+    return `${id_Xu} ${rgb_text.padStart(3, ' ')}\n`;
+}
+
+// export for riscd.txt and riswm.txt
 const formatPrintData = (product) => {
     let printerData = '';
     const printers = product.print_to_where
@@ -157,7 +194,7 @@ export const createFile = async(handle, name, value)=>{
     await writable.close();
 }
 
-
+// export function after import, to avoid fetch data from database ones more. 
 export const exportFileAfterImport = async(productsData, categoriesData)=>{
     console.log('exporting')
     try{

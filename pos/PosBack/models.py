@@ -213,7 +213,7 @@ class product(models.Model):
     zname = models.CharField(max_length=200, null=True)
     online_content = models.CharField(max_length=200, null=True)
     bill_content = models.CharField(max_length=100)
-    kitchen_content = models.CharField(max_length=200)
+    kitchen_content = models.CharField(max_length=200, null=True)
     extra_name = models.CharField(max_length=1000, null=True)
     edes = models.CharField(max_length=1000, null=True)
     ldes = models.CharField(max_length=1000, null=True)

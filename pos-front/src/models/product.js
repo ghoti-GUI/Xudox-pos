@@ -30,6 +30,7 @@ export const addProductModelAdvance = {
     'edes':'',
     'ldes':'',
     'fdes':'',
+    'cut_group':-1,
     'stb':0,
     'favourite':0,
 }

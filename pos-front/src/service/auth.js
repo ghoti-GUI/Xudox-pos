@@ -13,7 +13,7 @@ const csrfToken = getCsrfToken();
 
 export const login = async(userData)=>{
     try{
-        const response = await axios.post(DefaultHost+'api/login/', 
+        const response = await axios.post(DefaultUrl+'api/login/', 
             userData,
             {
             headers: {
@@ -32,7 +32,7 @@ export const login = async(userData)=>{
 export const logout = async()=>{
     const refreshToken = localStorage.getItem('refresh_token');
     try{
-        const response = await axios.post(DefaultHost+'api/login/', 
+        const response = await axios.post(DefaultUrl+'api/login/', 
             {'refreshToken':refreshToken},
             {
             headers: {
@@ -48,19 +48,19 @@ export const logout = async()=>{
     };
 }
 
-export const refreshToken = async () => {
-    const refreshToken = localStorage.getItem('refresh_token');
-    if (!refreshToken) {
-        console.error('No refresh token available');
-    }
-    try {
-        const response = await axios.post(DefaultHost+'api/token/refresh/', {
-            refresh: refreshToken,
-        });
-        const newAccessToken = response.data.access;
-        localStorage.setItem('access_token', newAccessToken);
-        return newAccessToken;
-    } catch (error) {
-        console.error('Failed to refresh token');
-    }
-};
+// export const refreshToken = async () => {
+//     const refreshToken = localStorage.getItem('refresh_token');
+//     if (!refreshToken) {
+//         console.error('No refresh token available');
+//     }
+//     try {
+//         const response = await axios.post(DefaultUrl+'api/token/refresh/', {
+//             refresh: refreshToken,
+//         });
+//         const newAccessToken = response.data.access;
+//         localStorage.setItem('access_token', newAccessToken);
+//         return newAccessToken;
+//     } catch (error) {
+//         console.error('Failed to refresh token');
+//     }
+// };

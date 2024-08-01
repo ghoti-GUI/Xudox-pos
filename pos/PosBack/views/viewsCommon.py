@@ -79,6 +79,7 @@ def delete_all(request):
 def get_all_ablist_kitchen_nonull(request):
     user = request.user
     rid_recv = user.id
-    ablist_kitchen_nonull_data = ablist_kitchen_nonull.objects.all
+    ablist_kitchen_nonull_data = ablist_kitchen_nonull.objects.all()
+    # print(ablist_kitchen_nonull_data)
     serializer = AllAblistKitchenNonullSerializer(ablist_kitchen_nonull_data, many = True)
     return JsonResponse(serializer.data, safe=False)

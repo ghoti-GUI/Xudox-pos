@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DefaultHost } from "../service/valueDefault";
+import { DefaultHost, DefaultUrl } from "../service/valueDefault";
 import { getCsrfToken } from "../service/token";
 
 let refresh = false
@@ -19,7 +19,7 @@ let refresh = false
 //     failedQueue = [];
 // };
 
-// api请求之前，检测access token是否过期
+// api请求之前，检测access token是否存在
 axios.interceptors.request.use(
     async (config) => {
         const token = localStorage.getItem('access_token');
@@ -58,7 +58,7 @@ axios.interceptors.response.use(resp => resp, async error => {
         // isRefreshing = true;
 
         try {
-            const response = await axios.post(DefaultHost + 'api/token/refresh/', {
+            const response = await axios.post(DefaultUrl + 'api/token/refresh/', {
                 refresh: refreshToken
             }, {
                 headers: {

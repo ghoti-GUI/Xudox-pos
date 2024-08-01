@@ -9,12 +9,13 @@ import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js'
 import { Language, UserContext } from '../../userInfo';
 import { normalizeText, truncateString } from '../utils';
 import { categoryModelFull } from '../../models/category';
-import { deleteAll } from '../../service/commun';
+import { deleteAll, fetchAblistKitchenNonull } from '../../service/commun';
 import { addCategory, fetchCidByCategoryName } from '../../service/category';
 import { addProduct } from '../../service/product';
 import { exportFileAfterImport } from '../ExportButton/exportFunctions.js';
 import { fetchAllPrinter } from '../../service/printer.js';
 import { fetchTVAById, fetchTVAIdByCountryCategory } from '../../service/tva.js';
+import { notesUnderID } from '../../multiLanguageText/otherText.js';
 
 const ImportButton = () => {
     const { RestaurantID } = useContext(UserContext);
@@ -37,7 +38,16 @@ const ImportButton = () => {
         let idList = []; // 存储出现过的餐楼的id
         let idTakeaway = []; // 存储出现过的外卖的id
         // fetch all printer
-        const allprinters_recv = fetchAllPrinter();
+        const allprinters_recv = await fetchAllPrinter();
+        const ablist_kitchen_nonull_recv_data = await fetchAblistKitchenNonull();
+        let ablist_kitchen_nonull_recv = []
+        if(ablist_kitchen_nonull_recv_data.succeed){
+            ablist_kitchen_nonull_recv = ablist_kitchen_nonull_recv_data.data.map(ablist => ablist.Xu_class)
+        }else{
+            toast.error(`fetch special ab.txt failed\n${ablist_kitchen_nonull_recv_data.message}`)
+        }
+        
+        console.log('ablist_kitchen_nonull_recv:', ablist_kitchen_nonull_recv)
         let allprinters;
         if (allprinters_recv && allprinters_recv.length > 0) {
             allprinters = allprinters_recv.map(printer => printer[0]);
@@ -48,22 +58,21 @@ const ImportButton = () => {
         let productsData = []
         let categoriesData = []
         for (const line_origin of lines){
-            // let succeedCopy = succeed
             const line = line_origin.split(';');
             if (line.length < lengthDataMin + 1) {
                 failed.push(`'${line_origin}' --- Insufficient data, ${lengthDataMin + 1 - line.length} datas are missing`);
-                return;
+                continue;
             }
             while (line.length < lengthDataFull + 1) {
                 line.push(null);
             }
-            let [id, name, price, Xu_class, category_name, zname, TVA_category, printer, color, cut_group, custom1, custom2] = line.slice(0, lengthDataFull);
+            let [id, name, price, Xu_class, category_name, zname_recv, TVA_category, printer, color, cut_group, custom1, custom2] = line.slice(0, lengthDataFull);
 
             let dinein_takeaway = 1;
             if (Xu_class === 'meeneem.txt') {
                 if (idTakeaway.includes(id)) {
                     failed.push(`'${id};${name}' --- ID duplicated in take-away menu`);
-                    return;
+                    continue;
                 }
                 if (id === '---') {
                     id = 'hyphen3';
@@ -75,7 +84,7 @@ const ImportButton = () => {
             } else {
                 if (idList.includes(id)) {
                     failed.push(`'${id};${name}' --- ID duplicated in dine-in menu`);
-                    return;
+                    continue;
                 }
                 if (id === '---') {
                     id = 'hyphen3';
@@ -86,7 +95,14 @@ const ImportButton = () => {
                 }
             }
             
-            const [bill_content, exceed] = truncateString(normalizeText(name), lengthContent);
+            const [bill_content, exceed_bill] = truncateString(normalizeText(name), lengthContent);
+            let zname='', exceed_z=false;
+            if(zname_recv && zname_recv.length > 0){
+                [zname, exceed_z] = truncateString(normalizeText(zname_recv), lengthContent);
+            }else if(ablist_kitchen_nonull_recv.includes(Xu_class)){
+                zname = bill_content
+            }
+
             // if(exceed) toast.warning(<span>
             //     Name over the limit:<br/>
             //     ID:{id}<br/>
@@ -120,7 +136,7 @@ const ImportButton = () => {
             } else if (TVA_category === 'D') {
                 TVA_category = 4;
             } else {
-                alert(`fetch tva failed for product '${id};${name}'\nThis tva ${TVA_category} does not exist!`);
+                toast.error(`fetch tva failed for product '${id};${name}'\nThis tva ${TVA_category} does not exist!`);
                 continue;
             }
 
@@ -171,9 +187,8 @@ const ImportButton = () => {
             const productData = {...addProductModelFull}
             productData.id_Xu = id;
             productData.bill_content = bill_content;
-            productData.kitchen_content = bill_content;
+            productData.kitchen_content = zname;
             productData.online_content = name
-            productData.zname = zname;
             productData.TVA_country = 'Belgium';
             productData.TVA_category = TVA_category
             productData.print_to_where = printer;
@@ -185,11 +200,9 @@ const ImportButton = () => {
             productData.price2 = price;
             productData.Xu_class = Xu_class;
             productData.cid = cid;
-            productData.rid = RestaurantID;
             productData.custom = custom1;
             productData.custom2 = custom2;
 
-            // console.log(productData)
 
             const productAddSucceed = await addProduct(productData)
             if(!productAddSucceed.success) {
@@ -207,14 +220,16 @@ const ImportButton = () => {
         if(failed.length===0){
             toast.success(`All import succeeded`);
         }else{
-            toast.warning(<span>
-                <b>Failed products:</b>
-                {failed.map((failedProductInfo, index)=>{
-                    return(<span id={index}>
-                        <br/><br/>{failedProductInfo}
-                    </span>)
-                })}
-            </span>, {autoClose:20000});
+            toast.warning(
+                <span>
+                    <b>Failed products:</b>
+                    {failed.map((failedProductInfo, index)=>(
+                        <span key={index}>
+                            <br/><br/>{failedProductInfo}
+                        </span>
+                    ))}
+                </span>, 
+                {autoClose:20000});
         }
         setLoading(false);
         console.log('start exporting')
