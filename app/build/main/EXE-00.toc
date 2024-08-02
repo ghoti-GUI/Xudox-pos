@@ -77,10 +77,6 @@
    'PYSOURCE'),
   ('main', 'D:\\work\\Stage fr\\XudoX.be\\project\\app\\main.py', 'PYSOURCE'),
   ('python311.dll', 'C:\\Python311\\python311.dll', 'BINARY'),
-  ('PyQt5\\Qt5\\bin\\opengl32sw.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\opengl32sw.dll',
-   'BINARY'),
   ('PyQt5\\Qt5\\bin\\libGLESv2.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\libGLESv2.dll',
@@ -88,6 +84,10 @@
   ('PyQt5\\Qt5\\bin\\d3dcompiler_47.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\d3dcompiler_47.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\bin\\opengl32sw.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\opengl32sw.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\bin\\libEGL.dll',
    'D:\\work\\Stage '
@@ -101,29 +101,29 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qjpeg.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\platforms\\qoffscreen.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qoffscreen.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qgif.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qgif.dll',
-   'BINARY'),
   ('PyQt5\\Qt5\\plugins\\platforms\\qminimal.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qminimal.dll',
    'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qtiff.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qtiff.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
+   'BINARY'),
   ('PyQt5\\Qt5\\plugins\\platforms\\qwindows.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qwindows.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
    'D:\\work\\Stage '
@@ -133,33 +133,33 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\imageformats\\qwebp.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qwebp.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qtiff.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qgif.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qtiff.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qgif.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\platforms\\qwebgl.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qwebgl.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
+  ('PyQt5\\Qt5\\plugins\\platforms\\qoffscreen.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qoffscreen.dll',
    'BINARY'),
   ('_decimal.pyd', 'C:\\Python311\\DLLs\\_decimal.pyd', 'EXTENSION'),
   ('_hashlib.pyd', 'C:\\Python311\\DLLs\\_hashlib.pyd', 'EXTENSION'),
@@ -216,54 +216,54 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\QtGui.pyd',
    'EXTENSION'),
-  ('api-ms-win-crt-locale-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-locale-l1-1-0.dll',
-   'BINARY'),
-  ('VCRUNTIME140.dll', 'C:\\Python311\\VCRUNTIME140.dll', 'BINARY'),
-  ('api-ms-win-crt-string-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-string-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-runtime-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-runtime-l1-1-0.dll',
-   'BINARY'),
   ('api-ms-win-crt-environment-l1-1-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-environment-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-conio-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-conio-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-stdio-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-stdio-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-convert-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-convert-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-process-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-process-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-heap-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-heap-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-crt-time-l1-1-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-time-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-crt-filesystem-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-filesystem-l1-1-0.dll',
-   'BINARY'),
   ('api-ms-win-crt-math-l1-1-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-math-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-heap-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-heap-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-conio-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-conio-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-runtime-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-runtime-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-string-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-string-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-stdio-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-stdio-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-process-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-process-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-convert-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-convert-l1-1-0.dll',
+   'BINARY'),
+  ('VCRUNTIME140.dll', 'C:\\Python311\\VCRUNTIME140.dll', 'BINARY'),
+  ('api-ms-win-crt-locale-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-locale-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-filesystem-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-filesystem-l1-1-0.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\bin\\MSVCP140.dll',
    'D:\\work\\Stage '
@@ -277,18 +277,26 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\VCRUNTIME140.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\Qt5Widgets.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Widgets.dll',
-   'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Core.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Core.dll',
    'BINARY'),
-  ('VCRUNTIME140_1.dll', 'C:\\Python311\\VCRUNTIME140_1.dll', 'BINARY'),
+  ('PyQt5\\Qt5\\bin\\Qt5Widgets.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Widgets.dll',
+   'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Gui.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Gui.dll',
+   'BINARY'),
+  ('VCRUNTIME140_1.dll', 'C:\\Python311\\VCRUNTIME140_1.dll', 'BINARY'),
+  ('api-ms-win-crt-utility-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-utility-l1-1-0.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\bin\\Qt5DBus.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5DBus.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Network.dll',
    'D:\\work\\Stage '
@@ -298,10 +306,6 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Svg.dll',
    'BINARY'),
-  ('api-ms-win-crt-utility-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-utility-l1-1-0.dll',
-   'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Quick.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Quick.dll',
@@ -310,16 +314,12 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5WebSockets.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\Qt5DBus.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5DBus.dll',
-   'BINARY'),
   ('libcrypto-3.dll', 'C:\\Python311\\DLLs\\libcrypto-3.dll', 'BINARY'),
+  ('python3.dll', 'C:\\Python311\\python3.dll', 'BINARY'),
   ('api-ms-win-core-synch-l1-2-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-synch-l1-2-0.dll',
    'BINARY'),
-  ('python3.dll', 'C:\\Python311\\python3.dll', 'BINARY'),
   ('libffi-8.dll', 'C:\\Python311\\DLLs\\libffi-8.dll', 'BINARY'),
   ('libssl-3.dll', 'C:\\Python311\\DLLs\\libssl-3.dll', 'BINARY'),
   ('libmysql.dll',
@@ -349,124 +349,104 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\libcrypto-3-x64.dll',
    'BINARY'),
-  ('api-ms-win-core-libraryloader-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-libraryloader-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-debug-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-debug-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-interlocked-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-interlocked-l1-1-0.dll',
-   'BINARY'),
   ('api-ms-win-core-processenvironment-l1-1-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processenvironment-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-file-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-processthreads-l1-1-1.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-1.dll',
-   'BINARY'),
-  ('api-ms-win-core-profile-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-profile-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-util-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-util-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-synch-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-synch-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-console-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-console-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-localization-l1-2-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-localization-l1-2-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-datetime-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-datetime-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-file-l1-2-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l1-2-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-memory-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-memory-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-rtlsupport-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-rtlsupport-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-handle-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-handle-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-file-l2-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l2-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-string-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-string-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-sysinfo-l1-1-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-sysinfo-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-core-processthreads-l1-1-0.dll',
+  ('api-ms-win-core-util-l1-1-0.dll',
    'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-timezone-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-timezone-l1-1-0.dll',
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-util-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-errorhandling-l1-1-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-errorhandling-l1-1-0.dll',
    'BINARY'),
+  ('api-ms-win-core-handle-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-handle-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l1-1-0.dll',
+   'BINARY'),
   ('api-ms-win-core-namedpipe-l1-1-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-namedpipe-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processthreads-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-heap-l1-1-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-heap-l1-1-0.dll',
    'BINARY'),
+  ('api-ms-win-core-memory-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-memory-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-debug-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-debug-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-localization-l1-2-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-localization-l1-2-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-profile-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-profile-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-rtlsupport-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-rtlsupport-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-interlocked-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-interlocked-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-synch-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-synch-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l1-2-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l1-2-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-datetime-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-datetime-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l2-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l2-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processthreads-l1-1-1.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-1.dll',
+   'BINARY'),
+  ('api-ms-win-core-libraryloader-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-libraryloader-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-timezone-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-timezone-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-console-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-console-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-string-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-string-l1-1-0.dll',
+   'BINARY'),
   ('base_library.zip',
    'D:\\work\\Stage fr\\XudoX.be\\project\\app\\build\\main\\base_library.zip',
-   'DATA'),
-  ('cryptography-43.0.0.dist-info\\license_files\\LICENSE.APACHE',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\license_files\\LICENSE.APACHE',
-   'DATA'),
-  ('cryptography-43.0.0.dist-info\\WHEEL',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\WHEEL',
-   'DATA'),
-  ('cryptography-43.0.0.dist-info\\license_files\\LICENSE',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\license_files\\LICENSE',
-   'DATA'),
-  ('cryptography-43.0.0.dist-info\\RECORD',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\RECORD',
-   'DATA'),
-  ('cryptography-43.0.0.dist-info\\METADATA',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\METADATA',
    'DATA'),
   ('cryptography-43.0.0.dist-info\\INSTALLER',
    'D:\\work\\Stage '
@@ -476,57 +456,253 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\license_files\\LICENSE.BSD',
    'DATA'),
+  ('cryptography-43.0.0.dist-info\\RECORD',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\RECORD',
+   'DATA'),
+  ('cryptography-43.0.0.dist-info\\METADATA',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\METADATA',
+   'DATA'),
+  ('cryptography-43.0.0.dist-info\\license_files\\LICENSE',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\license_files\\LICENSE',
+   'DATA'),
+  ('cryptography-43.0.0.dist-info\\license_files\\LICENSE.APACHE',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\license_files\\LICENSE.APACHE',
+   'DATA'),
+  ('cryptography-43.0.0.dist-info\\WHEEL',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\WHEEL',
+   'DATA'),
   ('nacl\\py.typed',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\py.typed',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
+  ('PyQt5\\Qt5\\translations\\qt_help_uk.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_uk.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_cs.qm',
+  ('PyQt5\\Qt5\\translations\\qt_help_fr.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_cs.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_fr.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_hu.qm',
+  ('PyQt5\\Qt5\\translations\\qt_sk.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_hu.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sk.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_gl.qm',
+  ('PyQt5\\Qt5\\translations\\qt_help_pl.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gl.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_pl.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_he.qm',
+  ('PyQt5\\Qt5\\translations\\qt_help_sl.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_he.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_bg.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_bg.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_cs.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_cs.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qtbase_en.qm',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_en.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_uk.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_pl.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_uk.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_pl.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_fi.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_hu.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fi.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_hu.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ar.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ar.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_de.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_de.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ru.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ru.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ko.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ko.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_help_sk.qm',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sk.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ja.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_sk.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ja.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_sk.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_hu.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_lv.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_hu.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_lv.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_sv.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sv.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_lt.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lt.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ca.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ca.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ca.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ca.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_he.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_he.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_sl.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ja.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ja.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_uk.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_uk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_gl.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_gl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ca.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ca.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_bg.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_bg.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_da.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_da.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_tr.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_tr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_gd.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gd.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_de.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_de.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ko.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ko.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_en.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_en.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_bg.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_bg.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_de.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_de.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_it.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_it.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_fa.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fa.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ar.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ar.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_uk.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_uk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_pt.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pt.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ja.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ja.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ar.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ar.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_es.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_es.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_fi.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fi.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ko.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ko.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_es.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_es.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_fi.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fi.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ru.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ru.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_en.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_en.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qtbase_gd.qm',
    'D:\\work\\Stage '
@@ -536,262 +712,86 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_it.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_he.qm',
+  ('PyQt5\\Qt5\\translations\\qt_pl.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_he.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_it.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_it.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_en.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_en.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_pl.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_pl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_lv.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lv.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_sk.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_sk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_fi.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fi.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_uk.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_uk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ko.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ko.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_gd.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gd.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_pl.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_pl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_fr.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_de.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_de.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ar.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ar.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ja.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ja.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_en.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_en.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_fa.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fa.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ar.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ar.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_gl.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_gl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_uk.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_uk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_cs.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_cs.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_bg.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_bg.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_sl.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_hu.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_hu.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_sl.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_tr.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_tr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ar.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ar.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_sv.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sv.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_bg.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_bg.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_bg.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_bg.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pl.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_help_tr.qm',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_tr.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_pt.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pt.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ru.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ru.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_pl.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ko.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ko.qm',
-   'DATA'),
   ('PyQt5\\Qt5\\translations\\qtbase_da.qm',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_da.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_ja.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ja.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_fr.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fr.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_lv.qm',
+  ('PyQt5\\Qt5\\translations\\qt_help_hu.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_lv.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ca.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ca.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_es.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_es.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_lt.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lt.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_sk.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_da.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_da.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_fr.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_fr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_cs.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_cs.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ja.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ja.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_de.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_de.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ru.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ru.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_it.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_it.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ca.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ca.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_tr.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_tr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_de.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_de.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ca.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ca.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ko.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ko.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_es.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_es.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_hu.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_fr.qm',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fr.qm',
    'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_it.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_it.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_lv.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lv.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_cs.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_cs.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_cs.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_cs.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_hu.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_hu.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_gl.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gl.qm',
+   'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_help_da.qm',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_da.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_es.qm',
+  ('PyQt5\\Qt5\\translations\\qt_tr.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_es.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_tr.qm',
    'DATA'),
-  ('certifi\\cacert.pem',
+  ('PyQt5\\Qt5\\translations\\qt_es.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\certifi\\cacert.pem',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_es.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_he.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_he.qm',
    'DATA'),
   ('certifi\\py.typed',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\certifi\\py.typed',
+   'DATA'),
+  ('certifi\\cacert.pem',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\certifi\\cacert.pem',
    'DATA')],
  [],
  False,
  False,
- 1722537808,
+ 1722598648,
  [('runw.exe',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
