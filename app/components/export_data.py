@@ -94,7 +94,7 @@ def fetch_data(app):
         if products:
             if app.path:
                 # Initialisation file
-                addition_files = ['zwcd.txt', 'zwwm.txt', 'RGB.txt', 'riscd.txt', 'riswm.txt', 'HooftName.txt']
+                addition_files = ['zwcd.txt', 'zwwm.txt', 'RGB.txt', 'riscd.txt', 'riswm.txt', 'HooftName.txt', 'meeneem.txt']
                 for file in addition_files:
                     init_file(app, file)
                 # Initialising data written to 'ad.txt'
