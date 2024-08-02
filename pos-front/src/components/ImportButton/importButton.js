@@ -24,7 +24,7 @@ const ImportButton = () => {
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
-    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+    // const [showConfirmDialog, setShowConfirmDialog] = useState(false);
 
     const onImport = async(onloadEvent, pageEvent)=>{
 
@@ -247,15 +247,15 @@ const ImportButton = () => {
         }
         setLoading(false);
 
-        setShowConfirmDialog(true);
+        // setShowConfirmDialog(true);
         // await exportData(exportMode, productsData, categoriesData)
         // navigate('/');
     }
 
-    const handleConfirm = () => {
-        // 关闭确认对话框
-        setShowConfirmDialog(false);
-    };
+    // const handleConfirm = () => {
+    //     // 关闭确认对话框
+    //     setShowConfirmDialog(false);
+    // };
 
     const setTextColor = (r, g, b) => {
         // 计算亮度
@@ -308,9 +308,9 @@ const ImportButton = () => {
                     </div>
                 </div>
             }
-            {showConfirmDialog &&
+            {/* {showConfirmDialog &&
                 <ConfirmExportDialog handleConfirm={handleConfirm}/>
-            }
+            } */}
         </div>
     );
 }
