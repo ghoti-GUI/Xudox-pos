@@ -27,6 +27,7 @@ const initAbList = {
     'ab12.txt':'',
     'ab13.txt':'',
     'ab14.txt':'',
+    'meeneem.txt':'', 
     'met.txt':'',
 };
 const initZwcdValue = ''
@@ -50,12 +51,12 @@ const initHooftNameValue = {
 };
 
 export const fetchData=async(fetch=true, productsData=null, categoriesData=null)=>{
-    console.log('fetch:', fetch)
+    // console.log('fetch:', fetch)
     const productsRecv = fetch?await fetchAllProduct():productsData;
     const categoriesRecv = fetch?await fetchAllCategory():categoriesData;
     const tvaRecv = await fetchAllTVA();
-    console.log('productsRecv:', productsRecv)
-    console.log('categoriesRecv:', categoriesRecv)
+    // console.log('productsRecv:', productsRecv)
+    // console.log('categoriesRecv:', categoriesRecv)
     let abListCopy = { ...initAbList };
     let zwcdValueCopy = initZwcdValue;
     let zwwmValueCopy = initZwcdValue;
@@ -119,10 +120,10 @@ export const fetchData=async(fetch=true, productsData=null, categoriesData=null)
 
 // export for ab.txt
 const formatProductData = (product, tva_list) => {
-    console.log(product)
+    // console.log(product)
     const id_XuRecv = product.id_Xu.toString();
     const id_Xu = id_XuRecv==='hyphen3'?'---':id_XuRecv.padStart(lengthID, ' ');
-    const bill_content = product.bill_content+'.'.padEnd(lengthContent-product.bill_content.length, ' ');
+    const bill_content = (product.bill_content+'.').padEnd(lengthContent+2, ' ');
     const price = product.price;
     const tva = tva_list.find(tva => tva.id === product.TVA_id)
     let tva_category = 'A';
@@ -185,7 +186,11 @@ const formatPrintData = (product) => {
     const printers = product.print_to_where
     for(const printer of printers.toString()){
         const kitchen_content = product.kitchen_content;
-        printerData += `${printer} ${kitchen_content}\n`;
+        if(kitchen_content){
+            printerData += `${printer} ${kitchen_content}\n`;
+        }else{
+            printerData += `${printer}\n`;
+        }
     }
     return printerData;
 };
@@ -219,18 +224,23 @@ export const exportData = async(mode, productsData=null, categoriesData=null)=>{
                 createFile(handle, `${key}`, value)
             }
     
-            if(zwcdValueCopy.length > 0){
-                createFile(handle, 'zwcd.txt', zwcdValueCopy)
-            }
-            if(zwwmValueCopy.length > 0){
-                createFile(handle, 'zwwm.txt', zwcdValueCopy)
-            }
-            if(riscdValueCopy.length > 0){
-                createFile(handle, 'riscd.txt', zwcdValueCopy)
-            }
-            if(riswmValueCopy.length > 0){
-                createFile(handle, 'riswm.txt', zwcdValueCopy)
-            }
+            // if(zwcdValueCopy.length > 0){
+            //     createFile(handle, 'zwcd.txt', zwcdValueCopy)
+            // }
+            // if(zwwmValueCopy.length > 0){
+            //     createFile(handle, 'zwwm.txt', zwwmValueCopy)
+            // }
+            // if(riscdValueCopy.length > 0){
+            //     createFile(handle, 'riscd.txt', riscdValueCopy)
+            // }
+            // if(riswmValueCopy.length > 0){
+            //     createFile(handle, 'riswm.txt', riswmValueCopy)
+            // }
+            createFile(handle, 'zwcd.txt', zwcdValueCopy)
+            createFile(handle, 'zwwm.txt', zwwmValueCopy)
+            createFile(handle, 'riscd.txt', riscdValueCopy)
+            createFile(handle, 'riswm.txt', riswmValueCopy)
+
             createFile(handle, 'RGB.txt', colorValueCopy)
     
             let valueHooft = ''
@@ -265,7 +275,7 @@ export const exportData = async(mode, productsData=null, categoriesData=null)=>{
             }
             zip.file('HooftName.txt', valueHooft);
     
-            console.log('zip create success')
+            // console.log('zip create success')
             zip.generateAsync({ type: 'blob' }).then((blob) => {
                 saveAs(blob, 'abFiles.zip');
             });
@@ -274,7 +284,11 @@ export const exportData = async(mode, productsData=null, categoriesData=null)=>{
 
         toast.success('File downloaded successfully!');
     }catch(e){
-        console.error('Error downloading file:', e);
-        toast.error(`Error downloading file:${e}`);
+        if (e.name === 'AbortError') {
+            console.log('Directory selection was aborted.');
+        } else {
+            console.error('Error downloading file:', e);
+            toast.error(`Error downloading file:${e}`);
+        }
     }
 }

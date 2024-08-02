@@ -72,13 +72,13 @@ axios.interceptors.response.use(resp => resp, async error => {
                 axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.access}`;
                 localStorage.setItem('access_token', response.data.access);
                 localStorage.setItem('refresh_token', response.data.refresh);
-                // processQueue(null, response.data.access);
+                processQueue(null, response.data.access);
                 // window.location.href = '/pos/home';
                 return axios(originalRequest);
             }
         } catch (err) {
             console.log(err)
-            // processQueue(err, null);
+            processQueue(err, null);
             console.error('Refresh token is invalid', err);
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');

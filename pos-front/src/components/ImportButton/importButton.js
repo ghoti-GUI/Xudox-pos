@@ -249,7 +249,7 @@ const ImportButton = () => {
 
         // setShowConfirmDialog(true);
         // await exportData(exportMode, productsData, categoriesData)
-        // navigate('/');
+        navigate('/');
     }
 
     // const handleConfirm = () => {
