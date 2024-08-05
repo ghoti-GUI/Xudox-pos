@@ -7,7 +7,7 @@ from components.import_data import create_import_data_button
 # from infos.userInfo import load_selected_path
 from infos.userInfo import load_export_path
 
-class MyApp(QWidget):
+class ExportImportApp(QWidget):
     def __init__(self):
         super().__init__()
         self.path = load_export_path()
@@ -16,6 +16,7 @@ class MyApp(QWidget):
     def initUI(self):
         layout = QVBoxLayout()
 
+        #创建button，并将自己作为变量传递
         create_select_folder_button(self, layout)
         create_export_data_button(self, layout)
         create_import_data_button(self, layout)
@@ -28,5 +29,5 @@ class MyApp(QWidget):
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)
-    ex = MyApp()
+    ex = ExportImportApp()
     sys.exit(app.exec_())

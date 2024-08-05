@@ -3,10 +3,11 @@ from PyQt5.QtWidgets import QFileDialog, QLabel
 # from infos.userInfo import save_selected_path
 from infos.userInfo import save_export_path, load_export_path
 
+# 创建文件夹选择button，用户需要选择将数据export到哪个文件夹
 def create_select_folder_button(window, layout):
     from PyQt5.QtWidgets import QPushButton
 
-    label = QLabel(f'Selected Folder: \n{os.path.abspath(window.path)}', window)
+    label = QLabel(f'Export Folder: \n{os.path.abspath(window.path)}', window)
     layout.addWidget(label)
 
     btn_select_folder = QPushButton('Change Folder', window)
@@ -19,4 +20,3 @@ def select_folder(window, label):
         window.path = folder_path
         label.setText(f'Selected Folder: \n{folder_path}')
         save_export_path(folder_path)
-        # save_selected_path(folder_path)

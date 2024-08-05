@@ -1,17 +1,25 @@
 import os
 import configparser
 
-restaurantId = 0
-# abPath = 'D:/work/Stage fr/XudoX.be/project/testFile'
-abPath = '.'
-
-
-lengthID = 3
-lengthContent = 25
-
 CONFIG_FILE = 'config.ini'
 
 config = configparser.ConfigParser()
+
+def load_rid(section):
+    if config.read(CONFIG_FILE) and config.has_section(section):
+        return config.get(section, 'rid', fallback=-1)
+    return -1
+
+def load_country(section):
+    if config.read(CONFIG_FILE) and config.has_section(section):
+        return config.get(section, 'country', fallback='Belgium')
+    return 'Belgium'
+
+restaurantId = load_rid('restaurent')
+country = load_country('country')
+# abPath = 'D:/work/Stage fr/XudoX.be/project/testFile'
+abPath = '.'
+
 
 
 def save_path(section, path):
@@ -37,6 +45,7 @@ def save_import_path(path):
 
 def load_import_path():
     return load_path('import')
+    
 
 # def save_selected_path(path):
 #     with open(CONFIG_FILE, 'w') as file:

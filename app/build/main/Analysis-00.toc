@@ -19,6 +19,10 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py',
    'PYSOURCE'),
+  ('pyi_rth_cryptography_openssl',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\_pyinstaller_hooks_contrib\\hooks\\rthooks\\pyi_rth_cryptography_openssl.py',
+   'PYSOURCE'),
   ('pyi_rth_pyqt5',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pyqt5.py',
@@ -179,9 +183,9 @@
   ('pkgutil', 'C:\\Python311\\Lib\\pkgutil.py', 'PYMODULE'),
   ('zipimport', 'C:\\Python311\\Lib\\zipimport.py', 'PYMODULE'),
   ('pathlib', 'C:\\Python311\\Lib\\pathlib.py', 'PYMODULE'),
-  ('tracemalloc', 'C:\\Python311\\Lib\\tracemalloc.py', 'PYMODULE'),
   ('_py_abc', 'C:\\Python311\\Lib\\_py_abc.py', 'PYMODULE'),
   ('stringprep', 'C:\\Python311\\Lib\\stringprep.py', 'PYMODULE'),
+  ('tracemalloc', 'C:\\Python311\\Lib\\tracemalloc.py', 'PYMODULE'),
   ('infos.userInfo',
    'D:\\work\\Stage fr\\XudoX.be\\project\\app\\infos\\userInfo.py',
    'PYMODULE'),
@@ -191,14 +195,506 @@
    'D:\\work\\Stage fr\\XudoX.be\\project\\app\\components\\import_data.py',
    'PYMODULE'),
   ('components', '-', 'PYMODULE'),
+  ('infos.exportImportValue',
+   'D:\\work\\Stage fr\\XudoX.be\\project\\app\\infos\\exportImportValue.py',
+   'PYMODULE'),
+  ('components.utils',
+   'D:\\work\\Stage fr\\XudoX.be\\project\\app\\components\\utils.py',
+   'PYMODULE'),
+  ('sshtunnel',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\sshtunnel.py',
+   'PYMODULE'),
+  ('socketserver', 'C:\\Python311\\Lib\\socketserver.py', 'PYMODULE'),
+  ('queue', 'C:\\Python311\\Lib\\queue.py', 'PYMODULE'),
+  ('paramiko',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\__init__.py',
+   'PYMODULE'),
+  ('paramiko.common',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\common.py',
+   'PYMODULE'),
+  ('paramiko.proxy',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\proxy.py',
+   'PYMODULE'),
+  ('subprocess', 'C:\\Python311\\Lib\\subprocess.py', 'PYMODULE'),
+  ('signal', 'C:\\Python311\\Lib\\signal.py', 'PYMODULE'),
+  ('shlex', 'C:\\Python311\\Lib\\shlex.py', 'PYMODULE'),
+  ('paramiko.config',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\config.py',
+   'PYMODULE'),
+  ('paramiko.hostkeys',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\hostkeys.py',
+   'PYMODULE'),
+  ('hmac', 'C:\\Python311\\Lib\\hmac.py', 'PYMODULE'),
+  ('paramiko.pkey',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\pkey.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.asymmetric',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric\\__init__.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.asymmetric.dh',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric\\dh.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives._serialization',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\_serialization.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.hashes',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\hashes.py',
+   'PYMODULE'),
+  ('cryptography.utils',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\utils.py',
+   'PYMODULE'),
+  ('cryptography',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\__init__.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.bindings.openssl.binding',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\bindings\\openssl\\binding.py',
+   'PYMODULE'),
+  ('cryptography.exceptions',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\exceptions.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.bindings.openssl._conditional',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\bindings\\openssl\\_conditional.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.bindings.openssl',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\bindings\\openssl\\__init__.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.bindings',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\bindings\\__init__.py',
+   'PYMODULE'),
+  ('cryptography.hazmat',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\__init__.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.backends.openssl.backend',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\backends\\openssl\\backend.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.asymmetric.padding',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric\\padding.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives._asymmetric',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\_asymmetric.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.backends.openssl',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\backends\\openssl\\__init__.py',
+   'PYMODULE'),
+  ('cryptography.x509',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\x509\\__init__.py',
+   'PYMODULE'),
+  ('cryptography.x509.oid',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\x509\\oid.py',
+   'PYMODULE'),
+  ('cryptography.hazmat._oid',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\_oid.py',
+   'PYMODULE'),
+  ('cryptography.x509.name',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\x509\\name.py',
+   'PYMODULE'),
+  ('cryptography.x509.general_name',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\x509\\general_name.py',
+   'PYMODULE'),
+  ('cryptography.x509.extensions',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\x509\\extensions.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.asymmetric.types',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric\\types.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.constant_time',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\constant_time.py',
+   'PYMODULE'),
+  ('cryptography.x509.base',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\x509\\base.py',
+   'PYMODULE'),
+  ('cryptography.x509.verification',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\x509\\verification.py',
+   'PYMODULE'),
+  ('cryptography.x509.certificate_transparency',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\x509\\certificate_transparency.py',
+   'PYMODULE'),
+  ('cryptography.__about__',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\__about__.py',
+   'PYMODULE'),
+  ('__future__', 'C:\\Python311\\Lib\\__future__.py', 'PYMODULE'),
+  ('cryptography.hazmat.primitives.asymmetric.x25519',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric\\x25519.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.asymmetric.x448',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric\\x448.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.asymmetric.ed448',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric\\ed448.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.asymmetric.ed25519',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric\\ed25519.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.asymmetric.rsa',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric\\rsa.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.asymmetric.ec',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric\\ec.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.asymmetric.dsa',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric\\dsa.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.asymmetric.utils',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\asymmetric\\utils.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.ciphers.modes',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\ciphers\\modes.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives._cipheralgorithm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\_cipheralgorithm.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.ciphers.algorithms',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\ciphers\\algorithms.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.decrepit.ciphers.algorithms',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\decrepit\\ciphers\\algorithms.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.decrepit.ciphers',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\decrepit\\ciphers\\__init__.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.decrepit',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\decrepit\\__init__.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.ciphers',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\ciphers\\__init__.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.ciphers.base',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\ciphers\\base.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.serialization',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\serialization\\__init__.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.serialization.ssh',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\serialization\\ssh.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives.serialization.base',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\serialization\\base.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.primitives',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\primitives\\__init__.py',
+   'PYMODULE'),
+  ('cryptography.hazmat.backends',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\backends\\__init__.py',
+   'PYMODULE'),
+  ('bcrypt',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\bcrypt\\__init__.py',
+   'PYMODULE'),
+  ('paramiko.agent',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\agent.py',
+   'PYMODULE'),
+  ('paramiko.file',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\file.py',
+   'PYMODULE'),
+  ('paramiko.packet',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\packet.py',
+   'PYMODULE'),
+  ('paramiko.message',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\message.py',
+   'PYMODULE'),
+  ('paramiko.sftp_file',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\sftp_file.py',
+   'PYMODULE'),
+  ('paramiko.sftp_si',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\sftp_si.py',
+   'PYMODULE'),
+  ('paramiko.sftp_handle',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\sftp_handle.py',
+   'PYMODULE'),
+  ('paramiko.sftp_attr',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\sftp_attr.py',
+   'PYMODULE'),
+  ('paramiko.sftp_server',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\sftp_server.py',
+   'PYMODULE'),
+  ('paramiko.sftp_client',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\sftp_client.py',
+   'PYMODULE'),
+  ('paramiko.sftp',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\sftp.py',
+   'PYMODULE'),
+  ('paramiko.ed25519key',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\ed25519key.py',
+   'PYMODULE'),
+  ('nacl.signing',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\signing.py',
+   'PYMODULE'),
+  ('nacl.utils',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\utils.py',
+   'PYMODULE'),
+  ('nacl.public',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\public.py',
+   'PYMODULE'),
+  ('nacl.exceptions',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\exceptions.py',
+   'PYMODULE'),
+  ('nacl.encoding',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\encoding.py',
+   'PYMODULE'),
+  ('nacl',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\__init__.py',
+   'PYMODULE'),
+  ('nacl.bindings',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\__init__.py',
+   'PYMODULE'),
+  ('nacl.bindings.utils',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\utils.py',
+   'PYMODULE'),
+  ('nacl.bindings.sodium_core',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\sodium_core.py',
+   'PYMODULE'),
+  ('nacl.bindings.randombytes',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\randombytes.py',
+   'PYMODULE'),
+  ('nacl.bindings.crypto_sign',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\crypto_sign.py',
+   'PYMODULE'),
+  ('nacl.bindings.crypto_shorthash',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\crypto_shorthash.py',
+   'PYMODULE'),
+  ('nacl.bindings.crypto_secretstream',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\crypto_secretstream.py',
+   'PYMODULE'),
+  ('nacl.bindings.crypto_secretbox',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\crypto_secretbox.py',
+   'PYMODULE'),
+  ('nacl.bindings.crypto_scalarmult',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\crypto_scalarmult.py',
+   'PYMODULE'),
+  ('nacl.bindings.crypto_pwhash',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\crypto_pwhash.py',
+   'PYMODULE'),
+  ('nacl.bindings.crypto_kx',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\crypto_kx.py',
+   'PYMODULE'),
+  ('nacl.bindings.crypto_hash',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\crypto_hash.py',
+   'PYMODULE'),
+  ('nacl.bindings.crypto_generichash',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\crypto_generichash.py',
+   'PYMODULE'),
+  ('nacl.bindings.crypto_core',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\crypto_core.py',
+   'PYMODULE'),
+  ('nacl.bindings.crypto_box',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\crypto_box.py',
+   'PYMODULE'),
+  ('nacl.bindings.crypto_aead',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\bindings\\crypto_aead.py',
+   'PYMODULE'),
+  ('paramiko.ecdsakey',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\ecdsakey.py',
+   'PYMODULE'),
+  ('paramiko.dsskey',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\dsskey.py',
+   'PYMODULE'),
+  ('paramiko.ber',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\ber.py',
+   'PYMODULE'),
+  ('paramiko.rsakey',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\rsakey.py',
+   'PYMODULE'),
+  ('paramiko.server',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\server.py',
+   'PYMODULE'),
+  ('paramiko.ssh_exception',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\ssh_exception.py',
+   'PYMODULE'),
+  ('paramiko.channel',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\channel.py',
+   'PYMODULE'),
+  ('paramiko.buffered_pipe',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\buffered_pipe.py',
+   'PYMODULE'),
+  ('paramiko.ssh_gss',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\ssh_gss.py',
+   'PYMODULE'),
+  ('paramiko.auth_strategy',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\auth_strategy.py',
+   'PYMODULE'),
+  ('paramiko.auth_handler',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\auth_handler.py',
+   'PYMODULE'),
+  ('paramiko.client',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\client.py',
+   'PYMODULE'),
+  ('paramiko.win_openssh',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\win_openssh.py',
+   'PYMODULE'),
+  ('paramiko.win_pageant',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\win_pageant.py',
+   'PYMODULE'),
+  ('platform', 'C:\\Python311\\Lib\\platform.py', 'PYMODULE'),
+  ('ctypes.wintypes', 'C:\\Python311\\Lib\\ctypes\\wintypes.py', 'PYMODULE'),
+  ('ctypes', 'C:\\Python311\\Lib\\ctypes\\__init__.py', 'PYMODULE'),
+  ('ctypes._endian', 'C:\\Python311\\Lib\\ctypes\\_endian.py', 'PYMODULE'),
+  ('paramiko._winapi',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\_winapi.py',
+   'PYMODULE'),
+  ('paramiko.transport',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\transport.py',
+   'PYMODULE'),
+  ('paramiko.primes',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\primes.py',
+   'PYMODULE'),
+  ('paramiko.kex_gss',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\kex_gss.py',
+   'PYMODULE'),
+  ('paramiko.kex_ecdh_nist',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\kex_ecdh_nist.py',
+   'PYMODULE'),
+  ('paramiko.kex_group16',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\kex_group16.py',
+   'PYMODULE'),
+  ('paramiko.kex_group14',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\kex_group14.py',
+   'PYMODULE'),
+  ('paramiko.kex_group1',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\kex_group1.py',
+   'PYMODULE'),
+  ('paramiko.kex_gex',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\kex_gex.py',
+   'PYMODULE'),
+  ('paramiko.kex_curve25519',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\kex_curve25519.py',
+   'PYMODULE'),
+  ('paramiko.compress',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\compress.py',
+   'PYMODULE'),
+  ('paramiko.pipe',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\pipe.py',
+   'PYMODULE'),
+  ('paramiko.util',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\util.py',
+   'PYMODULE'),
+  ('paramiko._version',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\paramiko\\_version.py',
+   'PYMODULE'),
+  ('getpass', 'C:\\Python311\\Lib\\getpass.py', 'PYMODULE'),
+  ('glob', 'C:\\Python311\\Lib\\glob.py', 'PYMODULE'),
   ('infos.mysqlInfo',
    'D:\\work\\Stage fr\\XudoX.be\\project\\app\\infos\\mysqlInfo.py',
    'PYMODULE'),
   ('infos.models',
    'D:\\work\\Stage fr\\XudoX.be\\project\\app\\infos\\models.py',
-   'PYMODULE'),
-  ('infos.urls',
-   'D:\\work\\Stage fr\\XudoX.be\\project\\app\\infos\\urls.py',
    'PYMODULE'),
   ('PyQt5',
    'D:\\work\\Stage '
@@ -228,9 +724,6 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\mysql\\connector\\custom_types.py',
    'PYMODULE'),
-  ('subprocess', 'C:\\Python311\\Lib\\subprocess.py', 'PYMODULE'),
-  ('signal', 'C:\\Python311\\Lib\\signal.py', 'PYMODULE'),
-  ('platform', 'C:\\Python311\\Lib\\platform.py', 'PYMODULE'),
   ('mysql.connector.types',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\mysql\\connector\\types.py',
@@ -265,8 +758,6 @@
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\mysql\\connector\\optionfiles.py',
    'PYMODULE'),
   ('uuid', 'C:\\Python311\\Lib\\uuid.py', 'PYMODULE'),
-  ('queue', 'C:\\Python311\\Lib\\queue.py', 'PYMODULE'),
-  ('__future__', 'C:\\Python311\\Lib\\__future__.py', 'PYMODULE'),
   ('mysql.connector.errors',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\mysql\\connector\\errors.py',
@@ -319,7 +810,6 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\mysql\\connector\\authentication.py',
    'PYMODULE'),
-  ('getpass', 'C:\\Python311\\Lib\\getpass.py', 'PYMODULE'),
   ('mysql.connector.connection_cext',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\mysql\\connector\\connection_cext.py',
@@ -356,7 +846,6 @@
   ('nturl2path', 'C:\\Python311\\Lib\\nturl2path.py', 'PYMODULE'),
   ('ftplib', 'C:\\Python311\\Lib\\ftplib.py', 'PYMODULE'),
   ('netrc', 'C:\\Python311\\Lib\\netrc.py', 'PYMODULE'),
-  ('shlex', 'C:\\Python311\\Lib\\shlex.py', 'PYMODULE'),
   ('mimetypes', 'C:\\Python311\\Lib\\mimetypes.py', 'PYMODULE'),
   ('urllib.response', 'C:\\Python311\\Lib\\urllib\\response.py', 'PYMODULE'),
   ('urllib.error', 'C:\\Python311\\Lib\\urllib\\error.py', 'PYMODULE'),
@@ -440,7 +929,6 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\urllib3\\util\\ssltransport.py',
    'PYMODULE'),
-  ('hmac', 'C:\\Python311\\Lib\\hmac.py', 'PYMODULE'),
   ('urllib3.util.retry',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\urllib3\\util\\retry.py',
@@ -620,14 +1108,18 @@
   ('components.export_data',
    'D:\\work\\Stage fr\\XudoX.be\\project\\app\\components\\export_data.py',
    'PYMODULE'),
-  ('infos.exportValue',
-   'D:\\work\\Stage fr\\XudoX.be\\project\\app\\infos\\exportValue.py',
-   'PYMODULE'),
-  ('glob', 'C:\\Python311\\Lib\\glob.py', 'PYMODULE'),
   ('components.select_folder',
    'D:\\work\\Stage fr\\XudoX.be\\project\\app\\components\\select_folder.py',
    'PYMODULE')],
  [('python311.dll', 'C:\\Python311\\python311.dll', 'BINARY'),
+  ('PyQt5\\Qt5\\bin\\opengl32sw.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\opengl32sw.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\bin\\libGLESv2.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\libGLESv2.dll',
+   'BINARY'),
   ('PyQt5\\Qt5\\bin\\d3dcompiler_47.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\d3dcompiler_47.dll',
@@ -635,14 +1127,6 @@
   ('PyQt5\\Qt5\\bin\\libEGL.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\libEGL.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\bin\\libGLESv2.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\libGLESv2.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\bin\\opengl32sw.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\opengl32sw.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\styles\\qwindowsvistastyle.dll',
    'D:\\work\\Stage '
@@ -652,45 +1136,53 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qwebp.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\platforms\\qwindows.dll',
+  ('PyQt5\\Qt5\\plugins\\platforms\\qminimal.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qwindows.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qminimal.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qjpeg.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qjpeg.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\generic\\qtuiotouchplugin.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\platforms\\qoffscreen.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qoffscreen.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
+  ('PyQt5\\Qt5\\plugins\\platforms\\qwindows.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qwbmp.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qwindows.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\imageformats\\qgif.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qgif.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qtiff.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qtiff.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qico.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qtga.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\platforms\\qminimal.dll',
+  ('PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platforms\\qminimal.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\platformthemes\\qxdgdesktopportal.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\plugins\\platforms\\qwebgl.dll',
    'D:\\work\\Stage '
@@ -700,17 +1192,9 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qsvg.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
+  ('PyQt5\\Qt5\\plugins\\imageformats\\qtiff.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qicns.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\iconengines\\qsvgicon.dll',
-   'BINARY'),
-  ('PyQt5\\Qt5\\plugins\\imageformats\\qjpeg.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qjpeg.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\plugins\\imageformats\\qtiff.dll',
    'BINARY'),
   ('_decimal.pyd', 'C:\\Python311\\DLLs\\_decimal.pyd', 'EXTENSION'),
   ('_hashlib.pyd', 'C:\\Python311\\DLLs\\_hashlib.pyd', 'EXTENSION'),
@@ -719,6 +1203,24 @@
   ('unicodedata.pyd', 'C:\\Python311\\DLLs\\unicodedata.pyd', 'EXTENSION'),
   ('select.pyd', 'C:\\Python311\\DLLs\\select.pyd', 'EXTENSION'),
   ('_socket.pyd', 'C:\\Python311\\DLLs\\_socket.pyd', 'EXTENSION'),
+  ('_queue.pyd', 'C:\\Python311\\DLLs\\_queue.pyd', 'EXTENSION'),
+  ('_cffi_backend.cp311-win_amd64.pyd',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\_cffi_backend.cp311-win_amd64.pyd',
+   'EXTENSION'),
+  ('cryptography\\hazmat\\bindings\\_rust.pyd',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography\\hazmat\\bindings\\_rust.pyd',
+   'EXTENSION'),
+  ('bcrypt\\_bcrypt.pyd',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\bcrypt\\_bcrypt.pyd',
+   'EXTENSION'),
+  ('nacl\\_sodium.pyd',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\_sodium.pyd',
+   'EXTENSION'),
+  ('_ctypes.pyd', 'C:\\Python311\\DLLs\\_ctypes.pyd', 'EXTENSION'),
   ('PyQt5\\QtCore.pyd',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\QtCore.pyd',
@@ -729,7 +1231,6 @@
    'EXTENSION'),
   ('_ssl.pyd', 'C:\\Python311\\DLLs\\_ssl.pyd', 'EXTENSION'),
   ('_uuid.pyd', 'C:\\Python311\\DLLs\\_uuid.pyd', 'EXTENSION'),
-  ('_queue.pyd', 'C:\\Python311\\DLLs\\_queue.pyd', 'EXTENSION'),
   ('_mysql_connector.cp311-win_amd64.pyd',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\_mysql_connector.cp311-win_amd64.pyd',
@@ -750,46 +1251,14 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\QtGui.pyd',
    'EXTENSION'),
-  ('api-ms-win-crt-locale-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-locale-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-conio-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-conio-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-stdio-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-stdio-l1-1-0.dll',
-   'BINARY'),
-  ('VCRUNTIME140.dll', 'C:\\Python311\\VCRUNTIME140.dll', 'BINARY'),
   ('api-ms-win-crt-heap-l1-1-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-heap-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-crt-math-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-math-l1-1-0.dll',
-   'BINARY'),
+  ('VCRUNTIME140.dll', 'C:\\Python311\\VCRUNTIME140.dll', 'BINARY'),
   ('api-ms-win-crt-process-l1-1-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-process-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-runtime-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-runtime-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-convert-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-convert-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-environment-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-environment-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-crt-time-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-time-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-crt-string-l1-1-0.dll',
    'C:\\Program '
@@ -799,27 +1268,59 @@
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-filesystem-l1-1-0.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\VCRUNTIME140.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\VCRUNTIME140.dll',
+  ('api-ms-win-crt-locale-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-locale-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-time-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-time-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-runtime-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-runtime-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-stdio-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-stdio-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-math-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-math-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-conio-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-conio-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-environment-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-environment-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-crt-convert-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-crt-convert-l1-1-0.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\bin\\VCRUNTIME140_1.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\VCRUNTIME140_1.dll',
    'BINARY'),
+  ('PyQt5\\Qt5\\bin\\VCRUNTIME140.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\VCRUNTIME140.dll',
+   'BINARY'),
   ('PyQt5\\Qt5\\bin\\MSVCP140.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\lib\\site-packages\\PyQt5\\Qt5\\bin\\MSVCP140.dll',
+   'BINARY'),
+  ('PyQt5\\Qt5\\bin\\Qt5Core.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Core.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Gui.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Gui.dll',
    'BINARY'),
   ('VCRUNTIME140_1.dll', 'C:\\Python311\\VCRUNTIME140_1.dll', 'BINARY'),
-  ('PyQt5\\Qt5\\bin\\Qt5Core.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Core.dll',
-   'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Widgets.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Widgets.dll',
@@ -836,20 +1337,25 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5DBus.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\Qt5Quick.dll',
+  ('PyQt5\\Qt5\\bin\\Qt5Svg.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Quick.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Svg.dll',
    'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5WebSockets.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5WebSockets.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\Qt5Svg.dll',
+  ('PyQt5\\Qt5\\bin\\Qt5Quick.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Svg.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Quick.dll',
    'BINARY'),
   ('libcrypto-3.dll', 'C:\\Python311\\DLLs\\libcrypto-3.dll', 'BINARY'),
   ('python3.dll', 'C:\\Python311\\python3.dll', 'BINARY'),
+  ('api-ms-win-core-synch-l1-2-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-synch-l1-2-0.dll',
+   'BINARY'),
+  ('libffi-8.dll', 'C:\\Python311\\DLLs\\libffi-8.dll', 'BINARY'),
   ('libssl-3.dll', 'C:\\Python311\\DLLs\\libssl-3.dll', 'BINARY'),
   ('libmysql.dll',
    'D:\\work\\Stage '
@@ -862,93 +1368,21 @@
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\MSVCP140_1.dll',
    'BINARY'),
-  ('PyQt5\\Qt5\\bin\\Qt5QmlModels.dll',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5QmlModels.dll',
-   'BINARY'),
   ('PyQt5\\Qt5\\bin\\Qt5Qml.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5Qml.dll',
    'BINARY'),
-  ('libssl-3-x64.dll',
+  ('PyQt5\\Qt5\\bin\\Qt5QmlModels.dll',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\libssl-3-x64.dll',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\bin\\Qt5QmlModels.dll',
    'BINARY'),
   ('libcrypto-3-x64.dll',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\libcrypto-3-x64.dll',
    'BINARY'),
-  ('api-ms-win-core-profile-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-profile-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-heap-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-heap-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-debug-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-debug-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-processthreads-l1-1-1.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-1.dll',
-   'BINARY'),
-  ('api-ms-win-core-util-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-util-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-namedpipe-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-namedpipe-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-file-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-localization-l1-2-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-localization-l1-2-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-console-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-console-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-file-l2-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l2-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-sysinfo-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-sysinfo-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-memory-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-memory-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-processenvironment-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processenvironment-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-processthreads-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-handle-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-handle-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-datetime-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-datetime-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-libraryloader-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-libraryloader-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-string-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-string-l1-1-0.dll',
+  ('libssl-3-x64.dll',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\libssl-3-x64.dll',
    'BINARY'),
   ('api-ms-win-core-rtlsupport-l1-1-0.dll',
    'C:\\Program '
@@ -958,336 +1392,436 @@
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l1-2-0.dll',
    'BINARY'),
-  ('api-ms-win-core-interlocked-l1-1-0.dll',
+  ('api-ms-win-core-profile-l1-1-0.dll',
    'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-interlocked-l1-1-0.dll',
-   'BINARY'),
-  ('api-ms-win-core-synch-l1-1-0.dll',
-   'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-synch-l1-1-0.dll',
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-profile-l1-1-0.dll',
    'BINARY'),
   ('api-ms-win-core-errorhandling-l1-1-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-errorhandling-l1-1-0.dll',
    'BINARY'),
+  ('api-ms-win-core-heap-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-heap-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-console-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-console-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processthreads-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processthreads-l1-1-1.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processthreads-l1-1-1.dll',
+   'BINARY'),
+  ('api-ms-win-core-namedpipe-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-namedpipe-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-interlocked-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-interlocked-l1-1-0.dll',
+   'BINARY'),
   ('api-ms-win-core-timezone-l1-1-0.dll',
    'C:\\Program '
    'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-timezone-l1-1-0.dll',
    'BINARY'),
-  ('api-ms-win-core-synch-l1-2-0.dll',
+  ('api-ms-win-core-file-l2-1-0.dll',
    'C:\\Program '
-   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-synch-l1-2-0.dll',
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l2-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-datetime-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-datetime-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-processenvironment-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-processenvironment-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-file-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-file-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-util-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-util-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-string-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-string-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-handle-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-handle-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-localization-l1-2-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-localization-l1-2-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-libraryloader-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-libraryloader-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-debug-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-debug-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-memory-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-memory-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-synch-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-synch-l1-1-0.dll',
+   'BINARY'),
+  ('api-ms-win-core-sysinfo-l1-1-0.dll',
+   'C:\\Program '
+   'Files\\Microsoft\\jdk-11.0.16.101-hotspot\\bin\\api-ms-win-core-sysinfo-l1-1-0.dll',
    'BINARY')],
  [],
  [],
  [('base_library.zip',
    'D:\\work\\Stage fr\\XudoX.be\\project\\app\\build\\main\\base_library.zip',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
+  ('cryptography-43.0.0.dist-info\\license_files\\LICENSE.APACHE',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\license_files\\LICENSE.APACHE',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_fi.qm',
+  ('cryptography-43.0.0.dist-info\\WHEEL',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fi.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\WHEEL',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+  ('cryptography-43.0.0.dist-info\\METADATA',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\METADATA',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_tr.qm',
+  ('cryptography-43.0.0.dist-info\\license_files\\LICENSE.BSD',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_tr.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\license_files\\LICENSE.BSD',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_tr.qm',
+  ('cryptography-43.0.0.dist-info\\RECORD',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_tr.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\RECORD',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_uk.qm',
+  ('cryptography-43.0.0.dist-info\\license_files\\LICENSE',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_uk.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\license_files\\LICENSE',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ru.qm',
+  ('cryptography-43.0.0.dist-info\\INSTALLER',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ru.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\cryptography-43.0.0.dist-info\\INSTALLER',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_pt.qm',
+  ('nacl\\py.typed',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pt.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_it.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_it.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ko.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ko.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_en.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_en.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_de.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_de.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_tr.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_tr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_he.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_he.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_fr.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ru.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ru.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_pl.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_pl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_gd.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gd.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_es.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_es.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_es.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_es.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_bg.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_bg.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_sk.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_cs.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_cs.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_da.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_da.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_uk.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_uk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_gd.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_gd.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_en.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_en.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_hu.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_hu.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_fi.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fi.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_hu.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_hu.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_fa.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fa.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_en.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_en.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_hu.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_hu.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ko.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ko.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_pl.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_gl.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_sv.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sv.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_lv.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lv.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ar.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ar.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ca.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ca.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_bg.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_bg.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_es.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_es.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_bg.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_bg.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_de.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_de.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_sl.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sl.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_fr.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ca.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ca.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_uk.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_uk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_it.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_it.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_ja.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ja.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_sk.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sk.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_da.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_da.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_he.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_he.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_da.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_da.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_lt.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lt.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_fr.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_fr.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_de.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_de.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_ar.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ar.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_it.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_it.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ca.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ca.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_lv.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_lv.qm',
-   'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_cs.qm',
-   'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_cs.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\nacl\\py.typed',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_help_ja.qm',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ja.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qtbase_sk.qm',
+  ('PyQt5\\Qt5\\translations\\qt_help_tr.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_sk.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_tr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_cs.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_cs.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_da.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_da.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ca.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ca.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_da.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_da.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ru.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ru.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_en.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_en.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_TW.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_lv.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_lv.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ru.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ru.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_gd.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gd.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_CN.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_cs.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_cs.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_lv.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lv.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_gl.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_gl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ar.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ar.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_fi.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fi.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_fa.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fa.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_he.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_he.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_hu.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_hu.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_fr.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_fr.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_help_sl.qm',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sl.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_help_pl.qm',
+  ('PyQt5\\Qt5\\translations\\qt_pt.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_pl.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pt.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ja.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_it.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ja.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_it.qm',
    'DATA'),
-  ('PyQt5\\Qt5\\translations\\qt_ar.qm',
+  ('PyQt5\\Qt5\\translations\\qtbase_sk.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ar.qm',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_sk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_uk.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_uk.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_help_gl.qm',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_gl.qm',
    'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_hu.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_hu.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_zh_TW.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_zh_CN.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_sl.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_pl.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_pl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_fr.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_fr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_he.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_he.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_sk.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_sk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ja.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ja.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ca.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ca.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_pl.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_pl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_da.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_da.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_sk.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_es.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_es.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_bg.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_bg.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_de.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_de.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ko.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ko.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_it.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_it.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_uk.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_uk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_en.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_en.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ja.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ja.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_pl.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_pl.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_fr.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_es.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_es.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_it.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_it.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_tr.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_tr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_bg.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_bg.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_hu.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_hu.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_gd.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_gd.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ar.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ar.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ko.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ko.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_lt.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_lt.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_ar.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_ar.qm',
+   'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_help_ko.qm',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ko.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_zh_TW.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_uk.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_uk.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_es.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_es.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_de.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_de.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_ru.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_ca.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_ca.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_help_de.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_help_de.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_en.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_en.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_tr.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_tr.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qt_sv.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_sv.qm',
    'DATA'),
   ('PyQt5\\Qt5\\translations\\qt_cs.qm',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_cs.qm',
    'DATA'),
-  ('certifi\\py.typed',
+  ('PyQt5\\Qt5\\translations\\qt_bg.qm',
    'D:\\work\\Stage '
-   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\certifi\\py.typed',
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qt_bg.qm',
+   'DATA'),
+  ('PyQt5\\Qt5\\translations\\qtbase_fi.qm',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\PyQt5\\Qt5\\translations\\qtbase_fi.qm',
    'DATA'),
   ('certifi\\cacert.pem',
    'D:\\work\\Stage '
    'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\certifi\\cacert.pem',
+   'DATA'),
+  ('certifi\\py.typed',
+   'D:\\work\\Stage '
+   'fr\\XudoX.be\\project\\.venv\\Lib\\site-packages\\certifi\\py.typed',
    'DATA')])
