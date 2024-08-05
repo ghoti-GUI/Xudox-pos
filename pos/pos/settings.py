@@ -191,3 +191,5 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 AUTH_USER_MODEL = 'PosBack.User'
+
+ALLOWED_HOSTS = ['10.7.37.56', '*']

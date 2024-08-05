@@ -55,8 +55,8 @@ function AddProduct() {
   }
 
   const [advancePage, setAdvancePage] = useState(false);
-  const [advanceData, setAdvanceData] = useState(null);
-  const [normalData, setNormalData] = useState(null);
+  const [advanceData, setAdvanceData] = useState({...addProductModelAdvance});
+  const [normalData, setNormalData] = useState({...addProductModelNormal});
   const sendNormalDataToAdvance = (normalDataReceived)=>{
     setNormalData(normalDataReceived)
     // console.log('nomalData received:', normalDataReceived)

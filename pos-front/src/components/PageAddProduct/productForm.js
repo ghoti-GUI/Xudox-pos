@@ -20,14 +20,13 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   // const Language = localStorage.getItem('Language') || 'English';
   const { Language } = useContext(UserContext);
   const Country = localStorage.getItem('Country') || 'Belgium'
-  console.log('Country', Country)
   const Text = {...multiLanguageText}[Language];
-  const TextProduct = Text.product;
+  const TextProduct = {...Text}.product;
   
   const maxIDLength = 3
   const maxPrintContentLength = 25
   const [productdata, setProductData] = useState(normalData||{...addProductModelNormal})
-  const initData = {...productdata};
+  // const initData = {...productdata};
   const [printerData, setPrinterData] = useState([
     //{'id':1, 'printer': "cashier's desk", 'checked': false}, 
   ])
@@ -45,8 +44,8 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   })
 
   const [DineinTakeawaySelection, SetDineinTakeawaySelection] = useState({
-    [TextProduct.dinein_takeaway[1][0]]:1,
-    [TextProduct.dinein_takeaway[1][1]]:2,
+    // dine-in:1,
+    // take-away:2,
   })
   const [categoryData, setCategoryData] = useState([
     // 'name':name,
@@ -84,10 +83,12 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     }
   }
 
-  const init = useCallback(async ()=>{
-    setProductData(initData)
-    // eslint-disable-next-line
-  }, []);
+
+  // // 本来用于submit之后重置数据
+  // const init = useCallback(async ()=>{
+  //   setProductData(initData)
+  //   // eslint-disable-next-line
+  // }, []);
 
 
 
@@ -107,10 +108,42 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     setTimeSupply(time_supply_object)
   }
 
+
+  // productDataReceived 只有check、edit才有
+  // normalData 是加载完数据之后保存在父组件，用于submit的数据
+  // 除开第一次加载，均使用normalData获取数据
   useEffect(() => {
-    init();
     
     const fetchData = async() => {
+
+      if(normalData){
+        handleChange(normalData)
+      }else{
+        if(check){
+          let time_supply_nbr=null
+          let updatedData = {...productdata}
+          updatedData=updateObject(productdata, productDataReceived)
+          setSameAsBillContent(productDataReceived.bill_content===productDataReceived.kitchen_content)
+          setSameAsPrice(productDataReceived.price===productDataReceived.price2)
+          time_supply_nbr = productDataReceived.time_supply
+
+
+        }else if(edit){
+          let time_supply_nbr=null
+          let updatedData = {...productdata}
+          updatedData=updateObject(productdata, productDataReceived)
+          setSameAsBillContent(productDataReceived.bill_content===productDataReceived.kitchen_content)
+          setSameAsPrice(productDataReceived.price===productDataReceived.price2)
+          time_supply_nbr = productDataReceived.time_supply
+
+
+        }else{
+
+        }
+      }
+
+
+
       let time_supply_nbr=null
       let updatedData = {...productdata}
       if(!normalData){
@@ -145,13 +178,11 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
           setPrinterData(fetchedPrinter);
         }
       }
-      
-      
-
 
       try{
         // fetch tva data from sql
         const TVAData = await fetchTVA();
+        console.log(TVAData)
         setTVA(TVAData); 
         const TVACountry = []
         for (const country in TVAData){
@@ -165,10 +196,12 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
           const value = Text.country[tvaReceived.country];
           updatedData.TVA_country = value
           updatedData.TVA_category = tvaReceived.category
+          // console.log(TVAData[value]);
           setTVACategory(TVAData[value]);
         }else{
           const value = normalData?normalData.TVA_country:Text.country[Country]
-          updatedData.TVA_country = value
+          updatedData.TVA_country = value;
+          // console.log(TVAData[value]);
           setTVACategory(TVAData[value]);
         }
 
@@ -180,14 +213,17 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
       };
 
       // 根据edit/check与否，设置dinein_takeaway的选项，edit/check时，没有both选项
+      const DineinTakeawaySelectionCopy = {
+        [TextProduct.dinein_takeaway[1][0]]:1,
+        [TextProduct.dinein_takeaway[1][1]]:2,
+      };
       if(!(check||edit)){
-        const DineinTakeawaySelectionCopy = {...DineinTakeawaySelection}
         DineinTakeawaySelectionCopy[TextProduct.dinein_takeaway[1][2]]=12
         SetDineinTakeawaySelection(DineinTakeawaySelectionCopy)
       }
 
     };fetchData();
-  },[check, edit, productDataReceived]);
+  },[check, edit, productDataReceived, Language]);
 
   const handleChange = (key, value, key2=null, value2=null) => {
     let updatedProductData = {}

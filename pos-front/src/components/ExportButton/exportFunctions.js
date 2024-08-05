@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { fetchAllProduct } from "../../service/product";
 import { fetchAllCategory } from "../../service/category";
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
-import { UserContext } from '../../userInfo';
+import { Language, UserContext } from '../../userInfo';
 import { useSearchParams } from 'react-router-dom';
 // import { handleClickExport } from './export';
 import JSZip from 'jszip';
@@ -11,6 +11,7 @@ import { lengthContent, lengthID } from '../../service/valueDefault';
 import { fetchAllTVA, fetchTVA } from '../../service/tva.js';
 import { toast } from 'react-toastify';
 
+const Text = {...multiLanguageText}[Language].export
 
 const initAbList = {
     'ab1.txt':'',
@@ -281,14 +282,13 @@ export const exportData = async(mode, productsData=null, categoriesData=null)=>{
             });
         }
         
-
-        toast.success('File downloaded successfully!');
+        toast.success(Text.exportSucceed);
     }catch(e){
         if (e.name === 'AbortError') {
             console.log('Directory selection was aborted.');
         } else {
-            console.error('Error downloading file:', e);
-            toast.error(`Error downloading file:${e}`);
+            console.error('Error exporting file:', e);
+            toast.error(`${Text.exportfailed}:${e}`);
         }
     }
 }

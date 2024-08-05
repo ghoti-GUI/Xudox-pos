@@ -21,6 +21,8 @@ import ConfirmExportDialog from './confirmExportDialog.js';
 const ImportButton = () => {
     const { Language, exportMode } = useContext(UserContext);
     const Text={...multiLanguageText}[Language];
+    const TextImport = {...Text}.import;
+    const TextImportFailed = {...TextImport}.failedText;
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
@@ -45,7 +47,7 @@ const ImportButton = () => {
         if(ablist_kitchen_nonull_recv_data.succeed){
             ablist_kitchen_nonull_recv = ablist_kitchen_nonull_recv_data.data.map(ablist => ablist.Xu_class)
         }else{
-            toast.error(`fetch special ab.txt failed\n${ablist_kitchen_nonull_recv_data.message}`)
+            toast.error(`${TextImportFailed.specialAb}\n${ablist_kitchen_nonull_recv_data.message}`)
         }
         
         // console.log('ablist_kitchen_nonull_recv:', ablist_kitchen_nonull_recv)
@@ -150,7 +152,7 @@ const ImportButton = () => {
             } else if (TVA_category === 'D') {
                 TVA_category = 4;
             } else {
-                toast.error(`fetch tva failed for product '${id};${name}'\nThis tva ${TVA_category} does not exist!`);
+                toast.error(`${TextImportFailed.tva[0]} '${id};${name}'\n${TextImportFailed.tva[1]}: ${TVA_category}`);
                 continue;
             }
 
@@ -182,10 +184,10 @@ const ImportButton = () => {
                     }
                 });
             }else{
-                toast.error(`Printer for product '${id};${name}' is null`)
+                toast.error(`${TextImportFailed.printerNull}: '${id};${name}'`)
             }
             if (printerRemoved !== '') {
-                failed.push(`printers of product '${id};${name}' don't exist: ${printerRemoved}`);
+                failed.push(`${TextImportFailed.printerNoExist}: '${id};${name};${printerRemoved}'`);
             }
             if (printerList.length === 0) {
                 printer = 1;
@@ -232,11 +234,11 @@ const ImportButton = () => {
         };
 
         if(failed.length===0){
-            toast.success(`All import succeeded`);
+            toast.success(TextImport.allImportSucceed);
         }else{
             toast.warning(
                 <span>
-                    <b>Failed products:</b>
+                    <b>{TextImport.failedProduct}:</b>
                     {failed.map((failedProductInfo, index)=>(
                         <span key={index}>
                             <br/><br/>{failedProductInfo}
@@ -290,7 +292,7 @@ const ImportButton = () => {
     return (
         <div className='flex items-center justify-center w-full mt-4 '>
             <button onClick={handleClick} className='flex items-center justify-center py-1 w-5/6 bg-buttonBleu text-white hover:bg-buttonBleuHover rounded-lg'>
-                {'Import'}
+                {TextImport.importButton}
             </button>
             <input
                 type='file'
@@ -301,7 +303,7 @@ const ImportButton = () => {
             {loading &&
                 <div className='flex justify-center items-center absolute right-0 top-0 w-screen h-screen bg-black bg-opacity-50 z-10'>
                     <div className='flex flex-col justify-center items-center w-1/2 h-1/2 rounded-3xl bg-white '>
-                        <span className=' text-black font-bold'>Loading...</span>
+                        <span className=' text-black font-bold'>{TextImport.loading}...</span>
                         {/* <button className='flex justify-center items-center py-1 px-2 mt-5 bg-red-500 text-white rounded-lg' onClick={handleCancelLoading}>
                             Cancel
                         </button> */}

@@ -31,10 +31,13 @@ const Login = () => {
             localStorage.setItem('refresh_token', refreshToken);
             localStorage.setItem('Country', country);
             axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
-            setMessage(null);
-            navigate('/');
+            setMessage(Text.loginSucceed);
+            navigate('/pos/home');
         }else{
             setMessage(Text.loginFailed);
+            // setMessage(response.message)
+            // console.log(response.message)
+            // setMessage(response.message.message+response.message.status)
         }
     };
 

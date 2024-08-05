@@ -20,7 +20,7 @@ function App() {
     <UserProvider>
       <Router>
         <div className='flex bg-slate-200 w-full'>
-          <Routes>
+          {/* <Routes>
             <Route path='*'  element={<Navigate to='/pos' replace />}/>
             <Route path='/login'  element={<Login/>}/>
             <Route path='/pos/*'  element={
@@ -28,8 +28,8 @@ function App() {
                 <Pos/>
               </ProtectedRoute>
             }/>
-          </Routes>
-          {/* {!isAuth && <Routes>
+          </Routes> */}
+          {!isAuth && <Routes>
             <Route path='*'  element={<Navigate to='/login' replace />}/>
             <Route path='/login'  element={<Login/>}/>
           </Routes>}
@@ -37,7 +37,7 @@ function App() {
             <Route path='*'  element={<Navigate to='/pos/home' replace />}/>
             <Route path='/pos/*'  element={<Pos/>}/>
             <Route path='/login'  element={<Login/>}/>
-          </Routes>} */}
+          </Routes>}
         </div>
         <ToastContainer
           position="bottom-center"

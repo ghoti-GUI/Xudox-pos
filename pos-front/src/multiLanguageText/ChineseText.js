@@ -13,32 +13,32 @@ export const ChineseText={
     },
     'login':{
         'title':'登录', 
+        'loginSucceed':'登陆成功',
         'loginFailed':'用户名或密码不正确',
         'username':'用户名',
         'password':'密码', 
+        'loginButton':'登录'
+    },
+    'logout':{
+        'logoutButton':'登出',
+        'logoutFailed':'登出失败',
     },
     'product':{
         'id_Xu':['ID', '输入产品ID', 'ID已存在在菜单中', notesUnderID.Chinese],
-        'online_content':['在线名字', '输入显示在 “在线应用” 中的名字'],
         'notesForPrintContent':['您可以在下面两个输入框中输入<b>最多25个字符（12个中文）</b>'], 
         'bill_content':['账单内容', '输入显示在 “账单” 中的内容'],
         'kitchen_content':['厨房内容', '输入发送给 “厨房” 的内容'],
-        'online_des':['在线描述', '输入显示在 “在线应用” 中的描述'], 
         'price':['价格', '输入堂食价格'],
         'price2':['外卖价格', '输入外卖价格'],
         'TVA_country':['国家', '选择您所在的国家'],
         'TVA_category':['TVA（税）'],
-        'product_type':['类型',{
-            '商品':0,
-            '选项':1,
-          }],
         'cid':['产品类别', '选择产品类别'],
         'time_supply':['供应时间', TimeSupplyData.Chinese, '请选择至少一个供应时间'],
         'print_to_where':['打印机选择','','请选择至少一个打印机'], 
         'advanceButton':'高级设置', 
         'returnNormalButton':'返回一般设置', 
-        'submitButton':'添加', 
-        'Xu_class':['ab类别'], 
+        'submitButton':'保存', 
+        'Xu_class':['导出到文件'], 
         'dinein_takeaway':['添加到',['堂食菜单','外带菜单','堂食和外带']],
         'add':{
             'pageName':'新增页面',
@@ -83,17 +83,39 @@ export const ChineseText={
         'fdes':['法语描述', '输入法语描述'],
         'stb':['Sushi to bar'],
         'favourite':['Favourite'],
-        'submitButton':'添加', 
+        'submitButton':'保存', 
     },
     'category':{
         'id':['ID', '输入类别ID', 'ID已存在', notesUnderID.Chinese],
         'name':['类别名字', '输入新的类别名字'],
         'des':['类别描述', '输入对新的类别的描述'],
         'time_supply':['供应时间', TimeSupplyData.Chinese, '请选择至少一个供应时间'], 
-        'addSuccess':'类别添加成功', 
-        'addFailed':'类别添加失败', 
         'Xu_class':['ab类别'],
         'nameExisted':'类别名字已存在！', 
+        'advanceButton':'高级设置', 
+        'returnNormalButton':'返回一般设置', 
+        'submitButton':'保存', 
+        'add':{
+            'pageName':'添加产品',
+            'addSuccess':'产品添加成功！', 
+            'addFailed':'产品添加失败！', 
+        }, 
+        'check':{
+            'pageName':'检查类别', 
+            'editButton':'编辑',
+        },
+        'edit':{
+            'pageName':'编辑类别',
+            'editSuccess':'编辑成功！',
+            'editFailed':'编辑失败！',
+        }, 
+        'delete':{
+            'deleteButton':'删除', 
+            'cancelButton':'取消', 
+            'deleteSuccess':['类别 ', ' 删除成功.'],
+            'deleteFailed':['类别 ', ' 删除失败.'],
+            'confirmDelete':'您确定要删除这个类别吗?',        
+        }
     }, 
     'img':{
         'check':'您已选择的图片：',
@@ -133,10 +155,31 @@ export const ChineseText={
         'cancelButton':'取消', 
     }, 
     'export':{
-        'chooseButton':['导出到文件夹', '导出成压缩包'],
+        'chooseButton':['导出', '到文件夹', '成压缩包'],
         'exportButton':'导出', 
+        'exportSucceed':'文件导出成功!', 
+        'exportfailed':'文件导出失败',
     }, 
+    'import':{
+        'importButton':'导出',
+        'faildText':{
+            'failedProduct':'产品添加出现错误',
+            'specialAb':'获取特殊ab.txt出现错误',
+            'tva':['获取产品TVA出现错误', 'TVA不存在'],
+            'printerNull':'产品打印机为空',
+            'printerNoExist':'打印机不存在', 
+        }, 
+        'allImportSucceed':'所有产品添加成功',
+        'loading':'导入中', 
+    }, 
+    'changeExportRule':{
+        'button':'修改导出规则',
+        'updateFailed':'更新失败', 
+        'allUpdateSucceed':'更新成功', 
+        'fileNameInvalide':'文件不正确，请选择"HooftName.txt"',
+    },
     'returnButton':'返回', 
+    'selectLanguage':'语言', 
 }
 
 

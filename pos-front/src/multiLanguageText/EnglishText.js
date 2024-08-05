@@ -13,10 +13,15 @@ export const EnglishText = {
     },
     'login':{
         'title':'Login', 
+        'loginSucceed':'Login succeeded',
         'loginFailed':'Incorrect username or password',
         'username':'Username',
         'password':'Password', 
         'loginButton':'Login'
+    },
+    'logout':{
+        'logoutButton':'Disconnection',
+        'logoutFailed':'Logout failed',
     },
     'product':{
         'id_Xu':['ID', 'Enter your product\'s ID', `ID already existed in menu`, notesUnderID.English],
@@ -28,15 +33,12 @@ export const EnglishText = {
         'TVA_country':['Country', 'Select your country here'],
         'TVA_category':['TVA'],
         'cid':['Category', 'Select the category of this product'],
-        'time_supply':['Supply time', {
-            'lunch': true,
-            'dinner': true,
-        }, 'Please choose at least one supply time'],
+        'time_supply':['Supply time', TimeSupplyData.English, 'Please choose at least one supply time'],
         'print_to_where':['Printers selected','','Please select at least one printer'], 
         'advanceButton':'Advance settings', 
         'returnNormalButton':'Return to normal settings', 
         'submitButton':'Submit', 
-        'Xu_class':['Category-ab'], 
+        'Xu_class':['Export to'], 
         'dinein_takeaway':['Add to',['dine-in menu','take-away menu','both']],
         'add':{
             'pageName':'Add Product',
@@ -94,8 +96,8 @@ export const EnglishText = {
         'submitButton':'Submit', 
         'add':{
             'pageName':'Add Category',
-            'addSuccess':'Category added successfully', 
-            'addFailed':'Category added failed', 
+            'addSuccess':'Category added successfully!', 
+            'addFailed':'Category added failed!', 
         }, 
         'check':{
             'pageName':'Check Category', 
@@ -154,9 +156,30 @@ export const EnglishText = {
     }, 
     'export':{
         'chooseButton':['Export ', 'to folder', 'as .zip'], 
-        'exportButton':'Export'
+        'exportButton':'Export',
+        'exportSucceed':'File export successfully!', 
+        'exportfailed':'Error exporting file',
     }, 
+    'import':{
+        'importButton':'Import',
+        'faildText':{
+            'failedProduct':'Failed products',
+            'specialAb':'fetch special ab.txt failed',
+            'tva':['fetch tva failed for product', 'This tva does not exist'],
+            'printerNull':'Printer is null in product',
+            'printerNoExist':'printers don\'t exist'
+        }, 
+        'allImportSucceed':'All import succeeded',
+        'loading':'Loading', 
+    }, 
+    'changeExportRule':{
+        'button':'Change Export Rules',
+        'updateFailed':'Update failed', 
+        'allUpdateSucceed':'All update succeeded', 
+        'fileNameInvalide':'File not accepted, should be "HooftName.txt"',
+    },
     'returnButton':'Return', 
+    'selectLanguage':'Language', 
 }
 
 
