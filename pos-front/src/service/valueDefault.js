@@ -1,7 +1,7 @@
-// export const DefaultHost = 'http://localhost:8000/';
-// export const DefaultUrl = 'http://localhost:8000/api/posback/';
-export const DefaultHost = 'http://10.7.37.56:8000/';
-export const DefaultUrl = 'http://10.7.37.56:8000/api/posback/';
+export const DefaultHost = 'http://localhost:8000/';
+export const DefaultUrl = 'http://localhost:8000/api/posback/';
+// export const DefaultHost = 'http://10.7.37.56:8000/';
+// export const DefaultUrl = 'http://10.7.37.56:8000/api/posback/';
 export const GetNextIdUserUrl = 'get/product/next_id_user/';
 export const CheckIdXuExistenceUrl = 'product/check_id_Xu_existence/'; 
 export const GetAllProduct = 'get/product/all/'
