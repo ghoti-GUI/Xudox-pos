@@ -44,6 +44,14 @@ function AddCategory() {
   }
 
   const [advancePage, setAdvancePage] = useState(false)
+  const [advanceData, setAdvanceData] = useState(null);
+  const [normalData, setNormalData] = useState(null);
+  const storeNormaldata = (normalDataReceived)=>{
+    setNormalData(normalDataReceived)
+  }
+  const storeAdvancedata = (advanceDataReceived)=>{
+    setAdvanceData(advanceDataReceived)
+  }
 
 
   const handleCategorySubmit = async(categorydata)=>{
@@ -100,18 +108,18 @@ function AddCategory() {
         <div className='w-7/12'>
           {!advancePage && <CategoryForm 
             onCategorySubmit={handleCategorySubmit} 
-            // sendDataToParent={receiveNormalData} 
-            // normalData={normalData}
+            normalData={normalData}
+            sendDataToParent={storeNormaldata} 
             />
           }
           {advancePage &&
             <AdvanceCategoryForm 
-              // handleSubmit={handleSubmit}
-              // advanceData={advanceData} 
-              // sendDataToParent={sendAdvanceDataToNormal}
-              // check={check}
-              // edit={edit}
-              // productDataReceived={productDataReceived}
+              handleSubmit={handleCategorySubmit}
+              advanceData={advanceData} 
+              sendDataToParent={storeAdvancedata}
+              check={check}
+              edit={edit}
+              productDataReceived={productDataReceived}
             />
           }
         </div>

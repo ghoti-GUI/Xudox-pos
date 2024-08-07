@@ -8,8 +8,9 @@ export const EnglishText = {
     'sidebar':{
         'title':'Sidebar',
         'home':'Home',
-        'addCategory':'AddCategory',
-        'addProduct':'AddProduct',
+        'addCategory':'Add Category',
+        'addProduct':'Add Product',
+        'editDiscount':'Site-wide Discount', 
     },
     'login':{
         'title':'Login', 

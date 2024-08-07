@@ -33,7 +33,7 @@ const Sidebar = () => {
           {Text.home}
         </Link>
         <Link 
-          to="addCategory" 
+          to="add/Category" 
           className={`flex items-center px-4 py-2 hover:bg-gray-700 w-full ${sidebarChoosed==='addCategory'?'bg-gray-600':''}`} 
           onClick={()=>{setSidebarChoosed('addCategory')}}>
           <FaPlusSquare className='mr-2'/>
@@ -45,6 +45,13 @@ const Sidebar = () => {
           onClick={()=>{setSidebarChoosed('addProduct')}}>
           <FaPlusSquare className='mr-2'/>
           {Text.addProduct}
+        </Link>
+        <Link 
+          to="edit/Discount" 
+          className={`flex items-center px-4 py-2 hover:bg-gray-700 w-full ${sidebarChoosed==='editDiscount'?'bg-gray-600':''}`} 
+          onClick={()=>{setSidebarChoosed('editDiscount')}}>
+          <FaPlusSquare className='mr-2'/>
+          {Text.editDiscount}
         </Link>
         <div className='flex flex-col items-center justify-center w-full mt-10'>
           <ExportButton/>

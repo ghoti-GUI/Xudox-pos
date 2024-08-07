@@ -12,16 +12,16 @@ import { UserContext } from '../../userInfo';
 import { categoryModel } from '../../models/category';
 import { toast } from 'react-toastify';
 
-function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=false}) {
+function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=false, edit=false, categoryDataReceived}) {
   // const Language = localStorage.getItem('Language') || 'English';
-    const { Language } = useContext(UserContext);
+  const { Language } = useContext(UserContext);
   const Text = {...multiLanguageText}[Language].category
   const [categorydata, setCategoryData] = useState(normalData||{...categoryModel})
   const initData = {...categorydata};
 
-  const TimeSupplyData = {...Text.time_supply[1]}
-  const TimeSuppyKeys = Object.keys(TimeSupplyData)
-  const [timeSupply, setTimeSupply] = useState(Text.time_supply[1]) //['lunch', true, 'dinner', true]
+  // const TimeSupplyData = {...Text.time_supply[1]}
+  // const TimeSuppyKeys = Object.keys(TimeSupplyData)
+  const [timeSupply, setTimeSupply] = useState({}) //{'lunch':true, 'dinner':true}
 
   let Xu_classList = []
   for(let i=1;i<=14;i++){
@@ -38,14 +38,62 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
   ]
   const inputField = ['id', 'name', 'des']
 
-  const init = useCallback(async ()=>{
-    setTimeSupply(TimeSupplyData)
-    // eslint-disable-next-line
-  }, []);
-
   useEffect(() => {
-    init();
-  },[init]);
+    // 设置timeSupply选项
+    if(normalData){
+      // 设置time supply选项
+      const timeSupplySelectionData = {
+        [Text.time_supply[1][0]]:true,
+        [Text.time_supply[1][1]]:true,
+      }
+      let time_supply_nbr=null
+      time_supply_nbr = normalData.time_supply
+      if(time_supply_nbr) updateTimeSupply(time_supply_nbr, timeSupplySelectionData)
+      
+      // 获取数据
+      setCategoryData(normalData)
+
+    }else {
+      // check和edit页面
+      if(check||edit){
+        // 设置time supply选项
+        const timeSupplySelectionData = {
+          [Text.time_supply[1][0]]:true,
+          [Text.time_supply[1][1]]:true,
+        }
+        let time_supply_nbr=null
+        time_supply_nbr = categoryDataReceived.time_supply
+        if(time_supply_nbr) updateTimeSupply(time_supply_nbr, timeSupplySelectionData)
+
+        // 获取数据
+        setCategoryData(categoryDataReceived)
+
+      }else{ // 添加category页面
+        // 设置time supply选项
+        const timeSupplySelectionData = {
+          [Text.time_supply[1][0]]:true,
+          [Text.time_supply[1][1]]:true,
+        }
+        let time_supply_nbr=null
+        time_supply_nbr = categorydata.time_supply
+        if(time_supply_nbr) updateTimeSupply(time_supply_nbr, timeSupplySelectionData)
+      }
+    }
+    
+
+  },[]);
+
+  const updateTimeSupply = (time_supply_nbr, timeSupplyCopy=timeSupply)=>{
+    let time_supply_object={}
+    Object.keys(timeSupplyCopy).forEach((time, index)=>{
+      if(String(time_supply_nbr).includes(String(index+1))){
+        time_supply_object[time]=true;
+      }else{
+        time_supply_object[time]=false;
+      }
+    })
+    setTimeSupply(time_supply_object)
+  }
 
   const checkAtlLeastOneField = () => {
     if(!categorydata.time_supply){
@@ -91,12 +139,12 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
     handleChange(key, normalizeText(value.substring(0, 3)))
   }
 
-  const handleChangeTimeSupply = (event) => {
-    const { name, checked } = event.target;
-    let timeSupplyCopy = timeSupply;
+  const handleChangeTimeSupply = (name, checked) => {
+    // const { name, checked } = event.target;
+    let timeSupplyCopy = {...timeSupply};
     timeSupplyCopy[name] = checked;
     let TimeSupplyId = '';
-    TimeSuppyKeys.forEach((value,index)=>{
+    Object.keys(timeSupplyCopy).forEach((value,index)=>{
       if (timeSupplyCopy[value]) TimeSupplyId += String(index+1);
     })
     setTimeSupply(timeSupplyCopy);
@@ -127,14 +175,14 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
             {key === 'time_supply' && (
               <div className='grid grid-cols-2 w-3/4'>
                 {Object.entries(timeSupply).map(([name,checked]) => (
-                  <div key={name} className={`bg-white py-2 pl-6 border-r border-borderTable ${name==='dinner'?'rounded-r-lg':''}`}>
+                  <div key={name} className={`bg-white py-2 pl-2 border-r`}>
                     <label className='flex'>
                         <input
                             type="checkbox"
                             name={name}
                             checked={checked}
-                            className='mr-2'
-                            onChange={(e) => handleChangeTimeSupply(e)}
+                            className='mr-2 '
+                            onChange={(e) => check?'':handleChangeTimeSupply(e.target.name, e.target.checked)}
                         />
                         {name}
                     </label>

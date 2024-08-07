@@ -10,6 +10,7 @@ export const ChineseText={
         'home':'主页',
         'addCategory':'添加产品类别',
         'addProduct':'添加产品',
+        'editDiscount':'全场折扣', 
     },
     'login':{
         'title':'登录', 
@@ -44,16 +45,16 @@ export const ChineseText={
         'Xu_class':['导出到文件'], 
         'dinein_takeaway':['添加到',['堂食菜单','外带菜单','堂食和外带']],
         'add':{
-            'pageName':'新增页面',
+            'pageName':'添加产品',
             'addSuccess':'产品添加成功', 
             'addFailed':'产品添加失败', 
         },
         'check':{
-            'pageName':'查看页面', 
+            'pageName':'查看产品', 
             'editButton':'编辑',
         },
         'edit':{
-            'pageName':'编辑页面',
+            'pageName':'编辑产品',
             'editSuccess':'编辑成功',
             'editFailed':'编辑失败',
         }, 
@@ -100,9 +101,9 @@ export const ChineseText={
         'returnNormalButton':'返回一般设置', 
         'submitButton':'保存', 
         'add':{
-            'pageName':'添加产品',
-            'addSuccess':'产品添加成功！', 
-            'addFailed':'产品添加失败！', 
+            'pageName':'添加类别',
+            'addSuccess':'类别添加成功！', 
+            'addFailed':'类别添加失败！', 
         }, 
         'check':{
             'pageName':'检查类别', 

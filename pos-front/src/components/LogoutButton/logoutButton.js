@@ -15,7 +15,9 @@ const LogoutButton = () => {
         if(response.success){
             localStorage.removeItem('access_token');
             localStorage.removeItem('refresh_token');
-            navigate('/login')
+            setTimeout(() => {
+                navigate('/login');
+              }, 500);
         }else{
             toast.error(`${TextLogout.logoutFailed}:\n${response.message}`)
         }

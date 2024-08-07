@@ -32,12 +32,11 @@ const Login = () => {
             localStorage.setItem('Country', country);
             axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
             setMessage(Text.loginSucceed);
-            navigate('/pos/home');
+            setTimeout(() => {
+                navigate('/pos/home');
+              }, 500);
         }else{
             setMessage(Text.loginFailed);
-            // setMessage(response.message)
-            // console.log(response.message)
-            // setMessage(response.message.message+response.message.status)
         }
     };
 

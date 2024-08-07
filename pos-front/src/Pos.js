@@ -19,7 +19,10 @@ function Pos() {
                 <Route path='home'  element={<Home/>}/>
                 <Route path='add/Product'  element={<Navigate to='../addProduct'/>}/>
                 <Route path='addProduct' element={<AddProduct/>}/>
+                <Route path='add/Category'  element={<Navigate to='../addCategory'/>}/>
                 <Route path='addCategory' element={<AddCategory/>}/>
+                <Route path='edit/Discount'  element={<Navigate to='../editDiscount'/>}/>
+                <Route path='editDiscount' element={<AddCategory/>}/>
                 <Route path='checkProduct/:productId' element={<AddProduct/>} />
                 <Route path='editProduct/:productId' element={<AddProduct/>} />
                 <Route path='TestDrag' element={<TestDragHome/>} />
