@@ -1,19 +1,12 @@
-import React, { useEffect, useState, useCallback, useRef, useContext } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState, useContext } from 'react';
 import { useLocation } from 'react-router-dom';
-import { getCsrfToken } from '../../service/token';
-import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
-import { checkIdXuExistence, fetchAllProduct, fetchAllProductFrontForm, updateProduct} from '../../service/product';
+import { fetchAllProductFrontForm, updateProduct} from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
-import { fetchPrinter } from '../../service/printer';
-import { fetchTVA } from '../../service/tva';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { UserContext  } from '../../userInfo';
-import { normalizeText, sortStringOfNumber } from '../utils';
 import ProductCard from './productCard';
 import DialogChangeOrder from './dialogChangeOrder';
 import { toast } from 'react-toastify';
-// import '../../styles.css'
 
 
 function Home() {
@@ -70,7 +63,7 @@ function Home() {
             // when return from edit/check page scroll to product edited/checked
             const getEle = document.getElementById(editedProductId);
             if (getEle) {
-              getEle.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                getEle.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         };fetchData();
         
@@ -119,12 +112,12 @@ function Home() {
                     <button 
                         className={`ml-3 h-8 px-3 text-sm text-white rounded-lg ${DineinTakeaway===1?'bg-buttonBleu':'bg-buttonGray'}`}
                         onClick={()=>setDineinTakeaway(1)}>
-                            {Text.DineinMenuButton}
+                        {Text.DineinMenuButton}
                     </button>
                     <button 
                         className={`ml-3 h-8 px-3 text-sm text-white rounded-lg ${DineinTakeaway===2?'bg-buttonBleu':'bg-buttonGray'}`}
                         onClick={()=>setDineinTakeaway(2)}>
-                            {Text.TakeawayMenuButton}
+                        {Text.TakeawayMenuButton}
                     </button>
                 </div>
             </div>
@@ -135,7 +128,7 @@ function Home() {
                         <button 
                             onClick={() => openDialog(category.id)} 
                             className=' absolute right-5 top-1 px-4 py-1 bg-buttonBleu hover:bg-buttonBleuHover text-white rounded '>
-                                {Text.modifyOrder}
+                            {Text.modifyOrder}
                         </button>
                         <span className='font-sans text-xl font-bold'>{category.ename || category.lname || category.fname || category.zname || category.name}</span>
                         <span className='text-sm mb-1'>{category.edes || category.ldes || category.fdes || category.zdes || category.des}</span>

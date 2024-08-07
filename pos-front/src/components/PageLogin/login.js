@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../service/auth';
-import { toast } from 'react-toastify';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
 import { UserContext } from '../../userInfo';
 
@@ -34,7 +33,7 @@ const Login = () => {
             setMessage(Text.loginSucceed);
             setTimeout(() => {
                 navigate('/pos/home');
-              }, 500);
+            }, 500);
         }else{
             setMessage(Text.loginFailed);
         }

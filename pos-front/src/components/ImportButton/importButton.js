@@ -1,7 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { getCsrfToken } from '../../service/token';
-import { DefaultUrl, lengthContent, lengthDataFull, lengthDataMin } from '../../service/valueDefault';
-import axios from 'axios';
+import { lengthContent, lengthDataFull, lengthDataMin } from '../../service/valueDefault';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { addProductModelFull } from '../../models/product';
@@ -10,13 +8,9 @@ import { UserContext } from '../../userInfo';
 import { normalizeText, truncateString } from '../utils';
 import { categoryModelFull } from '../../models/category';
 import { deleteAll, fetchAblistKitchenNonull } from '../../service/commun';
-import { addCategory, fetchCategoryByName, fetchCidByCategoryName } from '../../service/category';
+import { addCategory, fetchCategoryByName } from '../../service/category';
 import { addProduct } from '../../service/product';
-import { exportData } from '../ExportButton/exportFunctions.js';
 import { fetchAllPrinter } from '../../service/printer.js';
-import { fetchTVAById, fetchTVAIdByCountryCategory } from '../../service/tva.js';
-import { notesUnderID } from '../../multiLanguageText/otherText.js';
-import ConfirmExportDialog from './confirmExportDialog.js';
 
 const ImportButton = () => {
     const { Language, exportMode } = useContext(UserContext);

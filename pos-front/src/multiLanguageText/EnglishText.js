@@ -1,4 +1,4 @@
-import { notesUnderID, TimeSupplyData } from "./otherText"
+import { notesUnderID } from "./otherText"
 
 export const EnglishText = {
     'country':{

@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useState } from 'react';
+
 import { fetchAllProduct } from "../../service/product";
 import { fetchAllCategory } from "../../service/category";
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
-import { Language, UserContext } from '../../userInfo';
-import { useSearchParams } from 'react-router-dom';
-// import { handleClickExport } from './export';
+import { Language } from '../../userInfo';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { lengthContent, lengthID } from '../../service/valueDefault';
-import { fetchAllTVA, fetchTVA } from '../../service/tva.js';
+import { fetchAllTVA } from '../../service/tva.js';
 import { toast } from 'react-toastify';
 
 const Text = {...multiLanguageText}[Language].export
@@ -130,20 +128,20 @@ const formatProductData = (product, tva_list) => {
     let tva_category = 'A';
     if(tva){
         switch (tva.category){
-            case 1:
-                tva_category = 'A';
-                break;
-            case 2:
-                tva_category = 'B';
-                break;
-            case 3:
-                tva_category = 'C';
-                break;
-            case 4:
-                tva_category = 'D';
-                break;
-            default:
-                tva_category = 'A';
+        case 1:
+            tva_category = 'A';
+            break;
+        case 2:
+            tva_category = 'B';
+            break;
+        case 3:
+            tva_category = 'C';
+            break;
+        case 4:
+            tva_category = 'D';
+            break;
+        default:
+            tva_category = 'A';
         }
     }
     return `${id_Xu} ${bill_content} ${price} ${tva_category}`;

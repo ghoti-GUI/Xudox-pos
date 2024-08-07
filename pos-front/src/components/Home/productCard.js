@@ -1,14 +1,8 @@
-import React, { useEffect, useState, useCallback, useContext } from 'react';
-import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
-import { getCsrfToken } from '../../service/token';
-import { DefaultUrl, CheckIdXuExistenceUrl, DefaultHost } from '../../service/valueDefault';
-import { checkIdXuExistence, deleteProduct, fetchAllProduct, updateProduct} from '../../service/product';
-import { fetchAllCategory } from '../../service/category';
-import { fetchPrinter, fetchPrintersById } from '../../service/printer';
-import { fetchTVA, fetchTVAById } from '../../service/tva';
+import React, { useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { DefaultHost } from '../../service/valueDefault';
+import { deleteProduct, updateProduct} from '../../service/product';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
-import { normalizeText, sortStringOfNumber } from '../utils';
 import { UserContext } from '../../userInfo';
 import { ReactComponent as Detail } from '../../img/detail.svg';
 import { ReactComponent as Edit } from '../../img/edit.svg';

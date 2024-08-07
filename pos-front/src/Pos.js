@@ -10,27 +10,27 @@ import TestDragHome from './components/TestDrag/home';
 import Login from './components/PageLogin/login';
 
 function Pos() {
-  return (
-    <div className='flex bg-slate-200 w-full'>
-        <Sidebar className=' w-1/12 '/>
-        <div className='w-11/12 h-screen overflow-y-hidden'>
-            <Routes className='w-full'>
-                <Route path=''  element={<Navigate to='home' />}/>
-                <Route path='home'  element={<Home/>}/>
-                <Route path='add/Product'  element={<Navigate to='../addProduct'/>}/>
-                <Route path='addProduct' element={<AddProduct/>}/>
-                <Route path='add/Category'  element={<Navigate to='../addCategory'/>}/>
-                <Route path='addCategory' element={<AddCategory/>}/>
-                <Route path='edit/Discount'  element={<Navigate to='../editDiscount'/>}/>
-                <Route path='editDiscount' element={<AddCategory/>}/>
-                <Route path='checkProduct/:productId' element={<AddProduct/>} />
-                <Route path='editProduct/:productId' element={<AddProduct/>} />
-                <Route path='TestDrag' element={<TestDragHome/>} />
-            </Routes>
+    return (
+        <div className='flex bg-slate-200 w-full'>
+            <Sidebar className=' w-1/12 '/>
+            <div className='w-11/12 h-screen overflow-y-hidden'>
+                <Routes className='w-full'>
+                    <Route path=''  element={<Navigate to='home' />}/>
+                    <Route path='home'  element={<Home/>}/>
+                    <Route path='add/Product'  element={<Navigate to='../addProduct'/>}/>
+                    <Route path='addProduct' element={<AddProduct/>}/>
+                    <Route path='add/Category'  element={<Navigate to='../addCategory'/>}/>
+                    <Route path='addCategory' element={<AddCategory/>}/>
+                    <Route path='edit/Discount'  element={<Navigate to='../editDiscount'/>}/>
+                    <Route path='editDiscount' element={<AddCategory/>}/>
+                    <Route path='checkProduct/:productId' element={<AddProduct/>} />
+                    <Route path='editProduct/:productId' element={<AddProduct/>} />
+                    <Route path='TestDrag' element={<TestDragHome/>} />
+                </Routes>
+            </div>
         </div>
-    </div>
     
-  );
+    );
 }
 
 export default Pos;

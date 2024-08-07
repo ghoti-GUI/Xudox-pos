@@ -1,15 +1,7 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import axios from 'axios';
-import { getCsrfToken } from '../../service/token';
-import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
-import { checkIdXuExistence, fetchAllProduct} from '../../service/product';
+import React, { useEffect, useState } from 'react';
+import { fetchAllProduct} from '../../service/product';
 import { fetchAllCategory } from '../../service/category';
-import { fetchPrinter } from '../../service/printer';
-import { fetchTVA } from '../../service/tva';
-import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
-import { normalizeText, sortStringOfNumber } from '../utils';
 import ProductCard from './productCard';
-import { useSearchParams } from 'react-router-dom';
 
 
 function TestDragHome() {

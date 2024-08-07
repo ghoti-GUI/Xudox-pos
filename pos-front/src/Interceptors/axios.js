@@ -132,10 +132,10 @@ axios.interceptors.response.use(resp => resp, async error => {
 axiosRetry(axios, {
     retries: 1, // 设置重试次数
     retryDelay: (retryCount) => {
-      return retryCount * 100; // 设置重试延迟时间
+        return retryCount * 100; // 设置重试延迟时间
     },
     retryCondition: (error) => {
-      // 如果请求是由于网络错误、401 错误，则进行重试
-      return axiosRetry.isNetworkOrIdempotentRequestError(error) || (error.response && error.response.status === 401);
+        // 如果请求是由于网络错误、401 错误，则进行重试
+        return axiosRetry.isNetworkOrIdempotentRequestError(error) || (error.response && error.response.status === 401);
     },
-  });
+});

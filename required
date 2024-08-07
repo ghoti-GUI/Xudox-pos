@@ -17,6 +17,12 @@ production:
 运行production:
     serve -s build
 
+统一代码格式：
+    npm install --save-dev eslint
+    npm install --save-dev @babel/eslint-parser
+    npx eslint --init
+
+
 
 
 test:

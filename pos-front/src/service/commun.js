@@ -1,62 +1,56 @@
 import axios from 'axios';
-import { getCsrfToken, token } from './token';
-import { DefaultUrl, CheckIdXuExistenceUrl, GetAllProduct} from './valueDefault';
-import { multiLanguageText } from '../multiLanguageText/multiLanguageText';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { Language } from '../userInfo';
-
-const Text = {...multiLanguageText}[Language];
+import { getCsrfToken } from './token';
+import { DefaultUrl } from './valueDefault';
 
 const csrfToken = getCsrfToken();
 
 export const deleteAll = async()=>{
     try{
-      await axios.post(DefaultUrl+'delete/all/', 
-      {
-        headers: {
-          'X-CSRFToken': csrfToken, 
-          'content-type': 'multipart/form-data', 
-          // 'Authorization': `Bearer ${token}`,
-        }
-      });
-      // toast.success(Text.edit.editSuccess);
-      console.log('delete succeed')
-      return true;
+        await axios.post(DefaultUrl+'delete/all/', 
+            {
+                headers: {
+                    'X-CSRFToken': csrfToken, 
+                    'content-type': 'multipart/form-data', 
+                    // 'Authorization': `Bearer ${token}`,
+                }
+            });
+        // toast.success(Text.edit.editSuccess);
+        console.log('delete succeed')
+        return true;
     }catch (error) {
-      console.error('Error delete all:', error);
-      return false
+        console.error('Error delete all:', error);
+        return false
     };
 }
 
 
 export const updateXu_class = async(data)=>{
-  try{
-    await axios.post(DefaultUrl+'update/Xu_class/', 
-        data,
-        {
-        headers: {
-            'X-CSRFToken': csrfToken, 
-            'content-type': 'multipart/form-data', 
-            // 'Authorization': `Bearer ${token}`,
-        }
-    })
-    return;
-  }catch(error){
-      console.error('There was an error updating rules', error);
-      return error;
-  }
+    try{
+        await axios.post(DefaultUrl+'update/Xu_class/', 
+            data,
+            {
+                headers: {
+                    'X-CSRFToken': csrfToken, 
+                    'content-type': 'multipart/form-data', 
+                    // 'Authorization': `Bearer ${token}`,
+                }
+            })
+        return;
+    }catch(error){
+        console.error('There was an error updating rules', error);
+        return error;
+    }
 }
 
 
 export const fetchAblistKitchenNonull = async()=>{
-  try{
-    const reponse = await axios.get(DefaultUrl+'get/ablist_kitchen_nonull/all/')
-    return {'succeed':true, 'data':reponse.data};
-  }catch(error){
-      console.error('There was an error updating rules', error);
-      return {'succeed':false, 'message':error};
-  }
+    try{
+        const reponse = await axios.get(DefaultUrl+'get/ablist_kitchen_nonull/all/')
+        return {'succeed':true, 'data':reponse.data};
+    }catch(error){
+        console.error('There was an error updating rules', error);
+        return {'succeed':false, 'message':error};
+    }
 }
 
 // export const fetchImgFile = async(imgUrl)=>{

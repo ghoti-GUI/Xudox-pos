@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
-import { useState, useRef, useEffect } from 'react';
+import { useState } from 'react';
 import ProductCard from './productCard';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { UserContext } from '../../userInfo';
-import '../../styles.css'
 
 const DialogChangeOrder = ({orderedProductReceived, handleSubmit, handleCancel, DineinTakeaway}) => {
     // const Language = localStorage.getItem('Language') || 'English'

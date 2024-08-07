@@ -1,14 +1,11 @@
-import React, { useEffect, useState, useCallback, useContext } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getCsrfToken } from '../../service/token';
-import { DefaultUrl, CheckIdXuExistenceUrl } from '../../service/valueDefault';
-import { checkIdXuExistence, fetchAllProduct} from '../../service/product';
-import { fetchAllCategory } from '../../service/category';
-import { fetchPrinter, fetchPrintersById } from '../../service/printer';
-import { fetchTVA, fetchTVAById } from '../../service/tva';
+import { DefaultUrl } from '../../service/valueDefault';
+import { fetchPrintersById } from '../../service/printer';
+import { fetchTVAById } from '../../service/tva';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
-import { normalizeText, sortStringOfNumber } from '../utils';
 import { UserContext } from '../../userInfo';
 import { ReactComponent as Detail } from '../../img/detail.svg';
 import { ReactComponent as Edit } from '../../img/edit.svg';
@@ -80,17 +77,17 @@ const ProductCard = (props)=>{
         axios.post(DefaultUrl+'update/product_by_id/', 
             {'id':product.id, 'favourite':newFavourite},
             {
-            headers: {
-                'X-CSRFToken': csrfToken, 
-                'content-type': 'multipart/form-data', 
-            }
-          })
-          .then(response => {
-              console.log('update favourite succeed', response)
-          })
-          .catch(error => {
-              console.error('There was an error submitting the form!', error);
-          });
+                headers: {
+                    'X-CSRFToken': csrfToken, 
+                    'content-type': 'multipart/form-data', 
+                }
+            })
+            .then(response => {
+                console.log('update favourite succeed', response)
+            })
+            .catch(error => {
+                console.error('There was an error submitting the form!', error);
+            });
     }
 
 

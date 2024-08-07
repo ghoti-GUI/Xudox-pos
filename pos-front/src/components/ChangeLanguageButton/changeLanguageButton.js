@@ -19,12 +19,12 @@ const ChangeLanguageButton = () => {
                 value={Language} 
                 onChange={(e) => {handleChangeLanguage(e.target.value)}}
                 className={`flex w-3/4 px-2 rounded-r-lg`}
-                >
-                  <option value="" disabled>{'Choose your language'}</option>
-                  {Object.entries(languageChoise).map(([index, language])=>(
+            >
+                <option value="" disabled>{'Choose your language'}</option>
+                {Object.entries(languageChoise).map(([index, language])=>(
                     <option key={index} value={language} className='text-black'>{TextLanguage[language]}</option>
-                  ))}
-              </select>
+                ))}
+            </select>
         </div>
     );
 }

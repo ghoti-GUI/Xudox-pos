@@ -2,13 +2,6 @@
 import axios from 'axios';
 import { getCsrfToken, token } from './token';
 import { DefaultUrl, CheckIdXuExistenceUrl, GetAllProduct} from './valueDefault';
-import { multiLanguageText } from '../multiLanguageText/multiLanguageText';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { Language } from '../userInfo';
-
-
-const Text = {...multiLanguageText}[Language];
 
 const csrfToken = getCsrfToken();
 
@@ -27,131 +20,131 @@ const csrfToken = getCsrfToken();
 
 
 export const addProduct = async(productData)=>{
-  try{
-    const response = await axios.post(DefaultUrl+'post/product/', 
-      productData,
-      {
-      headers: {
-          'X-CSRFToken': csrfToken, 
-          'content-type': 'multipart/form-data', 
-          // 'Authorization': `Bearer ${token}`,
-      }
-    })
-    return {'success':true, 'message':response.data};
-  }catch(error) {
-      // toast.error(Text.product.addFailed);
-      console.error('There was an error submitting the form!', error);
-      return {'success':false, 'message':error};
-  };
+    try{
+        const response = await axios.post(DefaultUrl+'post/product/', 
+            productData,
+            {
+                headers: {
+                    'X-CSRFToken': csrfToken, 
+                    'content-type': 'multipart/form-data', 
+                    // 'Authorization': `Bearer ${token}`,
+                }
+            })
+        return {'success':true, 'message':response.data};
+    }catch(error) {
+        // toast.error(Text.product.addFailed);
+        console.error('There was an error submitting the form!', error);
+        return {'success':false, 'message':error};
+    };
 }
 
 
 export const updateProduct = async(productData)=>{
-  try{
-    const response = await axios.post(DefaultUrl+'update/product_by_id/', 
-    productData,
-    {
-      headers: {
-        'X-CSRFToken': csrfToken, 
-        'content-type': 'multipart/form-data', 
-        // 'Authorization': `Bearer ${token}`,
-      }
-    });
-    // toast.success(Text.edit.editSuccess);
-    return {'success':true, 'message':response.data};
-  }catch(error) {
-      // toast.error(Text.edit.editFailed)
-      console.error('There was an error submitting the form!', error);
-      return {'success':false, 'message':error};
-  };
+    try{
+        const response = await axios.post(DefaultUrl+'update/product_by_id/', 
+            productData,
+            {
+                headers: {
+                    'X-CSRFToken': csrfToken, 
+                    'content-type': 'multipart/form-data', 
+                    // 'Authorization': `Bearer ${token}`,
+                }
+            });
+        // toast.success(Text.edit.editSuccess);
+        return {'success':true, 'message':response.data};
+    }catch(error) {
+        // toast.error(Text.edit.editFailed)
+        console.error('There was an error submitting the form!', error);
+        return {'success':false, 'message':error};
+    };
 }
 
 
 export const checkIdXuExistence = async (id_Xu, dinein_takeaway) => {
-  try {
-    const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
-      params:{
-        'id_Xu':id_Xu, 
-        'dinein_takeaway':dinein_takeaway,
-      },
-      headers: {
-        // 'Authorization': `Bearer ${token}`,
-      }
-    });
-    console.log('checked back', response.data.existed)
-    return(response.data.existed)
-  } catch (error) {
-    console.error('Error check id_Xu existence:', error);
-    return false
-  };
+    try {
+        const response = await axios.get(DefaultUrl+CheckIdXuExistenceUrl, {
+            params:{
+                'id_Xu':id_Xu, 
+                'dinein_takeaway':dinein_takeaway,
+            },
+            headers: {
+                // 'Authorization': `Bearer ${token}`,
+            }
+        });
+        console.log('checked back', response.data.existed)
+        return(response.data.existed)
+    } catch (error) {
+        console.error('Error check id_Xu existence:', error);
+        return false
+    };
 }
 
 
 export const fetchAllProduct = async () => {
-  try {
-    const response = await axios.get(DefaultUrl+GetAllProduct, {
-      headers: {
-        // 'Authorization': `Bearer ${token}`,
-      }
-    });
-    const productsData = response.data;
-    return (productsData); 
-  } catch (error){
-    console.error('Error fetching products data:', error)
-  }
+    try {
+        const response = await axios.get(DefaultUrl+GetAllProduct, {
+            headers: {
+                // 'Authorization': `Bearer ${token}`,
+            }
+        });
+        const productsData = response.data;
+        return (productsData); 
+    } catch (error){
+        console.error('Error fetching products data:', error)
+    }
 }
 
 export const fetchAllProductFrontForm = async()=>{
-  // console.log('token:', token)
-  try {
-    const response = await axios.get(DefaultUrl+'get/product/all/frontform/', {
-      headers: {
-        // 'Authorization': `Bearer ${token}`,
-      }
-    });
-    const productsData = response.data;
-    return (productsData); 
-  } catch (error){
-    console.error('Error fetching products data:', error)
-  }
+    // console.log('token:', token)
+    try {
+        const response = await axios.get(DefaultUrl+'get/product/all/frontform/', {
+            headers: {
+                // 'Authorization': `Bearer ${token}`,
+            }
+        });
+        const productsData = response.data;
+        return (productsData); 
+    } catch (error){
+        console.error('Error fetching products data:', error)
+    }
 }
 
 
 export const fetchProductById_Xu = async(id_Xu, dinein_takeaway)=>{
-  try {
-    const response = await axios.get(DefaultUrl+'get/product/by/id_Xu/', {
-      params:{
-        'id_Xu':id_Xu, 
-        'dinein_takeaway':dinein_takeaway
-      },
-      headers: {
-        // 'Authorization': `Bearer ${token}`,
-      }
-    });
-    return (response.data)
-  } catch (error) {
-    console.error('Error check id_Xu existence:', error);
-    return
-  };
+    try {
+        const response = await axios.get(DefaultUrl+'get/product/by/id_Xu/', {
+            params:{
+                'id_Xu':id_Xu, 
+                'dinein_takeaway':dinein_takeaway
+            },
+            headers: {
+                // 'Authorization': `Bearer ${token}`,
+            }
+        });
+        return (response.data)
+    } catch (error) {
+        console.error('Error check id_Xu existence:', error);
+        return
+    };
 }
 
 
 export const deleteProduct = async(id)=>{
-  console.log(token)
-  try {
-    const response = await axios.post(DefaultUrl+'delete/product/', {
-      'id':id, 
-    },
-    {
-      headers: {
-        'X-CSRFToken': csrfToken, 
-        'content-type': 'multipart/form-data', 
-        'Authorization': `Bearer ${token}`,
-      }
-    });
-    return {'success':true, 'message':response.data.message}
-  } catch (error) {
-    console.error('Error check id_Xu existence:', error);
-    return {'success':false, 'message':error}
-  };
+    console.log(token)
+    try {
+        const response = await axios.post(DefaultUrl+'delete/product/', {
+            'id':id, 
+        },
+        {
+            headers: {
+                'X-CSRFToken': csrfToken, 
+                'content-type': 'multipart/form-data', 
+                'Authorization': `Bearer ${token}`,
+            }
+        });
+        return {'success':true, 'message':response.data.message}
+    } catch (error) {
+        console.error('Error check id_Xu existence:', error);
+        return {'success':false, 'message':error}
+    };
 }

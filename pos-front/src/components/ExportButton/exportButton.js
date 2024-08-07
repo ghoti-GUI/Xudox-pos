@@ -1,16 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { fetchAllProduct } from "../../service/product";
-import { fetchAllCategory } from "../../service/category";
+import React, { useContext } from 'react';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
 import { UserContext } from '../../userInfo';
-import { useSearchParams } from 'react-router-dom';
-// import { handleClickExport } from './export';
-import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
-import { lengthContent, lengthID } from '../../service/valueDefault';
-import { fetchAllTVA, fetchTVA } from '../../service/tva.js';
-import { createFile, exportData, fetchData, selectDirAndExport } from './exportFunctions.js';
-import { toast } from 'react-toastify';
+import { exportData } from './exportFunctions.js';
 
 const ExportButton = () => {
     const { Language } = useContext(UserContext);

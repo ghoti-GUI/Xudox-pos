@@ -1,9 +1,6 @@
 import axios from 'axios';
 import { getCsrfToken } from './token';
-import { DefaultUrl, CheckIdXuExistenceUrl, GetAllProduct, DefaultHost} from './valueDefault';
-import { multiLanguageText } from '../multiLanguageText/multiLanguageText';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { DefaultUrl } from './valueDefault';
 
 const csrfToken = getCsrfToken();
 
@@ -12,11 +9,11 @@ export const login = async(userData)=>{
         const response = await axios.post(DefaultUrl+'api/login/', 
             userData,
             {
-            headers: {
-                'X-CSRFToken': csrfToken, 
-                'content-type': 'multipart/form-data', 
-            }
-        })
+                headers: {
+                    'X-CSRFToken': csrfToken, 
+                    'content-type': 'multipart/form-data', 
+                }
+            })
         // console.log(response.data)
         return {'success':true, 'data':response.data};
     }catch(error) {
@@ -31,11 +28,11 @@ export const logout = async()=>{
         const response = await axios.post(DefaultUrl+'api/logout/', 
             {'refreshToken':refreshToken},
             {
-            headers: {
-                'X-CSRFToken': csrfToken, 
-                'content-type': 'multipart/form-data', 
-            }
-        })
+                headers: {
+                    'X-CSRFToken': csrfToken, 
+                    'content-type': 'multipart/form-data', 
+                }
+            })
         // console.log(response.data)
         return {'success':true, 'data':response.data};
     }catch(error) {

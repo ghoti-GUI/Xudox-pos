@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 import addPictureDefault from '../../img/add-picture.svg'; 
 import noImg from '../../img/no-image.svg'; 
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
@@ -56,6 +57,14 @@ const ImgUploadButton = ({ onImgSelect, check=false, edit=false, imgReceived}) =
             }
         </div>
     );
-    };
+};
+
+
+ImgUploadButton.propTypes = {
+    onImgSelect: PropTypes.func.isRequired,
+    check: PropTypes.bool,
+    edit: PropTypes.bool,
+    imgReceived: PropTypes.string
+};
 
 export default ImgUploadButton;
