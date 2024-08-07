@@ -20,7 +20,7 @@ import '../../styles.css'
 function AddProduct() {
   const { RestaurantID } = useContext(UserContext);
   // receivedData、productDataReceived = 从home传输过来的data，和data中的product信息
-  // normalData、advanceData用于同步两张表单的数据，以便submit
+  // normalData、advanceData用于储存两张表单的数据
   let location = useLocation();
   const receivedData = location.state;
   const navigate = useNavigate();
@@ -55,13 +55,12 @@ function AddProduct() {
   }
 
   const [advancePage, setAdvancePage] = useState(false);
-  const [advanceData, setAdvanceData] = useState({...addProductModelAdvance});
-  const [normalData, setNormalData] = useState({...addProductModelNormal});
-  const sendNormalDataToAdvance = (normalDataReceived)=>{
+  const [advanceData, setAdvanceData] = useState(null);
+  const [normalData, setNormalData] = useState(null);
+  const storeNormaldata = (normalDataReceived)=>{
     setNormalData(normalDataReceived)
-    // console.log('nomalData received:', normalDataReceived)
   }
-  const sendAdvanceDataToNormal = (advanceDataReceived)=>{
+  const storeAdvancedata = (advanceDataReceived)=>{
     setAdvanceData(advanceDataReceived)
   }
 
@@ -140,6 +139,7 @@ function AddProduct() {
     }
   };
 
+  // 处理已存在的id_Xu的产品数据
   const handleExistedData = async(existedProductData)=>{
     console.log('existedProductData:', existedProductData)
     let existedNormalData = {}
@@ -153,8 +153,7 @@ function AddProduct() {
     }
     setAdvanceData(existedAdvanceData)
     const imgUrl = existedProductData.img
-    // const imgFile = await fetchImgFile(imgUrl)
-    // setImg(imgFile)
+
     setImgUrl(imgUrl)
     setInitProductImg(imgUrl)
     setColor(existedProductData.color)
@@ -205,7 +204,7 @@ function AddProduct() {
               handleSubmit={handleSubmit}
               sendIDToColor={sendProductIDToColor} 
               normalData={normalData} 
-              sendDataToParent={sendNormalDataToAdvance}
+              sendDataToParent={storeNormaldata}
               check={check}
               edit={edit}
               productDataReceived={productDataReceived}
@@ -215,7 +214,7 @@ function AddProduct() {
             <AdvanceForm 
               handleSubmit={handleSubmit}
               advanceData={advanceData} 
-              sendDataToParent={sendAdvanceDataToNormal}
+              sendDataToParent={storeAdvancedata}
               check={check}
               edit={edit}
               productDataReceived={productDataReceived}/>

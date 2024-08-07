@@ -26,12 +26,11 @@ export const fetchAllTVA = async () =>{
   }
 }
 
-export const fetchTVAById = async (TVA_id, language) =>{
+export const fetchTVAById = async (TVA_id) =>{
   try{
     const response = await axios.get(DefaultUrl+'get/tva/by_id/', {
       params:{
         'TVA_id':TVA_id, 
-        'language':language, 
       }
     })
     const TVAData = response.data

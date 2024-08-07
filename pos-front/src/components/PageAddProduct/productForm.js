@@ -20,8 +20,8 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   // const Language = localStorage.getItem('Language') || 'English';
   const { Language } = useContext(UserContext);
   const Country = localStorage.getItem('Country') || 'Belgium'
-  const Text = {...multiLanguageText}[Language];
-  const TextProduct = {...Text}.product;
+  const TextLanguage = {...multiLanguageText}[Language];
+  const Text = {...TextLanguage}.product;
   
   const maxIDLength = 3
   const maxPrintContentLength = 25
@@ -53,7 +53,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     // 'Xu_class':category.Xu_class
   ]);
 
-  const [timeSupply, setTimeSupply] = useState({...TextProduct.time_supply[1]}) //{'lunch':true, 'dinner':true}
+  const [timeSupply, setTimeSupply] = useState({}) //{'lunch':true, 'dinner':true}
 
   const requiredFields = ['id_Xu','online_content', 'bill_content', 'kitchen_content', 'price', 'price2', 'time_supply'];
   const selectFields = {
@@ -71,6 +71,11 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     'time_supply',
     'print_to_where',
   ]
+  const ignoreLabelField = [
+    'TVA_country', 
+    'print_to_where', 
+  ]
+
   const inputField = []
   const numericFields = []
 
@@ -90,15 +95,13 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   //   // eslint-disable-next-line
   // }, []);
 
-
-
   // 当通过sidebar打开页面时，值均为默认值。
   // 当从advance返回时，使用normalData值
   // 当从其他页面进入时，使用productDataReceived值
 
-  const updateTimeSupply = (time_supply_nbr)=>{
+  const updateTimeSupply = (time_supply_nbr, timeSupplyCopy=timeSupply)=>{
     let time_supply_object={}
-    Object.keys(timeSupply).forEach((time, index)=>{
+    Object.keys(timeSupplyCopy).forEach((time, index)=>{
       if(String(time_supply_nbr).includes(String(index+1))){
         time_supply_object[time]=true;
       }else{
@@ -113,117 +116,211 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
   // normalData 是加载完数据之后保存在父组件，用于submit的数据
   // 除开第一次加载，均使用normalData获取数据
   useEffect(() => {
-    
     const fetchData = async() => {
-
+      // 存在normalData，也就是加载过一次数据后，统一使用储存的数据加载页面
       if(normalData){
-        handleChange(normalData)
-      }else{
-        if(check){
-          let time_supply_nbr=null
-          let updatedData = {...productdata}
-          updatedData=updateObject(productdata, productDataReceived)
-          setSameAsBillContent(productDataReceived.bill_content===productDataReceived.kitchen_content)
-          setSameAsPrice(productDataReceived.price===productDataReceived.price2)
-          time_supply_nbr = productDataReceived.time_supply
+        setProductData(normalData)
 
+        //获取所有category
+        try{
+          const allCategoryData = await fetchAllCategoryForProductForm();
+          setCategoryData(allCategoryData);
+        }catch(error){
+          toast.error(Text.fetchCategoriesFailed+':\n'+error)
+        };
 
-        }else if(edit){
-          let time_supply_nbr=null
-          let updatedData = {...productdata}
-          updatedData=updateObject(productdata, productDataReceived)
-          setSameAsBillContent(productDataReceived.bill_content===productDataReceived.kitchen_content)
-          setSameAsPrice(productDataReceived.price===productDataReceived.price2)
-          time_supply_nbr = productDataReceived.time_supply
+        // 设置kitchencontent是否要和billcontent一致
+        setSameAsBillContent(normalData.bill_content===normalData.kitchen_content)
+        // setSameAsPrice(productDataReceived.price===productDataReceived.price2)
 
+        // 设置TVA选项
+        try{
+          // fetch tva data from sql
+          const TVAData = await fetchTVA();
+          setTVA(TVAData); 
+          const TVACountry = []
+          // 设置国家选项
+          for (const country in TVAData){
+            TVACountry.push(country)
+          }
+          setTVACountry(TVACountry)
+          setTVACategory(TVAData[Country]);
+          // 默认TVA_country为用户数据中的country
+          handleChange('TVA_country', Country);
+        }catch (error){
+          toast.error(Text.fetchTVAFailed+':\n'+error)
+        };
 
-        }else{
-
+        // 设置timeSupply选项
+        const timeSupplySelectionData = {
+          [Text.time_supply[1][0]]:true,
+          [Text.time_supply[1][1]]:true,
         }
-      }
-
-
-
-      let time_supply_nbr=null
-      let updatedData = {...productdata}
-      if(!normalData){
-        if(check || edit){
-          // console.log('update:', updateObject(productdata, productDataReceived))
-          updatedData=updateObject(productdata, productDataReceived)
-          setSameAsBillContent(productDataReceived.bill_content===productDataReceived.kitchen_content)
-          setSameAsPrice(productDataReceived.price===productDataReceived.price2)
-          time_supply_nbr = productDataReceived.time_supply
-        }
-      }else if(normalData){
+        let time_supply_nbr=null
         time_supply_nbr = normalData.time_supply
-      }
+        if(time_supply_nbr) updateTimeSupply(time_supply_nbr, timeSupplySelectionData)
 
-      console.log()
+        // 设置printer多选框的值
+        try{
+          const fetchedPrinter = await fetchPrinter();
+          if(fetchedPrinter.length>0){
+            setPrinterData(updateCheckboxData(fetchedPrinter, productDataReceived.print_to_where));
+          }
+        }catch(error){
+          toast.error(Text.fetchPrintersFailed+':\n'+error)
+        }
 
-      if(time_supply_nbr) updateTimeSupply(time_supply_nbr)
-
-
-      const fetchedPrinter = await fetchPrinter();
-      const allCategoryData = await fetchAllCategoryForProductForm();
-      // console.log(allCategoryData)
-      setCategoryData(allCategoryData);
-
-      if(fetchedPrinter.length>0){
-        console.log(fetchedPrinter)
-        if(normalData && !check){
-          setPrinterData(updateCheckboxData(fetchedPrinter, normalData.print_to_where));
-        }else if (check||edit){
-          setPrinterData(updateCheckboxData(fetchedPrinter, productDataReceived.print_to_where));
+        // 设置dinein_takeaway选项
+        if(check || edit){
+          const DineinTakeawaySelectionCopy = {
+            [Text.dinein_takeaway[1][0]]:1,
+            [Text.dinein_takeaway[1][1]]:2,
+          };
+          SetDineinTakeawaySelection(DineinTakeawaySelectionCopy)
         }else{
-          setPrinterData(fetchedPrinter);
-        }
-      }
-
-      try{
-        // fetch tva data from sql
-        const TVAData = await fetchTVA();
-        console.log(TVAData)
-        setTVA(TVAData); 
-        const TVACountry = []
-        for (const country in TVAData){
-          TVACountry.push(country)
-          // TVACountry[country]=country;
-        }
-        setTVACountry(TVACountry)
-
-        if( (check || edit) && !normalData ){
-          const tvaReceived = await fetchTVAById(productDataReceived.TVA_id, Language);
-          const value = Text.country[tvaReceived.country];
-          updatedData.TVA_country = value
-          updatedData.TVA_category = tvaReceived.category
-          // console.log(TVAData[value]);
-          setTVACategory(TVAData[value]);
-        }else{
-          const value = normalData?normalData.TVA_country:Text.country[Country]
-          updatedData.TVA_country = value;
-          // console.log(TVAData[value]);
-          setTVACategory(TVAData[value]);
+          const DineinTakeawaySelectionCopy = {
+            [Text.dinein_takeaway[1][0]]:1,
+            [Text.dinein_takeaway[1][1]]:2,
+            [Text.dinein_takeaway[1][2]]:12,
+          };
+          SetDineinTakeawaySelection(DineinTakeawaySelectionCopy)
         }
 
-        setProductData(updatedData)
-        sendDataToParent(updatedData)
-        
-      }catch (error){
-        console.error('Error fetching TVA data:', error)
-      };
+      }else{ // 初次加载页面数据读取
+        // check和edit界面：
+        if(check || edit){
+          // 读取接收到的data并储存
+          let updatedData = {...productdata}
+          updatedData=updateObject(productdata, productDataReceived)
 
-      // 根据edit/check与否，设置dinein_takeaway的选项，edit/check时，没有both选项
-      const DineinTakeawaySelectionCopy = {
-        [TextProduct.dinein_takeaway[1][0]]:1,
-        [TextProduct.dinein_takeaway[1][1]]:2,
-      };
-      if(!(check||edit)){
-        DineinTakeawaySelectionCopy[TextProduct.dinein_takeaway[1][2]]=12
-        SetDineinTakeawaySelection(DineinTakeawaySelectionCopy)
+          //获取所有category
+          try{
+            const allCategoryData = await fetchAllCategoryForProductForm();
+            setCategoryData(allCategoryData);
+          }catch(error){
+            toast.error(Text.fetchCategoriesFailed+':\n'+error)
+          }
+
+          // 设置kitchencontent是否要和billcontent一致
+          setSameAsBillContent(productDataReceived.bill_content===productDataReceived.kitchen_content)
+          // setSameAsPrice(productDataReceived.price===productDataReceived.price2)
+
+          // 设置time supply多选框的值
+          const timeSupplySelectionData = {
+            [Text.time_supply[1][0]]:true,
+            [Text.time_supply[1][1]]:true,
+          }
+          let time_supply_nbr=null
+          time_supply_nbr = productDataReceived.time_supply
+          if(time_supply_nbr) updateTimeSupply(time_supply_nbr, timeSupplySelectionData)
+
+          // 设置printer多选框的值
+          try{
+            const fetchedPrinter = await fetchPrinter();
+            if(fetchedPrinter.length>0){
+              setPrinterData(updateCheckboxData(fetchedPrinter, productDataReceived.print_to_where));
+            }
+          }catch(error){
+            toast.error(Text.fetchPrintersFailed+':\n'+error)
+          }
+
+          // 设置TVA选项数据
+          try{
+            // fetch tva data from sql
+            const TVAData = await fetchTVA();
+            setTVA(TVAData); 
+            const TVACountry = []
+            // 设置国家选项
+            for (const country in TVAData){
+              TVACountry.push(country)
+            }
+            setTVACountry(TVACountry)
+            console.log('TVACountry:', TVACountry)
+    
+            // 获取tva_id对应的tva并赋值
+            try{
+              const tvaReceived = await fetchTVAById(productDataReceived.TVA_id);
+              const value = tvaReceived.country;
+              updatedData.TVA_country = value
+              updatedData.TVA_category = tvaReceived.category
+              setTVACategory(TVAData[value]);
+            }catch(error){
+              toast.error(Text.fetchTVAFailed+':\n'+error)
+            }
+          
+            setProductData(updatedData)
+            sendDataToParent(updatedData)
+            
+          }catch (error){
+            toast.error(Text.fetchTVAFailed+':\n'+error)
+          };
+
+          // 设置dinein_takeaway选项
+          const DineinTakeawaySelectionCopy = {
+            [Text.dinein_takeaway[1][0]]:1,
+            [Text.dinein_takeaway[1][1]]:2,
+          };
+          SetDineinTakeawaySelection(DineinTakeawaySelectionCopy)
+          
+        }else{// 添加product页面
+
+          //获取所有category
+          try{
+            const allCategoryData = await fetchAllCategoryForProductForm();
+            setCategoryData(allCategoryData);
+          }catch(error){
+            toast.error(Text.fetchCategoriesFailed+':\n'+error)
+          }
+
+          // 设置printer多选框的值
+          try{
+            const fetchedPrinter = await fetchPrinter();
+            if(fetchedPrinter.length>0){
+              setPrinterData(updateCheckboxData(fetchedPrinter, productdata.print_to_where));
+            }
+          }catch(error){
+            toast.error(Text.fetchPrintersFailed+':\n'+error)
+          }
+
+          // 设置timeSupply选项
+          const timeSupplySelectionData = {
+            [Text.time_supply[1][0]]:true,
+            [Text.time_supply[1][1]]:true,
+          }
+          let time_supply_nbr=null
+          time_supply_nbr = productdata.time_supply
+          if(time_supply_nbr) updateTimeSupply(time_supply_nbr, timeSupplySelectionData)
+
+          // 设置dinein_takeaway选项
+          const DineinTakeawaySelectionCopy = {
+            [Text.dinein_takeaway[1][0]]:1,
+            [Text.dinein_takeaway[1][1]]:2,
+            [Text.dinein_takeaway[1][2]]:12,
+          };
+          SetDineinTakeawaySelection(DineinTakeawaySelectionCopy)
+
+          // 设置TVA选项
+          try{
+            // fetch tva data from sql
+            const TVAData = await fetchTVA();
+            setTVA(TVAData); 
+            const TVACountry = []
+            // 设置国家选项
+            for (const country in TVAData){
+              TVACountry.push(country)
+            }
+            setTVACountry(TVACountry)
+            setTVACategory(TVAData[Country]);
+            // 默认TVA_country为用户数据中的country
+            handleChange('TVA_country', Country);
+          }catch (error){
+            toast.error(Text.fetchTVAFailed+':\n'+error)
+          };
+        }
       }
 
     };fetchData();
-  },[check, edit, productDataReceived, Language]);
+  },[check, edit, Language]);
 
   const handleChange = (key, value, key2=null, value2=null) => {
     let updatedProductData = {}
@@ -248,12 +345,11 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     let category = categoryData[index]
     let key2 = null
     let value2 = null
-    if(!productdata.dinein_takeaway.toString().includes('2')){
+    if(productdata.dinein_takeaway.toString().includes('1')){
       console.log('change Xu_class')
       key2 = 'Xu_class'
       value2 = category.Xu_class
     }
-    console.log('change category:',productdata.dinein_takeaway, key2, value2)
     handleChange('cid', value, key2, value2)
   }
 
@@ -275,24 +371,24 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
           const product = await fetchProductById_Xu(productdata.id_Xu, productdata.dinein_takeaway);
           toast.warning(
             <>
-              <span>{TextProduct.id_Xu[3][3][0]}</span>
+              <span>{Text.id_Xu[3][3][0]}</span>
               <div className='felx flex-row w-full py-2' style={{backgroundColor: product.color, color:product.text_color}}>
-                <p className='mx-1'>{TextProduct.id_Xu[0]}: {product.id_Xu}</p>
-                <p className='mx-1'>{TextProduct.bill_content[0]}: {product.bill_content}</p>
-                <p className='mx-1'>{TextProduct.price[0]}: {product.price}€</p>
+                <p className='mx-1'>{Text.id_Xu[0]}: {product.id_Xu}</p>
+                <p className='mx-1'>{Text.bill_content[0]}: {product.bill_content}</p>
+                <p className='mx-1'>{Text.price[0]}: {product.price}€</p>
               </div>
               <div className="flex justify-end mt-2">
                 <button
                   className="btn-bleu font-bold mr-2"
                   onClick={() => handleClickYes(product)} // 点击“Yes”按钮的处理函数
                 >
-                  {TextProduct.id_Xu[3][3][1]}
+                  {Text.id_Xu[3][3][1]}
                 </button>
                 <button
                   className="btn-gray font-bold"
                   onClick={() => toast.dismiss()} // 点击“No”按钮的处理函数
                 >
-                  {TextProduct.id_Xu[3][3][2]}
+                  {Text.id_Xu[3][3][2]}
                 </button>
               </div>
             </>, {
@@ -310,24 +406,26 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     }
   }
 
-  const handleClickYes = async(product) => {
+  const handleClickYes = async(existedProduct) => {
     // 将product中有的nomalData的值取出来
     let product_copy = {}
     for (let key in productdata){
-      product_copy[key]=product[key]
+      product_copy[key]=existedProduct[key]
     }
-    const TVA_info = await fetchTVAById(product.TVA_id, Language)
+    const TVA_info = await fetchTVAById(existedProduct.TVA_id)
     product_copy.TVA_category = TVA_info.category
     product_copy.TVA_country = TVA_info.country
     setTVACategory(TVA[TVA_info.country]);
     setProductData(product_copy)
     updateTimeSupply(product_copy.time_supply)
-    setPrinterData(updateCheckboxData(printerData, product_copy.print_to_where))
-    setSameAsBillContent(product.bill_content===product.kitchen_content)
-    setSameAsPrice(product.price===product.price2)
-    product.TVA_category = TVA_info.category
-    product.TVA_country = TVA_info.country
-    sendExistedDataToParent(product)
+    if(printerData.length>0){
+      setPrinterData(updateCheckboxData(printerData, product_copy.print_to_where))
+    }
+    setSameAsBillContent(existedProduct.bill_content===existedProduct.kitchen_content)
+    // setSameAsPrice(existedProduct.price===existedProduct.price2)
+    existedProduct.TVA_category = TVA_info.category
+    existedProduct.TVA_country = TVA_info.country
+    sendExistedDataToParent(existedProduct)
     toast.dismiss(); 
   };
 
@@ -344,17 +442,18 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
     }
   }
 
-  const [sameAsPrice, setSameAsPrice] = useState(true)
+  // const [sameAsPrice, setSameAsPrice] = useState(true)
   const handleChangePrice = (key, value)=>{
     const normalizedValue = value.normalize('NFD').replace(/[^\d.]/g, "")
-    if(sameAsPrice && key==='price'){
-      handleChange(key, normalizedValue, 'price2')
-    }else{
-      handleChange(key, normalizedValue)
-    }
-    if(key==='price2'){
-      setSameAsPrice(false)
-    }
+    handleChange(key, normalizedValue)
+    // if(sameAsPrice && key==='price'){
+    //   handleChange(key, normalizedValue, 'price2')
+    // }else{
+    //   handleChange(key, normalizedValue)
+    // }
+    // if(key==='price2'){
+    //   setSameAsPrice(false)
+    // }
   }
 
   const handleChangeTVACountry = (key, value) => {
@@ -391,7 +490,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
 
   const handleChangeRadioField = (key, value)=>{
     let key2 = null
-    let value2 = null
+    let value2 = 'ab1.txt'
     if(key==='dinein_takeaway'){
       if(value===2){
         key2 = 'Xu_class'
@@ -399,7 +498,6 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
       }else{
         key2 = 'Xu_class'
         for (const category of categoryData){
-          console.log(category)
           if (Number(category.id)===Number(productdata.cid)){
             value2 = category.Xu_class
           }
@@ -418,7 +516,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
           {key==='bill_content' &&(
               <>
                 <span 
-                  dangerouslySetInnerHTML={{ __html: TextProduct.notesForPrintContent[0]}}
+                  dangerouslySetInnerHTML={{ __html: Text.notesForPrintContent[0]}}
                   className='ml-4'/>
                   <br/>
               </>
@@ -426,9 +524,9 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
 
           <div className="flex flex-row justify-center mt-1 mx-3 w-full">
             
-            {key !== 'print_to_where' && (
+            {!ignoreLabelField.includes(key) && (
               <label className="flex bg-white py-2 pl-4 border-r  w-1/4 rounded-l-lg">
-                  {TextProduct[key][0]} :
+                  {Text[key][0]} :
               </label>
             )}
 
@@ -437,7 +535,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
               type={numericFields.includes(key) ? 'number':'text'} name={key} 
               className={`flex px-2 w-3/4 rounded-r-lg  ${key==='Xu_class'?'bg-gray-300 text-gray-600':'bg-white'}`}
               value={check?productDataReceived[key]:productdata[key]} 
-              placeholder={TextProduct[key][1]}
+              placeholder={Text[key][1]}
               onChange={(e) => {
                 const value = e.target.value;
                 if(key==='id_Xu') handleChangeID(key, value)
@@ -460,25 +558,25 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
                 }}
                 className={`flex w-3/4 px-2 rounded-r-lg bg-white ${productdata[key]===''&&!check?'text-gray-400':''} ${check?'pointer-events-none':''}`}
                 required>
-                  <option value="" disabled>{TextProduct[key][1]}</option>
+                  <option value="" disabled>{Text[key][1]}</option>
                   {Object.entries(categoryData).map(([index, category])=>(
                     <option key={index} value={category.id} optionIndex={index} className='text-black'>{category.name}</option>
                   ))}
               </select>
             }
 
-            {key==='TVA_country' && 
+            {/* {key==='TVA_country' && 
               <select 
                 value={productdata[key]} 
                 onChange={(e) => handleChangeTVACountry(key, e.target.value)}
                 className={`flex w-3/4 px-2 rounded-r-lg bg-white ${productdata[key]===''&&!check?'text-gray-400':''} ${check?'pointer-events-none':''}`}
                 required>
-                  <option value="" disabled>{TextProduct[key][1]}</option>
+                  <option value="" disabled>{Text[key][1]}</option>
                   {Object.values(TVACountry).map((country)=>(
-                    <option key={country} value={country} className='text-black'>{country}</option>
+                    <option key={country} value={country} className='text-black'>{TextLanguage.country[country]}</option>
                   ))}
               </select>
-            }
+            } */}
 
 
             {radioField.hasOwnProperty(key) &&
@@ -519,7 +617,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
             {key === 'print_to_where' && (
               <div className='w-full'>
                 <label className="flex justify-center bg-white py-2 pl-6 border-r  w-full rounded-t-lg">
-                  {TextProduct[key][0]} :
+                  {Text[key][0]} :
                 </label>
                 <div className='grid grid-cols-4 w-full'>
                   {printerData.map((printer)=>(
@@ -547,16 +645,16 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
                   <div>
                     <span 
                       className='text-red-600'
-                      dangerouslySetInnerHTML={{ __html: TextProduct[key][3][2]}}/>
+                      dangerouslySetInnerHTML={{ __html: Text[key][3][2]}}/>
                     <br/>
                   </div>
                 }
                 <span 
-                  dangerouslySetInnerHTML={{ __html: TextProduct[key][3][0]}}
+                  dangerouslySetInnerHTML={{ __html: Text[key][3][0]}}
                   className=''/>
                 <br/>
                 <span 
-                  dangerouslySetInnerHTML={{ __html: TextProduct[key][3][1]}}
+                  dangerouslySetInnerHTML={{ __html: Text[key][3][1]}}
                   className=''/>
               </div>
           )}
@@ -564,7 +662,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
       ))}
 
       {!check && 
-        <button type="submit" className="rounded bg-buttonBleu hover:bg-buttonBleuHover text-white py-1 ml-3 my-5 w-full">{TextProduct.submitButton}</button>
+        <button type="submit" className="rounded bg-buttonBleu hover:bg-buttonBleuHover text-white py-1 ml-3 my-5 w-full">{Text.submitButton}</button>
       }
       <div className='mb-10'></div>
     </form>

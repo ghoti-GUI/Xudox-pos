@@ -7,7 +7,6 @@ export const addProductModelNormal = {
     'bill_content':'',
     'kitchen_content':'',
     'price':'',
-    'price2':'',
     'TVA_country':'',
     'TVA_category':1,
     'time_supply':12,

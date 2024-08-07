@@ -192,6 +192,7 @@ def get_all_products_front_form(request):
     # rid_received = request.query_params.get('rid', '')
     user = request.user
     rid_received = user.id
+    print(rid_received)
     if rid_received:
         products = product.objects.filter(rid = rid_received)
         product_serializer = AllProductSerializer(products, many = True)

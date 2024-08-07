@@ -33,7 +33,6 @@ class ProductSerializer(serializers.ModelSerializer):
             'color', 
             'text_color', 
             'price',
-            'price2',
             'time_supply',
             'dinein_takeaway', 
             'cid',

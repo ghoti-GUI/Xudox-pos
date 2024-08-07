@@ -84,8 +84,8 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
     };fetchData()
 
     const reshapeAllergens = ()=>{
-      const reshapedAllergens = AllergenText.map((allergen)=>{
-        return {'allergen':allergen, 'checked':false}
+      const reshapedAllergens = Object.entries(AllergenText).map(([allergen, allergenText])=>{
+        return {'allergen':allergen, 'text':allergenText, 'checked':false}
       })
       if(advanceData && !check){
         setAllergens(updateCheckboxData(reshapedAllergens, advanceData.allergen));
@@ -326,7 +326,7 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
                               className='mr-2'
                               onChange={(e) => check?'':handleChangeAllergen(e.target.name, e.target.checked)}
                           />
-                          <span className=''>{allergen.allergen}</span>
+                          <span className=''>{allergen.text}</span>
                       </label>
                     </div>
                   ))}
