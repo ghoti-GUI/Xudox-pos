@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 # from .views import TestViewSet, TestImgViewSet, ProductViewSet, CategoryViewSet
-from .views import viewsProduct, viewsCategory, viewsPrinter, viewsTVA, viewsCommon, viewsUser, viewsTest
+from .views import viewsProduct, viewsCategory, viewsPrinter, viewsTVA, viewsCommon, viewsUser, viewsTest, viewsDiscount
 
 
 router = DefaultRouter()
@@ -14,6 +14,7 @@ router.register(r'TestModel', viewsTest.TestViewSet)
 router.register(r'testimg/viewsets', viewsTest.TestImgViewSet)
 router.register(r'post/product', viewsProduct.ProductViewSet)
 router.register(r'post/category', viewsCategory.CategoryViewSet)
+router.register(r'post/sw_discount', viewsDiscount.SwDiscountViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -31,12 +32,12 @@ urlpatterns = [
     path('update/product_by_id/', viewsProduct.update_product_by_id, name='update_product_by_id'), 
     path('get/product/by/id_Xu/', viewsProduct.get_product_by_id_Xu, name='get_product_by_id_Xu'), 
     path('delete/product/', viewsProduct.delete_product, name='delete_product'), 
-    
 
     path('get/category/all/', viewsCategory.get_all_categories, name='get_all_categories'), 
     path('category/check_name_category_existence/', viewsCategory.check_name_category_existence, name = 'check_name_category_existence'), 
     path('get/cid/by/categoryName/', viewsCategory.get_cid_by_categoryName, name='get_cid_by_categoryName'), 
     path('get/category/by/name/', viewsCategory.get_category_by_name, name='get_category_by_name'), 
+    path('update/category_by_id/', viewsCategory.update_category_by_id, name='update_category_by_id'), 
 
     path('get/printers/', viewsPrinter.get_printer, name = 'get_printer'), 
     path('get/printers/all/', viewsPrinter.get_all_printer, name = 'get_all_printer'), 
@@ -46,6 +47,10 @@ urlpatterns = [
     path('get/tva/all/', viewsTVA.get_all_TVA, name = 'get_all_TVA'),  
     path('get/tva/by_id/', viewsTVA.get_TVA_by_id, name = 'get_TVA_by_id'), 
     path('get/tva_id/by_country_category/', viewsTVA.get_TVA_id_by_country_category, name = 'get_TVA_id_by_country_category'), 
+
+    path('get/sw_discount/all/', viewsDiscount.get_all_sw_discounts, name='get_all_sw_discounts'), 
+    path('update/sw_discount_by_id/', viewsDiscount.update_sw_discount_by_id, name='update_sw_discount_by_id'), 
+    path('delete/sw_discount/', viewsDiscount.delete_sw_discount, name='delete_sw_discount'), 
 
     path('delete/all/', viewsCommon.delete_all, name='delete_all'), 
     path('update/Xu_class/', viewsCommon.update_Xu_class, name='update_Xu_class'), 

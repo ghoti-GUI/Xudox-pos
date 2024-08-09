@@ -71,7 +71,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             else:
                 save_data[advanceKey]=self.advanceKeyList[advanceKey]
 
-        # 通过收到的图片路径，获取并复制图片，保存
+        # 通过收到的是图片路径，获取并复制图片，保存
         if 'imgUrl' in request_data:
             imgUrl = request_data['imgUrl']
             if imgUrl:

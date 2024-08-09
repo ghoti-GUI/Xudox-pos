@@ -183,7 +183,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
             }else{ // 初次加载页面数据读取
                 // check和edit界面：
                 if(check || edit){
-                    // 读取接收到的data并储存
+                    // 读取接收到的data并储存，只读取存在在表单中的数据
                     let updatedData = {...productdata}
                     updatedData=updateObject(productdata, productDataReceived)
 
@@ -506,7 +506,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
         <form onSubmit={handleSubmit} className="flex flex-col w-full">
             {Object.keys(productdata).map((key)=>(
                 <div key={key}>
-
+                    
                     {key==='bill_content' &&(
                         <>
                             <span 
@@ -560,17 +560,17 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
                         }
 
                         {/* {key==='TVA_country' && 
-              <select 
-                value={productdata[key]} 
-                onChange={(e) => handleChangeTVACountry(key, e.target.value)}
-                className={`flex w-3/4 px-2 rounded-r-lg bg-white ${productdata[key]===''&&!check?'text-gray-400':''} ${check?'pointer-events-none':''}`}
-                required>
-                  <option value="" disabled>{Text[key][1]}</option>
-                  {Object.values(TVACountry).map((country)=>(
-                    <option key={country} value={country} className='text-black'>{TextLanguage.country[country]}</option>
-                  ))}
-              </select>
-            } */}
+                            <select 
+                                value={productdata[key]} 
+                                onChange={(e) => handleChangeTVACountry(key, e.target.value)}
+                                className={`flex w-3/4 px-2 rounded-r-lg bg-white ${productdata[key]===''&&!check?'text-gray-400':''} ${check?'pointer-events-none':''}`}
+                                required>
+                                <option value="" disabled>{Text[key][1]}</option>
+                                {Object.values(TVACountry).map((country)=>(
+                                    <option key={country} value={country} className='text-black'>{TextLanguage.country[country]}</option>
+                                ))}
+                            </select>
+                        } */}
 
 
                         {radioField.hasOwnProperty(key) &&
@@ -656,7 +656,7 @@ function ProductForm({ handleSubmit, sendIDToColor, normalData, sendDataToParent
             ))}
 
             {!check && 
-            <button type="submit" className="rounded bg-buttonBleu hover:bg-buttonBleuHover text-white py-1 ml-3 my-5 w-full">{Text.submitButton}</button>
+                <button type="submit" className="rounded bg-buttonBleu hover:bg-buttonBleuHover text-white py-1 ml-3 my-5 w-full">{Text.submitButton}</button>
             }
             <div className='mb-10'></div>
         </form>

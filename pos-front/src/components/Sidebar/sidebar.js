@@ -45,7 +45,7 @@ const Sidebar = () => {
                     {Text.addProduct}
                 </Link>
                 <Link 
-                    to="edit/Discount" 
+                    to="edit/SwDiscount" 
                     className={`flex items-center px-4 py-2 hover:bg-gray-700 w-full ${sidebarChoosed==='editDiscount'?'bg-gray-600':''}`} 
                     onClick={()=>{setSidebarChoosed('editDiscount')}}>
                     <FaPlusSquare className='mr-2'/>

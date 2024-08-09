@@ -5,19 +5,6 @@ import { DefaultUrl, CheckIdXuExistenceUrl, GetAllProduct} from './valueDefault'
 
 const csrfToken = getCsrfToken();
 
-// export const fetchNextIdUser = async (setProductData) => {
-//     try {
-//       const response = await axios.get(DefaultUrl+GetNextIdUserUrl);
-//       const nextIdUser = response.data.next_id_user;
-//       setProductData(prevState => ({
-//         ...prevState,
-//         'id_user': nextIdUser,
-//       }));
-//     } catch (error) {
-//       console.error('Error fetching next product id:', error);
-//     };
-//   };
-
 
 export const addProduct = async(productData)=>{
     try{
@@ -32,7 +19,6 @@ export const addProduct = async(productData)=>{
             })
         return {'success':true, 'message':response.data};
     }catch(error) {
-        // toast.error(Text.product.addFailed);
         console.error('There was an error submitting the form!', error);
         return {'success':false, 'message':error};
     };
@@ -50,10 +36,8 @@ export const updateProduct = async(productData)=>{
                     // 'Authorization': `Bearer ${token}`,
                 }
             });
-        // toast.success(Text.edit.editSuccess);
         return {'success':true, 'message':response.data};
     }catch(error) {
-        // toast.error(Text.edit.editFailed)
         console.error('There was an error submitting the form!', error);
         return {'success':false, 'message':error};
     };
@@ -67,11 +51,7 @@ export const checkIdXuExistence = async (id_Xu, dinein_takeaway) => {
                 'id_Xu':id_Xu, 
                 'dinein_takeaway':dinein_takeaway,
             },
-            headers: {
-                // 'Authorization': `Bearer ${token}`,
-            }
         });
-        console.log('checked back', response.data.existed)
         return(response.data.existed)
     } catch (error) {
         console.error('Error check id_Xu existence:', error);
@@ -82,11 +62,7 @@ export const checkIdXuExistence = async (id_Xu, dinein_takeaway) => {
 
 export const fetchAllProduct = async () => {
     try {
-        const response = await axios.get(DefaultUrl+GetAllProduct, {
-            headers: {
-                // 'Authorization': `Bearer ${token}`,
-            }
-        });
+        const response = await axios.get(DefaultUrl+GetAllProduct);
         const productsData = response.data;
         return (productsData); 
     } catch (error){
@@ -95,13 +71,8 @@ export const fetchAllProduct = async () => {
 }
 
 export const fetchAllProductFrontForm = async()=>{
-    // console.log('token:', token)
     try {
-        const response = await axios.get(DefaultUrl+'get/product/all/frontform/', {
-            headers: {
-                // 'Authorization': `Bearer ${token}`,
-            }
-        });
+        const response = await axios.get(DefaultUrl+'get/product/all/frontform/');
         const productsData = response.data;
         return (productsData); 
     } catch (error){
@@ -117,9 +88,6 @@ export const fetchProductById_Xu = async(id_Xu, dinein_takeaway)=>{
                 'id_Xu':id_Xu, 
                 'dinein_takeaway':dinein_takeaway
             },
-            headers: {
-                // 'Authorization': `Bearer ${token}`,
-            }
         });
         return (response.data)
     } catch (error) {
@@ -130,7 +98,6 @@ export const fetchProductById_Xu = async(id_Xu, dinein_takeaway)=>{
 
 
 export const deleteProduct = async(id)=>{
-    console.log(token)
     try {
         const response = await axios.post(DefaultUrl+'delete/product/', {
             'id':id, 
@@ -144,7 +111,7 @@ export const deleteProduct = async(id)=>{
         });
         return {'success':true, 'message':response.data.message}
     } catch (error) {
-        console.error('Error check id_Xu existence:', error);
+        console.error('Error delete product:', error);
         return {'success':false, 'message':error}
     };
 }

@@ -91,7 +91,7 @@ export const EnglishText = {
     },
     'category':{
         'id':['ID', 'Enter the ID of your new category', 'ID already existed', notesUnderID.English],
-        'name':['Name', 'Enter the name of your new category'],
+        'name':['Name', 'Enter the name of your new category', 'Category already existed'],
         'des':['Description', 'Enter the description of your new category'],
         'time_supply':['Supply time', ['lunch', 'dinner'], 'Please choose at least one supply time'], 
         'Xu_class':['Category-ab', 'Choose the category ab1 - ab14'],
@@ -121,6 +121,18 @@ export const EnglishText = {
             'confirmDelete':'Are you sure to delete this category?',        
         }
     }, 
+    'categoryAdvance':{
+        'ename':['English name', 'Enter the name in English'],
+        'lname':['Dutch name', 'Enter the name in Dutch'], 
+        'fname':['French name', 'Enter the name in French'], 
+        'zname':['Chinese name', 'Enter the name in Chinese'], 
+        'edes':['English description', 'Enter the description in English'],
+        'ldes':['Dutch description', 'Enter the description in Dutch'],
+        'fdes':['French description', 'Enter the description in French'],
+        'submitButton':'Submit', 
+    },
+    'advanceTitle':'Advance settings',
+    'normalTitle':'Normal settings',
     'img':{
         'check':'Your choosed image: ',
         'chooseImg':'Choose image for your product', 
@@ -131,7 +143,6 @@ export const EnglishText = {
         'text_color':['Automatic setting for text colours', ['Black', 'white']],
         'textDefault':'Text',
     }, 
-    
     'home':{
         'id':['ID'],
         'online_content':['Online content'],
@@ -145,8 +156,8 @@ export const EnglishText = {
         'cid':['Category'],
         'time_supply':['Supply time', ['Lunch', 'Dinner', 'Whole day']],
         'print_to_where':['Printers selected'], 
+        'noImg':'no image choosed', 
         'title':'Home',
-        // 'productList':'Product List', 
         'DineinMenu':'Dine-in Menu', 
         'DineinMenuButton':'Dine-in', 
         'TakeawayMenu':'Take-away Menu', 
@@ -159,6 +170,22 @@ export const EnglishText = {
         'submitButton':'Submit',
         'cancelButton':'Cancel', 
     }, 
+    'sideWideDiscount':{
+        'pageName':'Edit Side-wide Discount',
+        'consumption':['over','','Consumption amount not filled in'],
+        'discount':['discount','','Discount amount is not filled in '],
+        'saveButton':'save',
+        'saveSuccess':'Save failed',
+        'saveFailed':'Save failed',
+        'deleteButton':'delete',
+        'deleteSuccess':'Delete succeed', 
+        'deleteFailed':'Delete failed', 
+        'discountType':{
+            'default':'Choose your discount type', 
+            'fixed':'fixed reduction',
+            'percentage':'percentage reduction', 
+        }
+    }, 
     'export':{
         'chooseButton':['Export ', 'to folder', 'as .zip'], 
         'exportButton':'Export',
@@ -167,7 +194,7 @@ export const EnglishText = {
     }, 
     'import':{
         'importButton':'Import',
-        'faildText':{
+        'failedText':{
             'failedProduct':'Failed products',
             'specialAb':'fetch special ab.txt failed',
             'tva':['fetch tva failed for product', 'This tva does not exist'],

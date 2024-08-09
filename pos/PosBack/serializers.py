@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group, User
 from rest_framework import serializers
-from .models import Test, TestImg, product, category, tva, printe_to_where, ablist_kitchen_nonull
+from .models import Test, TestImg, product, category, tva, printe_to_where, ablist_kitchen_nonull, site_wide_discount
 
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,7 +61,6 @@ class CategorySerializer(serializers.ModelSerializer):
             'time_supply',
             'img', 
             'Xu_class', 
-            'rid', 
         ]
 
 class AllCategorySerializer(serializers.ModelSerializer):
@@ -84,6 +83,10 @@ class AllAblistKitchenNonullSerializer(serializers.ModelSerializer):
         model = ablist_kitchen_nonull
         fields = '__all__'
 
+class AllSiteWideDiscountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = site_wide_discount
+        fields = '__all__'
 
 
 

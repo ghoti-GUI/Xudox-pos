@@ -26,9 +26,43 @@ class CategoryViewSet(viewsets.ModelViewSet):
     # permission_classes = [permissions.AllowAny]  # 开发阶段允许任何人访问
     permission_classes = (IsAuthenticated, )
 
+    advanceKeyList={
+        'ename':'',
+        'lname':'', 
+        'fname':'', 
+        'zname':'', 
+        'edes':'',
+        'ldes':'',
+        'fdes':'',
+    }
+
     def perform_create(self, serializer):
+        request_data = serializer.initial_data
         user_id = self.request.user.id
         save_data = {'rid':user_id}
+        for advanceKey in self.advanceKeyList:
+            if advanceKey in request_data:
+                save_data[advanceKey]=request_data[advanceKey]
+            else:
+                save_data[advanceKey]=self.advanceKeyList[advanceKey]
+        # 通过收到的是图片路径，获取并复制图片，保存
+        if 'imgUrl' in request_data:
+            imgUrl = request_data['imgUrl']
+            if imgUrl:
+                imgUrl = imgUrl[1:] # 去掉开头的'/'
+                fullImgPath = os.path.join(settings.BASE_DIR, imgUrl)
+                imgFile = None
+                if os.path.exists(fullImgPath):
+                    imgFile = open(fullImgPath, 'rb')
+                    imgPath = os.path.dirname(imgUrl) # 获取名字前面的path
+                    imgName = os.path.basename(imgUrl) # 获取名字
+                    # 创建新的名字
+                    imgNameList = imgName.split('.')
+                    newImgName = imgNameList[0]+f'_{request_data.get("id_Xu")}.'+imgNameList[1]
+                    # 组合
+                    newImgUrl = imgPath+'/'+newImgName
+                    path = default_storage.save(newImgUrl, imgFile)
+                    save_data['img'] = newImgUrl
         serializer.save(**save_data)
 
     def create(self, request, *args, **kwargs):
@@ -110,3 +144,32 @@ def get_category_by_name(request):
         return JsonResponse(serializer.data, safe=False)
     else:
         return JsonResponse({'status': 'get cid by name error'}, status=111)
+
+
+@api_view(['POST'])
+def update_category_by_id(request):
+    try:
+        data = request.POST
+        files = request.FILES
+        id_received = data.get('id', '')
+        user = request.user
+        rid_received = user.id
+        if rid_received:
+            category_to_update = get_object_or_404(category, Q(id=id_received) & Q(rid=int(rid_received)))
+            for key, value in data.items():
+                if key!='id' and key!='rid':  # 确保不修改 id
+                    if key=='img':
+                        img = data.get('img', '')
+                    elif hasattr(category_to_update, key):
+                        setattr(category_to_update, key, value)
+            if 'img' in files:
+                category_to_update.img = files['img']
+            category_to_update.save()
+            return JsonResponse({'status': 'success', 'message': 'Category updated successfully.'})
+        else:
+            return JsonResponse({'message': 'Invalid credentials'}, status=401)
+
+    except category.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Category not found.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'status': 'error', 'message': str(e)}, status=400)

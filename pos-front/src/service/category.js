@@ -82,3 +82,22 @@ export const checkCategoryNameExistence = async(categoryName)=>{
         return error
     };
 }
+
+export const updateCategory = async(categorydata)=>{
+    try{
+        const response = await axios.post(DefaultUrl + 'update/category_by_id/',
+            categorydata,
+            {
+                headers: {
+                    'X-CSRFToken': csrfToken,
+                    'content-type': 'multipart/form-data',
+                }
+            }
+        );
+        return response.data; 
+    } catch (error) {
+        console.error('There was an error submitting the form!', error);
+        toast.error('update category failed:\n', error)
+        return false; 
+    }
+}

@@ -111,7 +111,7 @@ const ProductCard = ({data, changeOrder=false})=>{
         <div className='grid grid-cols-10 w-full py-2 border-t-2 border-x-2 border-black' style={{backgroundColor: product.color, color:product.text_color}}>
             <img 
                 src={DefaultHost.slice(0, -1)+product.img} 
-                alt="no product Img" 
+                alt={Text.noImg}
                 style={{ maxWidth: '100%', maxHeight: '400px' }} 
                 className='col-span-1 w-28 h-24 ml-1 object-fill border-2 border-black'/>
             <div className='col-span-2 flex flex-col ml-1 -mr-1'>

@@ -102,7 +102,9 @@ function AddProduct() {
 
         const mergedProductData = Object.assign({}, advanceData, normalData)
 
+        // 仅在编辑保存时获取id，用于更新
         if(edit) mergedProductData['id'] = productDataReceived.id;
+        // 获取color和img数据
         mergedProductData['img'] = img;
         if(imgUrl) mergedProductData['imgUrl'] = imgUrl;
         mergedProductData['color'] = color;
@@ -179,7 +181,7 @@ function AddProduct() {
 
     return (
         <div className='flex flex-col w-full bg-slate-200 pt-10 max-h-screen overflow-y-auto overflow-x-hidden'>
-            <span className='-mt-3 mb-3 ml-7 text-3xl'><b>{ pageName }</b></span>
+            <span className='-mt-3 mb-3 ml-7 text-3xl'><b>{pageName}: {advancePage?TextLanguage.advanceTitle:TextLanguage.normalTitle}</b></span>
             <div className='flex flex-row w-full '>
                 <div className='flex flex-col items-center w-2/12 mt-5'>
                     <ImgUploadButton onImgSelect={handleImgSelect} check={check} edit={edit} imgReceived={initProductImg} />

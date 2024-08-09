@@ -18,5 +18,4 @@ export const UserProvider = ({ children }) => {
     );
 };
 
-export const Language = 'English'
 export const Country = 'Belgium'

@@ -8,7 +8,7 @@ export const ChineseText={
     'sidebar':{
         'title':'侧栏',
         'home':'主页',
-        'addCategory':'添加产品类别',
+        'addCategory':'添加类别',
         'addProduct':'添加产品',
         'editDiscount':'全场折扣', 
     },
@@ -92,7 +92,7 @@ export const ChineseText={
     },
     'category':{
         'id':['ID', '输入类别ID', 'ID已存在', notesUnderID.Chinese],
-        'name':['类别名字', '输入新的类别名字'],
+        'name':['类别名字', '输入新的类别名字', '类别已存在'],
         'des':['类别描述', '输入对新的类别的描述'],
         'time_supply':['供应时间', ['午餐', '晚餐'], '请选择至少一个供应时间'], 
         'Xu_class':['ab类别'],
@@ -122,6 +122,18 @@ export const ChineseText={
             'confirmDelete':'您确定要删除这个类别吗?',        
         }
     }, 
+    'categoryAdvance':{
+        'ename':['英文名字', '输入英文名字'],
+        'lname':['荷兰语名字', '输入荷兰语名字'], 
+        'fname':['法语名字', '输入法语名字'], 
+        'zname':['中文名字', '输入中文名字'], 
+        'edes':['英文描述', '输入英文描述'],
+        'ldes':['荷兰语描述', '输入荷兰语描述'],
+        'fdes':['法语描述', '输入法语描述'],
+        'submitButton':'保存', 
+    },
+    'advanceTitle':'高级设置',
+    'normalTitle':'一般设置',
     'img':{
         'check':'您已选择的图片：',
         'chooseImg':'选择产品的图片', 
@@ -145,6 +157,7 @@ export const ChineseText={
         'cid':['产品种类'],
         'time_supply':['供应时间',['午餐', '晚餐', '全天']],
         'print_to_where':['打印机选择'], 
+        'noImg':'未选择图片', 
         'title':'主页',
         // 'productList':'产品列表', 
         'DineinMenu':'堂食菜单', 
@@ -159,6 +172,22 @@ export const ChineseText={
         'submitButton':'保存',
         'cancelButton':'取消', 
     }, 
+    'sideWideDiscount':{
+        'pageName':'编辑全场折扣',
+        'consumption':['消费满','','消费额度未填写'],
+        'discount':['减免','','减免金额未填写'],
+        'saveButton':'保存',
+        'saveSuccess':'保存成功',
+        'saveFailed':'保存失败',
+        'deleteButton':'删除',
+        'deleteSuccess':'删除成功', 
+        'deleteFailed':'删除失败', 
+        'discountType':{
+            'default':'选择一个打折类型', 
+            'fixed':'固定降价',
+            'percentage':'百分比降价', 
+        }
+    }, 
     'export':{
         'chooseButton':['导出', '到文件夹', '成压缩包'],
         'exportButton':'导出', 
@@ -167,7 +196,7 @@ export const ChineseText={
     }, 
     'import':{
         'importButton':'导入',
-        'faildText':{
+        'failedText':{
             'failedProduct':'产品添加出现错误',
             'specialAb':'获取特殊ab.txt出现错误',
             'tva':['获取产品TVA出现错误', 'TVA不存在'],

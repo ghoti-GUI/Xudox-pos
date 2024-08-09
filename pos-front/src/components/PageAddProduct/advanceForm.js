@@ -48,6 +48,7 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
 
 
     useEffect(() => {
+        // 初始化数据
         let discountRecv=null
         if(advanceData){
             setProductData(advanceData);
@@ -62,6 +63,7 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
             }
         }
 
+        // 当check或edit时（有数据传入），设置打折记录recordDiscount
         if(discountRecv){
             if(discountRecv.includes('€')){
                 setRecordDiscountFixed(discountRecv)
@@ -155,7 +157,7 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
         handleChange('allergen', allergenChoosed)
     }
 
-
+    // 打折记录，用于记录用户填入过的打折数据，以方便切换打折模式
     const [recordDiscountFixed, setRecordDiscountFixed] = useState('€');
     const [recordDiscountPercentage, setRecordDiscountPercentage] = useState('%')
     const handleChangeDiscount = (type, value)=>{

@@ -2,14 +2,13 @@
 import { fetchAllProduct } from "../../service/product";
 import { fetchAllCategory } from "../../service/category";
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText.js';
-import { Language } from '../../userInfo';
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
 import { lengthContent, lengthID } from '../../service/valueDefault';
 import { fetchAllTVA } from '../../service/tva.js';
 import { toast } from 'react-toastify';
 
-const Text = {...multiLanguageText}[Language].export
+// const Text = {...multiLanguageText}[Language].export
 
 const initAbList = {
     'ab1.txt':'',
@@ -204,7 +203,8 @@ export const createFile = async(handle, name, value)=>{
 // export function
 // mode 控制下载到文件夹还是下载成zip
 // productsData和categoriesData数据用来控制是否从后端获取数据（import完成后无需从后端获取数据）
-export const exportData = async(mode, productsData=null, categoriesData=null)=>{
+export const exportData = async(mode, Language, productsData=null, categoriesData=null)=>{
+    const Text = {...multiLanguageText}[Language].export
     try{
         const [
             productsRecv, 

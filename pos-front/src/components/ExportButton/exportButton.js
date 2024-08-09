@@ -30,7 +30,7 @@ const ExportButton = () => {
                 </button>
             </div>
             <button 
-                onClick={()=>exportData(exportMode)} 
+                onClick={()=>exportData(exportMode, Language)} 
                 className='flex items-center justify-center w-full py-1 mt-3 bg-buttonBleu text-white hover:bg-buttonBleuHover rounded-lg'>
                 {Text.exportButton}
             </button>

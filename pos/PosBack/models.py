@@ -100,12 +100,12 @@ def get_upload_path_category(instance, filename):
     return f'static/img_category/{instance.rid}/{filename}'
 
 class category(models.Model):
-    ename = models.CharField(max_length=200)
-    lname = models.CharField(max_length=200)
-    fname = models.CharField(max_length=200)
-    zname = models.CharField(max_length=200)
+    ename = models.CharField(max_length=200, null=True)
+    lname = models.CharField(max_length=200, null=True)
+    fname = models.CharField(max_length=200, null=True)
+    zname = models.CharField(max_length=200, null=True)
     name = models.CharField(max_length=200)
-    extra_name = models.CharField(max_length=1000)
+    extra_name = models.CharField(max_length=1000, null=True)
     edes = models.CharField(max_length=1000, null=True)
     ldes = models.CharField(max_length=1000, null=True)
     fdes = models.CharField(max_length=1000, null=True)
@@ -113,14 +113,14 @@ class category(models.Model):
     img = models.ImageField(upload_to=get_upload_path_category, null=True, blank=True)
     color = models.CharField(max_length=100, default='rgb(255, 255, 255)')
     text_color = models.CharField(max_length=100, default='rgb(0, 0, 0)')
-    time_supply = models.IntegerField()
+    time_supply = models.IntegerField(default=12)
     Xu_class = models.CharField(db_column='Xu_class', max_length=200, null=True)  # Field name made lowercase.
-    rid = models.IntegerField(default=0)
+    rid = models.IntegerField()
     category_class = models.IntegerField(default=0)
     sort_id = models.IntegerField(default=0)
-    custom = models.CharField(max_length=200)
-    custom1 = models.CharField(max_length=200)
-    custom2 = models.CharField(max_length=200)
+    custom = models.CharField(max_length=200, null=True)
+    custom1 = models.CharField(max_length=200, null=True)
+    custom2 = models.CharField(max_length=200, null=True)
 
     class Meta:
         managed = False
@@ -248,7 +248,7 @@ class product(models.Model):
     dinein_takeaway = models.IntegerField(db_comment='1=dine-in, 2=takeaway', default=1)
     soldout = models.IntegerField(default=0)
     min_nbr = models.IntegerField(db_comment='minimum purchase nbr', default=1)
-    rid = models.IntegerField(db_comment='restaurant id', default=0)
+    rid = models.IntegerField(db_comment='restaurant id')
     stb = models.IntegerField(db_comment='sushi to bar', null=True)
     position = models.IntegerField(default=0)
     favourite = models.IntegerField(default=0)
@@ -264,7 +264,7 @@ class product(models.Model):
     # print_to_where = models.ForeignKey(printe_to_where, models.DO_NOTHING, db_column='print_to_where', default=1)
     print_to_where = models.IntegerField(db_column='print_to_where', default=1)
     cid = models.ForeignKey(category, models.DO_NOTHING, db_column='cid', db_comment='category', default=1)
-    option = models.ForeignKey(option_list, models.DO_NOTHING, default=1)
+    option = models.ForeignKey(option_list, models.DO_NOTHING, null=True)
     TVA_id = models.ForeignKey('tva', models.DO_NOTHING, db_column='TVA_id', default=1)  # Field name made lowercase.
 
     class Meta:
@@ -324,3 +324,11 @@ class ablist_kitchen_nonull(models.Model):
         db_table = 'ablist_kitchen_nonull'
 
 
+class site_wide_discount(models.Model):
+    consumption = models.DecimalField(max_digits=8, decimal_places=2, null=True)
+    discount = models.CharField(max_length=200, null=True)
+    rid = models.IntegerField(db_comment='restaurant id', null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'site_wide_discount'

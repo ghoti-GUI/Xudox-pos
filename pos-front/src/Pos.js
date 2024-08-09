@@ -6,6 +6,7 @@ import Home from './components/Home/home';
 import Sidebar from './components/Sidebar/sidebar';
 import AddProduct from './components/PageAddProduct/addProduct';
 import AddCategory from './components/PageAddCategory/addCategory';
+import EditSiteWideDiscount from './components/SiteWideDiscount/editSiteWideDiscount';
 import TestDragHome from './components/TestDrag/home';
 import Login from './components/PageLogin/login';
 
@@ -19,12 +20,17 @@ function Pos() {
                     <Route path='home'  element={<Home/>}/>
                     <Route path='add/Product'  element={<Navigate to='../addProduct'/>}/>
                     <Route path='addProduct' element={<AddProduct/>}/>
-                    <Route path='add/Category'  element={<Navigate to='../addCategory'/>}/>
-                    <Route path='addCategory' element={<AddCategory/>}/>
-                    <Route path='edit/Discount'  element={<Navigate to='../editDiscount'/>}/>
-                    <Route path='editDiscount' element={<AddCategory/>}/>
                     <Route path='checkProduct/:productId' element={<AddProduct/>} />
                     <Route path='editProduct/:productId' element={<AddProduct/>} />
+
+                    <Route path='add/Category'  element={<Navigate to='../addCategory'/>}/>
+                    <Route path='addCategory' element={<AddCategory/>}/>
+                    <Route path='checkCategory/:categoryId' element={<AddCategory/>} />
+                    <Route path='editCategory/:categoryId' element={<AddCategory/>} />
+
+                    <Route path='edit/SwDiscount'  element={<Navigate to='../editSwDiscount'/>}/>
+                    <Route path='editSwDiscount' element={<EditSiteWideDiscount/>}/>
+                    
                     <Route path='TestDrag' element={<TestDragHome/>} />
                 </Routes>
             </div>

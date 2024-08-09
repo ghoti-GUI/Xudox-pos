@@ -2,7 +2,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { checkCategoryNameExistence } from '../../service/category';
 import { multiLanguageText } from '../../multiLanguageText/multiLanguageText';
-import { normalizeText } from '../utils';
+import { normalizeText, updateObject } from '../utils';
 import { UserContext } from '../../userInfo';
 import { categoryModel } from '../../models/category';
 import { toast } from 'react-toastify';
@@ -12,7 +12,6 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
     const { Language } = useContext(UserContext);
     const Text = {...multiLanguageText}[Language].category
     const [categorydata, setCategoryData] = useState(normalData||{...categoryModel})
-    const initData = {...categorydata};
 
     // const TimeSupplyData = {...Text.time_supply[1]}
     // const TimeSuppyKeys = Object.keys(TimeSupplyData)
@@ -51,6 +50,10 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
         }else {
             // check和edit页面
             if(check||edit){
+                // 读取接收到的data并储存，只读取存在在表单中的数据
+                let updatedData = {...categorydata}
+                updatedData=updateObject(categorydata, categoryDataReceived)
+
                 // 设置time supply选项
                 const timeSupplySelectionData = {
                     [Text.time_supply[1][0]]:true,
@@ -61,7 +64,8 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
                 if(time_supply_nbr) updateTimeSupply(time_supply_nbr, timeSupplySelectionData)
 
                 // 获取数据
-                setCategoryData(categoryDataReceived)
+                setCategoryData(updatedData)
+                sendDataToParent(updatedData)
 
             }else{ // 添加category页面
                 // 设置time supply选项
@@ -74,8 +78,6 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
                 if(time_supply_nbr) updateTimeSupply(time_supply_nbr, timeSupplySelectionData)
             }
         }
-    
-
     },[]);
 
     const updateTimeSupply = (time_supply_nbr, timeSupplyCopy=timeSupply)=>{
@@ -90,36 +92,6 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
         setTimeSupply(time_supply_object)
     }
 
-    const checkAtlLeastOneField = () => {
-        if(!categorydata.time_supply){
-            toast.error(Text.time_supply[2]);
-            return false
-        }
-        return true
-    }
-
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-    
-        if(!checkAtlLeastOneField()){
-            return
-        }
-
-        const nameExisted = await checkCategoryNameExistence(categorydata.name)
-        if (nameExisted){
-            toast.error(Text.nameExisted, {autoClose:7000})
-            return
-        }
-
-
-        try {
-            onCategorySubmit(categorydata)
-            // init()
-        }catch (error) {
-            console.error('Error submit categorydata:', error);
-        };
-    };
-
     const handleChange = (key, value) => {
         let updatedData = {
             ...categorydata,
@@ -127,12 +99,8 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
         }
         setCategoryData(updatedData);
         console.log(updatedData);
-    // sendDataToParent(updatedData);
+        sendDataToParent(updatedData);
     };
-
-    const handleChangeID = (key, value) => {
-        handleChange(key, normalizeText(value.substring(0, 3)))
-    }
 
     const handleChangeTimeSupply = (name, checked) => {
     // const { name, checked } = event.target;
@@ -148,7 +116,7 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
 
 
     return (
-        <form onSubmit={handleSubmit} className="flex flex-col w-full">
+        <form onSubmit={onCategorySubmit} className="flex flex-col w-full">
             {Object.keys(categorydata).map((key)=>(
                 <div key={key}>
                     <div className="flex flex-row justify-center mt-1 mx-3 w-full">
@@ -159,12 +127,12 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
                         {inputField.includes(key) && 
                         <input 
                             type='text' name={key} 
-                            className="flex px-2 w-3/4 rounded-r-lg" 
+                            className="flex px-2 w-3/4 rounded-r-lg bg-white" 
                             value={categorydata[key]} 
                             placeholder={Text[key][1]}
-                            onChange={(e) => key==='id_Xu'?handleChangeID(key,e.target.value):
-                                handleChange(key, e.target.value)}
-                            required={requiredFields.includes(key)}/>
+                            onChange={(e) => handleChange(key, e.target.value)}
+                            required={requiredFields.includes(key)}
+                            disabled={check}/>
                         }
 
                         {key === 'time_supply' && (
@@ -205,8 +173,9 @@ function CategoryForm({onCategorySubmit, normalData, sendDataToParent, check=fal
           
                 </div>
             ))}
-
-            <button type="submit" className="rounded bg-buttonBleu hover:bg-buttonBleuHover text-white py-1 ml-3 my-5 w-full">{Text.submitButton}</button>
+            {!check && 
+                <button type="submit" className="rounded bg-buttonBleu hover:bg-buttonBleuHover text-white py-1 ml-3 my-5 w-full">{Text.submitButton}</button>
+            } 
         </form>
     );
 }
