@@ -25,7 +25,7 @@ function AdvanceForm({handleSubmit, advanceData, sendDataToParent, check=false, 
         'product_type':Text.product_type[1], 
     // 'discount':Text.discount[1], 
     }
-    const oneCheckBoxField=['stb','favourite'];
+    const oneCheckBoxField=['stb','favourite', 'soldout'];
     const noInputField = [
         ...Object.keys(requiredFields), 
         ...Object.keys(selectFields), 

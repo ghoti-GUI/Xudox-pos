@@ -88,6 +88,7 @@ export const ChineseText={
         'stb':['Sushi to bar'],
         'favourite':['热门'],
         'cut_group':['切割组'],
+        'soldout':['售尽'], 
         'submitButton':'保存', 
     },
     'category':{

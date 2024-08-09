@@ -49,6 +49,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         'stb':0,
         'favourite':0,
         'cut_group':-1,
+        'soldout':0, 
         'img':None, 
         'custom':'',
         'custom2':'',

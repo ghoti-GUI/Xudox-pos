@@ -86,7 +86,8 @@ export const EnglishText = {
         'fdes':['French description', 'Enter the description in French'],
         'stb':['Sushi to bar'],
         'favourite':['Favourite'],
-        'cut_group':'cut group',
+        'cut_group':['cut group'],
+        'soldout':['Sold out'], 
         'submitButton':'Submit', 
     },
     'category':{

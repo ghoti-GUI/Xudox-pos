@@ -32,6 +32,7 @@ export const addProductModelAdvance = {
     'cut_group':-1,
     'stb':0,
     'favourite':0,
+    'soldout':0
 }
 
 export const addProductModelFull = {
